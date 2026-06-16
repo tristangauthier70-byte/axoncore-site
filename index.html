@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Axoncore — AI Front Desk for Service Businesses</title>
+  <meta name="description" content="Axoncore replaces your traditional reception with an AI layer that handles enquiries, qualifies leads, and books appointments across phone, WhatsApp, Instagram, and your website — automatically.">
+  <meta property="og:title" content="Axoncore — AI Front Desk for Service Businesses">
+  <meta property="og:description" content="Your business never misses a lead again. AI-powered front desk systems for clinics, law firms, and service businesses.">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     HEADER
+══════════════════════════════════════════════ -->
+<header class="ax-header" id="ax-header" role="banner">
+  <div class="ax-header__inner">
+    <a href="/" class="ax-header__logo">
+      <span class="ax-header__logo-dot"></span>
+      Axoncore
+    </a>
+    <nav class="ax-header__nav" aria-label="Main navigation">
+      <a href="#ax-services" class="ax-header__link">Services</a>
+      <a href="#ax-how" class="ax-header__link">How It Works</a>
+      <a href="#ax-demo" class="ax-header__link">Live Demo</a>
+      <a href="#ax-roi" class="ax-header__link">ROI Calculator</a>
+      <a href="#ax-industries" class="ax-header__link">ROI by Industry</a>
+      <a href="#ax-pricing" class="ax-header__link">Pricing</a>
+    </nav>
+    <div class="ax-header__actions">
+      <a href="#ax-contact" class="ax-btn-primary ax-header__cta">
+        <span>Book a Call</span>
+        <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </a>
+      <button class="ax-header__burger" id="ax-burger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="ax-header__mobile" id="ax-mobile-menu" aria-hidden="true">
+    <nav class="ax-header__mobile-nav">
+      <a href="#ax-services"    class="ax-header__mobile-link" onclick="axCloseMenu()">Services</a>
+      <a href="#ax-how"         class="ax-header__mobile-link" onclick="axCloseMenu()">How It Works</a>
+      <a href="#ax-demo"        class="ax-header__mobile-link" onclick="axCloseMenu()">Live Demo</a>
+      <a href="#ax-roi"         class="ax-header__mobile-link" onclick="axCloseMenu()">ROI Calculator</a>
+      <a href="#ax-industries"  class="ax-header__mobile-link" onclick="axCloseMenu()">ROI by Industry</a>
+      <a href="#ax-pricing"     class="ax-header__mobile-link" onclick="axCloseMenu()">Pricing</a>
+      <a href="#ax-contact" class="ax-btn-primary" style="margin-top:16px;justify-content:center;" onclick="axCloseMenu()">
+        <span>Book a Free Strategy Call</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+(function(){
+  var burger = document.getElementById('ax-burger');
+  var menu   = document.getElementById('ax-mobile-menu');
+  var header = document.getElementById('ax-header');
+  var open   = false;
+  if (burger && menu) {
+    burger.addEventListener('click', function(){
+      open = !open;
+      burger.setAttribute('aria-expanded', open);
+      burger.classList.toggle('ax-burger--open', open);
+      menu.classList.toggle('ax-header__mobile--open', open);
+      menu.setAttribute('aria-hidden', !open);
+    });
+  }
+  window.axCloseMenu = function(){
+    open = false;
+    if (burger) { burger.classList.remove('ax-burger--open'); burger.setAttribute('aria-expanded', false); }
+    if (menu)   { menu.classList.remove('ax-header__mobile--open'); menu.setAttribute('aria-hidden', true); }
+  };
+  var last = 0;
+  window.addEventListener('scroll', function(){
+    var y = window.scrollY;
+    if (header) {
+      header.classList.toggle('ax-header--scrolled', y > 50);
+      header.classList.remove('ax-header--hidden');
+    }
+    last = y;
+  }, { passive: true });
+})();
+</script>
+
+
+<!-- ══════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════ -->
+<section class="ax-hero" id="ax-hero">
+  <canvas id="ax-particle-canvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;" aria-hidden="true"></canvas>
+  <div class="ax-orb ax-orb--1" aria-hidden="true"></div>
+  <div class="ax-orb ax-orb--2" aria-hidden="true"></div>
+  <div class="ax-orb ax-orb--3" aria-hidden="true"></div>
+  <div class="ax-hero-grid" aria-hidden="true"></div>
+
+  <div class="ax-hero__content">
+    <div class="ax-hero__badge ax-reveal">
+      <span class="ax-hero__badge-dot"></span>
+      AI Front Desk &mdash; Available 24/7
+    </div>
+    <h1 class="ax-hero__headline ax-reveal ax-reveal-delay-1">
+      Your Business Never<br>Misses a Lead <em>Again</em>
+    </h1>
+    <p class="ax-hero__sub ax-reveal ax-reveal-delay-2">
+      Axoncore replaces your traditional reception with an AI layer that handles
+      <strong style="color:rgba(255,255,255,0.85);">enquiries, qualifies leads, and books appointments</strong>
+      across phone, WhatsApp, Instagram, and your website &mdash; automatically.
+    </p>
+    <div class="ax-hero__cta ax-reveal ax-reveal-delay-3">
+      <a href="#ax-contact" class="ax-btn-primary">
+        <span>Book a Free Strategy Call</span>
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </a>
+      <a href="#ax-services" class="ax-btn-ghost">See How It Works</a>
+    </div>
+    <div class="ax-hero__typed-wrap ax-reveal ax-reveal-delay-4" style="margin-top:2.5rem;">
+      <span style="color:var(--ax-muted);font-size:0.9rem;">Works across: </span>
+      <span id="ax-typed" style="color:var(--ax-accent);font-weight:600;font-size:0.9rem;min-width:120px;display:inline-block;"></span>
+      <span style="color:var(--ax-accent);font-size:0.9rem;animation:ax-blink 1s infinite;">|</span>
+    </div>
+  </div>
+
+  <div class="ax-hero__scroll" aria-hidden="true">
+    <span>Scroll</span>
+    <div class="ax-hero__scroll-line"></div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     STATS BAR
+══════════════════════════════════════════════ -->
+<div class="ax-stats">
+  <div class="ax-container">
+    <div class="ax-stats__grid">
+      <div class="ax-stats__item ax-reveal">
+        <span class="ax-stats__number ax-counter" data-target="94" data-suffix="%">0%</span>
+        <span class="ax-stats__label">Enquiry Capture Rate</span>
+        <span class="ax-stats__sublabel">vs 28% without AI</span>
+      </div>
+      <div class="ax-stats__item ax-reveal ax-reveal-delay-1">
+        <span class="ax-stats__number ax-counter" data-target="62" data-suffix="%">0%</span>
+        <span class="ax-stats__label">Clients Choose First Responder</span>
+        <span class="ax-stats__sublabel">Clio Legal Trends 2023</span>
+      </div>
+      <div class="ax-stats__item ax-reveal ax-reveal-delay-2">
+        <span class="ax-stats__number ax-counter" data-target="24" data-suffix="/7">0</span>
+        <span class="ax-stats__label">Always Available</span>
+        <span class="ax-stats__sublabel">no staff required</span>
+      </div>
+      <div class="ax-stats__item ax-reveal ax-reveal-delay-3">
+        <span class="ax-stats__number" style="font-family:var(--ax-font-serif);font-size:clamp(2rem,3vw,2.8rem);color:var(--ax-accent);display:block;line-height:1;margin-bottom:0.4rem;">&lt; 3s</span>
+        <span class="ax-stats__label">AI Response Time</span>
+        <span class="ax-stats__sublabel">vs 11 hrs industry avg</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     PROBLEM / SOLUTION
+══════════════════════════════════════════════ -->
+<section class="ax-section" id="ax-problem">
+  <div class="ax-container">
+    <div class="ax-problem__grid">
+      <div>
+        <span class="ax-tag ax-reveal">The Problem</span>
+        <h2 class="ax-headline ax-reveal ax-reveal-delay-1">
+          Your business is losing leads <span>every single day</span>
+        </h2>
+        <ul class="ax-problem__list ax-reveal ax-reveal-delay-2">
+          <li>Missed calls outside of business hours go unanswered</li>
+          <li>Enquiries sent on WhatsApp, Instagram, and Facebook are forgotten</li>
+          <li>Slow response times cost you bookings to competitors</li>
+          <li>Your team spends hours on repetitive questions</li>
+          <li>Leads fall through the cracks without a follow-up system</li>
+          <li>No visibility into which channels are converting</li>
+        </ul>
+      </div>
+      <div>
+        <span class="ax-tag ax-reveal" style="background:rgba(167,139,250,0.1);">The Axoncore Solution</span>
+        <h2 class="ax-headline ax-reveal ax-reveal-delay-1">
+          One AI layer. Every channel. <span>Zero missed opportunities.</span>
+        </h2>
+        <ul class="ax-solution__list ax-reveal ax-reveal-delay-2">
+          <li>Instant AI responses across phone, WhatsApp, website, and social</li>
+          <li>Leads captured, qualified, and routed automatically</li>
+          <li>Appointments booked without any human intervention</li>
+          <li>24/7 coverage — even on weekends and public holidays</li>
+          <li>Seamless handover to your team when needed</li>
+          <li>Full analytics dashboard so you know exactly what is working</li>
+        </ul>
+        <a href="#ax-contact" class="ax-btn-primary ax-reveal ax-reveal-delay-3">
+          <span>Get Your Free Audit</span>
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SERVICES
+══════════════════════════════════════════════ -->
+<section class="ax-section ax-section--alt" id="ax-services">
+  <div class="ax-container">
+    <div class="ax-section-header ax-reveal" style="text-align:center;">
+      <span class="ax-eyebrow">What We Build</span>
+      <h2 class="ax-headline">A complete AI front desk<br><span>engineered for your business</span></h2>
+      <p class="ax-subheadline" style="margin:0 auto;">
+        Every Axoncore system is custom-built to handle your specific workflows,
+        FAQs, and booking process &mdash; not a generic chatbot.
+      </p>
+    </div>
+    <div class="ax-services__grid">
+      <div class="ax-card ax-reveal ax-reveal-delay-1">
+        <div class="ax-card__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.28h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.7a16 16 0 0 0 6.39 6.39l1.06-1.05a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        <h3 class="ax-card__title">AI Phone System</h3>
+        <p class="ax-card__body">A conversational AI voice agent answers inbound calls, handles FAQs, qualifies callers, and books appointments directly into your calendar &mdash; even at 2am.</p>
+      </div>
+      <div class="ax-card ax-reveal ax-reveal-delay-2">
+        <div class="ax-card__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h8M8 14h5"/></svg>
+        </div>
+        <h3 class="ax-card__title">Website Chat Agent</h3>
+        <p class="ax-card__body">An intelligent chat widget on your website engages every visitor, answers questions instantly, captures contact details, and converts browsers into booked clients.</p>
+      </div>
+      <div class="ax-card ax-reveal ax-reveal-delay-3">
+        <div class="ax-card__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 8h.01M11 8h6M7 12h10"/></svg>
+        </div>
+        <h3 class="ax-card__title">WhatsApp Automation</h3>
+        <p class="ax-card__body">Your AI handles WhatsApp conversations end-to-end &mdash; responding to enquiries, sending follow-up messages, and nudging leads to book, all without you lifting a finger.</p>
+      </div>
+      <div class="ax-card ax-reveal ax-reveal-delay-1">
+        <div class="ax-card__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2H7a5 5 0 0 0-5 5v6a5 5 0 0 0 5 5h10a5 5 0 0 0 5-5V7a5 5 0 0 0-5-5z"/><circle cx="12" cy="10" r="3"/><path d="M6.5 18.5A5 5 0 0 1 12 14a5 5 0 0 1 5.5 4.5"/></svg>
+        </div>
+        <h3 class="ax-card__title">Instagram &amp; Facebook DMs</h3>
+        <p class="ax-card__body">Never miss a DM again. Axoncore monitors your social inboxes and responds intelligently to every message, turning followers into paying customers.</p>
+      </div>
+      <div class="ax-card ax-reveal ax-reveal-delay-2">
+        <div class="ax-card__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+        </div>
+        <h3 class="ax-card__title">Lead Qualification Engine</h3>
+        <p class="ax-card__body">Our AI scores and qualifies every lead before it reaches you, so your team only spends time on high-intent prospects who are ready to buy.</p>
+      </div>
+      <div class="ax-card ax-reveal ax-reveal-delay-3">
+        <div class="ax-card__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
+        </div>
+        <h3 class="ax-card__title">Automated Booking Flow</h3>
+        <p class="ax-card__body">Fully integrated with your existing calendar. Clients self-book, receive automated confirmations and reminders, and show up &mdash; no back-and-forth required.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     CHANNELS
+══════════════════════════════════════════════ -->
+<section class="ax-section" id="ax-channels">
+  <div class="ax-container">
+    <div class="ax-section-header ax-reveal">
+      <span class="ax-eyebrow">Omnichannel Coverage</span>
+      <h2 class="ax-headline">One AI. <span>Every platform your customers use.</span></h2>
+      <p class="ax-subheadline" style="margin:0 auto;">
+        Your customers reach out on different channels. Axoncore ensures every message receives an intelligent, branded response &mdash; instantly.
+      </p>
+    </div>
+    <div class="ax-channels__grid">
+      <div class="ax-channel ax-reveal ax-reveal-delay-1"><span class="ax-channel__icon">&#128222;</span><div class="ax-channel__label">Phone</div></div>
+      <div class="ax-channel ax-reveal ax-reveal-delay-2"><span class="ax-channel__icon">&#128172;</span><div class="ax-channel__label">Website Chat</div></div>
+      <div class="ax-channel ax-reveal ax-reveal-delay-3"><span class="ax-channel__icon">&#128241;</span><div class="ax-channel__label">WhatsApp</div></div>
+      <div class="ax-channel ax-reveal ax-reveal-delay-4"><span class="ax-channel__icon">&#128247;</span><div class="ax-channel__label">Instagram</div></div>
+      <div class="ax-channel ax-reveal ax-reveal-delay-5"><span class="ax-channel__icon">&#128100;</span><div class="ax-channel__label">Facebook</div></div>
+    </div>
+    <p style="text-align:center;color:var(--ax-muted);font-size:0.85rem;margin-top:32px;" class="ax-reveal">
+      All channels unified in one dashboard &mdash; with full conversation history and analytics.
+    </p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     HOW IT WORKS
+══════════════════════════════════════════════ -->
+<section class="ax-section ax-section--alt" id="ax-how">
+  <div class="ax-container">
+    <div class="ax-section-header ax-reveal">
+      <span class="ax-eyebrow">The Process</span>
+      <h2 class="ax-headline">Up and running in <span>under 14 days</span></h2>
+      <p class="ax-subheadline" style="margin:0 auto;">
+        We do all the heavy lifting. You approve the system, then watch leads convert while you focus on delivering great work.
+      </p>
+    </div>
+    <div class="ax-steps">
+      <div class="ax-step ax-reveal ax-reveal-delay-1">
+        <div class="ax-step__num">01</div>
+        <h3 class="ax-step__title">Discovery Call</h3>
+        <p class="ax-step__body">We map your customer journey, identify every touchpoint where leads are being lost, and design the architecture of your AI front desk.</p>
+      </div>
+      <div class="ax-step ax-reveal ax-reveal-delay-2">
+        <div class="ax-step__num">02</div>
+        <h3 class="ax-step__title">Build &amp; Train</h3>
+        <p class="ax-step__body">Our team builds your custom AI system, trained on your business specifics, FAQs, pricing, and booking workflow. You review before go-live.</p>
+      </div>
+      <div class="ax-step ax-reveal ax-reveal-delay-3">
+        <div class="ax-step__num">03</div>
+        <h3 class="ax-step__title">Launch &amp; Scale</h3>
+        <p class="ax-step__body">Your AI front desk goes live across all channels. We monitor performance, optimise responses, and help you scale as your business grows.</p>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:60px;" class="ax-reveal ax-reveal-delay-4">
+      <div class="ax-feature-list" style="max-width:700px;margin:0 auto 2.5rem;">
+        <div class="ax-feature-list__item"><span class="ax-feature-list__dot"></span>No technical knowledge required</div>
+        <div class="ax-feature-list__item"><span class="ax-feature-list__dot"></span>Full setup by our team</div>
+        <div class="ax-feature-list__item"><span class="ax-feature-list__dot"></span>Works with your existing tools</div>
+        <div class="ax-feature-list__item"><span class="ax-feature-list__dot"></span>Ongoing support included</div>
+        <div class="ax-feature-list__item"><span class="ax-feature-list__dot"></span>Real-time performance dashboard</div>
+        <div class="ax-feature-list__item"><span class="ax-feature-list__dot"></span>GDPR compliant by design</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     INDUSTRIES (interactive)
+══════════════════════════════════════════════ -->
+<section class="ax-section" id="ax-industries">
+  <div class="ax-container">
+    <div class="ax-section-header ax-reveal">
+      <span class="ax-eyebrow">Who We Serve</span>
+      <h2 class="ax-headline">Built for your industry.<br><span>Proven in your numbers.</span></h2>
+      <p class="ax-subheadline" style="margin:0 auto;">Select your industry below to see projected results based on published benchmarks and our ROI methodology.</p>
+    </div>
+    <div class="ax-ind__grid">
+      <button class="ax-ind__card ax-reveal ax-reveal-delay-1" data-ind="medical" aria-selected="true">
+        <span class="ax-ind__card-icon">&#127973;</span>
+        <div class="ax-ind__card-body"><h3 class="ax-ind__card-name">Medical &amp; Dental</h3><p class="ax-ind__card-desc">Clinics lose 40&ndash;60% of after-hours enquiries to voicemail. Every missed call is a missed patient.</p></div>
+        <span class="ax-ind__tag">Healthcare</span>
+      </button>
+      <button class="ax-ind__card ax-reveal ax-reveal-delay-2" data-ind="law" aria-selected="false">
+        <span class="ax-ind__card-icon">&#9878;</span>
+        <div class="ax-ind__card-body"><h3 class="ax-ind__card-name">Law Firms</h3><p class="ax-ind__card-desc">62% of clients hire the first firm that responds. Your AI front desk answers in under 3 seconds, any time of day.</p></div>
+        <span class="ax-ind__tag">Legal</span>
+      </button>
+      <button class="ax-ind__card ax-reveal ax-reveal-delay-3" data-ind="beauty" aria-selected="false">
+        <span class="ax-ind__card-icon">&#10024;</span>
+        <div class="ax-ind__card-body"><h3 class="ax-ind__card-name">Beauty &amp; Aesthetics</h3><p class="ax-ind__card-desc">The highest social DM volume of any service category. Handle Instagram, WhatsApp and web simultaneously.</p></div>
+        <span class="ax-ind__tag">Wellness</span>
+      </button>
+      <button class="ax-ind__card ax-reveal ax-reveal-delay-1" data-ind="realestate" aria-selected="false">
+        <span class="ax-ind__card-icon">&#127968;</span>
+        <div class="ax-ind__card-body"><h3 class="ax-ind__card-name">Real Estate</h3><p class="ax-ind__card-desc">Speed wins in property. Qualify buyer and seller leads instantly and book viewings without back-and-forth.</p></div>
+        <span class="ax-ind__tag">Property</span>
+      </button>
+      <button class="ax-ind__card ax-reveal ax-reveal-delay-2" data-ind="fitness" aria-selected="false">
+        <span class="ax-ind__card-icon">&#128170;</span>
+        <div class="ax-ind__card-body"><h3 class="ax-ind__card-name">Fitness &amp; Training</h3><p class="ax-ind__card-desc">Convert DMs into booked sessions automatically. No missed messages, no manual follow-ups required.</p></div>
+        <span class="ax-ind__tag">Fitness</span>
+      </button>
+      <button class="ax-ind__card ax-reveal ax-reveal-delay-3" data-ind="homeservices" aria-selected="false">
+        <span class="ax-ind__card-icon">&#128295;</span>
+        <div class="ax-ind__card-body"><h3 class="ax-ind__card-name">Home Services</h3><p class="ax-ind__card-desc">After-hours emergency calls captured 24/7. Jobs booked before your competitors even pick up the phone.</p></div>
+        <span class="ax-ind__tag">Trades</span>
+      </button>
+    </div>
+    <div class="ax-ind__panel ax-reveal ax-reveal-delay-4">
+      <div class="ax-ind__panel-inner" id="ax-ind-panel"></div>
+    </div>
+    <p class="ax-ind__disclaimer ax-reveal ax-reveal-delay-5">
+      <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="flex-shrink:0;opacity:0.4;vertical-align:middle;margin-right:6px;margin-top:-2px;"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 8v4m0 4h.01"/></svg>
+      Projections are illustrative estimates based on published industry benchmarks.
+      Use the <a href="#ax-roi" style="color:var(--ax-accent);text-decoration:none;">ROI Calculator</a> below to model your specific business.
+    </p>
+  </div>
+</section>
+
+<script>
+(function(){
+  'use strict';
+  var DATA = {
+    medical:      { icon:'🏥', industry:'Medical / Dental Clinic',       basis:'12 appointments/day · $180 avg value',      metrics:[{num:'+$8,400',label:'extra revenue / month'},{num:'94%',label:'enquiry capture rate'},{num:'−29%',label:'no-show reduction'}],      bars:[{label:'Enquiry capture rate',before:28,after:94},{label:'After-hours calls captured',before:5,after:100}], insight:'After-hours enquiries — typically 40–60% of daily volume — are captured and booked automatically. Automated reminder sequences reduce no-shows by an average of 29%.', source:'MGMA 2023 benchmarks · 94% AI capture rate vs 28% human baseline' },
+    law:          { icon:'⚖️', industry:'Boutique Law Firm',             basis:'8 consultations/week · $350 avg value',     metrics:[{num:'+$5,600',label:'extra revenue / month'},{num:'3.4×',label:'enquiry conversion lift'},{num:'<3s',label:'first AI response time'}],   bars:[{label:'Enquiry capture rate',before:28,after:94},{label:'Leads converted within 1 hour',before:12,after:67}], insight:'62% of potential clients contact the first firm that responds. An AI front desk qualifies intent, answers FAQs, and routes serious enquiries to a lawyer — instantly, around the clock.', source:'Clio Legal Trends Report 2023 · 60% off-hours improvement applied' },
+    beauty:       { icon:'✨', industry:'Beauty & Aesthetics Studio',     basis:'20 appointments/day · $120 avg value',      metrics:[{num:'+$11,200',label:'extra revenue / month'},{num:'67%',label:'social DMs booked automatically'},{num:'−18hrs',label:'admin saved weekly'}], bars:[{label:'Enquiry capture rate',before:28,after:94},{label:'Social DMs resulting in a booking',before:11,after:67}], insight:'Beauty studios receive the highest social DM volume of any service category. Axoncore handles Instagram, WhatsApp, and website enquiries simultaneously — turning every message into a confirmed booking.', source:'Vagaro 2023 Booking Report · 94% AI capture rate across multi-channel volume' },
+    realestate:   { icon:'🏠', industry:'Real Estate Agency',            basis:'25 enquiries/week · $6,500 avg commission', metrics:[{num:'+$12,000',label:'extra revenue / month'},{num:'82%',label:'viewing requests captured'},{num:'Same-day',label:'booking for 71% of leads'}], bars:[{label:'Enquiry capture rate',before:28,after:94},{label:'Viewing requests resulting in a booking',before:18,after:82}], insight:'Speed is everything in property. Axoncore qualifies buyer and seller intent in the first message, books viewings automatically, and follows up with unbooked leads — without an agent lifting a finger.', source:'NAR Real Estate Industry Report 2023 · Based on 94% AI capture rate applied' },
+    fitness:      { icon:'💪', industry:'Fitness & Personal Training',   basis:'30 enquiries/week · $200/month membership', metrics:[{num:'+$4,200',label:'extra revenue / month'},{num:'78%',label:'enquiry-to-trial conversion'},{num:'−85%',label:'response time reduction'}], bars:[{label:'Enquiry capture rate',before:28,after:94},{label:'Enquiries converting to a trial session',before:22,after:78}], insight:'Fitness businesses lose 60%+ of leads to slow social responses. Axoncore responds instantly to DMs, qualifies intent, and books trial sessions — converting followers into paying members.', source:'IHRSA Global Fitness Report 2023 · Multi-channel capture analysis' },
+    homeservices: { icon:'🔧', industry:'Home Services Business',        basis:'25 quote requests/week · $350 avg job value', metrics:[{num:'+$6,300',label:'extra revenue / month'},{num:'94%',label:'after-hours calls captured'},{num:'71%',label:'same-day job booking rate'}], bars:[{label:'Enquiry capture rate',before:28,after:94},{label:'After-hours calls resulting in a booking',before:5,after:94}], insight:'After-hours emergency calls and quote requests are the highest-value leads in home services. Axoncore captures them 24/7, qualifies urgency, and books jobs before competitors are even awake.', source:'ServiceTitan Home Services Benchmark 2023 · After-hours capture analysis' }
+  };
+  function buildPanel(key) {
+    var d = DATA[key];
+    var metrics = d.metrics.map(function(m){ return '<div class="ax-ind__pmet"><span class="ax-ind__pmet-num">'+m.num+'</span><span class="ax-ind__pmet-label">'+m.label+'</span></div>'; }).join('');
+    var bars = d.bars.map(function(b){ return '<div class="ax-ind__bar-group"><div class="ax-ind__bar-title">'+b.label+'</div><div class="ax-ind__bar-row"><span class="ax-ind__bar-lbl">Without AI</span><div class="ax-ind__bar-track"><div class="ax-ind__bar-fill ax-ind__bar-fill--before" data-w="'+b.before+'"></div></div><span class="ax-ind__bar-pct">'+b.before+'%</span></div><div class="ax-ind__bar-row"><span class="ax-ind__bar-lbl ax-ind__bar-lbl--on">With Axoncore</span><div class="ax-ind__bar-track"><div class="ax-ind__bar-fill ax-ind__bar-fill--after" data-w="'+b.after+'"></div></div><span class="ax-ind__bar-pct ax-ind__bar-pct--on">'+b.after+'%</span></div></div>'; }).join('');
+    return '<div class="ax-ind__pheader"><span class="ax-ind__picon">'+d.icon+'</span><div><div class="ax-ind__pname">'+d.industry+'</div><div class="ax-ind__pbasis">'+d.basis+'</div></div></div><div class="ax-ind__pmetrics">'+metrics+'</div><div class="ax-ind__layout"><div class="ax-ind__pbars">'+bars+'</div><div class="ax-ind__pright"><p class="ax-ind__pinsight">'+d.insight+'</p><a href="#ax-contact" class="ax-btn-primary ax-ind__pcta"><span>Get My Free Audit</span><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a></div></div><div class="ax-ind__psource">'+d.source+'</div>';
+  }
+  function activate(key) {
+    var panel = document.getElementById('ax-ind-panel');
+    if (!panel) return;
+    document.querySelectorAll('.ax-ind__card').forEach(function(c){ c.setAttribute('aria-selected', c.dataset.ind === key ? 'true' : 'false'); });
+    panel.style.opacity = '0'; panel.style.transform = 'translateY(10px)';
+    setTimeout(function(){
+      panel.innerHTML = buildPanel(key);
+      panel.style.opacity = '1'; panel.style.transform = 'translateY(0)';
+      var fills = panel.querySelectorAll('.ax-ind__bar-fill[data-w]');
+      fills.forEach(function(el){ el.style.transition = 'none'; el.style.width = '0%'; });
+      panel.offsetHeight;
+      fills.forEach(function(el){ el.style.transition = ''; el.style.width = (el.dataset.w || 0) + '%'; });
+    }, 160);
+  }
+  document.querySelectorAll('.ax-ind__card').forEach(function(card){ card.addEventListener('click', function(){ activate(card.dataset.ind); }); });
+  activate('medical');
+})();
+</script>
+
+
+<!-- ══════════════════════════════════════════════
+     ROI CALCULATOR
+══════════════════════════════════════════════ -->
+<section class="ax-section ax-section--alt" id="ax-roi">
+  <div class="ax-container">
+    <div class="ax-section-header ax-reveal" style="text-align:center;margin-bottom:60px;">
+      <span class="ax-eyebrow">ROI Calculator</span>
+      <h2 class="ax-headline">How much revenue is your<br><span>business leaving behind?</span></h2>
+      <p class="ax-subheadline" style="margin:0 auto;">Adjust the sliders to match your business. See in real time exactly how much Axoncore would recover &mdash; and what return you would get on your investment.</p>
+    </div>
+    <div class="ax-roi__grid ax-reveal ax-reveal-delay-1">
+      <div class="ax-roi__inputs">
+        <h3 class="ax-roi__inputs-title">Your business</h3>
+        <div class="ax-roi__field ax-roi__industry-field">
+          <label class="ax-roi__label" style="margin-bottom:12px;display:block;">Select your industry</label>
+          <div class="ax-roi__industry-grid">
+            <button class="ax-roi__industry-btn active" data-industry="medical"      data-enq="600" data-val="300"><svg class="ax-roi__industry-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg><span>Medical / Dental</span></button>
+            <button class="ax-roi__industry-btn" data-industry="law"          data-enq="80"  data-val="1200"><svg class="ax-roi__industry-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M4 7h16"/><path d="M5 7L3 14a4 4 0 0 0 8 0L5 7z"/><path d="M19 7l2 7a4 4 0 0 1-8 0l2-7"/></svg><span>Law Firm</span></button>
+            <button class="ax-roi__industry-btn" data-industry="beauty"       data-enq="400" data-val="180"><svg class="ax-roi__industry-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg><span>Beauty / Aesthetics</span></button>
+            <button class="ax-roi__industry-btn" data-industry="realestate"   data-enq="100" data-val="3000"><svg class="ax-roi__industry-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg><span>Real Estate</span></button>
+            <button class="ax-roi__industry-btn" data-industry="fitness"      data-enq="150" data-val="150"><svg class="ax-roi__industry-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Fitness / Training</span></button>
+            <button class="ax-roi__industry-btn" data-industry="homeservices" data-enq="150" data-val="350"><svg class="ax-roi__industry-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg><span>Home Services</span></button>
+          </div>
+        </div>
+        <div class="ax-roi__field">
+          <div class="ax-roi__field-header"><label class="ax-roi__label">Monthly enquiries received</label><span class="ax-roi__field-val"><span id="ax-roi-enq-val">600</span></span></div>
+          <input type="range" id="ax-roi-enquiries" class="ax-roi__slider" min="30" max="1000" step="10" value="600">
+          <div class="ax-roi__slider-range"><span>30</span><span>1,000</span></div>
+          <p class="ax-roi__field-hint">Calls, messages, DMs, form fills &mdash; all combined</p>
+        </div>
+        <div class="ax-roi__field">
+          <div class="ax-roi__field-header"><label class="ax-roi__label">Average booking value</label><span class="ax-roi__field-val"><span id="ax-roi-amt-val">$300</span></span></div>
+          <input type="range" id="ax-roi-value" class="ax-roi__slider" min="50" max="3000" step="25" value="300">
+          <div class="ax-roi__slider-range"><span>$50</span><span>$3,000</span></div>
+          <p class="ax-roi__field-hint">Per appointment, session, or transaction</p>
+        </div>
+        <div class="ax-roi__field">
+          <label class="ax-roi__label" style="margin-bottom:12px;display:block;">How fast does your team typically respond?</label>
+          <div class="ax-roi__resp-grid">
+            <button class="ax-roi__resp-btn" data-time="1hr"><span class="ax-roi__resp-icon">&#9889;</span><span class="ax-roi__resp-label">Under 1 hour</span></button>
+            <button class="ax-roi__resp-btn active" data-time="4hr"><span class="ax-roi__resp-icon">&#128336;</span><span class="ax-roi__resp-label">1 &ndash; 4 hours</span></button>
+            <button class="ax-roi__resp-btn" data-time="sameday"><span class="ax-roi__resp-icon">&#128338;</span><span class="ax-roi__resp-label">Same day</span></button>
+            <button class="ax-roi__resp-btn" data-time="nextday"><span class="ax-roi__resp-icon">&#128197;</span><span class="ax-roi__resp-label">Next day+</span></button>
+          </div>
+          <p class="ax-roi__field-hint">This is the single biggest driver of lost leads</p>
+        </div>
+        <div class="ax-roi__current-capture">
+          <div class="ax-roi__capture-bar-wrap"><div class="ax-roi__capture-bar" id="ax-roi-bar-now"></div></div>
+          <p class="ax-roi__capture-label">You&rsquo;re currently capturing ~<strong><span id="ax-roi-capture-now">40</span>%</strong> of your leads</p>
+        </div>
+      </div>
+      <div class="ax-roi__results">
+        <div class="ax-roi__loss-card">
+          <div class="ax-roi__loss-header"><span class="ax-roi__loss-icon">&#9888;</span><span class="ax-roi__loss-label">Revenue leaving your business monthly</span></div>
+          <div class="ax-roi__loss-amount"><span id="ax-roi-monthly-uplift">$0</span></div>
+          <div class="ax-roi__loss-breakdown">
+            <div class="ax-roi__loss-row"><span>Leads slipping through</span><strong><span id="ax-roi-missed-leads">0</span> / month</strong></div>
+            <div class="ax-roi__loss-row"><span>After-hours revenue missed</span><strong><span id="ax-roi-afterhours">$0</span></strong></div>
+            <div class="ax-roi__loss-row"><span>Bookings you currently generate</span><strong><span id="ax-roi-bookings-now">0</span> / month</strong></div>
+          </div>
+        </div>
+        <div class="ax-roi__compare">
+          <div class="ax-roi__compare-row"><span class="ax-roi__compare-label">Without Axoncore</span><div class="ax-roi__bar-track"><div class="ax-roi__bar ax-roi__bar--now" id="ax-roi-bar-now-vis"></div></div><span class="ax-roi__compare-val" id="ax-roi-current-rev">$0</span></div>
+          <div class="ax-roi__compare-row"><span class="ax-roi__compare-label ax-roi__compare-label--ax">With Axoncore</span><div class="ax-roi__bar-track"><div class="ax-roi__bar ax-roi__bar--ax" id="ax-roi-bar-ax"></div></div><span class="ax-roi__compare-val ax-roi__compare-val--ax" id="ax-roi-axon-rev">$0</span></div>
+          <p class="ax-roi__compare-note">Monthly revenue from inbound enquiries</p>
+        </div>
+        <div class="ax-roi__metrics">
+          <div class="ax-roi__metric"><span class="ax-roi__metric-val" id="ax-roi-annual-uplift">+$0</span><span class="ax-roi__metric-label">Annual revenue uplift</span></div>
+          <div class="ax-roi__metric ax-roi__metric--divider"><span class="ax-roi__metric-val" id="ax-roi-roi-multiple">0x</span><span class="ax-roi__metric-label">Return on investment</span></div>
+          <div class="ax-roi__metric"><span class="ax-roi__metric-val" id="ax-roi-payback">0 days</span><span class="ax-roi__metric-label">Payback period</span></div>
+        </div>
+        <div class="ax-roi__bookings-compare">
+          <div class="ax-roi__bookings-col"><span class="ax-roi__bookings-num" style="color:var(--ax-muted);"><span id="ax-roi-bookings-now-b">0</span></span><span class="ax-roi__bookings-label">Current bookings/mo</span></div>
+          <div class="ax-roi__bookings-arrow">&#8594;</div>
+          <div class="ax-roi__bookings-col"><span class="ax-roi__bookings-num" style="color:#4ade80;"><span id="ax-roi-bookings-ax">0</span></span><span class="ax-roi__bookings-label">With Axoncore</span></div>
+        </div>
+        <a href="#ax-contact" class="ax-btn-primary" style="width:100%;justify-content:center;margin-top:4px;"><span>Book a free strategy call to see your full projection</span><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+        <div class="ax-roi__rec" id="ax-roi-rec">
+          <div class="ax-roi__rec-eyebrow">Based on your numbers, we recommend</div>
+          <span class="ax-roi__rec-name" id="ax-roi-rec-name"></span>
+          <span class="ax-roi__rec-detail" id="ax-roi-rec-detail"></span>
+          <a href="#ax-pricing" class="ax-roi__rec-link">See full package details <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+        </div>
+      </div>
+    </div>
+    <div class="ax-roi__future ax-reveal ax-reveal-delay-2">
+      <div class="ax-roi__future-grid">
+        <div class="ax-roi__future-stat"><span class="ax-roi__future-num">62<span style="font-size:0.55em;opacity:0.7;">%</span></span><p>of calls to service businesses go unanswered every day</p></div>
+        <div class="ax-roi__future-stat"><span class="ax-roi__future-num">21<span style="font-size:0.55em;opacity:0.7;">x</span></span><p>more likely to convert a lead contacted within 5 minutes vs. 1 hour</p></div>
+        <div class="ax-roi__future-stat"><span class="ax-roi__future-num">78<span style="font-size:0.55em;opacity:0.7;">%</span></span><p>of customers buy from the first business that responds &mdash; full stop</p></div>
+        <div class="ax-roi__future-stat"><span class="ax-roi__future-num">35<span style="font-size:0.55em;opacity:0.7;">%</span></span><p>of appointment requests come after hours when your team is offline</p></div>
+      </div>
+      <div class="ax-roi__future-statement">
+        <p>The businesses that win in the next decade will not have bigger teams &mdash; they will have <strong>smarter systems</strong>. AI-powered front desks are not a trend. They are the new baseline expectation for any service business that wants to compete. The question is not whether your competitors will adopt this. <strong>It is whether they will do it before you.</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     LIVE DEMO
+══════════════════════════════════════════════ -->
+<section class="ax-section" id="ax-demo" style="padding-top:100px;padding-bottom:100px;">
+  <div class="ax-container">
+    <div class="ax-demo__layout">
+      <div class="ax-demo__left">
+        <span class="ax-eyebrow ax-reveal">Live Demo</span>
+        <h2 class="ax-headline ax-reveal ax-reveal-delay-1">Watch our AI handle<br><span>a real enquiry</span></h2>
+        <p class="ax-subheadline ax-reveal ax-reveal-delay-2">Type a message as if you&rsquo;re a customer reaching out to a beauty clinic. See exactly how Axoncore qualifies, engages, and books &mdash; live.</p>
+        <div class="ax-demo__trust ax-reveal ax-reveal-delay-3">
+          <div class="ax-demo__trust-item"><div class="ax-demo__trust-icon">&#9889;</div><div><strong>Responds in under 3 seconds</strong><span>Every time, on every channel</span></div></div>
+          <div class="ax-demo__trust-item"><div class="ax-demo__trust-icon">&#128197;</div><div><strong>Books appointments automatically</strong><span>No human needed at any step</span></div></div>
+          <div class="ax-demo__trust-item"><div class="ax-demo__trust-icon">&#127760;</div><div><strong>Trained on your business</strong><span>FAQs, pricing, services &mdash; all custom</span></div></div>
+          <div class="ax-demo__trust-item"><div class="ax-demo__trust-icon">&#128274;</div><div><strong>WhatsApp Business API certified</strong><span>Official channel &mdash; no grey-market tools</span></div></div>
+        </div>
+        <div class="ax-demo__reset-wrap ax-reveal ax-reveal-delay-4">
+          <button class="ax-demo__reset" id="ax-demo-reset" onclick="axDemoReset()">&#8635; Restart demo</button>
+        </div>
+      </div>
+      <div class="ax-demo__right ax-reveal ax-reveal-delay-2">
+        <div class="ax-demo__phone">
+          <div class="ax-demo__phone-btn ax-demo__phone-btn--vol1"></div>
+          <div class="ax-demo__phone-btn ax-demo__phone-btn--vol2"></div>
+          <div class="ax-demo__phone-btn ax-demo__phone-btn--power"></div>
+          <div class="ax-demo__screen">
+            <div class="ax-demo__statusbar">
+              <span>9:41</span>
+              <div class="ax-demo__statusbar-icons">
+                <svg width="15" height="12" viewBox="0 0 15 12" fill="white"><rect x="0" y="4" width="3" height="8" rx="1" opacity=".4"/><rect x="4" y="3" width="3" height="9" rx="1" opacity=".6"/><rect x="8" y="1" width="3" height="11" rx="1" opacity=".8"/><rect x="12" y="0" width="3" height="12" rx="1"/></svg>
+                <svg width="16" height="12" viewBox="0 0 16 12" fill="white"><path d="M8 2.4A7.3 7.3 0 0114.5 6a7.3 7.3 0 01-13 0A7.3 7.3 0 018 2.4z" stroke="white" stroke-width="1.2" fill="none"/><circle cx="8" cy="6" r="2" fill="white"/></svg>
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="white" stroke-opacity=".35"/><rect x="2" y="2" width="17" height="8" rx="2" fill="white"/><path d="M23 4.5v3a2 2 0 000-3z" fill="white" fill-opacity=".4"/></svg>
+              </div>
+            </div>
+            <div class="ax-demo__wa-header">
+              <button class="ax-demo__wa-back" aria-label="back"><svg width="10" height="17" viewBox="0 0 10 17" fill="none"><path d="M9 1L1.5 8.5 9 16" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <div class="ax-demo__wa-avatar">LA</div>
+              <div class="ax-demo__wa-info">
+                <div class="ax-demo__wa-name">Lumina Aesthetics</div>
+                <div class="ax-demo__wa-status"><span class="ax-demo__wa-status-dot"></span>Aria &mdash; AI Assistant</div>
+              </div>
+              <div class="ax-demo__wa-actions">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="white" opacity=".8"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02L6.6 10.8z"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="white" opacity=".8"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
+              </div>
+            </div>
+            <div class="ax-demo__chat" id="ax-demo-chat"></div>
+            <div class="ax-demo__suggestions" id="ax-demo-suggestions"></div>
+            <div class="ax-demo__input-bar">
+              <div class="ax-demo__input-wrap">
+                <svg class="ax-demo__input-emoji" width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#8696A0" stroke-width="1.8"/><path d="M8.5 14s1 1.5 3.5 1.5 3.5-1.5 3.5-1.5" stroke="#8696A0" stroke-width="1.8" stroke-linecap="round"/><circle cx="9" cy="10" r="1" fill="#8696A0"/><circle cx="15" cy="10" r="1" fill="#8696A0"/></svg>
+                <input type="text" id="ax-demo-input" class="ax-demo__input" placeholder="Message" autocomplete="off" maxlength="200"/>
+                <svg class="ax-demo__input-attach" width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48" stroke="#8696A0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <button class="ax-demo__send" id="ax-demo-send" aria-label="Send">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 2L15 22 11 13 2 9l20-7z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="ax-demo__phone-glow"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ax-demo__overlay" id="ax-demo-overlay" style="display:none;">
+    <div class="ax-demo__confirm">
+      <div class="ax-demo__confirm-check"><svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <h3 class="ax-demo__confirm-title">Appointment Booked!</h3>
+      <div class="ax-demo__confirm-card">
+        <div class="ax-demo__confirm-row"><span>&#127973;</span><div><div class="ax-demo__confirm-label">Business</div><div class="ax-demo__confirm-value">Lumina Aesthetics</div></div></div>
+        <div class="ax-demo__confirm-row"><span>&#128134;</span><div><div class="ax-demo__confirm-label">Treatment</div><div class="ax-demo__confirm-value" id="ax-confirm-service">Hydrafacial</div></div></div>
+        <div class="ax-demo__confirm-row"><span>&#128197;</span><div><div class="ax-demo__confirm-label">Date &amp; Time</div><div class="ax-demo__confirm-value" id="ax-confirm-datetime">—</div></div></div>
+        <div class="ax-demo__confirm-row"><span>&#129657;</span><div><div class="ax-demo__confirm-label">With</div><div class="ax-demo__confirm-value" id="ax-confirm-consultant">—</div></div></div>
+        <div class="ax-demo__confirm-row" id="ax-confirm-addon-row" style="display:none;"><span>&#10024;</span><div><div class="ax-demo__confirm-label">Add-on</div><div class="ax-demo__confirm-value" id="ax-confirm-addon"></div></div></div>
+        <div class="ax-demo__confirm-row"><span>&#128100;</span><div><div class="ax-demo__confirm-label">Client</div><div class="ax-demo__confirm-value" id="ax-confirm-name">—</div></div></div>
+      </div>
+      <p class="ax-demo__confirm-note">This is what your customers experience &mdash; handled entirely by Axoncore AI, 24/7.</p>
+      <a href="#ax-contact" class="ax-btn-primary" onclick="document.getElementById('ax-demo-overlay').style.display='none'"><span>Want this for your business?</span><svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+      <button class="ax-demo__confirm-close" onclick="axDemoReset();document.getElementById('ax-demo-overlay').style.display='none'">Try the demo again</button>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     PRICING
+══════════════════════════════════════════════ -->
+<section class="ax-section ax-section--alt" id="ax-pricing">
+  <div class="ax-container">
+    <div class="ax-section-header ax-reveal">
+      <span class="ax-eyebrow">Investment</span>
+      <h2 class="ax-headline">A system that <span>pays for itself</span></h2>
+      <p class="ax-subheadline" style="margin:0 auto;">Every package is custom-built for your business — not an off-the-shelf bot. Your AI trained on your services, your pricing, and your tone of voice. All prices in SGD.</p>
+    </div>
+    <div class="ax-pricing__grid">
+
+      <!-- Package A -->
+      <div class="ax-pricing__card ax-reveal ax-reveal-delay-1" id="ax-pkg-a">
+        <div class="ax-pricing__tier-label">Package A</div>
+        <h3 class="ax-pricing__name">Frontline Reception</h3>
+        <p class="ax-pricing__tagline">Your 24/7 AI receptionist — never misses a call</p>
+        <div class="ax-pricing__price-block">
+          <div class="ax-pricing__setup">SGD $4,000 <span>one-time setup</span></div>
+          <div class="ax-pricing__monthly">SGD $1,500<span class="ax-pricing__per">/month</span></div>
+          <div class="ax-pricing__agreement">36-month service agreement</div>
+        </div>
+        <ul class="ax-pricing__features">
+          <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>AI Voice Receptionist — answers in &lt;3 seconds, 24/7</li>
+          <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Appointment booking, rescheduling &amp; cancellations</li>
+          <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>FAQ handling — services, prices, hours, location</li>
+          <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>After-hours call capture — 100% coverage</li>
+          <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>2,000 call minutes / month included</li>
+        </ul>
+        <button class="ax-pricing__toggle" aria-expanded="false"><span class="ax-pricing__toggle-text">See full package details</span><svg class="ax-pricing__toggle-chevron" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>
+        <div class="ax-pricing__details"><div class="ax-pricing__details-inner">
+          <div class="ax-pricing__details-group"><h4 class="ax-pricing__details-heading">What&rsquo;s included</h4><ul class="ax-pricing__details-list"><li>AI Voice Receptionist — picks up every call in under 3 seconds, 24/7/365</li><li>Appointment booking, rescheduling &amp; cancellations handled on the call</li><li>Full FAQ capability — services, prices, opening hours, parking, directions</li><li>After-hours call capture — every out-of-hours call answered automatically</li><li>Lead recording — name, phone &amp; email captured on every enquiry call</li><li>Booking confirmations via SMS &amp; email automatically sent to each client</li><li>Call recordings and transcripts stored for your review</li><li>2,000 call minutes/month included (overage billed at SGD $0.60/min)</li></ul></div>
+          <div class="ax-pricing__details-group"><h4 class="ax-pricing__details-heading">Setup &amp; support</h4><ul class="ax-pricing__details-list"><li>Full system built and configured by our team — go-live within 14 days</li><li>AI trained on your exact services, pricing, tone of voice, and FAQs</li><li>Call forwarding integration with your existing number (SingTel / StarHub / M1)</li><li>Monthly performance report — calls, leads, and bookings generated</li><li>Ongoing support for prompt updates and system adjustments</li></ul></div>
+          <div class="ax-pricing__details-tags"><span>VAPI Voice AI</span><span>Twilio</span><span>Cal.com</span><span>Claude AI</span></div>
+        </div></div>
+        <p class="ax-pricing__ideal"><strong>Best for:</strong> Clinics and service businesses losing bookings to missed calls and voicemail.</p>
+        <a href="#ax-contact" class="ax-btn-ghost ax-pricing__cta">Get Started</a>
+      </div>
+
+      <!-- Package B -->
+      <div class="ax-pricing__card ax-pricing__card--featured ax-reveal ax-reveal-delay-2" id="ax-pkg-b">
+        <div class="ax-pricing__badge">Most Popular</div>
+        <div class="ax-pricing__tier-label" style="color:#C4B5FD;">Package B</div>
+        <h3 class="ax-pricing__name">Conversion System</h3>
+        <p class="ax-pricing__tagline">Turn your website into a 24/7 booking machine</p>
+        <div class="ax-pricing__price-block">
+          <div class="ax-pricing__setup">SGD $7,000 <span>one-time setup</span></div>
+          <div class="ax-pricing__monthly">SGD $2,000<span class="ax-pricing__per">/month</span></div>
+          <div class="ax-pricing__agreement">36-month service agreement</div>
+        </div>
+        <ul class="ax-pricing__features">
+          <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Everything in Package A</li>
+          <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>AI website chatbot — responds to visitors in &lt;1 second</li>
+          <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Lead qualification &amp; intent capture</li>
+          <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Direct booking from website chat</li>
+          <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Automated follow-up email sequences</li>
+        </ul>
+        <button class="ax-pricing__toggle" aria-expanded="false"><span class="ax-pricing__toggle-text">See full package details</span><svg class="ax-pricing__toggle-chevron" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>
+        <div class="ax-pricing__details"><div class="ax-pricing__details-inner">
+          <div class="ax-pricing__details-group"><h4 class="ax-pricing__details-heading">Everything in Package A, plus</h4><ul class="ax-pricing__details-list"><li>AI website chatbot — responds to every visitor in under 1 second</li><li>Lead qualification — captures treatment interest and intent before booking</li><li>Appointment booking directly from the chat widget (no phone call needed)</li><li>Automated 24-hour and 48-hour follow-up email sequences for unbooked leads</li><li>Google Sheets lead dashboard — every enquiry logged with name, date, and source</li><li>Conversation analytics — see where visitors drop off and what they ask</li><li>Works on any platform — Shopify, WordPress, Wix, Squarespace, Webflow</li></ul></div>
+          <div class="ax-pricing__details-group"><h4 class="ax-pricing__details-heading">Setup &amp; support</h4><ul class="ax-pricing__details-list"><li>Full system built and configured — go-live within 14 days</li><li>Chatbot trained on your services, FAQs, and complete booking journey</li><li>Zapier automation setup for lead routing and follow-up sequences</li><li>Monthly performance report with enquiry volume and conversion metrics</li><li>Ongoing support — prompt updates, flow improvements, A/B testing</li></ul></div>
+          <div class="ax-pricing__details-tags"><span>VAPI Voice AI</span><span>Voiceflow</span><span>Twilio</span><span>Cal.com</span><span>Claude AI</span><span>Zapier</span><span>Google Sheets</span></div>
+        </div></div>
+        <p class="ax-pricing__ideal"><strong>Best for:</strong> Businesses with an active website wanting to convert traffic into booked appointments automatically.</p>
+        <a href="#ax-contact" class="ax-btn-primary ax-pricing__cta">Book a Free Demo</a>
+      </div>
+
+      <!-- Package C -->
+      <div class="ax-pricing__card ax-reveal ax-reveal-delay-3" id="ax-pkg-c">
+        <div class="ax-pricing__tier-label">Package C</div>
+        <h3 class="ax-pricing__name">OmniChannel Front Desk</h3>
+        <p class="ax-pricing__tagline">Complete AI across phone, web, WhatsApp &amp; social</p>
+        <div class="ax-pricing__price-block">
+          <div class="ax-pricing__setup">SGD $10,000 <span>one-time setup</span></div>
+          <div class="ax-pricing__monthly">SGD $2,500<span class="ax-pricing__per">/month</span></div>
+          <div class="ax-pricing__agreement">36-month service agreement</div>
+        </div>
+        <ul class="ax-pricing__features">
+          <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Everything in Package B</li>
+          <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Instagram &amp; Facebook Messenger automation</li>
+          <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>WhatsApp Business API — replies in &lt;1 second</li>
+          <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>One AI brain across every channel</li>
+          <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Priority support &amp; monthly optimisation calls</li>
+        </ul>
+        <button class="ax-pricing__toggle" aria-expanded="false"><span class="ax-pricing__toggle-text">See full package details</span><svg class="ax-pricing__toggle-chevron" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>
+        <div class="ax-pricing__details"><div class="ax-pricing__details-inner">
+          <div class="ax-pricing__details-group"><h4 class="ax-pricing__details-heading">Everything in Package B, plus</h4><ul class="ax-pricing__details-list"><li>Instagram DM automation — AI replies to every enquiry in under 1 second</li><li>Facebook Messenger automation — same AI, same instant response</li><li>WhatsApp Business API via 360dialog — automated replies with rich media support</li><li>Unified AI brain across phone, website, WhatsApp, Instagram, and Facebook</li><li>All leads from every channel in one consolidated Google Sheets dashboard</li><li>Revenue reporting across all channels with monthly performance breakdown</li></ul></div>
+          <div class="ax-pricing__details-group"><h4 class="ax-pricing__details-heading">Setup &amp; support</h4><ul class="ax-pricing__details-list"><li>Full multi-channel system built and deployed — go-live within 14 days</li><li>WhatsApp API registration and Meta Business verification handled by us</li><li>Instagram and Facebook page integration setup included</li><li>Monthly optimisation calls — review metrics and refine AI responses</li><li>Priority support — dedicated response within 4 hours, 7 days a week</li><li>Custom workflows for complex booking and intake scenarios</li></ul></div>
+          <div class="ax-pricing__details-tags"><span>VAPI Voice AI</span><span>Voiceflow</span><span>Manychat</span><span>360dialog</span><span>Claude AI</span><span>Zapier</span><span>Cal.com</span></div>
+        </div></div>
+        <p class="ax-pricing__ideal"><strong>Best for:</strong> Clinics and businesses ready to fully automate every customer touchpoint across every channel.</p>
+        <a href="#ax-contact" class="ax-btn-ghost ax-pricing__cta">Get Started</a>
+      </div>
+
+    </div>
+    <div class="ax-pricing__footer ax-reveal ax-reveal-delay-4">
+      <p>&#128274; All systems built and managed by our team &nbsp;&middot;&nbsp; 14-day setup &nbsp;&middot;&nbsp; 36-month service agreement</p>
+      <p style="margin-top:10px;font-size:0.8rem;opacity:0.6;">Not sure which package fits your business? <a href="#ax-roi" style="color:var(--ax-accent);text-decoration:none;opacity:1;">Use the ROI Calculator</a> &mdash; it will recommend the right one for your numbers.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  'use strict';
+  document.querySelectorAll('.ax-pricing__toggle').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var card    = this.closest('.ax-pricing__card');
+      var details = card.querySelector('.ax-pricing__details');
+      var isOpen  = details.classList.contains('ax-pricing__details--open');
+      details.classList.toggle('ax-pricing__details--open', !isOpen);
+      this.classList.toggle('ax-pricing__toggle--open', !isOpen);
+      this.setAttribute('aria-expanded', String(!isOpen));
+      var txt = this.querySelector('.ax-pricing__toggle-text');
+      if (txt) txt.textContent = isOpen ? 'See full package details' : 'Hide details';
+    });
+  });
+})();
+</script>
+
+
+<!-- ══════════════════════════════════════════════
+     CTA BANNER
+══════════════════════════════════════════════ -->
+<section class="ax-cta ax-section" id="ax-cta" style="padding:120px 40px;">
+  <div class="ax-cta__border ax-reveal">
+    <span class="ax-eyebrow">Get Started</span>
+    <h2 class="ax-headline ax-cta__headline">Ready to stop losing leads<br>and start <span>converting them</span>?</h2>
+    <p class="ax-cta__sub">Book a free 30-minute strategy call. We&rsquo;ll audit your current setup, identify your biggest lead leaks, and show you exactly what an Axoncore system would look like for your business &mdash; no obligation.</p>
+    <div class="ax-cta__buttons">
+      <a href="#ax-contact" class="ax-btn-primary"><span>Book Your Free Strategy Call</span><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+      <a href="mailto:hello@axoncore.ai" class="ax-btn-ghost">Send Us a Message</a>
+    </div>
+    <p style="margin-top:2rem;font-size:0.8rem;color:var(--ax-muted);">&#128274; No commitment required &nbsp;&middot;&nbsp; Results within 14 days &nbsp;&middot;&nbsp; Full setup handled by our team</p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     CONTACT — CALENDLY
+══════════════════════════════════════════════ -->
+<section class="ax-cta ax-section" id="ax-contact" style="padding:120px 40px;">
+  <div class="ax-cta-sphere" aria-hidden="true"></div>
+  <div class="ax-container">
+    <div class="ax-contact__grid">
+      <div class="ax-contact__left ax-reveal">
+        <span class="ax-eyebrow">Get Started</span>
+        <h2 class="ax-headline">Ready to stop losing leads<br>and start <span>converting them?</span></h2>
+        <p class="ax-subheadline">Book a free 30-minute strategy call. We&rsquo;ll audit your current setup, identify your biggest lead leaks, and show you exactly what an Axoncore system would look like for your business.</p>
+        <div class="ax-contact__promises">
+          <div class="ax-contact__promise"><span class="ax-contact__promise-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><span>No commitment required</span></div>
+          <div class="ax-contact__promise"><span class="ax-contact__promise-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><span>System live within 14 days</span></div>
+          <div class="ax-contact__promise"><span class="ax-contact__promise-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span><span>Full setup handled by our team</span></div>
+          <div class="ax-contact__promise"><span class="ax-contact__promise-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span><span>Works with your existing tools</span></div>
+        </div>
+        <div class="ax-contact__quote"><p>&ldquo;The businesses that win in the next decade won&rsquo;t have bigger teams &mdash; they&rsquo;ll have smarter systems.&rdquo;</p><span>&mdash; Axoncore</span></div>
+      </div>
+      <div class="ax-contact__right ax-reveal ax-reveal-delay-2">
+        <div class="ax-calendly-wrap">
+          <div class="calendly-inline-widget"
+            data-url="https://calendly.com/tristangauthier70/30min?background_color=0a0518&text_color=e2e8f0&primary_color=7c3aed&hide_gdpr_banner=1"
+            style="min-width:300px;height:700px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════ -->
+<footer class="ax-footer" role="contentinfo">
+  <div class="ax-container">
+    <div class="ax-footer__top">
+      <div class="ax-footer__brand">
+        <a href="/" class="ax-footer__logo"><span class="ax-header__logo-dot"></span>Axoncore</a>
+        <p class="ax-footer__tagline">AI-powered front desk systems for service businesses. Automate enquiries, qualify leads, and book appointments &mdash; 24/7.</p>
+        <div class="ax-footer__badges">
+          <span class="ax-footer__badge">&#128274; GDPR Compliant</span>
+          <span class="ax-footer__badge">&#9989; WhatsApp Business API</span>
+          <span class="ax-footer__badge">&#127942; OpenAI Powered</span>
+        </div>
+      </div>
+      <div class="ax-footer__links-group">
+        <h4 class="ax-footer__col-title">Product</h4>
+        <ul class="ax-footer__list">
+          <li><a href="#ax-services">Services</a></li>
+          <li><a href="#ax-how">How It Works</a></li>
+          <li><a href="#ax-demo">Live Demo</a></li>
+          <li><a href="#ax-pricing">Pricing</a></li>
+          <li><a href="#ax-roi">ROI Calculator</a></li>
+        </ul>
+      </div>
+      <div class="ax-footer__links-group">
+        <h4 class="ax-footer__col-title">Industries</h4>
+        <ul class="ax-footer__list">
+          <li><a href="#ax-industries">Medical &amp; Dental</a></li>
+          <li><a href="#ax-industries">Law Firms</a></li>
+          <li><a href="#ax-industries">Beauty &amp; Wellness</a></li>
+          <li><a href="#ax-industries">Real Estate</a></li>
+          <li><a href="#ax-industries">Fitness &amp; Training</a></li>
+        </ul>
+      </div>
+      <div class="ax-footer__links-group">
+        <h4 class="ax-footer__col-title">Contact</h4>
+        <ul class="ax-footer__list">
+          <li><a href="mailto:hello@axoncore.ai">hello@axoncore.ai</a></li>
+          <li><a href="#ax-contact">Book a Strategy Call</a></li>
+          <li><a href="#ax-contact">Get a Free Audit</a></li>
+        </ul>
+        <div class="ax-footer__social">
+          <a href="#" class="ax-footer__social-link" aria-label="Instagram"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="#" class="ax-footer__social-link" aria-label="LinkedIn"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a href="#" class="ax-footer__social-link" aria-label="Facebook"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+        </div>
+      </div>
+    </div>
+    <div class="ax-divider" style="margin:40px 0 24px;"></div>
+    <div class="ax-footer__bottom">
+      <p>&copy; <span id="ax-year"></span> Axoncore. All rights reserved.</p>
+      <p style="color:var(--ax-muted);font-size:0.78rem;">Built with AI &mdash; to help your business run smarter.</p>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ══════════════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════════════ -->
+<script>document.getElementById('ax-year').textContent = new Date().getFullYear();</script>
+<script src="main.js"></script>
+<script src="roi.js"></script>
+<script src="demo.js"></script>
+<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+
+</body>
+</html>
