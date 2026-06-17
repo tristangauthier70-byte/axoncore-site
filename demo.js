@@ -1484,7 +1484,10 @@
           var staffPreSlot = matchSlot(lower);
           if (staffPreSlot) { selectedDate = staffPreSlot.day; selectedTime = staffPreSlot.time; }
         }
-        ariaShowServices();
+        ariaType(
+          'Of course! 😊 *' + staffInfo.displayName + '* is a wonderful choice.\n\nLet me pull up the treatment menu — which service would you like to book with ' + staffInfo.firstName + '?',
+          function(){ ariaShowServices(); }
+        );
         return;
       }
       /* Just asking about the consultant — show their profile + availability */
