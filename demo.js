@@ -225,6 +225,12 @@
       r:'Welcome — we love first-time clients! 🌟\n\n*What to expect on your first visit:*\n1️⃣ Arrive 5–10 mins early for a short skin health form\n2️⃣ Your therapist reviews your skin concerns (10 mins)\n3️⃣ Your personalised treatment begins\n4️⃣ Post-care advice + next appointment recommendation\n\n🎁 *New client perk:* complimentary skincare goodie bag (valued at $45)!\n\nNot sure which treatment? *Organic Deep Cleanse* ($118) is perfect for first timers.\n\nShall I book you in?',
       s:['Book Deep Cleanse 🌿 $118','Book Consultation 🩺 $88','Book now 📅']
     },
+    /* Combine treatments — must be checked BEFORE same-day so "same day + two treatments" doesn't match slot-availability FAQ */
+    {
+      p:[/combin|two treatment|multiple.*treat|same day.*two|two.*same day|together|package deal/i],
+      r:'✨ *Combining treatments = maximum results + savings!*\n\n🌟 *Glow Boost Combo:*\nHydrafacial + LED Yellow — *$368* (save $48)\n\n💆 *Acne Clear Combo:*\nOrganic Cleanse + LED Blue — *$228* (save $38)\n\n✨ *Age Reset Combo:*\nAnti-Aging Facial + LED Red — *$298* (save $38)\n\nCombination treatments are done in a *single session* and save 10–15%!\n\nBook a consultation for a fully personalised combo plan.\n\nWant to book?',
+      s:['Book Glow Boost Combo ✨','Book Acne Clear Combo 💆','Book Consultation 🩺 $88']
+    },
     /* Walk-in */
     {
       p:[/walk.in|drop.in|without booking|just come in|without appointment/i],
@@ -325,7 +331,7 @@
     {
       p:[/product|skincare.*buy|buy.*skincare|moisturis|serum|sunscreen|spf|cream|retail/i],
       r:'🧴 *Yes — we retail professional skincare in-clinic!*\n\n*Brands we carry:*\n• *Medik8* — vitamin C, retinol, SPF (medical-grade)\n• *IMAGE Skincare* — results-driven corrective care\n• *Dermalogica* — professional cleansers + moisturisers\n• *La Roche-Posay* — sensitive skin + SPF\n\nYour therapist will personally recommend products suited to your skin. Samples are available after treatments 😊\n\n💡 Spend $100+ on products and we\'ll validate 2 hours of parking!\n\nWant personalised product recommendations?',
-      s:['Get personalised advice','Book Consultation 🩺 $79','Book now 📅']
+      s:['Get personalised advice','Book Consultation 🩺 $88','Book now 📅']
     },
     /* Packages / series */
     {
@@ -362,12 +368,6 @@
       p:[/how often|frequency|how frequent|every how|when.*come back|repeat.*treatment/i],
       r:'🗓 *Recommended Frequency:*\n\n• 💎 Hydrafacial — every 4–6 weeks\n• ✨ Anti-Aging Facial — monthly\n• 🌿 Deep Cleanse — every 4 weeks\n• 💡 LED Therapy — weekly × 6, then monthly maintenance\n• ✨ Microdermabrasion — every 4 weeks\n• ⚗️ Chemical Peel — every 4–6 weeks\n• 🔬 Microneedling — every 4–6 weeks × 3–6 sessions\n• 💉 Botox — every 3–6 months\n• 💉 Skin Booster — 3 sessions × 4 weeks, then annually\n\nYour therapist will give a personalised maintenance plan after your first visit 😊\n\nWant to book?',
       s:['Book now 📅','New Client Bundle 🎁','Book Consultation 🩺']
-    },
-    /* Combine treatments */
-    {
-      p:[/combin|two treatment|same day.*two|multiple.*same|together|package deal/i],
-      r:'✨ *Combining treatments = maximum results + savings!*\n\n🌟 *Glow Boost Combo:*\nHydrafacial + LED Yellow — *$368* (save $48)\n\n💆 *Acne Clear Combo:*\nOrganic Cleanse + LED Blue — *$228* (save $38)\n\n✨ *Age Reset Combo:*\nAnti-Aging Facial + LED Red — *$298* (save $38)\n\nCombination treatments are done in a *single session* and save 10–15%!\n\nBook a consultation for a fully personalised combo plan.\n\nWant to book?',
-      s:['Book Glow Boost Combo ✨','Book Acne Clear Combo 💆','Book Consultation 🩺 $88']
     },
     /* Waiting time */
     {
@@ -1513,6 +1513,43 @@
     /* "yes" / "sure" when waiting for first action = "yes I want to book" */
     var wantsYes   = /^(yes|yeah|yep|sure|ok|okay|please|yup|absolutely|go ahead)\.?$/i.test(lower.trim());
 
+    /* ── 6a. Unknown staff booking request — catch before ariaShowServices swallows it ── */
+    if (wantsBook && /\bwith\b/i.test(lower)) {
+      var withNameMatch = msg.match(/\bwith\s+([A-Z][a-z]{1,20}(?:\s+[A-Z][a-z]{1,20})?)\b/);
+      if (withNameMatch && !matchStaffName(withNameMatch[1].toLowerCase())) {
+        var unknownStaffName = withNameMatch[1];
+        ariaType(
+          'Hmm — I don\'t see *' + unknownStaffName + '* on our team 😊\n\n' +
+          'Our consultants are:\n' +
+          '👩‍⚕️ *Dr. Sarah Chen* — Botox, Skin Boosters & Injectables (Tue · Thu · Sat)\n' +
+          '👨‍⚕️ *Dr. Marcus Lee* — Fillers, Chemical Peels & Injectables (Mon · Wed · Fri · Sun)\n' +
+          '💆 *Clara Lim* — Hydrafacial & Anti-Aging Facials (Mon · Wed · Fri · Sat)\n' +
+          '💆 *Priya Nair* — Deep Cleanse, LED & Sensitive Skin (Tue · Thu · Fri · Sat)\n\n' +
+          'Who would you like to book with?',
+          function(){
+            STATE = 'awaiting_service';
+            showSuggestions(['Dr. Sarah Chen 👩‍⚕️','Dr. Marcus Lee 👨‍⚕️','Clara Lim 💆','Priya Nair 💆']);
+          }
+        );
+        return;
+      }
+    }
+
+    /* ── 6b. Questions that happen to trigger booking/service words → try FAQ first ── */
+    if ((wantsBook || wantsServs) && isQuestion(lower)) {
+      var svcFromQ = matchService(lower); /* non-null when a specific service is named */
+      var qFaq = faqMatch(lower);
+      if (qFaq) {
+        ariaType(qFaq.r, function(){
+          /* When a specific service was named (e.g. "I want to book a Hydrafacial"),
+             set awaiting_service so a typed follow-up service name is actionable */
+          if (svcFromQ) STATE = 'awaiting_service';
+          showSuggestions((qFaq.s || []).slice(0, 3));
+        });
+        return;
+      }
+    }
+
     if (wantsBook || wantsServs || (wantsYes && (STATE === 'awaiting_first' || STATE === 'ready'))) {
       /* If the user already mentioned a date+time in this same message, pre-store it
          so ariaShowSlots can skip the date question after they pick a service */
@@ -1549,7 +1586,26 @@
       return;
     }
 
-    /* ── 9. Final fallback ── */
+    /* ── 9. Bare date/time mention outside booking flow ── */
+    var looseSlot = matchSlot(lower);
+    if (looseSlot && !looseSlot.mismatch) {
+      if (!isWithinHours(looseSlot.day, looseSlot.time)) {
+        ariaType(hoursRejectMsg(looseSlot.day), function(){
+          showSuggestions(['Book an appointment 📅','See our hours 🕐','Book now 📅']);
+        });
+      } else {
+        ariaType(
+          'It looks like you\'d like to visit on *' + looseSlot.day + '* at *' + looseSlot.time + '*! 😊\n\nWhat treatment would you like to book?',
+          function(){
+            STATE = 'awaiting_service';
+            showSuggestions(['Hydrafacial 💎 $268','Anti-Aging Facial ✨ $188','Deep Cleanse 🌿 $118','Book now 📅']);
+          }
+        );
+      }
+      return;
+    }
+
+    /* ── 10. Final fallback ── */
     ariaType('Happy to help! What would you like to know? 😊', function(){
       STATE = STATE === 'idle' ? 'awaiting_first' : STATE;
       showSuggestions(['Book an appointment 📅','Pricing 💰','See our treatments 💆','Where are you located? 📍']);
@@ -1676,9 +1732,17 @@
     STATE = 'confirming';
     partialName = ''; partialPhone = '';
 
-    /* Randomly assign one of the two doctors if no consultant was chosen */
+    /* Assign staff based on service type when no consultant was chosen */
     if (!selectedConsultant) {
-      selectedConsultant = Math.random() < 0.5 ? 'dr.sarah' : 'dr.marcus';
+      var doctorOnlyKeys = ['botox', 'booster', 'microneedl', 'consult'];
+      if (doctorOnlyKeys.indexOf(selectedService) !== -1) {
+        selectedConsultant = Math.random() < 0.5 ? 'dr.sarah' : 'dr.marcus';
+      } else if (selectedService === 'peel') {
+        selectedConsultant = Math.random() < 0.5 ? 'dr.marcus' : 'priya';
+      } else {
+        /* hydrafacial, antiaging, deepcleanse, led, microderm → aestheticians */
+        selectedConsultant = Math.random() < 0.5 ? 'clara' : 'priya';
+      }
     }
     var consultant = STAFF_SCHEDULES[selectedConsultant];
 
