@@ -32,10 +32,11 @@
 
 html {
   scroll-behavior: smooth;
+  background-color: #080612;
 }
 
 body {
-  background-color: var(--ax-bg) !important;
+  background-color: transparent !important;
   color: var(--ax-white) !important;
   font-family: var(--ax-font-sans) !important;
   margin: 0;
@@ -62,7 +63,6 @@ body {
   height: 100%;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.55;
 }
 
 /* Grid overlay removed — particle network is the sole ambient effect */
@@ -205,10 +205,11 @@ p, li, span, a, label {
 .ax-section {
   padding: 120px 0;
   position: relative;
+  z-index: 1;
 }
 
 .ax-section--alt {
-  background: var(--ax-bg-alt);
+  background: rgba(14,10,30,0.55);
 }
 
 .ax-container {
@@ -243,6 +244,7 @@ p, li, span, a, label {
   text-align: center;
   padding: 140px 40px 100px;
   position: relative;
+  z-index: 1;
   overflow: hidden;
 }
 
@@ -369,8 +371,10 @@ p, li, span, a, label {
   padding: 50px 0;
   border-top: 1px solid var(--ax-border);
   border-bottom: 1px solid var(--ax-border);
-  background: rgba(14,10,30,0.5);
-  backdrop-filter: blur(10px);
+  background: rgba(14,10,30,0.45);
+  backdrop-filter: blur(6px);
+  position: relative;
+  z-index: 1;
 }
 
 .ax-stats__grid {
@@ -2972,7 +2976,7 @@ hr {
    ============================================================ */
 
 .ax-footer {
-  background: var(--ax-bg-alt) !important;
+  background: rgba(14,10,30,0.60) !important;
   border-top: 1px solid var(--ax-border) !important;
   padding: 80px 0 40px;
   position: relative;

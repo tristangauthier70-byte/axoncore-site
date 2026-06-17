@@ -43,7 +43,8 @@
     }
 
     function draw() {
-      ctx.clearRect(0, 0, W, H);
+      ctx.fillStyle = '#080612';
+      ctx.fillRect(0, 0, W, H);
 
       // Draw lines between nearby particles
       for (let i = 0; i < particles.length; i++) {
