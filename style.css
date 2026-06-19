@@ -242,7 +242,7 @@ p, li, span, a, label {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 140px 40px 100px;
+  padding: 140px 40px 180px;
   position: relative;
   z-index: 1;
   overflow: hidden;
@@ -339,8 +339,8 @@ p, li, span, a, label {
 .ax-hero__scroll {
   position: absolute;
   bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 40px;
+  transform: none;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -3102,7 +3102,8 @@ hr {
    ============================================================ */
 
 @media (max-width: 768px) {
-  .ax-hero { padding: 120px 20px 80px; }
+  .ax-hero { padding: 120px 20px 120px; }
+  .ax-hero__scroll { display: none; }
   .ax-hero__headline { font-size: clamp(2.2rem, 8vw, 3.5rem); }
   .ax-stats__grid { grid-template-columns: repeat(2, 1fr); }
   .ax-problem__grid { grid-template-columns: 1fr; gap: 40px; }
