@@ -37,6 +37,7 @@
     var monthlyEl = card.querySelector('[data-tier-monthly]');
     var setupEl   = card.querySelector('[data-tier-setup]');
     var minsEl    = card.querySelector('[data-tier-mins-feature]');
+    var perdayEl  = card.querySelector('[data-tier-perday]');
 
     if (t.enterprise) {
       card.querySelector('.ax-tier__mins').textContent = 'High-volume — agreed on call';
@@ -47,8 +48,9 @@
         void monthlyEl.offsetWidth;
         monthlyEl.classList.add('ax-tier-flash');
       }
-      if (setupEl) setupEl.innerHTML = 'Setup &amp; pricing <span>tailored to your business</span>';
-      if (minsEl)  minsEl.textContent = 'Volume of minutes agreed on discovery call';
+      if (setupEl)  setupEl.innerHTML  = 'Setup &amp; pricing <span>tailored to your business</span>';
+      if (minsEl)   minsEl.textContent  = 'Volume of minutes agreed on discovery call';
+      if (perdayEl) perdayEl.textContent = '';
     } else {
       card.querySelector('.ax-tier__mins').textContent = t.minutes.toLocaleString() + ' min/mo';
 
@@ -60,6 +62,12 @@
       }
       if (setupEl) setupEl.innerHTML = 'SGD $' + t.setup.toLocaleString() + ' <span>one-time setup</span>';
       if (minsEl)  minsEl.textContent = t.minutes.toLocaleString() + ' call minutes / month included';
+
+      if (perdayEl) {
+        var perday = t.price / 30;
+        var perdayStr = perday < 10 ? perday.toFixed(2) : Math.round(perday).toLocaleString();
+        perdayEl.textContent = 'Less than SGD $' + perdayStr + ' / day';
+      }
     }
 
     card.querySelector('.ax-tier__btn--prev').disabled = (idx === 0);
