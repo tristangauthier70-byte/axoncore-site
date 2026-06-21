@@ -3636,68 +3636,69 @@ hr {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  background: rgba(167,139,250,0.06);
-  border: 1px solid rgba(167,139,250,0.18);
-  border-radius: 10px;
-  padding: 10px 14px;
-  margin-bottom: 18px;
+  gap: 12px;
+  margin-bottom: 22px;
 }
 
-.ax-tier__label {
+.ax-tier__center {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: 3px;
   flex: 1;
 }
 
 .ax-tier__name {
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: 0.75rem;
+  font-weight: 700;
   color: var(--ax-accent-light);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .ax-tier__mins {
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   color: var(--ax-muted);
 }
 
 .ax-tier__btn {
-  background: rgba(167,139,250,0.08);
-  border: 1px solid rgba(167,139,250,0.2);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(167,139,250,0.07);
+  border: 1px solid rgba(167,139,250,0.28);
   color: var(--ax-accent);
   cursor: pointer;
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
-  line-height: 1;
-  transition: background 0.2s, border-color 0.2s;
+  padding: 0;
   flex-shrink: 0;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
 }
 
 .ax-tier__btn:hover:not(:disabled) {
-  background: rgba(167,139,250,0.2);
-  border-color: rgba(167,139,250,0.4);
+  background: rgba(167,139,250,0.18);
+  border-color: rgba(167,139,250,0.55);
+  transform: scale(1.08);
+}
+
+.ax-tier__btn:active:not(:disabled) {
+  transform: scale(0.93);
 }
 
 .ax-tier__btn:disabled {
-  opacity: 0.2;
+  opacity: 0.18;
   cursor: not-allowed;
 }
 
 @keyframes ax-tier-flash {
-  from { opacity: 0.4; transform: translateY(-4px); }
-  to   { opacity: 1;   transform: translateY(0); }
+  from { opacity: 0.35; transform: translateY(-5px); }
+  to   { opacity: 1;    transform: translateY(0); }
 }
 
 .ax-tier-flash {
-  animation: ax-tier-flash 0.22s ease;
+  animation: ax-tier-flash 0.24s ease;
 }
 
 .ax-pricing__badge--founding {
@@ -3712,10 +3713,4 @@ hr {
   text-transform: uppercase;
   padding: 4px 12px;
   border-radius: 0 0 8px 8px;
-}
-
-.ax-pricing__overage {
-  margin-top: 6px;
-  font-size: 0.72rem;
-  color: var(--ax-muted);
 }
