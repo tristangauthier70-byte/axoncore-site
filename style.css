@@ -3733,111 +3733,217 @@ hr {
    PRICING — VS COMPARISON
 ══════════════════════════════════════════════ */
 .ax-pricing__vs {
-  margin-bottom: 56px;
+  margin-bottom: 64px;
 }
 
-.ax-pricing__vs-inner {
-  display: grid;
-  grid-template-columns: 1fr 72px 1fr;
-  border: 1px solid var(--ax-border);
-  border-radius: 16px;
-  overflow: hidden;
-  background: rgba(14,10,30,0.7);
-  backdrop-filter: blur(12px);
-}
-
-.ax-pricing__vs-col {
-  padding: 32px 36px;
-}
-
-.ax-pricing__vs-col--old {
-  border-right: 1px solid var(--ax-border);
-}
-
-.ax-pricing__vs-col--ax {
-  background: rgba(167,139,250,0.05);
-}
-
-.ax-pricing__vs-mid {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.65rem;
-  font-weight: 800;
-  letter-spacing: 0.2em;
-  color: var(--ax-muted);
-  border-right: 1px solid var(--ax-border);
-  background: rgba(0,0,0,0.25);
-}
-
-.ax-pricing__vs-colhead {
-  font-size: 0.7rem;
+.ax-pricing__vs-headline {
+  text-align: center;
+  font-size: 0.68rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.18em;
   color: var(--ax-muted);
-  margin-bottom: 10px;
+  margin-bottom: 28px;
 }
 
-.ax-pricing__vs-col--ax .ax-pricing__vs-colhead {
+.ax-pricing__vs-grid {
+  display: grid;
+  grid-template-columns: 1fr 64px 1fr;
+  align-items: stretch;
+}
+
+/* ── Cards ── */
+.ax-pricing__vs-card {
+  border-radius: 20px;
+  padding: 36px 32px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.ax-pricing__vs-card--old {
+  background: rgba(8,6,18,0.65);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.ax-pricing__vs-card--ax {
+  background: rgba(14,10,30,0.95);
+  border: 1px solid rgba(167,139,250,0.3);
+  box-shadow: 0 0 60px rgba(167,139,250,0.1), inset 0 1px 0 rgba(167,139,250,0.08);
+}
+
+.ax-pricing__vs-glow {
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(167,139,250,0.14) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+/* ── Tag ── */
+.ax-pricing__vs-tag {
+  font-size: 0.64rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(255,255,255,0.25);
+  margin-bottom: 18px;
+}
+
+.ax-pricing__vs-tag--ax {
   color: var(--ax-accent-light);
 }
 
-.ax-pricing__vs-cost {
-  font-size: 1.55rem;
+/* ── Price ── */
+.ax-pricing__vs-amount {
+  font-family: var(--ax-font-serif);
+  font-size: clamp(1.9rem, 2.4vw, 2.7rem);
   font-weight: 700;
-  color: rgba(255,255,255,0.3);
-  line-height: 1.1;
-  margin-bottom: 20px;
+  color: rgba(255,255,255,0.18);
+  line-height: 1;
+  margin-bottom: 6px;
 }
 
-.ax-pricing__vs-cost span {
-  font-size: 0.8rem;
+.ax-pricing__vs-amount span {
+  font-family: var(--ax-font-sans);
+  font-size: 0.85rem;
   font-weight: 400;
 }
 
-.ax-pricing__vs-cost--ax {
-  color: var(--ax-accent-light);
+.ax-pricing__vs-amount--ax {
+  color: var(--ax-white);
 }
 
-.ax-pricing__vs-list {
+.ax-pricing__vs-sub {
+  font-size: 0.69rem;
+  color: rgba(255,255,255,0.18);
+  margin-bottom: 24px;
+}
+
+.ax-pricing__vs-sub--ax {
+  color: rgba(167,139,250,0.52);
+}
+
+/* ── Rule ── */
+.ax-pricing__vs-rule {
+  height: 1px;
+  background: rgba(255,255,255,0.05);
+  margin-bottom: 22px;
+}
+
+.ax-pricing__vs-rule--ax {
+  background: rgba(167,139,250,0.18);
+}
+
+/* ── Feature list ── */
+.ax-pricing__vs-items {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 0 0 24px;
   display: flex;
   flex-direction: column;
-  gap: 9px;
+  gap: 12px;
+  flex: 1;
 }
 
-.ax-pricing__vs-list li {
+.ax-pricing__vs-items li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-size: 0.82rem;
-  color: rgba(255,255,255,0.38);
-  padding-left: 18px;
-  position: relative;
+  color: rgba(255,255,255,0.28);
 }
 
-.ax-pricing__vs-list li::before {
-  content: '\2715';
-  position: absolute;
-  left: 0;
-  color: rgba(248,113,113,0.65);
-  font-size: 0.68rem;
-  top: 1px;
+.ax-pricing__vs-items--ax li {
+  color: rgba(255,255,255,0.8);
 }
 
-.ax-pricing__vs-list--ax li {
-  color: rgba(255,255,255,0.72);
+.ax-vs-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.58rem;
+  font-weight: 700;
+  flex-shrink: 0;
 }
 
-.ax-pricing__vs-list--ax li::before {
-  content: '\2713';
+.ax-vs-icon--bad {
+  background: rgba(248,113,113,0.07);
+  color: rgba(248,113,113,0.45);
+  border: 1px solid rgba(248,113,113,0.1);
+}
+
+.ax-vs-icon--good {
+  background: rgba(74,222,128,0.09);
   color: #4ade80;
+  border: 1px solid rgba(74,222,128,0.16);
 }
 
+/* ── 36-month total ── */
+.ax-pricing__vs-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 16px;
+  border-radius: 10px;
+  font-size: 0.74rem;
+  margin-top: auto;
+}
+
+.ax-pricing__vs-total--old {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+  color: rgba(255,255,255,0.22);
+}
+
+.ax-pricing__vs-total--old strong {
+  color: rgba(255,255,255,0.28);
+}
+
+.ax-pricing__vs-total--ax {
+  background: rgba(167,139,250,0.07);
+  border: 1px solid rgba(167,139,250,0.18);
+  color: rgba(167,139,250,0.6);
+}
+
+.ax-pricing__vs-total--ax strong {
+  color: var(--ax-accent-light);
+  font-size: 0.84rem;
+}
+
+/* ── VS column ── */
+.ax-pricing__vs-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ax-pricing__vs-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--ax-bg-alt);
+  border: 1px solid rgba(167,139,250,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.56rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: var(--ax-muted);
+}
+
+/* ── Note ── */
 .ax-pricing__vs-note {
-  margin-top: 10px;
+  margin-top: 14px;
   font-size: 0.67rem;
-  color: rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.2);
   text-align: center;
 }
 
@@ -3852,17 +3958,11 @@ hr {
 }
 
 /* VS responsive */
-@media (max-width: 600px) {
-  .ax-pricing__vs-inner {
+@media (max-width: 640px) {
+  .ax-pricing__vs-grid {
     grid-template-columns: 1fr;
   }
-  .ax-pricing__vs-col--old {
-    border-right: none;
-    border-bottom: 1px solid var(--ax-border);
-  }
-  .ax-pricing__vs-mid {
-    padding: 14px;
-    border-right: none;
-    border-bottom: 1px solid var(--ax-border);
+  .ax-pricing__vs-divider {
+    padding: 16px 0;
   }
 }
