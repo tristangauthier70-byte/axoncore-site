@@ -28,13 +28,13 @@
   var NOSHOW_CURRENT     = 0.15;
   var NOSHOW_REDUCTION   = 0.29;
   var NOSHOW_AXONCORE    = NOSHOW_CURRENT * (1 - NOSHOW_REDUCTION);
-  var AXONCORE_MONTHLY_COST = 1500;
+  var AXONCORE_MONTHLY_COST = 410;
 
   /* ── Package data ── */
   var PACKAGES = {
-    A: { name: 'Package A — Frontline Reception',    setup: 4000,  monthly: 1500 },
-    B: { name: 'Package B — Conversion System',      setup: 7000,  monthly: 2000 },
-    C: { name: 'Package C — OmniChannel Front Desk', setup: 10000, monthly: 2500 }
+    A: { name: 'Package A — Frontline Reception',    setup: 390,  monthly: 135 },
+    B: { name: 'Package B — Conversion System',      setup: 700,  monthly: 335 },
+    C: { name: 'Package C — OmniChannel Front Desk', setup: 990,  monthly: 840 }
   };
 
   /* ── State ── */

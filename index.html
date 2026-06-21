@@ -623,20 +623,30 @@
 
       <!-- Package A -->
       <div class="ax-pricing__card ax-reveal ax-reveal-delay-1" id="ax-pkg-a">
+        <div class="ax-pricing__badge--founding">Founding Rate</div>
         <div class="ax-pricing__tier-label">Package A</div>
         <h3 class="ax-pricing__name">Frontline Reception</h3>
         <p class="ax-pricing__tagline">Your 24/7 AI receptionist — never misses a call</p>
         <div class="ax-pricing__price-block">
-          <div class="ax-pricing__setup">SGD $4,000 <span>one-time setup</span></div>
-          <div class="ax-pricing__monthly">SGD $1,500<span class="ax-pricing__per">/month</span></div>
+          <div class="ax-tier-switcher">
+            <button class="ax-tier__btn ax-tier__btn--prev" aria-label="Previous tier">&#8592;</button>
+            <div class="ax-tier__label">
+              <span class="ax-tier__name">Lite</span>
+              <span class="ax-tier__mins">300 min/mo</span>
+            </div>
+            <button class="ax-tier__btn ax-tier__btn--next" aria-label="Next tier">&#8594;</button>
+          </div>
+          <div class="ax-pricing__setup" data-tier-setup>SGD $390 <span>one-time setup</span></div>
+          <div class="ax-pricing__monthly" data-tier-monthly>SGD $135<span class="ax-pricing__per">/month</span></div>
           <div class="ax-pricing__agreement">36-month service agreement</div>
+          <div class="ax-pricing__overage" data-tier-overage>Overage: SGD $0.40/min</div>
         </div>
         <ul class="ax-pricing__features">
           <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>AI Voice Receptionist — answers in &lt;3 seconds, 24/7</li>
           <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Appointment booking, rescheduling &amp; cancellations</li>
           <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>FAQ handling — services, prices, hours, location</li>
           <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>After-hours call capture — 100% coverage</li>
-          <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>2,000 call minutes / month included</li>
+          <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span data-tier-mins-feature>300 call minutes / month included</span></li>
         </ul>
         <button class="ax-pricing__toggle" aria-expanded="false"><span class="ax-pricing__toggle-text">See full package details</span><svg class="ax-pricing__toggle-chevron" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>
         <div class="ax-pricing__details"><div class="ax-pricing__details-inner">
@@ -655,9 +665,18 @@
         <h3 class="ax-pricing__name">Conversion System</h3>
         <p class="ax-pricing__tagline">Turn your website into a 24/7 booking machine</p>
         <div class="ax-pricing__price-block">
-          <div class="ax-pricing__setup">SGD $7,000 <span>one-time setup</span></div>
-          <div class="ax-pricing__monthly">SGD $2,000<span class="ax-pricing__per">/month</span></div>
+          <div class="ax-tier-switcher">
+            <button class="ax-tier__btn ax-tier__btn--prev" aria-label="Previous tier">&#8592;</button>
+            <div class="ax-tier__label">
+              <span class="ax-tier__name">Lite</span>
+              <span class="ax-tier__mins">300 min/mo</span>
+            </div>
+            <button class="ax-tier__btn ax-tier__btn--next" aria-label="Next tier">&#8594;</button>
+          </div>
+          <div class="ax-pricing__setup" data-tier-setup>SGD $700 <span>one-time setup</span></div>
+          <div class="ax-pricing__monthly" data-tier-monthly>SGD $335<span class="ax-pricing__per">/month</span></div>
           <div class="ax-pricing__agreement">36-month service agreement</div>
+          <div class="ax-pricing__overage" data-tier-overage>Overage: SGD $0.40/min</div>
         </div>
         <ul class="ax-pricing__features">
           <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Everything in Package A</li>
@@ -682,9 +701,18 @@
         <h3 class="ax-pricing__name">OmniChannel Front Desk</h3>
         <p class="ax-pricing__tagline">Complete AI across phone, web, WhatsApp &amp; social</p>
         <div class="ax-pricing__price-block">
-          <div class="ax-pricing__setup">SGD $10,000 <span>one-time setup</span></div>
-          <div class="ax-pricing__monthly">SGD $2,500<span class="ax-pricing__per">/month</span></div>
+          <div class="ax-tier-switcher">
+            <button class="ax-tier__btn ax-tier__btn--prev" aria-label="Previous tier">&#8592;</button>
+            <div class="ax-tier__label">
+              <span class="ax-tier__name">Lite</span>
+              <span class="ax-tier__mins">300 min/mo</span>
+            </div>
+            <button class="ax-tier__btn ax-tier__btn--next" aria-label="Next tier">&#8594;</button>
+          </div>
+          <div class="ax-pricing__setup" data-tier-setup>SGD $990 <span>one-time setup</span></div>
+          <div class="ax-pricing__monthly" data-tier-monthly>SGD $840<span class="ax-pricing__per">/month</span></div>
           <div class="ax-pricing__agreement">36-month service agreement</div>
+          <div class="ax-pricing__overage" data-tier-overage>Overage: SGD $0.40/min</div>
         </div>
         <ul class="ax-pricing__features">
           <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Everything in Package B</li>
@@ -843,6 +871,7 @@
 <script src="main.js"></script>
 <script src="roi.js"></script>
 <script src="demo.js"></script>
+<script src="tier.js"></script>
 <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
 
 </body>

@@ -3628,3 +3628,94 @@ hr {
 .ax-testimonials__grid { align-items: stretch; }
 .ax-testimonial { display: flex; flex-direction: column; }
 .ax-testimonial__text { flex: 1; }
+
+/* ══════════════════════════════════════════════
+   TIER SWITCHER
+══════════════════════════════════════════════ */
+.ax-tier-switcher {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: rgba(167,139,250,0.06);
+  border: 1px solid rgba(167,139,250,0.18);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 18px;
+}
+
+.ax-tier__label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+}
+
+.ax-tier__name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ax-accent-light);
+  letter-spacing: 0.02em;
+}
+
+.ax-tier__mins {
+  font-size: 0.7rem;
+  color: var(--ax-muted);
+}
+
+.ax-tier__btn {
+  background: rgba(167,139,250,0.08);
+  border: 1px solid rgba(167,139,250,0.2);
+  color: var(--ax-accent);
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  line-height: 1;
+  transition: background 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+}
+
+.ax-tier__btn:hover:not(:disabled) {
+  background: rgba(167,139,250,0.2);
+  border-color: rgba(167,139,250,0.4);
+}
+
+.ax-tier__btn:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
+@keyframes ax-tier-flash {
+  from { opacity: 0.4; transform: translateY(-4px); }
+  to   { opacity: 1;   transform: translateY(0); }
+}
+
+.ax-tier-flash {
+  animation: ax-tier-flash 0.22s ease;
+}
+
+.ax-pricing__badge--founding {
+  position: absolute;
+  top: -1px;
+  left: 18px;
+  background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 0 0 8px 8px;
+}
+
+.ax-pricing__overage {
+  margin-top: 6px;
+  font-size: 0.72rem;
+  color: var(--ax-muted);
+}
