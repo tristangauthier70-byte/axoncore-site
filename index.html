@@ -424,6 +424,11 @@
   }
   document.querySelectorAll('.ax-ind__card').forEach(function(card){ card.addEventListener('click', function(){ activate(card.dataset.ind); }); });
   activate('medical');
+  window.axActivateIndustry = function(key) {
+    var section = document.getElementById('ax-industries');
+    if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    activate(key);
+  };
 })();
 </script>
 
@@ -916,11 +921,11 @@
       <div class="ax-footer__links-group">
         <h4 class="ax-footer__col-title">Industries</h4>
         <ul class="ax-footer__list">
-          <li><a href="#ax-industries">Medical &amp; Dental</a></li>
-          <li><a href="#ax-industries">Law Firms</a></li>
-          <li><a href="#ax-industries">Beauty &amp; Wellness</a></li>
-          <li><a href="#ax-industries">Real Estate</a></li>
-          <li><a href="#ax-industries">Fitness &amp; Training</a></li>
+          <li><a href="#ax-industries" data-industry="medical"      onclick="if(window.axActivateIndustry){event.preventDefault();window.axActivateIndustry('medical');}">Medical &amp; Dental</a></li>
+          <li><a href="#ax-industries" data-industry="law"          onclick="if(window.axActivateIndustry){event.preventDefault();window.axActivateIndustry('law');}">Law Firms</a></li>
+          <li><a href="#ax-industries" data-industry="beauty"       onclick="if(window.axActivateIndustry){event.preventDefault();window.axActivateIndustry('beauty');}">Beauty &amp; Wellness</a></li>
+          <li><a href="#ax-industries" data-industry="realestate"   onclick="if(window.axActivateIndustry){event.preventDefault();window.axActivateIndustry('realestate');}">Real Estate</a></li>
+          <li><a href="#ax-industries" data-industry="fitness"      onclick="if(window.axActivateIndustry){event.preventDefault();window.axActivateIndustry('fitness');}">Fitness &amp; Training</a></li>
         </ul>
       </div>
       <div class="ax-footer__links-group">
