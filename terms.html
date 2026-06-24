@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms of Service — Axoncore</title>
+  <meta name="description" content="Axoncore Terms of Service — governing your 36-month service agreement for AI voice receptionist and automation services in Singapore.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .ax-legal {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 120px 24px 80px;
+      color: var(--ax-text, #e2e8f0);
+    }
+    .ax-legal__back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--ax-accent, #7c3aed);
+      text-decoration: none;
+      font-size: 0.875rem;
+      margin-bottom: 48px;
+      opacity: 0.85;
+      transition: opacity 0.2s;
+    }
+    .ax-legal__back:hover { opacity: 1; }
+    .ax-legal__badge {
+      display: inline-block;
+      background: rgba(124,58,237,0.15);
+      color: var(--ax-accent, #7c3aed);
+      border: 1px solid rgba(124,58,237,0.3);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .ax-legal h1 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+    .ax-legal__effective {
+      font-size: 0.875rem;
+      color: var(--ax-muted, #64748b);
+      margin-bottom: 32px;
+    }
+    .ax-legal__note {
+      background: rgba(124,58,237,0.08);
+      border: 1px solid rgba(124,58,237,0.2);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 40px;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: rgba(226,232,240,0.85);
+    }
+    .ax-legal__note strong { color: #fff; }
+    .ax-legal__toc {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin-bottom: 48px;
+    }
+    .ax-legal__toc h3 {
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ax-muted, #64748b);
+      margin-bottom: 12px;
+    }
+    .ax-legal__toc ol {
+      padding-left: 18px;
+      margin: 0;
+      columns: 2;
+      column-gap: 24px;
+    }
+    .ax-legal__toc ol li {
+      font-size: 0.875rem;
+      line-height: 1.8;
+      color: rgba(226,232,240,0.7);
+    }
+    .ax-legal__toc ol li a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .ax-legal__toc ol li a:hover { color: var(--ax-accent, #7c3aed); }
+    .ax-legal h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #fff;
+      margin: 48px 0 12px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .ax-legal h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      margin: 24px 0 8px;
+    }
+    .ax-legal p {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: rgba(226,232,240,0.85);
+      margin-bottom: 14px;
+    }
+    .ax-legal ul, .ax-legal ol {
+      padding-left: 20px;
+      margin-bottom: 14px;
+    }
+    .ax-legal ul li, .ax-legal ol li {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: rgba(226,232,240,0.85);
+      margin-bottom: 6px;
+    }
+    .ax-legal strong { color: #fff; font-weight: 600; }
+    .ax-legal a { color: var(--ax-accent, #7c3aed); }
+    .ax-legal a:hover { opacity: 0.8; }
+    .ax-legal__example {
+      background: rgba(255,255,255,0.03);
+      border-left: 3px solid rgba(124,58,237,0.4);
+      padding: 12px 16px;
+      border-radius: 0 6px 6px 0;
+      margin: 12px 0 16px;
+      font-size: 0.9rem;
+      color: rgba(226,232,240,0.75);
+      font-style: italic;
+    }
+    .ax-legal__footer-note {
+      font-size: 0.82rem;
+      color: var(--ax-muted, #64748b);
+      font-style: italic;
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    @media (max-width: 600px) {
+      .ax-legal__toc ol { columns: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="ax-particle-canvas" aria-hidden="true"></canvas>
+
+<header class="ax-header" id="ax-header" role="banner">
+  <div class="ax-header__inner">
+    <a href="/" class="ax-header__logo">
+      <span class="ax-header__logo-dot"></span>
+      Axoncore
+    </a>
+    <nav class="ax-header__nav" aria-label="Main navigation">
+      <a href="/#ax-services" class="ax-header__link">Services</a>
+      <a href="/#ax-pricing" class="ax-header__link">Pricing</a>
+      <a href="/#ax-contact" class="ax-header__link">Contact</a>
+    </nav>
+    <div class="ax-header__actions">
+      <a href="/#ax-contact" class="ax-btn-primary ax-header__cta">
+        <span>Book a Call</span>
+        <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="ax-legal">
+
+    <a href="/" class="ax-legal__back">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m7-7l-7 7 7 7"/></svg>
+      Back to axoncoreai.com
+    </a>
+
+    <div class="ax-legal__badge">Legal</div>
+    <h1>Terms of Service</h1>
+    <p class="ax-legal__effective">Effective date: 24 June 2026 &nbsp;&middot;&nbsp; Victoria Janice, trading as Axoncore &nbsp;&middot;&nbsp; Singapore</p>
+
+    <div class="ax-legal__note">
+      <strong>Before you read:</strong> These Terms govern your use of Axoncore's AI automation services. We have written them in plain English so you understand exactly what you are signing up for. Please read them before subscribing. If you have any questions, email <a href="mailto:hello@axoncore.ai">hello@axoncore.ai</a> before proceeding. By signing a service agreement or paying a setup fee, you agree to be bound by these Terms.
+    </div>
+
+    <div class="ax-legal__toc">
+      <h3>Contents</h3>
+      <ol>
+        <li><a href="#t1">Who We Are</a></li>
+        <li><a href="#t2">Definitions</a></li>
+        <li><a href="#t3">Services Description</a></li>
+        <li><a href="#t4">Founding Rate</a></li>
+        <li><a href="#t5">Payment Terms</a></li>
+        <li><a href="#t6">Minimum Term &amp; Renewal</a></li>
+        <li><a href="#t7">Early Termination</a></li>
+        <li><a href="#t8">Setup &amp; Go-Live</a></li>
+        <li><a href="#t9">Service Availability</a></li>
+        <li><a href="#t10">Client Obligations</a></li>
+        <li><a href="#t11">Prohibited Use</a></li>
+        <li><a href="#t12">Data Handling &amp; Privacy</a></li>
+        <li><a href="#t13">Intellectual Property</a></li>
+        <li><a href="#t14">Limitation of Liability</a></li>
+        <li><a href="#t15">Warranties &amp; Disclaimers</a></li>
+        <li><a href="#t16">Changes to Services &amp; Pricing</a></li>
+        <li><a href="#t17">Changes to These Terms</a></li>
+        <li><a href="#t18">Force Majeure</a></li>
+        <li><a href="#t19">Governing Law &amp; Disputes</a></li>
+        <li><a href="#t20">General Provisions</a></li>
+        <li><a href="#t21">Contact Us</a></li>
+      </ol>
+    </div>
+
+    <h2 id="t1">1. Who We Are</h2>
+    <p>Axoncore is a trading name operated by Victoria Janice (business registration pending with the Accounting and Corporate Regulatory Authority of Singapore, referred to in these Terms as "Axoncore", "we", "us", or "our").</p>
+    <p>Our services contact: <a href="mailto:hello@axoncore.ai">hello@axoncore.ai</a></p>
+    <p>Our services are offered primarily to small and medium-sized enterprises (SMEs) based in Singapore, including clinics, salons, law firms, real estate agencies, and fitness studios.</p>
+
+    <h2 id="t2">2. Definitions</h2>
+    <ul>
+      <li><strong>"Client", "you", "your"</strong> — the business or individual who has signed a service agreement with Axoncore.</li>
+      <li><strong>"Services"</strong> — the AI automation products and related support described in Section 3 and your service agreement.</li>
+      <li><strong>"Setup Fee"</strong> — the one-time fee payable before Axoncore begins building your system.</li>
+      <li><strong>"Monthly Subscription"</strong> — the recurring monthly fee payable in advance for your chosen package and tier.</li>
+      <li><strong>"Minimum Term"</strong> — the 36-month initial service period commencing on your Go-Live Date.</li>
+      <li><strong>"Go-Live Date"</strong> — the date on which Axoncore confirms your system is fully operational and handed over to you.</li>
+      <li><strong>"Overage"</strong> — call minutes consumed beyond your monthly allowance, billed at SGD $0.60 per minute.</li>
+      <li><strong>"Third-Party Platforms"</strong> — external software providers whose infrastructure powers the Services, including VAPI, Twilio, Cal.com, Claude AI, Voiceflow, Zapier, 360dialog, and Manychat.</li>
+      <li><strong>"Business Data"</strong> — information about your business, customers, and operations that you provide to Axoncore or that is collected through the Services on your behalf.</li>
+      <li><strong>"Axoncore IP"</strong> — the AI system architecture, voice agent configurations, prompt designs, automation workflows, and any other work product created by Axoncore.</li>
+    </ul>
+
+    <h2 id="t3">3. Services Description</h2>
+    <p>Axoncore offers three packages, each available in Lite, Standard, and Pro tiers. The specific tier features, call minute allowances, and monthly subscription rates that apply to your account are set out in your service agreement.</p>
+
+    <h3>Package A — AI Phone System</h3>
+    <p>An AI voice receptionist ("Riley") that answers inbound calls 24/7, including public holidays. Core capabilities include answering calls in under 3 seconds under normal operating conditions, handling appointment bookings, rescheduling, and cancellations, responding to frequently asked questions, and capturing enquiries after business hours.</p>
+    <p><strong>Not included in Package A:</strong> Website chat functionality, outbound lead follow-up, WhatsApp or social media messaging automation, or any feature described under Packages B or C.</p>
+
+    <h3>Package B — Conversion System</h3>
+    <p>Everything in Package A, plus: an AI chatbot on your website, automated lead qualification, automated follow-up email sequences (sent only to leads who have expressly opted in), and a Google Sheets lead dashboard.</p>
+    <p><strong>Not included in Package B:</strong> WhatsApp Business API messaging, Instagram or Facebook Messenger automation, or any feature described under Package C.</p>
+
+    <h3>Package C — OmniChannel Front Desk</h3>
+    <p>Everything in Packages A and B, plus: WhatsApp Business API automation via 360dialog (a Meta-approved Business Solution Provider), and automated responses on Instagram Direct Messages and Facebook Messenger via Manychat.</p>
+
+    <h2 id="t4">4. Founding Rate</h2>
+    <p>Axoncore offers a founding rate to the first 50 clients who sign a service agreement. The founding rate represents reduced pricing available for a limited time only.</p>
+    <ul>
+      <li>Axoncore reserves the right to close founding pricing at any time once 50 service agreements have been signed.</li>
+      <li>Founding pricing is not guaranteed to remain available and may be withdrawn without advance notice.</li>
+      <li>If you have signed a service agreement at the founding rate, that rate applies for the duration of your Minimum Term, subject to any adjustments permitted under Section 16.</li>
+      <li>An enquiry or expression of interest does not constitute a reservation of founding pricing. Only a signed service agreement and paid setup fee secures your rate.</li>
+    </ul>
+
+    <h2 id="t5">5. Payment Terms</h2>
+    <h3>5.1 Setup Fee</h3>
+    <p>The applicable setup fee is due and payable before Axoncore commences any work on your system:</p>
+    <ul>
+      <li>Package A: SGD $599</li>
+      <li>Package B: SGD $999</li>
+      <li>Package C: SGD $1,399</li>
+    </ul>
+    <p>Work will not begin and no go-live timeline commitment is triggered until the setup fee has been received in cleared funds.</p>
+
+    <h3>5.2 Monthly Subscription</h3>
+    <p>Your Monthly Subscription is billed in advance at the start of each billing cycle. The specific amount depends on your chosen package and tier, as specified in your service agreement. Your first Monthly Subscription is due on or around your Go-Live Date.</p>
+
+    <h3>5.3 Overage Charges</h3>
+    <p>If your account exceeds the call minutes included in your monthly plan, Overage charges apply at SGD $0.60 per minute for each additional minute used. Overage charges are calculated at the end of each billing cycle and invoiced in arrears, payable within 14 days of the invoice date.</p>
+
+    <h3>5.4 Late Payment</h3>
+    <p>If a payment is not received by the due date, Axoncore reserves the right to suspend Services until the outstanding amount is settled, charge interest at 1.5% per month from the due date, and treat non-payment for 30 or more consecutive days as a material breach.</p>
+
+    <h3>5.5 Taxes</h3>
+    <p>All fees are quoted exclusive of Goods and Services Tax (GST) or any other applicable taxes. If GST applies to your subscription, it will be added to your invoice at the prevailing rate.</p>
+
+    <h2 id="t6">6. Minimum Term and Renewal</h2>
+    <h3>6.1 Minimum Term</h3>
+    <p>Your service agreement has a Minimum Term of 36 months commencing on your Go-Live Date. You are committing to a minimum of 36 monthly subscription payments during this period.</p>
+
+    <h3>6.2 Automatic Renewal</h3>
+    <p>At the end of the Minimum Term, your subscription will automatically renew month-to-month at the then-current subscription rate unless you provide 30 days written notice before the end of the Minimum Term, or Axoncore provides 30 days written notice that it does not wish to renew.</p>
+
+    <h3>6.3 Post-Minimum Term</h3>
+    <p>After the Minimum Term, either party may end the month-to-month subscription by providing 30 days written notice to <a href="mailto:hello@axoncore.ai">hello@axoncore.ai</a>.</p>
+
+    <h2 id="t7">7. Early Termination</h2>
+    <h3>7.1 Your Right to Terminate Early</h3>
+    <p>You may terminate your service agreement before the end of the Minimum Term by providing Axoncore with 60 days written notice to <a href="mailto:hello@axoncore.ai">hello@axoncore.ai</a>.</p>
+
+    <h3>7.2 Early Termination Fee</h3>
+    <p>If you terminate during the Minimum Term, an early termination fee applies equal to the total Monthly Subscription fees that would have been payable for the remaining months of the Minimum Term.</p>
+    <div class="ax-legal__example">Example: If you have 18 months remaining and your Monthly Subscription is SGD $300/month, the early termination fee would be SGD $5,400.</div>
+
+    <h3>7.3 Termination for Cause by You</h3>
+    <p>If Axoncore materially breaches these Terms and fails to remedy the breach within 30 days of receiving written notice from you, you may terminate without payment of an early termination fee.</p>
+
+    <h3>7.4 Termination for Cause by Axoncore</h3>
+    <p>Axoncore may terminate immediately if you fail to pay any amount due within 14 days of written notice, materially breach these Terms and fail to remedy within 14 days, use the Services for any prohibited purpose, or if continuing the Services would require Axoncore to violate applicable law.</p>
+
+    <h2 id="t8">8. Setup and Go-Live</h2>
+    <h3>8.1 What Axoncore Commits To</h3>
+    <p>Axoncore targets a go-live timeline of 14 calendar days from the date we receive all required information from you. This is a service target, not a guaranteed deadline.</p>
+
+    <h3>8.2 What We Need From You</h3>
+    <p>To meet the 14-day target, you must promptly provide: accurate business information (name, address, contact details, hours), details of the services and FAQs you want the AI to handle, booking system access or calendar details (Package A+), website access for chatbot installation (Package B+), and any brand guidelines or tone preferences. We will provide a clear onboarding checklist at the start of setup.</p>
+
+    <h3>8.3 Client-Caused Delays</h3>
+    <p>If you are unable to provide required information or access on time, the 14-day timeline will be paused or extended accordingly. Axoncore is not in breach of any service commitment as a result of delays caused by you.</p>
+
+    <h3>8.4 Your Acceptance</h3>
+    <p>Once Axoncore notifies you that your system is ready, you will have 5 business days to review and raise any concerns. If no concerns are raised, the system will be deemed accepted and the Go-Live Date set accordingly.</p>
+
+    <h2 id="t9">9. Service Availability</h2>
+    <h3>9.1 Axoncore's Commitment</h3>
+    <p>Axoncore targets near-100% availability for the Services during your subscription. We monitor system performance and aim to resolve issues affecting core functionality promptly.</p>
+
+    <h3>9.2 Third-Party Platform Dependency</h3>
+    <p>The Services depend on Third-Party Platforms including Twilio, VAPI, Cal.com, Claude AI, Voiceflow, Zapier, 360dialog, and Manychat. The availability and performance of these platforms is outside Axoncore's control. Axoncore is not liable for outages, degradation, errors, or downtime caused by Third-Party Platforms.</p>
+
+    <h3>9.3 Reporting Issues</h3>
+    <p>If you experience a service issue, notify us promptly at <a href="mailto:hello@axoncore.ai">hello@axoncore.ai</a> with a description of the problem. Axoncore will investigate and, where the issue is within our control, work to restore full service as quickly as reasonably practicable.</p>
+
+    <h2 id="t10">10. Client Obligations</h2>
+    <p><strong>10.1 Accurate Information</strong> — You will provide accurate, complete, and current information during onboarding. If your business information changes, you are responsible for notifying Axoncore promptly.</p>
+    <p><strong>10.2 Cooperation</strong> — You will cooperate reasonably with Axoncore during onboarding and any subsequent support or update requests.</p>
+    <p><strong>10.3 DNC Registry Compliance</strong> — If you use any feature of the Services to contact individuals (including outbound call campaigns, email sequences, or messaging), you are solely responsible for ensuring compliance with Singapore's Do Not Call (DNC) Registry under the PDPA. This includes checking phone numbers against the DNC Registry before initiating any outbound contact to Singapore numbers. Axoncore does not carry out DNC Registry checks on your behalf unless expressly agreed in writing.</p>
+    <p><strong>10.4 Consent for Outbound Communications</strong> — Automated follow-up email sequences and outbound messaging features may only be used to contact individuals who have expressly opted in. You are responsible for obtaining, recording, and maintaining appropriate consent records.</p>
+    <p><strong>10.5 Compliance with Laws</strong> — You are responsible for ensuring your use of the Services complies with all applicable laws and regulations, including PDPA, sector-specific regulations governing healthcare, legal, financial, or real estate services, and any licensing requirements relevant to your industry.</p>
+
+    <h2 id="t11">11. Prohibited Use</h2>
+    <p>You must not use the Services to:</p>
+    <ul>
+      <li>Make unsolicited calls to individuals who have not consented, or to numbers listed on the DNC Registry where applicable</li>
+      <li>Send unsolicited marketing messages (spam) via email, WhatsApp, or any other channel</li>
+      <li>Engage in deceptive, misleading, or fraudulent communications</li>
+      <li>Harass, threaten, or abuse any individual</li>
+      <li>Violate any applicable law, including the PDPA, Spam Control Act, or Consumer Protection (Fair Trading) Act</li>
+      <li>Reverse engineer, copy, or resell any part of the Axoncore system without prior written consent</li>
+      <li>Operate any unlawful business activity</li>
+    </ul>
+    <p>Axoncore reserves the right to suspend or terminate your Services immediately and without refund if you breach any of these prohibitions.</p>
+
+    <h2 id="t12">12. Data Handling and Privacy</h2>
+    <p><strong>12.1 Your Business Data</strong> — Axoncore processes your Business Data strictly for the purpose of providing and improving the Services and complies with Singapore's PDPA. Full details are in our <a href="/privacy.html">Privacy Policy</a>.</p>
+    <p><strong>12.2 Your Responsibilities as Data Controller</strong> — For the purposes of the PDPA, you are the data controller in respect of your customers' personal data. Axoncore acts as a data intermediary. You remain responsible for ensuring you have valid grounds to collect and process your customers' personal data through the Services.</p>
+    <p><strong>12.3 Data on Termination</strong> — Upon termination, Axoncore will continue to hold your Business Data for up to 30 days. If you submit a written request to <a href="mailto:hello@axoncore.ai">hello@axoncore.ai</a>, Axoncore will securely delete your Business Data within 30 days of receiving the request.</p>
+    <p><strong>12.4 Third-Party Data Processing</strong> — Because the Services are built on Third-Party Platforms, some of your Business Data will be processed by those platforms in accordance with their own terms and privacy policies.</p>
+
+    <h2 id="t13">13. Intellectual Property</h2>
+    <p><strong>13.1 Axoncore's IP</strong> — All AI system architecture, voice agent configurations and scripts, conversation flow designs, prompt engineering work, and automation workflow logic created by Axoncore remain Axoncore's sole and exclusive intellectual property. By subscribing, you receive a non-exclusive, non-transferable licence to use the system during the term of your service agreement. You do not acquire any ownership rights in the system.</p>
+    <p><strong>13.2 Your Business Data</strong> — You retain full ownership of your Business Data. You grant Axoncore a limited licence to use your Business Data solely to provide the Services during the term of your agreement.</p>
+    <p><strong>13.3 Feedback</strong> — If you provide ideas or suggestions about the Services, you grant Axoncore a royalty-free licence to use that feedback in any way, including to improve our products.</p>
+
+    <h2 id="t14">14. Limitation of Liability</h2>
+    <p><strong>14.1 Liability Cap</strong> — To the fullest extent permitted by Singapore law, Axoncore's total liability to you is capped at the total Monthly Subscription fees actually paid by you in the three months immediately preceding the event giving rise to the claim.</p>
+    <p><strong>14.2 Exclusion of Indirect Loss</strong> — To the fullest extent permitted by law, Axoncore is not liable for any indirect, consequential, incidental, special, or punitive loss or damage, including loss of profits, loss of revenue, loss of business, loss of customers, or damage to reputation.</p>
+    <p><strong>14.3 Third-Party Platform Liability</strong> — Axoncore is not liable for any loss arising from the acts, omissions, outages, or failures of Third-Party Platforms.</p>
+    <p><strong>14.4 Statutory Rights</strong> — Nothing in these Terms limits liability that cannot be excluded under Singapore law, including liability for death or personal injury caused by negligence or fraudulent misrepresentation.</p>
+
+    <h2 id="t15">15. Warranties and Disclaimers</h2>
+    <p><strong>What Axoncore warrants:</strong> It has the right to enter into this agreement and provide the Services; it will perform the Services with reasonable skill and care; it will take reasonable steps to maintain the security and integrity of your Business Data.</p>
+    <p><strong>No other warranties:</strong> The Services are provided "as is". Axoncore does not warrant that the Services will be uninterrupted or error-free, that the AI will answer every question correctly, or that the Services will produce any particular business result including increased revenue or lead conversion rates. AI-generated responses are automated and based on the information you provide during onboarding. We recommend reviewing your knowledge base regularly to ensure it reflects accurate business information.</p>
+
+    <h2 id="t16">16. Changes to Services and Pricing</h2>
+    <p>Axoncore may update, modify, or discontinue features from time to time, including as a result of changes made by Third-Party Platforms. For material changes that reduce core functionality or increase your costs, Axoncore will provide at least 30 days written notice by email. You may terminate without an early termination fee if a material change is not acceptable to you, provided you notify Axoncore within 14 days of receiving notice of the change.</p>
+
+    <h2 id="t17">17. Changes to These Terms</h2>
+    <p>If we make material changes to these Terms, we will notify you by email at least 30 days before the changes take effect. If you do not agree to the updated Terms, you may terminate your service agreement before the changes take effect by providing written notice within 14 days of receiving our notification. Continuing to use the Services after the effective date constitutes your acceptance of the updated Terms.</p>
+
+    <h2 id="t18">18. Force Majeure</h2>
+    <p>Neither party is liable for any delay or failure to perform obligations caused by circumstances genuinely beyond its reasonable control, including natural disasters, pandemics, acts of government, war, civil unrest, power outages, widespread internet infrastructure failures, or significant unforeseen failures of Third-Party Platforms. If a force majeure event continues for more than 60 consecutive days, either party may terminate by providing 14 days written notice without liability for early termination fees. Force majeure does not excuse payment obligations for Services already received.</p>
+
+    <h2 id="t19">19. Governing Law and Dispute Resolution</h2>
+    <p><strong>19.1 Governing Law</strong> — These Terms and any dispute arising from them are governed by the laws of Singapore.</p>
+    <p><strong>19.2 Good Faith Resolution First</strong> — Before commencing any formal dispute process, both parties agree to attempt resolution by direct negotiation for 21 days following written notice of the dispute.</p>
+    <p><strong>19.3 Disputes Above SGD $10,000</strong> — If a dispute cannot be resolved by negotiation and the amount exceeds SGD $10,000, the dispute shall be referred to and finally resolved by arbitration administered by the Singapore International Arbitration Centre (SIAC). The seat of arbitration is Singapore. The language is English. The tribunal shall consist of one arbitrator.</p>
+    <p><strong>19.4 Disputes of SGD $10,000 or Below</strong> — Either party may refer the dispute to the Small Claims Tribunal of Singapore, subject to its jurisdictional limits.</p>
+
+    <h2 id="t20">20. General Provisions</h2>
+    <p><strong>20.1 Entire Agreement</strong> — These Terms, together with your service agreement and the Privacy Policy, form the entire agreement between you and Axoncore in relation to the Services.</p>
+    <p><strong>20.2 No Waiver</strong> — If Axoncore does not enforce a right under these Terms, that does not mean Axoncore has given up that right.</p>
+    <p><strong>20.3 Severability</strong> — If any part of these Terms is found to be unlawful or unenforceable, that part will be removed or limited to the minimum extent necessary and the rest of these Terms will continue in full force.</p>
+    <p><strong>20.4 Assignment</strong> — You may not assign or transfer your rights or obligations under these Terms without Axoncore's prior written consent. Axoncore may assign its rights to a related entity or successor business.</p>
+    <p><strong>20.5 No Partnership or Agency</strong> — These Terms do not create a partnership, joint venture, employment, or agency relationship between you and Axoncore.</p>
+    <p><strong>20.6 Notices</strong> — Notices must be sent to Axoncore at <a href="mailto:hello@axoncore.ai">hello@axoncore.ai</a> and to you at the email address in your service agreement. Emails are deemed received on the next business day following transmission.</p>
+
+    <h2 id="t21">21. Contact Us</h2>
+    <p>If you have any questions about these Terms, your service agreement, or our Services:</p>
+    <p><strong>Axoncore (Victoria Janice, trading as Axoncore)</strong><br>
+    Email: <a href="mailto:hello@axoncore.ai">hello@axoncore.ai</a><br>
+    Website: <a href="https://axoncoreai.com">axoncoreai.com</a></p>
+
+    <p class="ax-legal__footer-note">These Terms of Service are effective as of 24 June 2026. They apply to all service agreements entered into on or after this date. These Terms do not constitute legal advice. Axoncore recommends you seek independent legal advice if you have any concerns about your rights or obligations before signing a service agreement.</p>
+
+  </div>
+</main>
+
+<footer class="ax-footer" role="contentinfo">
+  <div class="ax-container">
+    <div class="ax-footer__bottom" style="padding: 32px 0;">
+      <p>&copy; <span id="ax-year"></span> Victoria Janice, trading as Axoncore &nbsp;&middot;&nbsp; Singapore</p>
+      <p style="margin-top:8px;font-size:0.8rem;color:var(--ax-muted);">
+        <a href="/privacy.html" style="color:var(--ax-accent);text-decoration:none;">Privacy Policy</a>
+        &nbsp;&middot;&nbsp;
+        <a href="/terms.html" style="color:var(--ax-accent);text-decoration:none;">Terms of Service</a>
+        &nbsp;&middot;&nbsp;
+        <a href="/" style="color:var(--ax-muted);text-decoration:none;">axoncoreai.com</a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  var y = document.getElementById('ax-year');
+  if (y) y.textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
