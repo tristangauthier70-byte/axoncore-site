@@ -12,24 +12,32 @@
   var vapi      = null;
   var callState = 'idle';
 
-  /* ── Boot ─────────────────────────────────────────── */
-  function init() {
-    if (typeof window.Vapi === 'undefined') {
-      console.warn('[Riley] VAPI SDK unavailable — hiding voice buttons');
+  /* ── Load VAPI SDK via esm.sh (handles CJS → ESM) ── */
+  import('https://esm.sh/@vapi-ai/web@2.5.2')
+    .then(function (mod) {
+      var VapiClass = mod.default || mod.Vapi;
+      if (typeof VapiClass !== 'function') {
+        throw new Error('Vapi class not found in module exports');
+      }
+      vapi = new VapiClass(PUBLIC_KEY);
+
+      vapi.on('call-start',   onCallStart);
+      vapi.on('call-end',     onCallEnd);
+      vapi.on('speech-start', onSpeechStart);
+      vapi.on('speech-end',   onSpeechEnd);
+      vapi.on('error',        onError);
+
+      bindUI();
+    })
+    .catch(function (err) {
+      console.warn('[Riley] VAPI SDK unavailable:', err);
       document.querySelectorAll('.riley-trigger, #riley-float-btn').forEach(function (el) {
         el.hidden = true;
       });
-      return;
-    }
+    });
 
-    vapi = new window.Vapi(PUBLIC_KEY);
-
-    vapi.on('call-start',   onCallStart);
-    vapi.on('call-end',     onCallEnd);
-    vapi.on('speech-start', onSpeechStart);
-    vapi.on('speech-end',   onSpeechEnd);
-    vapi.on('error',        onError);
-
+  /* ── Bind UI after SDK loads ──────────────────────── */
+  function bindUI() {
     document.querySelectorAll('.riley-trigger').forEach(function (btn) {
       btn.addEventListener('click', startCall);
     });
@@ -177,17 +185,17 @@
 
   function onError(err) {
     console.error('[Riley]', err);
-    var type = (err && err.type)    ? err.type                        : '';
-    var msg  = (err && err.message) ? err.message.toLowerCase()       :
-               (err && err.error && err.error.message) ? err.error.message.toLowerCase() : '';
+    var type = (err && err.type)    ? err.type                                            : '';
+    var msg  = (err && err.message) ? err.message.toLowerCase()
+             : (err && err.error && err.error.message) ? err.error.message.toLowerCase() : '';
 
     var display;
     if (type === 'mic-denied' || msg.includes('permission') || msg.includes('denied') || msg.includes('microphone')) {
       display = 'Microphone access denied — please allow it in your browser settings and try again.';
     } else if (msg.includes('support') || msg.includes('browser')) {
-      display = "Your browser doesn’t support voice calls. Please try Chrome or Safari.";
+      display = "Your browser doesn't support voice calls. Please try Chrome or Safari.";
     } else {
-      display = "Couldn’t connect to Riley — please try again in a moment.";
+      display = "Couldn't connect to Riley — please try again in a moment.";
     }
 
     setState('error');
@@ -195,10 +203,4 @@
     setTimeout(hideModal, 5000);
   }
 
-  /* ── Init ─────────────────────────────────────────── */
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
 }());
