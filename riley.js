@@ -122,7 +122,7 @@
     setStatus('Connecting to Riley…');
     showModal();
 
-    var result = vapi.start({ assistantId: ASSISTANT_ID });
+    var result = vapi.start(ASSISTANT_ID);
     if (result && typeof result.catch === 'function') {
       result.catch(function (err) {
         var msg = (err && err.message) ? err.message.toLowerCase() : '';
