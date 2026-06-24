@@ -117,6 +117,10 @@
         <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
       </a>
       <a href="#ax-services" class="ax-btn-ghost">See How It Works</a>
+      <button class="riley-trigger ax-btn-riley" id="riley-hero-btn" type="button" data-default-label="Talk to Riley — Live Demo">
+        <span class="riley-pulse-dot"></span>
+        <span class="riley-btn-label">Talk to Riley — Live Demo</span>
+      </button>
     </div>
     <div class="ax-hero__typed-wrap ax-reveal ax-reveal-delay-4" style="margin-top:2.5rem;">
       <span style="color:var(--ax-muted);font-size:0.9rem;">Works across: </span>
@@ -983,6 +987,51 @@
 <script src="tier.js"></script>
 <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
 
+<!-- ══════════════════════════════════════════════
+     RILEY VOICE DEMO
+══════════════════════════════════════════════ -->
+<div id="riley-modal" hidden data-state="idle" role="dialog" aria-modal="true" aria-labelledby="riley-name">
+  <div class="riley-modal__backdrop"></div>
+  <div class="riley-modal__card">
+
+    <div class="riley-avatar" id="riley-avatar" data-speaking="false">
+      <span class="riley-avatar__ring riley-avatar__ring--1"></span>
+      <span class="riley-avatar__ring riley-avatar__ring--2"></span>
+      <span class="riley-avatar__ring riley-avatar__ring--3"></span>
+      <span class="riley-avatar__face">R</span>
+    </div>
+
+    <p class="riley-name" id="riley-name">Riley</p>
+    <p class="riley-subtitle">AI Voice Agent &middot; Axoncore</p>
+
+    <p class="riley-status-text" id="riley-status-text" aria-live="polite">Connecting&hellip;</p>
+
+    <div class="riley-controls">
+      <button id="riley-mute-btn" class="riley-ctrl-btn riley-ctrl-btn--mute" type="button" data-muted="false" aria-label="Mute microphone">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"/>
+        </svg>
+        <span class="riley-btn-label">Mute</span>
+      </button>
+      <button id="riley-end-btn" class="riley-ctrl-btn riley-ctrl-btn--end" type="button" aria-label="End call">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+        <span class="riley-btn-label">End Call</span>
+      </button>
+    </div>
+
+    <p class="riley-brand">Hear what your customers would experience</p>
+  </div>
+</div>
+
+<!-- Floating Riley button (bottom-right) -->
+<button id="riley-float-btn" class="riley-trigger" type="button" data-default-label="Talk to Riley" aria-label="Talk to Riley — Live Demo">
+  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"/>
+  </svg>
+</button>
+
 <!-- Cookie Notice -->
 <div id="ax-cookie-notice" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(10,5,24,0.97);border-top:1px solid rgba(255,255,255,0.1);padding:14px 24px;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:0.82rem;color:rgba(226,232,240,0.75);">
   <span>This site uses cookies from Calendly for booking functionality. By continuing, you accept this. <a href="/privacy.html" style="color:#7c3aed;text-decoration:none;">Privacy Policy</a></span>
@@ -1001,6 +1050,9 @@
   }
 })();
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/@vapi-ai/web@2.5.2/dist/vapi.js"></script>
+<script src="riley.js"></script>
 
 </body>
 </html>
