@@ -6,24 +6,24 @@
 
   var TIER_DATA = {
     a: [
-      { name: 'Lite',       minutes: 300,  price: 135,  setup: 390  },
-      { name: 'Standard',   minutes: 1000, price: 410,  setup: 390  },
-      { name: 'Growth',     minutes: 2000, price: 805,  setup: 390  },
-      { name: 'Heavy',      minutes: 3000, price: 1200, setup: 390  },
+      { name: 'Lite',       minutes: 300,  price: 280,  setup: 1100 },
+      { name: 'Standard',   minutes: 1000, price: 840,  setup: 1100 },
+      { name: 'Growth',     minutes: 2000, price: 1640, setup: 1100 },
+      { name: 'Heavy',      minutes: 3000, price: 2440, setup: 1100 },
       { name: 'Enterprise', enterprise: true }
     ],
     b: [
-      { name: 'Lite',       minutes: 300,  price: 335,  setup: 700  },
-      { name: 'Standard',   minutes: 1000, price: 775,  setup: 700  },
-      { name: 'Growth',     minutes: 2000, price: 1405, setup: 700  },
-      { name: 'Heavy',      minutes: 3000, price: 2040, setup: 700  },
+      { name: 'Lite',       minutes: 300,  price: 735,  setup: 2700 },
+      { name: 'Standard',   minutes: 1000, price: 1295, setup: 2700 },
+      { name: 'Growth',     minutes: 2000, price: 2095, setup: 2700 },
+      { name: 'Heavy',      minutes: 3000, price: 2895, setup: 2700 },
       { name: 'Enterprise', enterprise: true }
     ],
     c: [
-      { name: 'Lite',       minutes: 300,  price: 840,  setup: 990  },
-      { name: 'Standard',   minutes: 1000, price: 1280, setup: 990  },
-      { name: 'Growth',     minutes: 2000, price: 1915, setup: 990  },
-      { name: 'Heavy',      minutes: 3000, price: 2545, setup: 990  },
+      { name: 'Lite',       minutes: 300,  price: 785,  setup: 4500 },
+      { name: 'Standard',   minutes: 1000, price: 1345, setup: 4500 },
+      { name: 'Growth',     minutes: 2000, price: 2145, setup: 4500 },
+      { name: 'Heavy',      minutes: 3000, price: 2945, setup: 4500 },
       { name: 'Enterprise', enterprise: true }
     ]
   };
