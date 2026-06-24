@@ -12,8 +12,15 @@
   var vapi      = null;
   var callState = 'idle';
 
-  /* ── Load VAPI SDK via esm.sh (handles CJS → ESM) ── */
-  import('https://esm.sh/@vapi-ai/web@2.5.2')
+  /* ── Load VAPI SDK from self-hosted bundle (no esm.sh cold-start) ── */
+  // While SDK loads, show buttons as loading (not hidden, just disabled)
+  document.querySelectorAll('.riley-trigger').forEach(function (el) {
+    el.disabled = true;
+    var lbl = el.querySelector('.riley-btn-label');
+    if (lbl) lbl.textContent = 'Loading…';
+  });
+
+  import('./vapi-sdk.js')
     .then(function (mod) {
       var VapiClass = mod.default || mod.Vapi;
       if (typeof VapiClass !== 'function') {
@@ -28,6 +35,13 @@
       vapi.on('error',        onError);
 
       bindUI();
+
+      // Re-enable buttons and restore labels now that SDK is ready
+      document.querySelectorAll('.riley-trigger').forEach(function (el) {
+        el.disabled = false;
+        var lbl = el.querySelector('.riley-btn-label');
+        if (lbl) lbl.textContent = el.dataset.defaultLabel || 'Talk to Riley — Live Demo';
+      });
     })
     .catch(function (err) {
       console.warn('[Riley] VAPI SDK unavailable:', err);
