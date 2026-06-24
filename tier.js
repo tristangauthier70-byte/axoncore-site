@@ -18,9 +18,9 @@
       { name: 'Enterprise', enterprise: true }
     ],
     c: [
-      { name: 'Lite',       minutes: 300,  price: 650,  setup: 1399 },
-      { name: 'Standard',   minutes: 600,  price: 750,  setup: 1399 },
-      { name: 'Pro',        minutes: 1200, price: 955,  setup: 1399 },
+      { name: 'Lite',       minutes: 300,  price: 899,  setup: 1399 },
+      { name: 'Standard',   minutes: 600,  price: 1199, setup: 1399 },
+      { name: 'Pro',        minutes: 1200, price: 1399, setup: 1399 },
       { name: 'Enterprise', enterprise: true }
     ]
   };
