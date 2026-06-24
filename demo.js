@@ -3,6 +3,7 @@
 
   /* ── State ── */
   var STATE = 'idle';
+  var faqResponseCount = 0;
   var selectedService = '', selectedServiceName = '', selectedDate = '', selectedTime = '';
   var selectedConsultant = '';   /* key into STAFF_SCHEDULES, or '' */
   var selectedAddOn = '';        /* '' or 'Product Name ($XX)' if upsell accepted */
@@ -134,6 +135,12 @@
       p:[/weekend|saturday|sunday|evening|after work|late night/i],
       r:'Great news — we\'re open *Saturdays 9am–7pm* and *Sundays 10am–5pm* 🌟\n\nWe also have *weekday evening slots until 8pm* — perfect for after-work visits!\n\nWant to check availability?',
       s:['Book a weekend slot 📅','Book an evening slot 🌙','Book now 📅']
+    },
+    /* Jamie Wong — skincare consultant, in-clinic only */
+    {
+      p:[/\bjamie(\s+wong)?\b/i],
+      r:'🔬 *Jamie Wong* is our Skincare Consultant — a product specialist and skin analysis expert who works in-clinic.\n\nJamie doesn\'t take appointments through this chat, but you\'ll meet them during any of our facial treatments or consultations!\n\n💡 *Tip:* Book a *Dermal Consultation* ($88 | 30 mins) with Dr. Sarah or Dr. Marcus for a full in-depth skin plan — Jamie will often join to walk you through the product recommendations.\n\nWant to book?',
+      s:['Book Consultation 🩺 $88','See our treatments 💆','Book now 📅']
     },
     /* Staff / team — includes "practitioner", "who else", "list of" */
     {
@@ -1573,8 +1580,19 @@
     /* ── 7. FAQ — only reached for genuine information questions ── */
     var faq = faqMatch(lower);
     if (faq) {
+      faqResponseCount++;
+      var addNudge = (faqResponseCount === 3);
       ariaType(faq.r, function(){
         showSuggestions((faq.s || []).slice(0, 3));
+        if (addNudge) {
+          setTimeout(function(){
+            addMessage(
+              '<span style="font-size:0.8em;opacity:0.7;display:block;margin-top:4px;">✨ <em>This is Axoncore AI — your business could have Aria running 24/7. <a href="#ax-contact" style="color:#C4B5FD;text-decoration:none;" onclick="document.getElementById(\'ax-demo-overlay\')&&(document.getElementById(\'ax-demo-overlay\').style.display=\'none\')">Want this for your business?</a></em></span>',
+              'aria',
+              { html: true }
+            );
+          }, 1200);
+        }
       });
       return;
     }
@@ -1790,6 +1808,7 @@
   /* ── Public reset ── */
   window.axDemoReset = function() {
     STATE = 'idle';
+    faqResponseCount = 0;
     selectedService = selectedServiceName = selectedDate = selectedTime = '';
     selectedConsultant = ''; selectedAddOn = '';
     partialName = ''; partialPhone = '';
