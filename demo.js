@@ -424,11 +424,7 @@
     wrap.className = 'ax-msg ax-msg--' + from;
     var bubble = document.createElement('div');
     bubble.className = 'ax-msg__bubble';
-    if (opts.html) {
-      bubble.innerHTML = text;
-    } else {
-      bubble.innerHTML = escHtml(text).replace(/\n/g,'<br>').replace(/\*(.*?)\*/g,'<strong>$1</strong>');
-    }
+    bubble.innerHTML = escHtml(text).replace(/\n/g,'<br>').replace(/\*(.*?)\*/g,'<strong>$1</strong>');
     var meta = document.createElement('div');
     meta.className = 'ax-msg__meta';
     var now = new Date(), h = now.getHours(), m = now.getMinutes();
@@ -1586,11 +1582,28 @@
         showSuggestions((faq.s || []).slice(0, 3));
         if (addNudge) {
           setTimeout(function(){
-            addMessage(
-              '<span style="font-size:0.8em;opacity:0.7;display:block;margin-top:4px;">✨ <em>This is Axoncore AI — your business could have Aria running 24/7. <a href="#ax-contact" style="color:#C4B5FD;text-decoration:none;" onclick="document.getElementById(\'ax-demo-overlay\')&&(document.getElementById(\'ax-demo-overlay\').style.display=\'none\')">Want this for your business?</a></em></span>',
-              'aria',
-              { html: true }
-            );
+            var wrap   = document.createElement('div');
+            wrap.className = 'ax-msg ax-msg--aria';
+            var bubble = document.createElement('div');
+            bubble.className = 'ax-msg__bubble';
+            var nudge = document.createElement('span');
+            nudge.style.cssText = 'font-size:0.8em;opacity:0.7;display:block;margin-top:4px;';
+            var em = document.createElement('em');
+            em.appendChild(document.createTextNode('✨ This is Axoncore AI — your business could have Aria running 24/7. '));
+            var link = document.createElement('a');
+            link.href = '#ax-contact';
+            link.style.cssText = 'color:#C4B5FD;text-decoration:none;';
+            link.textContent = 'Want this for your business?';
+            link.addEventListener('click', function(){
+              var overlay = document.getElementById('ax-demo-overlay');
+              if (overlay) overlay.style.display = 'none';
+            });
+            em.appendChild(link);
+            nudge.appendChild(em);
+            bubble.appendChild(nudge);
+            wrap.appendChild(bubble);
+            chat.appendChild(wrap);
+            scrollChat();
           }, 1200);
         }
       });
