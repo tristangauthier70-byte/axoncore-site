@@ -3,6 +3,8 @@
    Public key is safe in frontend code.
    Private key lives only in server .env — never here.
 ───────────────────────────────────────────────────────── */
+import VapiSDK from './vapi-sdk.js';
+
 (function () {
   'use strict';
 
@@ -12,43 +14,32 @@
   var vapi      = null;
   var callState = 'idle';
 
-  /* ── Load VAPI SDK from self-hosted bundle (no esm.sh cold-start) ── */
-  // While SDK loads, show buttons as loading (not hidden, just disabled)
-  document.querySelectorAll('.riley-trigger').forEach(function (el) {
-    el.disabled = true;
-    var lbl = el.querySelector('.riley-btn-label');
-    if (lbl) lbl.textContent = 'Loading…';
-  });
-
-  import('./vapi-sdk.js')
-    .then(function (mod) {
-      var VapiClass = mod.default || mod.Vapi;
-      if (typeof VapiClass !== 'function') {
-        throw new Error('Vapi class not found in module exports');
-      }
-      vapi = new VapiClass(PUBLIC_KEY);
-
-      vapi.on('call-start',   onCallStart);
-      vapi.on('call-end',     onCallEnd);
-      vapi.on('speech-start', onSpeechStart);
-      vapi.on('speech-end',   onSpeechEnd);
-      vapi.on('error',        onError);
-
-      bindUI();
-
-      // Re-enable buttons and restore labels now that SDK is ready
-      document.querySelectorAll('.riley-trigger').forEach(function (el) {
-        el.disabled = false;
-        var lbl = el.querySelector('.riley-btn-label');
-        if (lbl) lbl.textContent = el.dataset.defaultLabel || 'Talk to Riley — Live Demo';
-      });
-    })
-    .catch(function (err) {
-      console.warn('[Riley] VAPI SDK unavailable:', err);
-      document.querySelectorAll('.riley-trigger, #riley-float-btn').forEach(function (el) {
-        el.hidden = true;
-      });
+  /* ── Initialize VAPI SDK (static import — resolved before any code runs) ── */
+  if (typeof VapiSDK !== 'function') {
+    console.warn('[Riley] VAPI SDK: default export is not a constructor');
+    document.querySelectorAll('.riley-trigger, #riley-float-btn').forEach(function (el) {
+      el.style.display = 'none';
     });
+    return;
+  }
+
+  try {
+    vapi = new VapiSDK(PUBLIC_KEY);
+  } catch (err) {
+    console.warn('[Riley] VAPI instantiation failed:', err);
+    document.querySelectorAll('.riley-trigger, #riley-float-btn').forEach(function (el) {
+      el.style.display = 'none';
+    });
+    return;
+  }
+
+  vapi.on('call-start',   onCallStart);
+  vapi.on('call-end',     onCallEnd);
+  vapi.on('speech-start', onSpeechStart);
+  vapi.on('speech-end',   onSpeechEnd);
+  vapi.on('error',        onError);
+
+  bindUI();
 
   /* ── Bind UI after SDK loads ──────────────────────── */
   function bindUI() {
@@ -82,9 +73,9 @@
       if (!lbl) return;
       switch (s) {
         case 'connecting': lbl.textContent = 'Connecting…'; break;
-        case 'active':     lbl.textContent = 'In Call';          break;
-        case 'ended':      lbl.textContent = 'Call ended';       break;
-        case 'error':      lbl.textContent = 'Try Again';        break;
+        case 'active':     lbl.textContent = 'In Call';     break;
+        case 'ended':      lbl.textContent = 'Call ended';  break;
+        case 'error':      lbl.textContent = 'Try Again';   break;
         default:           lbl.textContent = btn.dataset.defaultLabel || 'Talk to Riley'; break;
       }
     });
