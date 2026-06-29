@@ -3,7 +3,7 @@
    Public key is safe in frontend code.
    Private key lives only in server .env — never here.
 ───────────────────────────────────────────────────────── */
-import VapiSDK from './vapi-sdk.js';
+import * as _vapiMod from './vapi-sdk.js';
 
 (function () {
   'use strict';
@@ -14,9 +14,20 @@ import VapiSDK from './vapi-sdk.js';
   var vapi      = null;
   var callState = 'idle';
 
-  /* ── Initialize VAPI SDK (static import — resolved before any code runs) ── */
-  if (typeof VapiSDK !== 'function') {
-    console.warn('[Riley] VAPI SDK: default export is not a constructor');
+  /* ── Resolve Vapi constructor from all known export patterns ── */
+  var VapiSDK = null;
+  if (typeof _vapiMod.default === 'function') {
+    VapiSDK = _vapiMod.default;
+  } else if (_vapiMod.default && typeof _vapiMod.default.default === 'function') {
+    VapiSDK = _vapiMod.default.default;
+  } else if (_vapiMod.default && typeof _vapiMod.default.Vapi === 'function') {
+    VapiSDK = _vapiMod.default.Vapi;
+  } else if (typeof _vapiMod.Vapi === 'function') {
+    VapiSDK = _vapiMod.Vapi;
+  }
+
+  if (!VapiSDK) {
+    console.warn('[Riley] VAPI SDK: could not resolve constructor from module exports', _vapiMod);
     document.querySelectorAll('.riley-trigger, #riley-float-btn').forEach(function (el) {
       el.style.display = 'none';
     });
@@ -33,13 +44,20 @@ import VapiSDK from './vapi-sdk.js';
     return;
   }
 
-  vapi.on('call-start',   onCallStart);
-  vapi.on('call-end',     onCallEnd);
-  vapi.on('speech-start', onSpeechStart);
-  vapi.on('speech-end',   onSpeechEnd);
-  vapi.on('error',        onError);
-
-  bindUI();
+  try {
+    vapi.on('call-start',   onCallStart);
+    vapi.on('call-end',     onCallEnd);
+    vapi.on('speech-start', onSpeechStart);
+    vapi.on('speech-end',   onSpeechEnd);
+    vapi.on('error',        onError);
+    bindUI();
+  } catch (err) {
+    console.warn('[Riley] VAPI event setup failed:', err);
+    document.querySelectorAll('.riley-trigger, #riley-float-btn').forEach(function (el) {
+      el.style.display = 'none';
+    });
+    return;
+  }
 
   /* ── Bind UI after SDK loads ──────────────────────── */
   function bindUI() {
