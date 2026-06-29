@@ -12,8 +12,8 @@
     const ctx = canvas.getContext('2d');
 
     let W, H, particles = [], mouse = { x: null, y: null };
-    const PARTICLE_COUNT = window.innerWidth < 768 ? 55 : 110;
-    const MAX_DIST = 160;
+    const PARTICLE_COUNT = window.innerWidth < 768 ? 22 : 45;
+    const MAX_DIST = 140;
     const ACCENT = '167,139,250';
 
     function resize() {
@@ -51,12 +51,12 @@
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < MAX_DIST) {
-            /* Lines get brighter as mouse gets closer — base opacity scales with mouse proximity */
-            var mouseDist = mouse.x !== null
-              ? Math.sqrt(Math.pow(particles[i].x - mouse.x, 2) + Math.pow(particles[i].y - mouse.y, 2))
-              : 9999;
+          const distSq = dx * dx + dy * dy;
+          if (distSq < MAX_DIST * MAX_DIST) {
+            const dist = Math.sqrt(distSq);
+            var mdx = mouse.x !== null ? particles[i].x - mouse.x : 9999;
+            var mdy = mouse.x !== null ? particles[i].y - mouse.y : 0;
+            var mouseDist = mouse.x !== null ? Math.sqrt(mdx * mdx + mdy * mdy) : 9999;
             var mouseBoost = mouseDist < 250 ? (1 - mouseDist / 250) * 0.45 : 0;
             var opacity = (1 - dist / MAX_DIST) * (0.45 + mouseBoost);
             var width = 0.6 + mouseBoost * 1.5;
@@ -73,8 +73,9 @@
         if (mouse.x !== null) {
           const dx = particles[i].x - mouse.x;
           const dy = particles[i].y - mouse.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 220) {
+          const distSq2 = dx * dx + dy * dy;
+          if (distSq2 < 220 * 220) {
+            const dist = Math.sqrt(distSq2);
             const opacity = (1 - dist / 220) * 0.85;
             ctx.beginPath();
             ctx.strokeStyle = `rgba(${ACCENT},${opacity})`;
@@ -94,8 +95,12 @@
         particles[i].update();
       }
 
-      requestAnimationFrame(draw);
+      if (!document.hidden) requestAnimationFrame(draw);
     }
+
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden) requestAnimationFrame(draw);
+    });
 
     window.addEventListener('resize', function () { resize(); init(); });
     window.addEventListener('mousemove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; });
