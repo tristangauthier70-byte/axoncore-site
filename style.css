@@ -2859,6 +2859,11 @@ hr {
   display: block;
 }
 
+.calendly-inline-widget iframe {
+  filter: invert(1) hue-rotate(180deg);
+  border-radius: 0 0 var(--ax-radius-lg) var(--ax-radius-lg);
+}
+
 .ax-contact__form-card::before {
   content: '';
   position: absolute;
