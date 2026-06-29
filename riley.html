@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Riley — AI Receptionist | Axon Core AI</title>
+  <meta name="description" content="Meet Riley, Axon Core's AI receptionist. She answers every call, qualifies every lead, and books appointments 24/7 — without a human in the loop.">
+  <meta property="og:title" content="Riley — AI Receptionist | Axon Core AI">
+  <meta property="og:description" content="Meet Riley. Your AI receptionist that answers calls, qualifies leads, and books appointments around the clock.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://axoncoreai.com/riley.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://axoncoreai.com/riley.html">
+
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://api.vapi.ai">
+  <link rel="preconnect" href="https://aws.vapi.ai">
+
+  <!-- Fonts — same as main site -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="riley-page.css">
+
+  <!-- GA4 (same as main site) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-G6PEL64BSW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-G6PEL64BSW', { anonymize_ip: true });
+  </script>
+</head>
+
+<body class="riley-page">
+
+  <!-- Custom cursor -->
+  <div class="ax-cursor-dot"  id="ax-cursor-dot"  aria-hidden="true"></div>
+  <div class="ax-cursor-ring" id="ax-cursor-ring" aria-hidden="true"></div>
+
+  <!-- ─── HEADER ──────────────────────────────────────────────── -->
+  <header class="rp-header" role="banner">
+    <a href="index.html" class="rp-header__logo">
+      <span class="rp-header__logo-dot"></span>
+      Axon Core AI
+    </a>
+    <a href="index.html" class="rp-header__back">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5M5 12l7 7M5 12l7-7"/>
+      </svg>
+      Back to site
+    </a>
+  </header>
+
+  <!-- ─── SECTION 1: HERO ──────────────────────────────────────── -->
+  <section class="rp-hero" aria-labelledby="rp-hero-h1">
+    <div class="rp-hero__inner">
+      <div class="rp-hero__content">
+        <p class="rp-hero__eyebrow" aria-hidden="true">Meet Riley</p>
+        <h1 class="rp-hero__headline" id="rp-hero-h1">
+          <em>Riley.</em>
+        </h1>
+        <p class="rp-hero__sub">
+          AI Receptionist. Answers every call.<br>
+          Qualifies every lead. Books every appointment.
+        </p>
+        <div class="rp-hero__chips" role="list">
+          <span class="rp-hero__chip" role="listitem">
+            <span class="rp-hero__chip-dot" aria-hidden="true"></span>
+            VAPI-Powered
+          </span>
+          <span class="rp-hero__chip" role="listitem">
+            <span class="rp-hero__chip-dot" aria-hidden="true"></span>
+            Claude AI Brain
+          </span>
+          <span class="rp-hero__chip" role="listitem">
+            <span class="rp-hero__chip-dot" aria-hidden="true"></span>
+            Live in 14 Days
+          </span>
+          <span class="rp-hero__chip" role="listitem">
+            <span class="rp-hero__chip-dot" aria-hidden="true"></span>
+            24 / 7 / 365
+          </span>
+        </div>
+      </div>
+
+      <!-- Audio waveform -->
+      <div class="rp-hero__wave" aria-hidden="true">
+        <div class="rp-wave-bar"></div>
+        <div class="rp-wave-bar"></div>
+        <div class="rp-wave-bar"></div>
+        <div class="rp-wave-bar"></div>
+        <div class="rp-wave-bar"></div>
+        <div class="rp-wave-bar"></div>
+        <div class="rp-wave-bar"></div>
+        <div class="rp-wave-bar"></div>
+        <div class="rp-wave-bar"></div>
+        <div class="rp-wave-bar"></div>
+        <div class="rp-wave-bar"></div>
+        <div class="rp-wave-bar"></div>
+        <div class="rp-wave-bar"></div>
+        <div class="rp-wave-bar"></div>
+        <div class="rp-wave-bar"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SECTION 2: CAPABILITIES ─────────────────────────────── -->
+  <section class="rp-caps" aria-labelledby="rp-caps-h">
+    <div class="rp-caps__inner">
+      <div class="rp-caps__header">
+        <p class="rp-caps__eyebrow" data-reveal>What Riley does for you</p>
+        <h2 class="rp-caps__headline" id="rp-caps-h" data-reveal>
+          Every capability your<br>receptionist never had.
+        </h2>
+      </div>
+
+      <div class="rp-caps__grid">
+        <!-- Card 1 -->
+        <div class="rp-cap-card">
+          <div class="rp-cap-card__icon" aria-hidden="true">
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.69 12 19.79 19.79 0 011.62 3.33 2 2 0 013.6 1.28h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L7.91 8.7a16 16 0 006.39 6.39l1.06-1.05a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+            </svg>
+          </div>
+          <h3 class="rp-cap-card__title">Never misses a call</h3>
+          <p class="rp-cap-card__body">Riley answers 24/7, 365 — before the first ring ends. No hold music, no voicemail, no missed revenue at 2 AM.</p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="rp-cap-card">
+          <div class="rp-cap-card__icon" aria-hidden="true">
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <circle cx="12" cy="8" r="4"/>
+              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+              <path d="M17 11l2 2 4-4"/>
+            </svg>
+          </div>
+          <h3 class="rp-cap-card__title">Qualifies in 2 questions</h3>
+          <p class="rp-cap-card__body">Riley asks exactly 2 discovery questions — channel and volume — then recommends the right package. Efficient, never robotic.</p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="rp-cap-card">
+          <div class="rp-cap-card__icon" aria-hidden="true">
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <rect x="3" y="4" width="18" height="18" rx="2"/>
+              <path d="M16 2v4M8 2v4M3 10h18"/>
+              <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/>
+            </svg>
+          </div>
+          <h3 class="rp-cap-card__title">Books automatically</h3>
+          <p class="rp-cap-card__body">Appointment scheduled, details captured, confirmation sent — all before the caller hangs up. No human needed, ever.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SECTION 3: SCROLL DEMO ──────────────────────────────── -->
+  <section class="rp-demo" id="rp-demo" aria-label="Riley conversation demo">
+    <div class="rp-demo__inner">
+
+      <!-- Left: explanation labels -->
+      <div class="rp-demo__labels" aria-hidden="true">
+        <div class="rp-label">
+          <p class="rp-label__num">01</p>
+          <p class="rp-label__text">Answers in under a second</p>
+          <p class="rp-label__sub">No hold music. No voicemail. Riley picks up before the first ring ends, 24 / 7.</p>
+        </div>
+        <div class="rp-label">
+          <p class="rp-label__num">02</p>
+          <p class="rp-label__text">Captures contact details, always</p>
+          <p class="rp-label__sub">Riley's standing rule: capture name and number in Turn 2, every single call.</p>
+        </div>
+        <div class="rp-label">
+          <p class="rp-label__num">03</p>
+          <p class="rp-label__text">Books without a human</p>
+          <p class="rp-label__sub">Appointment confirmed and details logged before the caller hangs up.</p>
+        </div>
+      </div>
+
+      <!-- CSS iPhone 15 -->
+      <div class="rp-phone" role="img" aria-label="Live conversation between Riley and a caller">
+        <!-- Notch -->
+        <div class="rp-phone__notch" aria-hidden="true">
+          <div class="rp-phone__notch-cam"></div>
+          <div class="rp-phone__notch-speaker"></div>
+        </div>
+
+        <!-- Screen -->
+        <div class="rp-phone__screen">
+          <!-- Status bar -->
+          <div class="rp-phone__statusbar" aria-hidden="true">
+            <span>9:41</span>
+            <div class="rp-phone__statusbar-right">
+              <svg width="15" height="11" fill="currentColor" viewBox="0 0 15 11">
+                <rect x="0"  y="4" width="3" height="7" rx="1"/>
+                <rect x="4"  y="2.5" width="3" height="8.5" rx="1"/>
+                <rect x="8"  y="0.5" width="3" height="10.5" rx="1"/>
+                <rect x="12" y="0"  width="3" height="11" rx="1" opacity="0.3"/>
+              </svg>
+              <svg width="16" height="11" fill="currentColor" viewBox="0 0 24 12">
+                <rect x="0" y="0" width="22" height="12" rx="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                <rect x="22" y="3.5" width="2" height="5" rx="1"/>
+                <rect x="1.5" y="1.5" width="17" height="9" rx="2"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Chat header -->
+          <div class="rp-phone__chat-header">
+            <div class="rp-phone__avatar" aria-hidden="true">
+              R
+              <div class="rp-phone__avatar-ring"></div>
+            </div>
+            <div>
+              <div class="rp-phone__contact-name">Riley</div>
+              <div class="rp-phone__contact-status">
+                <span class="rp-phone__contact-dot" aria-hidden="true"></span>
+                AI Receptionist · Active
+              </div>
+            </div>
+          </div>
+
+          <!-- Messages (scroll-driven, built by riley-page.js CONV data) -->
+          <div class="rp-phone__messages" id="rp-scroll-messages" role="log" aria-label="Conversation demo"></div>
+
+          <!-- Booking confirmed overlay -->
+          <div class="rp-phone__confirm" role="status" aria-label="Booking confirmed">
+            <div class="rp-confirm__check" aria-hidden="true">✓</div>
+            <p class="rp-confirm__title">BOOKING CONFIRMED</p>
+            <p class="rp-confirm__sub">Riley booked Sarah without a single human involved.</p>
+            <div class="rp-confirm__card">
+              <div class="rp-confirm__row">
+                <span>Client</span>
+                <span class="rp-confirm__val">Sarah</span>
+              </div>
+              <div class="rp-confirm__row">
+                <span>Service</span>
+                <span class="rp-confirm__val">Facial Consultation</span>
+              </div>
+              <div class="rp-confirm__row">
+                <span>Phone</span>
+                <span class="rp-confirm__val">9123 4567</span>
+              </div>
+              <div class="rp-confirm__row">
+                <span>Status</span>
+                <span class="rp-confirm__val" style="color:#4ade80;">Confirmed ✓</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Home bar -->
+        <div style="height:24px;display:flex;align-items:center;justify-content:center;">
+          <div style="width:100px;height:4px;background:rgba(255,255,255,0.3);border-radius:2px;"></div>
+        </div>
+      </div>
+
+      <!-- Progress bar (right of phone) -->
+    </div>
+  </section>
+
+  <!-- ─── SECTION 4: STATS ─────────────────────────────────────── -->
+  <section class="rp-stats" aria-label="Riley performance statistics">
+    <div class="rp-stats__inner">
+      <div class="rp-stat">
+        <span class="rp-stat__num">&lt;1s</span>
+        <span class="rp-stat__label">Average answer time</span>
+      </div>
+      <div class="rp-stat">
+        <span class="rp-stat__num">24/7</span>
+        <span class="rp-stat__label">Always available, no sick days</span>
+      </div>
+      <div class="rp-stat">
+        <span class="rp-stat__num">2</span>
+        <span class="rp-stat__label">Questions to qualify any lead</span>
+      </div>
+      <div class="rp-stat">
+        <span class="rp-stat__num">14</span>
+        <span class="rp-stat__label">Days to go live</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SECTION 4b: TRY IT YOURSELF (interactive chat) ─────── -->
+  <div class="rp-try-banner" aria-hidden="true">
+    <span>↓ Your turn</span>
+  </div>
+  <section class="rp-try" aria-label="Try Riley interactively">
+    <div class="rp-try__inner">
+      <div class="rp-try__left">
+        <p class="rp-caps__eyebrow" data-reveal>Try it yourself</p>
+        <h2 class="rp-try__headline" data-reveal>Your turn.<br><span>Ask Riley anything.</span></h2>
+        <p class="rp-try__sub" data-reveal>This is the real qualification flow Riley runs on every call. Type anything — your business, your questions, or just "book a call."</p>
+        <ul class="rp-try__hints" aria-label="Suggested messages">
+          <li class="rp-try__hint" onclick="rp_insertHint(this)">I run a beauty clinic</li>
+          <li class="rp-try__hint" onclick="rp_insertHint(this)">How much does this cost?</li>
+          <li class="rp-try__hint" onclick="rp_insertHint(this)">We get about 200 calls a month</li>
+          <li class="rp-try__hint" onclick="rp_insertHint(this)">Book a strategy call</li>
+        </ul>
+      </div>
+
+      <!-- Interactive iPhone -->
+      <div class="rp-phone rp-phone--try" role="application" aria-label="Chat with Riley">
+        <div class="rp-phone__notch" aria-hidden="true">
+          <div class="rp-phone__notch-cam"></div>
+          <div class="rp-phone__notch-speaker"></div>
+        </div>
+        <div class="rp-phone__screen">
+          <div class="rp-phone__statusbar" aria-hidden="true">
+            <span>9:41</span>
+            <div class="rp-phone__statusbar-right">
+              <svg width="15" height="11" fill="currentColor" viewBox="0 0 15 11"><rect x="0" y="4" width="3" height="7" rx="1"/><rect x="4" y="2.5" width="3" height="8.5" rx="1"/><rect x="8" y="0.5" width="3" height="10.5" rx="1"/><rect x="12" y="0" width="3" height="11" rx="1" opacity="0.3"/></svg>
+              <svg width="16" height="11" fill="currentColor" viewBox="0 0 24 12"><rect x="0" y="0" width="22" height="12" rx="3" stroke="currentColor" stroke-width="1.5" fill="none"/><rect x="22" y="3.5" width="2" height="5" rx="1"/><rect x="1.5" y="1.5" width="17" height="9" rx="2"/></svg>
+            </div>
+          </div>
+          <div class="rp-phone__chat-header">
+            <div class="rp-phone__avatar" aria-hidden="true">R<div class="rp-phone__avatar-ring"></div></div>
+            <div>
+              <div class="rp-phone__contact-name">Riley</div>
+              <div class="rp-phone__contact-status"><span class="rp-phone__contact-dot" aria-hidden="true"></span>AI Receptionist · Active</div>
+            </div>
+          </div>
+          <div class="rp-phone__messages" id="rp-messages" role="log" aria-live="polite"></div>
+          <div class="rp-phone__confirm" role="status">
+            <div class="rp-confirm__check" aria-hidden="true">✓</div>
+            <p class="rp-confirm__title">CALL BOOKED ✓</p>
+            <p class="rp-confirm__sub">Tristan will walk you through your custom setup.</p>
+            <div class="rp-confirm__card">
+              <div class="rp-confirm__row"><span>Client</span><span class="rp-confirm__val">You</span></div>
+              <div class="rp-confirm__row"><span>Service</span><span class="rp-confirm__val">30-min Strategy Call</span></div>
+              <div class="rp-confirm__row"><span>Email</span><span class="rp-confirm__val">hello@axoncoreai.com</span></div>
+              <div class="rp-confirm__row"><span>Status</span><span class="rp-confirm__val" style="color:#4ade80;">Confirmed ✓</span></div>
+            </div>
+          </div>
+          <div class="rp-phone__input-bar">
+            <input type="text" id="rp-phone-input" class="rp-phone__input" placeholder="Message Riley…" autocomplete="off" maxlength="200" disabled/>
+            <button id="rp-phone-send" class="rp-phone__send" aria-label="Send" disabled>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 2L15 22 11 13 2 9l20-7z" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+        <div style="height:24px;display:flex;align-items:center;justify-content:center;"><div style="width:100px;height:4px;background:rgba(255,255,255,0.3);border-radius:2px;"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SECTION 5: CTA (LIVE RILEY) ─────────────────────────── -->
+  <section class="rp-cta" aria-labelledby="rp-cta-h">
+    <!-- WebGL light rays -->
+    <div class="rp-cta__rays" data-light-rays aria-hidden="true"></div>
+
+    <div class="rp-cta__content">
+      <p class="rp-cta__eyebrow" data-reveal>She's live right now</p>
+
+      <h2 class="rp-cta__headline" id="rp-cta-h">
+        Talk<br>to Riley.
+      </h2>
+
+      <p class="rp-cta__sub" data-reveal>
+        This is the real thing — the same AI that answers<br>
+        your future clients' calls, ready to take yours now.
+      </p>
+
+      <!-- Pulsing avatar -->
+      <div class="rp-cta__avatar" aria-hidden="true">
+        R
+        <div class="rp-cta__rings"></div>
+        <div class="rp-cta__rings"></div>
+        <div class="rp-cta__rings"></div>
+      </div>
+
+      <!-- Talk to Riley button — uses riley.js state machine -->
+      <div class="rp-cta__btn-wrap">
+        <button class="rp-cta__btn riley-trigger" id="riley-cta-btn" aria-label="Start a live conversation with Riley">
+          <span class="riley-loading-indicator" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="9" stroke-dasharray="56" stroke-dashoffset="14"/>
+            </svg>
+          </span>
+          <span class="riley-btn-label">
+            <span class="riley-pulse-dot" aria-hidden="true"></span>
+            Talk to Riley — Live Demo
+          </span>
+        </button>
+      </div>
+
+      <p class="rp-cta__meta">Free · No sign-up · Takes 30 seconds</p>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ───────────────────────────────────────────────── -->
+  <footer class="rp-footer" role="contentinfo">
+    <span>© 2026 Axon Core AI · Singapore</span>
+    <div style="display:flex;gap:24px;">
+      <a href="index.html">Home</a>
+      <a href="index.html#ax-pricing">Pricing</a>
+      <a href="index.html#ax-contact">Contact</a>
+    </div>
+  </footer>
+
+  <!-- ─── SCRIPTS ──────────────────────────────────────────────── -->
+  <!-- riley.js first — starts VAPI SDK initialization immediately -->
+  <script type="module" src="riley.js"></script>
+
+  <!-- Animation dependencies -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/splitting/dist/splitting.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+
+  <!-- Page animations -->
+  <script src="riley-page.js"></script>
+  <script src="riley-demo.js"></script>
+  <script>
+    /* Hint chip click → fills input and focuses */
+    function rp_insertHint(el) {
+      var input = document.getElementById('rp-phone-input');
+      if (input && !input.disabled) {
+        input.value = el.textContent;
+        input.focus();
+        var send = document.getElementById('rp-phone-send');
+        if (send && !send.disabled) send.click();
+      }
+    }
+  </script>
+
+</body>
+</html>

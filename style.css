@@ -2239,6 +2239,17 @@ hr {
   background: rgba(255,255,255,0.05);
 }
 
+/* Mobile group labels */
+.ax-header__mobile-group-label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(167,139,250,0.5);
+  padding: 14px 0 4px;
+}
+
 .ax-header__actions {
   display: flex;
   align-items: center;

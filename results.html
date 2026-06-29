@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-G6PEL64BSW"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G6PEL64BSW',{anonymize_ip:true});</script>
+  <link rel="stylesheet" href="style.css">
+  <title>Results & ROI — Axoncore</title>
+  <meta name="description" content="See the ROI of AI automation. Use our calculator to project returns for your business. Benchmarks by industry.">
+  <link rel="canonical" href="https://axoncoreai.com/results.html">
+</head>
+<body>
+<canvas id="ax-particle-canvas" aria-hidden="true"></canvas>
+<header class="ax-header" id="ax-header" role="banner">
+  <div class="ax-header__inner">
+    <a href="/" class="ax-header__logo"><span class="ax-header__logo-dot"></span>Axoncore</a>
+    <nav class="ax-header__nav" aria-label="Main navigation">
+      <div class="ax-header__drop">
+        <button class="ax-header__link ax-header__droptrigger" aria-expanded="false" aria-haspopup="true">Platform<svg class="ax-header__chevron" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>
+        <div class="ax-header__panel" role="menu">
+          <a href="/services.html" class="ax-header__panel-item" role="menuitem"><span class="ax-header__panel-label">Services</span><span class="ax-header__panel-desc">What Axon Core builds for you</span></a>
+          <a href="/how-it-works.html" class="ax-header__panel-item" role="menuitem"><span class="ax-header__panel-label">How It Works</span><span class="ax-header__panel-desc">From call to live in 14 days</span></a>
+          <a href="/demo.html" class="ax-header__panel-item" role="menuitem"><span class="ax-header__panel-label">Live Demo</span><span class="ax-header__panel-desc">Talk to Riley — our AI agent</span></a>
+        </div>
+      </div>
+      <div class="ax-header__drop">
+        <button class="ax-header__link ax-header__droptrigger" aria-expanded="false" aria-haspopup="true">Results<svg class="ax-header__chevron" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>
+        <div class="ax-header__panel" role="menu">
+          <a href="/results.html" class="ax-header__panel-item" role="menuitem"><span class="ax-header__panel-label">ROI Calculator</span><span class="ax-header__panel-desc">See your projected returns</span></a>
+          <a href="/results.html#ax-industries" class="ax-header__panel-item" role="menuitem"><span class="ax-header__panel-label">ROI by Industry</span><span class="ax-header__panel-desc">Benchmarks for your sector</span></a>
+        </div>
+      </div>
+      <a href="/pricing.html" class="ax-header__link">Pricing</a>
+    </nav>
+    <div class="ax-header__actions">
+      <a href="/book-a-call.html" class="ax-btn-primary ax-header__cta"><span>Book a Call</span><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+      <button class="ax-header__burger" id="ax-nav-burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="ax-header__mobile" id="ax-mobile-menu" aria-hidden="true">
+    <nav class="ax-header__mobile-nav">
+      <a href="/services.html" class="ax-header__mobile-link">Services</a>
+      <a href="/how-it-works.html" class="ax-header__mobile-link">How It Works</a>
+      <a href="/demo.html" class="ax-header__mobile-link">Live Demo</a>
+      <a href="/results.html" class="ax-header__mobile-link">ROI Calculator</a>
+      <a href="/results.html#ax-industries" class="ax-header__mobile-link">ROI by Industry</a>
+      <a href="/pricing.html" class="ax-header__mobile-link">Pricing</a>
+      <a href="/book-a-call.html" class="ax-btn-primary" style="margin-top:16px;justify-content:center;"><span>Book a Free Strategy Call</span></a>
+    </nav>
+  </div>
+</header>
+<script>
+(function(){
+  var burger=document.getElementById('ax-nav-burger'),menu=document.getElementById('ax-mobile-menu'),header=document.getElementById('ax-header'),open=false;
+  if(burger&&menu){burger.addEventListener('click',function(){open=!open;burger.setAttribute('aria-expanded',open);burger.classList.toggle('ax-burger--open',open);menu.classList.toggle('ax-header__mobile--open',open);menu.setAttribute('aria-hidden',!open);});}
+  window.addEventListener('scroll',function(){if(header)header.classList.toggle('ax-header--scrolled',window.scrollY>20);},{passive:true});
+})();
+</script>
+
+
+<main id="MainContent">
+
+<section class="ax-page-hero">
+  <div class="ax-container">
+    <a href="/" class="ax-page-back"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m7-7l-7 7 7 7"/></svg>Back to home</a>
+    <p class="ax-page-hero__eyebrow">Results</p>
+    <h1 class="ax-page-hero__title">What this<br><span>actually returns.</span></h1>
+    <p class="ax-page-hero__sub">AI automation pays for itself. Here's the data behind the claim — and a calculator to run your own numbers.</p>
+  </div>
+</section>
+
+<section class="ax-section ax-section--alt">
+  <div class="ax-container">
+    <div class="ax-roi__future ax-reveal" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;text-align:center;padding:48px 0;">
+      <div class="ax-roi__future-stat"><span class="ax-roi__future-num ax-counter" data-target="62" data-suffix="%">0%</span><p>of calls to service businesses go unanswered every day</p></div>
+      <div class="ax-roi__future-stat"><span class="ax-roi__future-num ax-counter" data-target="21" data-suffix="x">0x</span><p>more likely to convert leads contacted within 5 minutes vs. 1 hour</p></div>
+      <div class="ax-roi__future-stat"><span class="ax-roi__future-num ax-counter" data-target="78" data-suffix="%">0%</span><p>of customers buy from the first business that responds</p></div>
+      <div class="ax-roi__future-stat"><span class="ax-roi__future-num ax-counter" data-target="35" data-suffix="%">0%</span><p>of appointment requests come after hours when your team is offline</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="ax-section" id="ax-industries">
+  <div class="ax-container">
+    <div class="ax-section-header ax-reveal">
+      <span class="ax-eyebrow">Who We Serve</span>
+      <h2 class="ax-headline">Built for your industry.<br><span>Proven in your numbers.</span></h2>
+      <p class="ax-subheadline" style="margin:0 auto;">Select your industry to see projected results based on published industry benchmarks.</p>
+    </div>
+    <div class="ax-ind__grid">
+      <button class="ax-ind__card ax-reveal ax-reveal-delay-1" data-ind="medical" aria-selected="true">
+        <span class="ax-ind__card-icon">&#127973;</span>
+        <div class="ax-ind__card-body"><h3 class="ax-ind__card-name">Medical &amp; Dental</h3><p class="ax-ind__card-desc">Clinics lose 40&ndash;60% of after-hours enquiries to voicemail. Every missed call is a missed patient.</p></div>
+        <span class="ax-ind__tag">Healthcare</span>
+      </button>
+      <button class="ax-ind__card ax-reveal ax-reveal-delay-2" data-ind="law" aria-selected="false">
+        <span class="ax-ind__card-icon">&#9878;</span>
+        <div class="ax-ind__card-body"><h3 class="ax-ind__card-name">Law Firms</h3><p class="ax-ind__card-desc">62% of clients hire the first firm that responds. Your AI front desk answers in under 3 seconds, any time of day.</p></div>
+        <span class="ax-ind__tag">Legal</span>
+      </button>
+      <button class="ax-ind__card ax-reveal ax-reveal-delay-3" data-ind="beauty" aria-selected="false">
+        <span class="ax-ind__card-icon">&#10024;</span>
+        <div class="ax-ind__card-body"><h3 class="ax-ind__card-name">Beauty &amp; Aesthetics</h3><p class="ax-ind__card-desc">The highest social DM volume of any service category. Handle Instagram, WhatsApp and web simultaneously.</p></div>
+        <span class="ax-ind__tag">Wellness</span>
+      </button>
+      <button class="ax-ind__card ax-reveal ax-reveal-delay-1" data-ind="realestate" aria-selected="false">
+        <span class="ax-ind__card-icon">&#127968;</span>
+        <div class="ax-ind__card-body"><h3 class="ax-ind__card-name">Real Estate</h3><p class="ax-ind__card-desc">Speed wins in property. Qualify buyer and seller leads instantly and book viewings without back-and-forth.</p></div>
+        <span class="ax-ind__tag">Property</span>
+      </button>
+      <button class="ax-ind__card ax-reveal ax-reveal-delay-2" data-ind="fitness" aria-selected="false">
+        <span class="ax-ind__card-icon">&#128170;</span>
+        <div class="ax-ind__card-body"><h3 class="ax-ind__card-name">Fitness &amp; Training</h3><p class="ax-ind__card-desc">Convert DMs into booked sessions automatically. No missed messages, no manual follow-ups required.</p></div>
+        <span class="ax-ind__tag">Fitness</span>
+      </button>
+      <button class="ax-ind__card ax-reveal ax-reveal-delay-3" data-ind="homeservices" aria-selected="false">
+        <span class="ax-ind__card-icon">&#128295;</span>
+        <div class="ax-ind__card-body"><h3 class="ax-ind__card-name">Home Services</h3><p class="ax-ind__card-desc">After-hours emergency calls captured 24/7. Jobs booked before your competitors even pick up the phone.</p></div>
+        <span class="ax-ind__tag">Trades</span>
+      </button>
+    </div>
+    <div class="ax-ind__panel ax-reveal ax-reveal-delay-4">
+      <div class="ax-ind__panel-inner" id="ax-ind-panel"></div>
+    </div>
+    <p class="ax-ind__disclaimer ax-reveal ax-reveal-delay-5">
+      <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="flex-shrink:0;opacity:0.4;vertical-align:middle;margin-right:6px;margin-top:-2px;"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 8v4m0 4h.01"/></svg>
+      Projections are illustrative estimates based on published industry benchmarks.
+      Use the <a href="#ax-roi" style="color:var(--ax-accent);text-decoration:none;">ROI Calculator</a> below to model your specific business.
+    </p>
+  </div>
+</section>
+<section class="ax-section ax-section--alt" id="ax-roi">
+  <div class="ax-container">
+    <div class="ax-section-header ax-reveal" style="text-align:center;margin-bottom:60px;">
+      <span class="ax-eyebrow">ROI Calculator</span>
+      <h2 class="ax-headline">How much revenue is your<br><span>business leaving behind?</span></h2>
+      <p class="ax-subheadline" style="margin:0 auto;">Adjust the sliders to match your business. See in real time exactly how much Axoncore would recover &mdash; and what return you would get on your investment.</p>
+    </div>
+    <div class="ax-roi__grid ax-reveal ax-reveal-delay-1">
+      <div class="ax-roi__inputs">
+        <h3 class="ax-roi__inputs-title">Your business</h3>
+        <div class="ax-roi__field ax-roi__industry-field">
+          <label class="ax-roi__label" style="margin-bottom:12px;display:block;">Select your industry</label>
+          <div class="ax-roi__industry-grid">
+            <button class="ax-roi__industry-btn active" data-industry="medical"      data-enq="600" data-val="300"><svg class="ax-roi__industry-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg><span>Medical / Dental</span></button>
+            <button class="ax-roi__industry-btn" data-industry="law"          data-enq="80"  data-val="1200"><svg class="ax-roi__industry-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M4 7h16"/><path d="M5 7L3 14a4 4 0 0 0 8 0L5 7z"/><path d="M19 7l2 7a4 4 0 0 1-8 0l2-7"/></svg><span>Law Firm</span></button>
+            <button class="ax-roi__industry-btn" data-industry="beauty"       data-enq="400" data-val="180"><svg class="ax-roi__industry-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg><span>Beauty / Aesthetics</span></button>
+            <button class="ax-roi__industry-btn" data-industry="realestate"   data-enq="100" data-val="3000"><svg class="ax-roi__industry-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg><span>Real Estate</span></button>
+            <button class="ax-roi__industry-btn" data-industry="fitness"      data-enq="150" data-val="150"><svg class="ax-roi__industry-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Fitness / Training</span></button>
+            <button class="ax-roi__industry-btn" data-industry="homeservices" data-enq="150" data-val="350"><svg class="ax-roi__industry-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg><span>Home Services</span></button>
+          </div>
+        </div>
+        <div class="ax-roi__field">
+          <div class="ax-roi__field-header"><label class="ax-roi__label">Monthly enquiries received</label><span class="ax-roi__field-val"><span id="ax-roi-enq-val">600</span></span></div>
+          <input type="range" id="ax-roi-enquiries" class="ax-roi__slider" min="30" max="1000" step="10" value="600">
+          <div class="ax-roi__slider-range"><span>30</span><span>1,000</span></div>
+          <p class="ax-roi__field-hint">Calls, messages, DMs, form fills &mdash; all combined</p>
+        </div>
+        <div class="ax-roi__field">
+          <div class="ax-roi__field-header"><label class="ax-roi__label">Average booking value</label><span class="ax-roi__field-val"><span id="ax-roi-amt-val">$300</span></span></div>
+          <input type="range" id="ax-roi-value" class="ax-roi__slider" min="50" max="3000" step="25" value="300">
+          <div class="ax-roi__slider-range"><span>$50</span><span>$3,000</span></div>
+          <p class="ax-roi__field-hint">Per appointment, session, or transaction</p>
+        </div>
+        <div class="ax-roi__field">
+          <label class="ax-roi__label" style="margin-bottom:12px;display:block;">How fast does your team typically respond?</label>
+          <div class="ax-roi__resp-grid">
+            <button class="ax-roi__resp-btn" data-time="1hr"><span class="ax-roi__resp-icon">&#9889;</span><span class="ax-roi__resp-label">Under 1 hour</span></button>
+            <button class="ax-roi__resp-btn active" data-time="4hr"><span class="ax-roi__resp-icon">&#128336;</span><span class="ax-roi__resp-label">1 &ndash; 4 hours</span></button>
+            <button class="ax-roi__resp-btn" data-time="sameday"><span class="ax-roi__resp-icon">&#128338;</span><span class="ax-roi__resp-label">Same day</span></button>
+            <button class="ax-roi__resp-btn" data-time="nextday"><span class="ax-roi__resp-icon">&#128197;</span><span class="ax-roi__resp-label">Next day+</span></button>
+          </div>
+          <p class="ax-roi__field-hint">This is the single biggest driver of lost leads</p>
+        </div>
+        <div class="ax-roi__current-capture">
+          <div class="ax-roi__capture-bar-wrap"><div class="ax-roi__capture-bar" id="ax-roi-bar-now"></div></div>
+          <p class="ax-roi__capture-label">You&rsquo;re currently capturing ~<strong><span id="ax-roi-capture-now">40</span>%</strong> of your leads</p>
+        </div>
+      </div>
+      <div class="ax-roi__results">
+        <div class="ax-roi__loss-card">
+          <div class="ax-roi__loss-header"><span class="ax-roi__loss-icon">&#9888;</span><span class="ax-roi__loss-label">Revenue leaving your business monthly</span></div>
+          <div class="ax-roi__loss-amount"><span id="ax-roi-monthly-uplift">$0</span></div>
+          <div class="ax-roi__loss-breakdown">
+            <div class="ax-roi__loss-row"><span>Leads slipping through</span><strong><span id="ax-roi-missed-leads">0</span> / month</strong></div>
+            <div class="ax-roi__loss-row"><span>After-hours revenue missed</span><strong><span id="ax-roi-afterhours">$0</span></strong></div>
+            <div class="ax-roi__loss-row"><span>Bookings you currently generate</span><strong><span id="ax-roi-bookings-now">0</span> / month</strong></div>
+          </div>
+        </div>
+        <div class="ax-roi__compare">
+          <div class="ax-roi__compare-row"><span class="ax-roi__compare-label">Without Axoncore</span><div class="ax-roi__bar-track"><div class="ax-roi__bar ax-roi__bar--now" id="ax-roi-bar-now-vis"></div></div><span class="ax-roi__compare-val" id="ax-roi-current-rev">$0</span></div>
+          <div class="ax-roi__compare-row"><span class="ax-roi__compare-label ax-roi__compare-label--ax">With Axoncore</span><div class="ax-roi__bar-track"><div class="ax-roi__bar ax-roi__bar--ax" id="ax-roi-bar-ax"></div></div><span class="ax-roi__compare-val ax-roi__compare-val--ax" id="ax-roi-axon-rev">$0</span></div>
+          <p class="ax-roi__compare-note">Monthly revenue from inbound enquiries</p>
+        </div>
+        <div class="ax-roi__metrics">
+          <div class="ax-roi__metric"><span class="ax-roi__metric-val" id="ax-roi-annual-uplift">+$0</span><span class="ax-roi__metric-label">Annual revenue uplift</span></div>
+          <div class="ax-roi__metric ax-roi__metric--divider"><span class="ax-roi__metric-val" id="ax-roi-roi-multiple">0x</span><span class="ax-roi__metric-label">Return on investment</span></div>
+          <div class="ax-roi__metric"><span class="ax-roi__metric-val" id="ax-roi-payback">0 days</span><span class="ax-roi__metric-label">Payback period</span></div>
+        </div>
+        <div class="ax-roi__bookings-compare">
+          <div class="ax-roi__bookings-col"><span class="ax-roi__bookings-num" style="color:var(--ax-muted);"><span id="ax-roi-bookings-now-b">0</span></span><span class="ax-roi__bookings-label">Current bookings/mo</span></div>
+          <div class="ax-roi__bookings-arrow">&#8594;</div>
+          <div class="ax-roi__bookings-col"><span class="ax-roi__bookings-num" style="color:#4ade80;"><span id="ax-roi-bookings-ax">0</span></span><span class="ax-roi__bookings-label">With Axoncore</span></div>
+        </div>
+        <a href="#ax-contact" class="ax-btn-primary" style="width:100%;justify-content:center;margin-top:4px;"><span>Book a free strategy call to see your full projection</span><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+        <div class="ax-roi__rec" id="ax-roi-rec">
+          <div class="ax-roi__rec-eyebrow">Based on your numbers, we recommend</div>
+          <span class="ax-roi__rec-name" id="ax-roi-rec-name"></span>
+          <span class="ax-roi__rec-detail" id="ax-roi-rec-detail"></span>
+          <a href="#ax-pricing" class="ax-roi__rec-link">See full package details <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+        </div>
+      </div>
+    </div>
+    <div class="ax-roi__future ax-reveal ax-reveal-delay-2">
+      <div class="ax-roi__future-grid">
+        <div class="ax-roi__future-stat"><span class="ax-roi__future-num">62<span style="font-size:0.55em;opacity:0.7;">%</span></span><p>of calls to service businesses go unanswered every day</p></div>
+        <div class="ax-roi__future-stat"><span class="ax-roi__future-num">21<span style="font-size:0.55em;opacity:0.7;">x</span></span><p>more likely to convert a lead contacted within 5 minutes vs. 1 hour</p></div>
+        <div class="ax-roi__future-stat"><span class="ax-roi__future-num">78<span style="font-size:0.55em;opacity:0.7;">%</span></span><p>of customers buy from the first business that responds &mdash; full stop</p></div>
+        <div class="ax-roi__future-stat"><span class="ax-roi__future-num">35<span style="font-size:0.55em;opacity:0.7;">%</span></span><p>of appointment requests come after hours when your team is offline</p></div>
+      </div>
+      <div class="ax-roi__future-statement">
+        <p>The businesses that win this decade won't have bigger teams &mdash; they'll have <strong>smarter systems</strong>. AI front desks aren't a trend. They're fast becoming the standard for any service business that's serious about growth. The question isn't whether your competitors will adopt this. <strong>It's whether they'll get there first.</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ax-cta ax-section">
+  <div class="ax-cta-sphere" aria-hidden="true"></div>
+  <div class="ax-container" style="text-align:center;">
+    <span class="ax-eyebrow ax-reveal">See It Applied to Your Business</span>
+    <h2 class="ax-headline ax-reveal" style="margin-top:16px;">Book a call and we'll run<br><span>your actual numbers.</span></h2>
+    <p class="ax-subheadline ax-reveal" style="max-width:480px;margin:16px auto 32px;">We'll audit your current setup and calculate real projected returns for your business.</p>
+    <div class="ax-reveal"><a href="/book-a-call.html" class="ax-btn-primary ax-btn-lg"><span>Book a Free Strategy Call</span><svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a></div>
+  </div>
+</section>
+
+</main>
+
+
+<footer class="ax-footer" role="contentinfo">
+  <div class="ax-container">
+    <div class="ax-footer__top">
+      <div class="ax-footer__brand">
+        <a href="/" class="ax-footer__logo"><span class="ax-header__logo-dot"></span>Axoncore</a>
+        <p class="ax-footer__tagline">The AI front desk for Singapore's service businesses &mdash; built to capture every opportunity, priced to be an obvious decision.</p>
+        <div class="ax-footer__badges"><span class="ax-footer__badge">&#128274; PDPA Aligned</span><span class="ax-footer__badge">&#9989; WhatsApp Business API</span><span class="ax-footer__badge">&#127942; Claude AI Powered</span></div>
+      </div>
+      <div class="ax-footer__links-group"><h4 class="ax-footer__col-title">Platform</h4><ul class="ax-footer__list"><li><a href="/services.html">Services</a></li><li><a href="/how-it-works.html">How It Works</a></li><li><a href="/demo.html">Live Demo</a></li><li><a href="/pricing.html">Pricing</a></li></ul></div>
+      <div class="ax-footer__links-group"><h4 class="ax-footer__col-title">Results</h4><ul class="ax-footer__list"><li><a href="/results.html">ROI Calculator</a></li><li><a href="/results.html#ax-industries">Medical &amp; Dental</a></li><li><a href="/results.html#ax-industries">Law Firms</a></li><li><a href="/results.html#ax-industries">Beauty &amp; Wellness</a></li></ul></div>
+      <div class="ax-footer__links-group"><h4 class="ax-footer__col-title">Company</h4><ul class="ax-footer__list"><li><a href="/book-a-call.html">Book a Call</a></li><li><a href="mailto:helloaxoncore@gmail.com">Contact</a></li><li><a href="/privacy.html">Privacy Policy</a></li><li><a href="/terms.html">Terms of Service</a></li></ul></div>
+    </div>
+    <div class="ax-divider" style="margin:40px 0 24px;"></div>
+    <div class="ax-footer__bottom"><p>&copy; <span id="ax-year"></span> Axon Core AI &middot; Singapore</p></div>
+  </div>
+</footer>
+<script>document.getElementById('ax-year').textContent=new Date().getFullYear();</script>
+<script src="main.js"></script>
+</body>
+</html>
+
+<script src="main.js"></script>
+<script src="roi.js"></script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-G6PEL64BSW"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G6PEL64BSW',{anonymize_ip:true});</script>
+  <link rel="stylesheet" href="style.css">
+  <title>How It Works — Axoncore</title>
+  <meta name="description" content="From your first call to going live in 14 days. See exactly how Axoncore builds and deploys your AI front desk.">
+  <link rel="canonical" href="https://axoncoreai.com/how-it-works.html">
+</head>
+<body>
+<canvas id="ax-particle-canvas" aria-hidden="true"></canvas>
+<header class="ax-header" id="ax-header" role="banner">
+  <div class="ax-header__inner">
+    <a href="/" class="ax-header__logo"><span class="ax-header__logo-dot"></span>Axoncore</a>
+    <nav class="ax-header__nav" aria-label="Main navigation">
+      <div class="ax-header__drop">
+        <button class="ax-header__link ax-header__droptrigger" aria-expanded="false" aria-haspopup="true">Platform<svg class="ax-header__chevron" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>
+        <div class="ax-header__panel" role="menu">
+          <a href="/services.html" class="ax-header__panel-item"><span class="ax-header__panel-label">Services</span><span class="ax-header__panel-desc">What Axon Core builds for you</span></a>
+          <a href="/how-it-works.html" class="ax-header__panel-item"><span class="ax-header__panel-label">How It Works</span><span class="ax-header__panel-desc">From call to live in 14 days</span></a>
+          <a href="/demo.html" class="ax-header__panel-item"><span class="ax-header__panel-label">Live Demo</span><span class="ax-header__panel-desc">Talk to Riley — our AI agent</span></a>
+        </div>
+      </div>
+      <div class="ax-header__drop">
+        <button class="ax-header__link ax-header__droptrigger" aria-expanded="false" aria-haspopup="true">Results<svg class="ax-header__chevron" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>
+        <div class="ax-header__panel" role="menu">
+          <a href="/results.html" class="ax-header__panel-item"><span class="ax-header__panel-label">ROI Calculator</span><span class="ax-header__panel-desc">See your projected returns</span></a>
+          <a href="/results.html#ax-industries" class="ax-header__panel-item"><span class="ax-header__panel-label">ROI by Industry</span><span class="ax-header__panel-desc">Benchmarks for your sector</span></a>
+        </div>
+      </div>
+      <a href="/pricing.html" class="ax-header__link">Pricing</a>
+    </nav>
+    <div class="ax-header__actions">
+      <a href="/book-a-call.html" class="ax-btn-primary ax-header__cta"><span>Book a Call</span><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+      <button class="ax-header__burger" id="ax-nav-burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="ax-header__mobile" id="ax-mobile-menu" aria-hidden="true">
+    <nav class="ax-header__mobile-nav">
+      <a href="/services.html" class="ax-header__mobile-link">Services</a>
+      <a href="/how-it-works.html" class="ax-header__mobile-link">How It Works</a>
+      <a href="/demo.html" class="ax-header__mobile-link">Live Demo</a>
+      <a href="/results.html" class="ax-header__mobile-link">ROI Calculator</a>
+      <a href="/results.html#ax-industries" class="ax-header__mobile-link">ROI by Industry</a>
+      <a href="/pricing.html" class="ax-header__mobile-link">Pricing</a>
+      <a href="/book-a-call.html" class="ax-btn-primary" style="margin-top:16px;justify-content:center;"><span>Book a Free Strategy Call</span></a>
+    </nav>
+  </div>
+</header>
+<script>
+(function(){
+  var burger=document.getElementById('ax-nav-burger'),menu=document.getElementById('ax-mobile-menu'),header=document.getElementById('ax-header'),open=false;
+  if(burger&&menu){burger.addEventListener('click',function(){open=!open;burger.setAttribute('aria-expanded',open);burger.classList.toggle('ax-burger--open',open);menu.classList.toggle('ax-header__mobile--open',open);menu.setAttribute('aria-hidden',!open);});}
+  window.addEventListener('scroll',function(){if(header)header.classList.toggle('ax-header--scrolled',window.scrollY>20);},{passive:true});
+})();
+</script>
+
+<main id="MainContent">
+
+<section class="ax-page-hero">
+  <div class="ax-container">
+    <a href="/" class="ax-page-back"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m7-7l-7 7 7 7"/></svg>Back to home</a>
+    <p class="ax-page-hero__eyebrow">The Process</p>
+    <h1 class="ax-page-hero__title">Live in 14 days,<br><span>without the headache.</span></h1>
+    <p class="ax-page-hero__sub">We handle everything from strategy to setup. You get a working AI system — not a DIY tool to figure out yourself.</p>
+  </div>
+</section>
+
+<section class="ax-section">
+  <div class="ax-container" style="max-width:760px;">
+    <div class="ax-hiw-steps">
+      <div class="ax-hiw-step ax-reveal">
+        <div class="ax-hiw-step__num">1</div>
+        <div>
+          <p class="ax-hiw-step__day">Day 1 — Discovery Call</p>
+          <h3>We learn your business in 30 minutes</h3>
+          <p>We ask you about the calls you get, the questions that come up most, how you book appointments, and which tools you're already using. That's all we need. You don't have to prepare anything — we guide the whole conversation.</p>
+        </div>
+      </div>
+      <div class="ax-hiw-step ax-reveal">
+        <div class="ax-hiw-step__num">2</div>
+        <div>
+          <p class="ax-hiw-step__day">Days 2–12 — We Build It</p>
+          <h3>Custom AI built, tested, and ready</h3>
+          <p>Our team configures your AI, trains it on your services and FAQs, connects it to your phone number, and integrates your booking system. You'll get a preview to review before anything goes live — and we iterate until it sounds exactly right.</p>
+        </div>
+      </div>
+      <div class="ax-hiw-step ax-reveal">
+        <div class="ax-hiw-step__num">3</div>
+        <div>
+          <p class="ax-hiw-step__day">Day 14 — Go Live</p>
+          <h3>Your AI starts working. You don't lift a finger.</h3>
+          <p>Your AI goes live on all your channels. From day one it's handling calls, capturing leads, and booking appointments. We monitor performance and send you a weekly report — calls handled, leads captured, revenue attributed.</p>
+        </div>
+      </div>
+      <div class="ax-hiw-step ax-reveal">
+        <div class="ax-hiw-step__num">+</div>
+        <div>
+          <p class="ax-hiw-step__day">Every Month After</p>
+          <h3>We keep improving it</h3>
+          <p>AI systems get better over time. We review your transcripts, identify gaps, update responses, and tune performance — every single month. Your system in month 12 will be significantly sharper than on day one.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ax-section ax-section--alt">
+  <div class="ax-container">
+    <div class="ax-two-col" style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;">
+      <div class="ax-reveal">
+        <span class="ax-eyebrow">What You Don't Have to Do</span>
+        <h2 class="ax-headline" style="margin-top:16px;">You don't touch <span>any of this.</span></h2>
+        <ul style="margin-top:24px;display:flex;flex-direction:column;gap:14px;list-style:none;">
+          <li style="display:flex;align-items:center;gap:12px;color:var(--ax-muted);"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#a78bfa" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Write any prompts or scripts</li>
+          <li style="display:flex;align-items:center;gap:12px;color:var(--ax-muted);"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#a78bfa" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Buy or manage any software</li>
+          <li style="display:flex;align-items:center;gap:12px;color:var(--ax-muted);"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#a78bfa" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Hire or train extra staff</li>
+          <li style="display:flex;align-items:center;gap:12px;color:var(--ax-muted);"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#a78bfa" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Set up technical integrations</li>
+          <li style="display:flex;align-items:center;gap:12px;color:var(--ax-muted);"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#a78bfa" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Monitor or maintain the system</li>
+        </ul>
+      </div>
+      <div class="ax-reveal ax-reveal-delay-2">
+        <div class="ax-card" style="text-align:center;padding:40px 32px;">
+          <p style="font-size:3.5rem;font-weight:800;color:var(--ax-accent);line-height:1;">14</p>
+          <p style="color:var(--ax-muted);margin-top:8px;font-size:1rem;">days from first call to live</p>
+          <div class="ax-divider" style="margin:24px 0;"></div>
+          <p style="font-size:3.5rem;font-weight:800;color:var(--ax-accent);line-height:1;">Month 1</p>
+          <p style="color:var(--ax-muted);margin-top:8px;font-size:1rem;">most clients are ROI positive</p>
+          <div class="ax-divider" style="margin:24px 0;"></div>
+          <p style="font-size:3.5rem;font-weight:800;color:var(--ax-accent);line-height:1;">0</p>
+          <p style="color:var(--ax-muted);margin-top:8px;font-size:1rem;">hours of your time managing it</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ax-cta ax-section">
+  <div class="ax-cta-sphere" aria-hidden="true"></div>
+  <div class="ax-container" style="text-align:center;">
+    <span class="ax-eyebrow ax-reveal">Start Today</span>
+    <h2 class="ax-headline ax-reveal" style="margin-top:16px;">Your 30-minute call<br><span>starts the 14-day clock.</span></h2>
+    <p class="ax-subheadline ax-reveal" style="max-width:480px;margin:16px auto 32px;">No preparation needed. Just show up and tell us about your business.</p>
+    <div class="ax-reveal"><a href="/book-a-call.html" class="ax-btn-primary ax-btn-lg"><span>Book a Free Strategy Call</span><svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a></div>
+  </div>
+</section>
+
+</main>
+
+<footer class="ax-footer" role="contentinfo">
+  <div class="ax-container">
+    <div class="ax-footer__top">
+      <div class="ax-footer__brand"><a href="/" class="ax-footer__logo"><span class="ax-header__logo-dot"></span>Axoncore</a><p class="ax-footer__tagline">The AI front desk for Singapore's service businesses.</p><div class="ax-footer__badges"><span class="ax-footer__badge">&#128274; PDPA Aligned</span><span class="ax-footer__badge">&#9989; WhatsApp Business API</span></div></div>
+      <div class="ax-footer__links-group"><h4 class="ax-footer__col-title">Platform</h4><ul class="ax-footer__list"><li><a href="/services.html">Services</a></li><li><a href="/how-it-works.html">How It Works</a></li><li><a href="/demo.html">Live Demo</a></li><li><a href="/pricing.html">Pricing</a></li></ul></div>
+      <div class="ax-footer__links-group"><h4 class="ax-footer__col-title">Results</h4><ul class="ax-footer__list"><li><a href="/results.html">ROI Calculator</a></li><li><a href="/results.html#ax-industries">By Industry</a></li></ul></div>
+      <div class="ax-footer__links-group"><h4 class="ax-footer__col-title">Company</h4><ul class="ax-footer__list"><li><a href="/book-a-call.html">Book a Call</a></li><li><a href="mailto:helloaxoncore@gmail.com">Contact</a></li><li><a href="/privacy.html">Privacy Policy</a></li><li><a href="/terms.html">Terms</a></li></ul></div>
+    </div>
+    <div class="ax-divider" style="margin:40px 0 24px;"></div>
+    <div class="ax-footer__bottom"><p>&copy; <span id="ax-year"></span> Axon Core AI &middot; Singapore</p></div>
+  </div>
+</footer>
+<script>document.getElementById('ax-year').textContent=new Date().getFullYear();</script>
+<script src="main.js"></script>
+</body>
+</html>
