@@ -212,9 +212,10 @@ import * as _vapiMod from './vapi-sdk.js';
 
   function onError(err) {
     console.error('[Riley]', err);
-    var type = (err && err.type)    ? err.type                                            : '';
-    var msg  = (err && err.message) ? err.message.toLowerCase()
-             : (err && err.error && err.error.message) ? err.error.message.toLowerCase() : '';
+    var type = (err && err.type)    ? err.type : '';
+    var rawMsg = (err && err.message) ? err.message
+               : (err && err.error && err.error.message) ? err.error.message : '';
+    var msg  = (typeof rawMsg === 'string') ? rawMsg.toLowerCase() : '';
 
     var display;
     if (type === 'mic-denied' || msg.includes('permission') || msg.includes('denied') || msg.includes('microphone')) {
