@@ -209,7 +209,7 @@ p, li, span, a, label {
 }
 
 .ax-section--alt {
-  background: rgba(14,10,30,0.55);
+  background: transparent;
 }
 
 .ax-container {
@@ -223,16 +223,9 @@ p, li, span, a, label {
   .ax-section { padding: 80px 0; }
 }
 
-/* ── Section Divider Line ── */
+/* ── Section Divider Line — removed for fluid background ── */
 .ax-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 120px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--ax-accent), transparent);
+  content: none;
 }
 
 /* ── Hero ── */
@@ -369,10 +362,6 @@ p, li, span, a, label {
 /* ── Stats Bar ── */
 .ax-stats {
   padding: 50px 0;
-  border-top: 1px solid var(--ax-border);
-  border-bottom: 1px solid var(--ax-border);
-  background: rgba(14,10,30,0.45);
-  backdrop-filter: blur(6px);
   position: relative;
   z-index: 1;
 }
@@ -778,12 +767,7 @@ p, li, span, a, label {
 }
 
 .ax-cta::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 80% 60% at 50% 50%, rgba(167,139,250,0.1) 0%, transparent 70%);
-  pointer-events: none;
+  content: none;
 }
 
 .ax-cta__border {
@@ -3180,8 +3164,6 @@ hr {
    ============================================================ */
 
 .ax-footer {
-  background: rgba(14,10,30,0.60) !important;
-  border-top: 1px solid var(--ax-border) !important;
   padding: 80px 0 40px;
   position: relative;
   z-index: 1;
