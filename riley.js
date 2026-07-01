@@ -28,11 +28,12 @@
     }
 
     try {
-      vapi.on('call-start',   onCallStart);
-      vapi.on('call-end',     onCallEnd);
-      vapi.on('speech-start', onSpeechStart);
-      vapi.on('speech-end',   onSpeechEnd);
-      vapi.on('error',        onError);
+      vapi.on('call-start',        onCallStart);
+      vapi.on('call-end',          onCallEnd);
+      vapi.on('speech-start',      onSpeechStart);
+      vapi.on('speech-end',        onSpeechEnd);
+      vapi.on('error',             onError);
+      vapi.on('call-start-failed', onCallStartFailed);
       bindUI();
       console.log('[Riley] ready — buttons bound');
     } catch (err) {
@@ -193,6 +194,20 @@
     var av = document.getElementById('riley-avatar');
     if (av) av.dataset.speaking = 'false';
     setStatus('Riley is listening…');
+  }
+
+  function onCallStartFailed(evt) {
+    console.error('[Riley] call-start-failed:', evt);
+    var stage = (evt && evt.stage) ? evt.stage : 'unknown';
+    var msg   = (evt && evt.error) ? evt.error : '';
+    if (typeof msg === 'string' && (msg.includes('permission') || msg.includes('denied') || msg.includes('microphone'))) {
+      onError({ type: 'mic-denied' });
+    } else {
+      setState('error');
+      setStatus("Couldn't connect to Riley — please try again in a moment.");
+      console.warn('[Riley] failed at stage:', stage);
+      setTimeout(hideModal, 5000);
+    }
   }
 
   function onError(err) {
