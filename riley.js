@@ -18,12 +18,16 @@ import * as _vapiMod from './vapi-sdk.js';
   var VapiSDK = null;
   if (typeof _vapiMod.default === 'function') {
     VapiSDK = _vapiMod.default;
+    console.log('[Riley] SDK resolved: pattern 1 (_vapiMod.default)');
   } else if (_vapiMod.default && typeof _vapiMod.default.default === 'function') {
     VapiSDK = _vapiMod.default.default;
+    console.log('[Riley] SDK resolved: pattern 2 (_vapiMod.default.default)');
   } else if (_vapiMod.default && typeof _vapiMod.default.Vapi === 'function') {
     VapiSDK = _vapiMod.default.Vapi;
+    console.log('[Riley] SDK resolved: pattern 3 (_vapiMod.default.Vapi)');
   } else if (typeof _vapiMod.Vapi === 'function') {
     VapiSDK = _vapiMod.Vapi;
+    console.log('[Riley] SDK resolved: pattern 4 (_vapiMod.Vapi)');
   }
 
   if (!VapiSDK) {
