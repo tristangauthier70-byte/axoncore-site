@@ -1,9 +1,3 @@
-/* ─────────────────────────────────────────────────────────
-   Riley Voice Demo — Axoncore AI
-   Loaded via VAPI's official CDN script (vapiSDK.run).
-   Public key is safe in frontend code.
-   Private key lives only in server .env — never here.
-───────────────────────────────────────────────────────── */
 (function () {
   'use strict';
 
@@ -13,29 +7,20 @@
   var vapi      = null;
   var callState = 'idle';
 
-  /* ── Wait for vapiSDK to be available from CDN script ── */
+  /* ── Wait for Vapi class from self-hosted bundle ── */
   function initVapi() {
-    if (typeof window.vapiSDK === 'undefined') {
-      console.warn('[Riley] vapiSDK not loaded yet — retrying…');
+    if (typeof window.Vapi === 'undefined') {
+      console.warn('[Riley] Vapi not loaded yet — retrying…');
       setTimeout(initVapi, 200);
       return;
     }
 
-    console.log('[Riley] vapiSDK ready — initialising');
+    console.log('[Riley] Vapi ready — initialising');
 
     try {
-      vapi = window.vapiSDK.run({
-        apiKey:    PUBLIC_KEY,
-        assistant: ASSISTANT_ID,
-        config: {
-          position: 'bottom-right',
-          offset:   '-9999px',
-          width:    '0px',
-          height:   '0px',
-        },
-      });
+      vapi = new window.Vapi(PUBLIC_KEY);
     } catch (err) {
-      console.warn('[Riley] vapiSDK.run failed:', err);
+      console.warn('[Riley] Vapi init failed:', err);
       document.querySelectorAll('.riley-trigger, #riley-float-btn').forEach(function (el) {
         el.style.display = 'none';
       });
@@ -58,7 +43,7 @@
     }
   }
 
-  /* ── Bind UI ──────────────────────────────────────────── */
+  /* ── Bind UI ── */
   function bindUI() {
     document.querySelectorAll('.riley-trigger').forEach(function (btn) {
       btn.addEventListener('click', startCall);
@@ -76,7 +61,7 @@
     });
   }
 
-  /* ── State machine ────────────────────────────────────── */
+  /* ── State machine ── */
   function setState(s) {
     callState = s;
 
@@ -103,7 +88,7 @@
     if (el) el.textContent = text;
   }
 
-  /* ── Modal helpers ────────────────────────────────────── */
+  /* ── Modal helpers ── */
   function showModal() {
     var m = document.getElementById('riley-modal');
     if (!m) return;
@@ -135,7 +120,7 @@
     if (lbl) lbl.textContent = 'Mute';
   }
 
-  /* ── Call actions ─────────────────────────────────────── */
+  /* ── Call actions ── */
   function startCall() {
     if (callState === 'connecting' || callState === 'active') return;
     if (!vapi) return;
@@ -186,7 +171,7 @@
     if (lbl) lbl.textContent = willBeMuted ? 'Unmute' : 'Mute';
   }
 
-  /* ── VAPI event handlers ──────────────────────────────── */
+  /* ── VAPI event handlers ── */
   function onCallStart() {
     setState('active');
     setStatus('Riley is listening…');
@@ -231,7 +216,7 @@
     setTimeout(hideModal, 5000);
   }
 
-  /* ── Boot ─────────────────────────────────────────────── */
+  /* ── Boot ── */
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initVapi);
   } else {
