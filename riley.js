@@ -1,10 +1,9 @@
 /* ─────────────────────────────────────────────────────────
    Riley Voice Demo — Axoncore AI
+   Loaded via VAPI's official CDN script (vapiSDK.run).
    Public key is safe in frontend code.
    Private key lives only in server .env — never here.
 ───────────────────────────────────────────────────────── */
-import * as _vapiMod from './vapi-sdk.js';
-
 (function () {
   'use strict';
 
@@ -14,56 +13,52 @@ import * as _vapiMod from './vapi-sdk.js';
   var vapi      = null;
   var callState = 'idle';
 
-  /* ── Resolve Vapi constructor from all known export patterns ── */
-  var VapiSDK = null;
-  if (typeof _vapiMod.default === 'function') {
-    VapiSDK = _vapiMod.default;
-    console.log('[Riley] SDK resolved: pattern 1 (_vapiMod.default)');
-  } else if (_vapiMod.default && typeof _vapiMod.default.default === 'function') {
-    VapiSDK = _vapiMod.default.default;
-    console.log('[Riley] SDK resolved: pattern 2 (_vapiMod.default.default)');
-  } else if (_vapiMod.default && typeof _vapiMod.default.Vapi === 'function') {
-    VapiSDK = _vapiMod.default.Vapi;
-    console.log('[Riley] SDK resolved: pattern 3 (_vapiMod.default.Vapi)');
-  } else if (typeof _vapiMod.Vapi === 'function') {
-    VapiSDK = _vapiMod.Vapi;
-    console.log('[Riley] SDK resolved: pattern 4 (_vapiMod.Vapi)');
+  /* ── Wait for vapiSDK to be available from CDN script ── */
+  function initVapi() {
+    if (typeof window.vapiSDK === 'undefined') {
+      console.warn('[Riley] vapiSDK not loaded yet — retrying…');
+      setTimeout(initVapi, 200);
+      return;
+    }
+
+    console.log('[Riley] vapiSDK ready — initialising');
+
+    try {
+      vapi = window.vapiSDK.run({
+        apiKey:    PUBLIC_KEY,
+        assistant: ASSISTANT_ID,
+        config: {
+          position: 'bottom-right',
+          offset:   '-9999px',
+          width:    '0px',
+          height:   '0px',
+        },
+      });
+    } catch (err) {
+      console.warn('[Riley] vapiSDK.run failed:', err);
+      document.querySelectorAll('.riley-trigger, #riley-float-btn').forEach(function (el) {
+        el.style.display = 'none';
+      });
+      return;
+    }
+
+    try {
+      vapi.on('call-start',   onCallStart);
+      vapi.on('call-end',     onCallEnd);
+      vapi.on('speech-start', onSpeechStart);
+      vapi.on('speech-end',   onSpeechEnd);
+      vapi.on('error',        onError);
+      bindUI();
+      console.log('[Riley] ready — buttons bound');
+    } catch (err) {
+      console.warn('[Riley] event setup failed:', err);
+      document.querySelectorAll('.riley-trigger, #riley-float-btn').forEach(function (el) {
+        el.style.display = 'none';
+      });
+    }
   }
 
-  if (!VapiSDK) {
-    console.warn('[Riley] VAPI SDK: could not resolve constructor from module exports', _vapiMod);
-    document.querySelectorAll('.riley-trigger, #riley-float-btn').forEach(function (el) {
-      el.style.display = 'none';
-    });
-    return;
-  }
-
-  try {
-    vapi = new VapiSDK(PUBLIC_KEY);
-  } catch (err) {
-    console.warn('[Riley] VAPI instantiation failed:', err);
-    document.querySelectorAll('.riley-trigger, #riley-float-btn').forEach(function (el) {
-      el.style.display = 'none';
-    });
-    return;
-  }
-
-  try {
-    vapi.on('call-start',   onCallStart);
-    vapi.on('call-end',     onCallEnd);
-    vapi.on('speech-start', onSpeechStart);
-    vapi.on('speech-end',   onSpeechEnd);
-    vapi.on('error',        onError);
-    bindUI();
-  } catch (err) {
-    console.warn('[Riley] VAPI event setup failed:', err);
-    document.querySelectorAll('.riley-trigger, #riley-float-btn').forEach(function (el) {
-      el.style.display = 'none';
-    });
-    return;
-  }
-
-  /* ── Bind UI after SDK loads ──────────────────────── */
+  /* ── Bind UI ──────────────────────────────────────────── */
   function bindUI() {
     document.querySelectorAll('.riley-trigger').forEach(function (btn) {
       btn.addEventListener('click', startCall);
@@ -81,7 +76,7 @@ import * as _vapiMod from './vapi-sdk.js';
     });
   }
 
-  /* ── State machine ────────────────────────────────── */
+  /* ── State machine ────────────────────────────────────── */
   function setState(s) {
     callState = s;
 
@@ -108,7 +103,7 @@ import * as _vapiMod from './vapi-sdk.js';
     if (el) el.textContent = text;
   }
 
-  /* ── Modal helpers ────────────────────────────────── */
+  /* ── Modal helpers ────────────────────────────────────── */
   function showModal() {
     var m = document.getElementById('riley-modal');
     if (!m) return;
@@ -140,7 +135,7 @@ import * as _vapiMod from './vapi-sdk.js';
     if (lbl) lbl.textContent = 'Mute';
   }
 
-  /* ── Call actions ─────────────────────────────────── */
+  /* ── Call actions ─────────────────────────────────────── */
   function startCall() {
     if (callState === 'connecting' || callState === 'active') return;
     if (!vapi) return;
@@ -149,16 +144,21 @@ import * as _vapiMod from './vapi-sdk.js';
     setStatus('Connecting to Riley…');
     showModal();
 
-    var result = vapi.start(ASSISTANT_ID);
-    if (result && typeof result.catch === 'function') {
-      result.catch(function (err) {
-        var msg = (err && err.message) ? err.message.toLowerCase() : '';
-        if (msg.includes('permission') || msg.includes('denied') || msg.includes('microphone')) {
-          onError({ type: 'mic-denied' });
-        } else {
-          onError({ type: 'connection-failed' });
-        }
-      });
+    try {
+      var result = vapi.start(ASSISTANT_ID);
+      if (result && typeof result.catch === 'function') {
+        result.catch(function (err) {
+          var msg = (err && err.message && typeof err.message === 'string')
+            ? err.message.toLowerCase() : '';
+          if (msg.includes('permission') || msg.includes('denied') || msg.includes('microphone')) {
+            onError({ type: 'mic-denied' });
+          } else {
+            onError({ type: 'connection-failed' });
+          }
+        });
+      }
+    } catch (err) {
+      onError({ type: 'connection-failed' });
     }
   }
 
@@ -186,7 +186,7 @@ import * as _vapiMod from './vapi-sdk.js';
     if (lbl) lbl.textContent = willBeMuted ? 'Unmute' : 'Mute';
   }
 
-  /* ── VAPI event handlers ──────────────────────────── */
+  /* ── VAPI event handlers ──────────────────────────────── */
   function onCallStart() {
     setState('active');
     setStatus('Riley is listening…');
@@ -212,10 +212,10 @@ import * as _vapiMod from './vapi-sdk.js';
 
   function onError(err) {
     console.error('[Riley]', err);
-    var type = (err && err.type)    ? err.type : '';
+    var type   = (err && err.type) ? err.type : '';
     var rawMsg = (err && err.message) ? err.message
                : (err && err.error && err.error.message) ? err.error.message : '';
-    var msg  = (typeof rawMsg === 'string') ? rawMsg.toLowerCase() : '';
+    var msg    = (typeof rawMsg === 'string') ? rawMsg.toLowerCase() : '';
 
     var display;
     if (type === 'mic-denied' || msg.includes('permission') || msg.includes('denied') || msg.includes('microphone')) {
@@ -229,6 +229,13 @@ import * as _vapiMod from './vapi-sdk.js';
     setState('error');
     setStatus(display);
     setTimeout(hideModal, 5000);
+  }
+
+  /* ── Boot ─────────────────────────────────────────────── */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initVapi);
+  } else {
+    initVapi();
   }
 
 }());
