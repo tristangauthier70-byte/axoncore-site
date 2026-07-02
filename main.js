@@ -181,17 +181,11 @@
 
   /* ── Sticky Header with Blur ── */
   function initStickyHeader() {
-    const header = document.querySelector('.header-wrapper, .shopify-section-header-sticky');
+    const header = document.querySelector('.ax-header');
     if (!header) return;
 
     function onScroll() {
-      if (window.scrollY > 60) {
-        header.style.background = 'rgba(8,6,18,0.95)';
-        header.style.boxShadow  = '0 1px 0 rgba(167,139,250,0.15)';
-      } else {
-        header.style.background = 'rgba(8,6,18,0.85)';
-        header.style.boxShadow  = 'none';
-      }
+      header.classList.toggle('ax-header--scrolled', window.scrollY > 60);
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
