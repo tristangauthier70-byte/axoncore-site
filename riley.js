@@ -7,6 +7,10 @@
   var vapi      = null;
   var callState = 'idle';
 
+  var REDUCE_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var WAVEFORM_SEEDS = [0.55, 0.85, 1.15, 1.3, 1.05, 0.75, 0.5];
+  var waveformBars = null;
+
   /* ── Wait for Vapi class from self-hosted bundle ── */
   function initVapi() {
     if (typeof window.Vapi === 'undefined') {
@@ -32,6 +36,7 @@
       vapi.on('call-end',          onCallEnd);
       vapi.on('speech-start',      onSpeechStart);
       vapi.on('speech-end',        onSpeechEnd);
+      vapi.on('volume-level',      onVolumeLevel);
       vapi.on('error',             onError);
       vapi.on('call-start-failed', onCallStartFailed);
       bindUI();
@@ -108,8 +113,22 @@
     document.body.style.overflow = '';
     setState('idle');
     resetMute();
+    resetWaveform();
     var av = document.getElementById('riley-avatar');
     if (av) av.dataset.speaking = 'false';
+  }
+
+  function getWaveformBars() {
+    if (waveformBars) return waveformBars;
+    var wf = document.getElementById('riley-waveform');
+    waveformBars = wf ? Array.prototype.slice.call(wf.querySelectorAll('.riley-waveform__bar')) : [];
+    return waveformBars;
+  }
+
+  function resetWaveform() {
+    getWaveformBars().forEach(function (bar) {
+      bar.style.setProperty('--bar-h', '4px');
+    });
   }
 
   function resetMute() {
@@ -181,6 +200,7 @@
   function onCallEnd() {
     setState('ended');
     setStatus('Call ended. Thanks for speaking with Riley!');
+    resetWaveform();
     setTimeout(hideModal, 2200);
   }
 
@@ -194,6 +214,23 @@
     var av = document.getElementById('riley-avatar');
     if (av) av.dataset.speaking = 'false';
     setStatus('Riley is listening…');
+    resetWaveform();
+  }
+
+  /* Real amplitude from the live call — not decorative. VAPI emits a 0-1
+     float periodically; spread it across bars with a fixed per-bar seed
+     plus gentle phase-shifted jitter so they don't move in lockstep. */
+  function onVolumeLevel(v) {
+    if (REDUCE_MOTION) return;
+    var bars = getWaveformBars();
+    if (!bars.length) return;
+    var t = performance.now() / 1000;
+    bars.forEach(function (bar, i) {
+      var seed   = WAVEFORM_SEEDS[i % WAVEFORM_SEEDS.length];
+      var jitter = 0.75 + 0.25 * Math.sin(t * 6 + i * 1.3);
+      var h = 4 + v * 40 * seed * jitter;
+      bar.style.setProperty('--bar-h', Math.max(4, Math.min(44, h)).toFixed(1) + 'px');
+    });
   }
 
   function onCallStartFailed(evt) {

@@ -4408,6 +4408,35 @@ hr {
 
 #riley-modal[data-state="error"] #riley-status-text { color: #f87171; }
 
+/* ── Waveform — real amplitude from the live call (VAPI volume-level), not decorative ── */
+.riley-waveform {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 32px;
+  margin: 0 0 20px;
+  transition: opacity 0.3s;
+}
+
+.riley-waveform__bar {
+  width: 3px;
+  min-height: 4px;
+  height: var(--bar-h, 4px);
+  border-radius: 2px;
+  background: var(--ax-accent);
+  opacity: 0.85;
+  transition: height 0.09s ease-out;
+}
+
+#riley-modal[data-state="connecting"] .riley-waveform,
+#riley-modal[data-state="ended"]      .riley-waveform,
+#riley-modal[data-state="error"]      .riley-waveform { opacity: 0.25; }
+
+@media (prefers-reduced-motion: reduce) {
+  .riley-waveform__bar { transition: none; }
+}
+
 /* ── Controls ────────────────────────────────────── */
 .riley-controls {
   display: flex;
