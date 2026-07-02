@@ -18,6 +18,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://api.vapi.ai">
   <link rel="preconnect" href="https://aws.vapi.ai">
+  <!-- CDN origins for deferred/module scripts below (three.js, lenis, gsap,
+       ScrollTrigger, splitting) — none of these had a preconnect hint before,
+       so each one paid a fresh DNS+TCP+TLS handshake the moment the parser
+       reached it, serially adding to time-to-interactive on this
+       animation-heavy page. -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
 
   <!-- Fonts — same as main site -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -26,11 +34,24 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="riley-page.css">
 
-  <!-- Three.js — voice orb (riley-orb.js) -->
+  <!-- Three.js — voice orb (riley-orb.js).
+       Using the MINIFIED build deliberately: build/three.module.js (the
+       unminified ESM build) is 1.28MB (267KB gzipped) vs 676KB (172KB
+       gzipped) for build/three.module.min.js — same API, same module,
+       verified via `curl` against this exact CDN/version. This matters more
+       than it looks: riley-orb.js's static `import * as THREE from 'three'`
+       must fully fetch+parse+evaluate before riley-orb.js's own body runs,
+       and per the HTML spec, module scripts and classic `defer` scripts
+       execute strictly in document order as one combined queue — so a slow
+       Three.js fetch was gating the execution START of riley.js,
+       riley-page.js, and riley-demo.js (the scripts that actually drive
+       scroll/animation/chat logic), even though none of them depend on
+       Three.js at all. Switching to the minified build cuts that
+       fetch/parse/compile cost roughly in half. -->
   <script type="importmap">
   {
     "imports": {
-      "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"
+      "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js"
     }
   }
   </script>

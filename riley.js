@@ -4,14 +4,30 @@
   var PUBLIC_KEY   = '6ebe0428-65fd-49b7-97ff-f578df95c28b';
   var ASSISTANT_ID = 'f1c99236-1929-43bb-9ffa-aa96c11b4744';
 
-  var vapi      = null;
-  var callState = 'idle';
-  var orbReady  = false;
+  var vapi        = null;
+  var callState   = 'idle';
+  var orbReady    = false;
+  var orbAttempted = false;
 
   var REDUCE_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ── Orb init — falls back to the pulsing avatar if WebGL/orb unavailable ── */
-  function initOrb() {
+  /* ── Orb init — falls back to the pulsing avatar if WebGL/orb unavailable ──
+     The orb is a full WebGL scene (shader-driven wireframe sphere, glow
+     sprites) sitting in the CTA panel at the very bottom of a long page.
+     Starting it on page load meant it ran its render loop the entire time a
+     visitor was anywhere else on the page — hero, capability cards, phone
+     demo, stats — competing with GSAP/Lenis/ScrollTrigger/cursor rAF loops
+     for a section nobody could even see yet. Deferred to fire only once the
+     CTA panel is about to enter the viewport (IntersectionObserver with a
+     lookahead rootMargin so it's ready, not popping in, by the time it's
+     actually visible). ensureOrbInit() is also called defensively from
+     startCall() as a safety net for the rare case someone reaches the
+     button before the observer has fired (e.g. a direct #riley-cta-panel
+     deep link). Idempotent either way — orbAttempted guards a double init. */
+  function ensureOrbInit() {
+    if (orbAttempted) return;
+    orbAttempted = true;
+
     var canvas   = document.getElementById('riley-orb-canvas');
     var fallback = document.getElementById('rp-cta-avatar-fallback');
     if (!canvas) return;
@@ -29,6 +45,26 @@
       canvas.hidden = true;
       if (fallback) fallback.hidden = false;
     }
+  }
+
+  function initOrb() {
+    var panel = document.getElementById('riley-cta-panel');
+    if (!panel) return;
+
+    if (!window.IntersectionObserver) {
+      ensureOrbInit(); // no IO support — fall back to eager init rather than never
+      return;
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          ensureOrbInit();
+          observer.disconnect();
+        }
+      });
+    }, { rootMargin: '400px 0px' }); // start ~400px before it's actually on screen
+    observer.observe(panel);
   }
 
   /* ── Wait for Vapi class from self-hosted bundle ── */
@@ -134,6 +170,8 @@
   function startCall() {
     if (callState === 'connecting' || callState === 'active') return;
     if (!vapi) return;
+
+    ensureOrbInit(); // safety net — no-op if the intersection observer already fired
 
     setState('connecting');
     setStatus('Connecting to Riley…');

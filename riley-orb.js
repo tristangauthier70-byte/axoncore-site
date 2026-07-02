@@ -599,6 +599,16 @@ function renderStaticFrame(ctx) {
 }
 
 function animate(ctx) {
+  // Do not reschedule while scrolled off-screen — see the IntersectionObserver
+  // wired up in init() below. Without this, once the orb was lazily started
+  // (round-2 fix), its rAF chain ran forever regardless of whether the CTA
+  // section was still in view: scroll back up to re-read the hero/capability
+  // cards/demo/stats and the orb kept rendering a full WebGL scene
+  // (antialiased wireframe + points + glow sprites) completely off-screen,
+  // competing with Lenis/GSAP/cursor rAF loops the whole time. Same class of
+  // bug as the light-rays canvas fixed in round 2, just not caught there
+  // because that fix only gated the *first* start, not ongoing visibility.
+  if (!ctx.running) return;
   ctx.rafId = requestAnimationFrame(() => animate(ctx));
 
   const delta = Math.min(ctx.clock.getDelta(), 0.1); // clamp to avoid huge jumps on tab-switch
@@ -688,8 +698,10 @@ function handleResize(ctx) {
 }
 
 function disposeAll(ctx) {
+  ctx.running = false;
   cancelAnimationFrame(ctx.rafId);
   window.removeEventListener('resize', ctx.resizeListener);
+  if (ctx.visibilityObserver) ctx.visibilityObserver.disconnect();
 
   for (const ring of ctx.ringPool) disposeRing(ctx, ring);
   ctx.ringPool.length = 0;
@@ -738,6 +750,8 @@ const RileyOrb = {
         lastRingSpawn: 0,
         rafId: null,
         resizeListener: null,
+        running: false,
+        visibilityObserver: null,
       };
       ctx.resizeListener = () => handleResize(ctx);
       window.addEventListener('resize', ctx.resizeListener);
@@ -750,7 +764,32 @@ const RileyOrb = {
         renderStaticFrame(ctx);
       } else {
         ctx.clock.start();
+        ctx.running = true;
         animate(ctx);
+
+        // Keep pausing/resuming for as long as this instance lives — the
+        // caller (riley.js) only uses IntersectionObserver to decide WHEN to
+        // call init() the first time; it never revisits visibility after
+        // that. This observer owns the ongoing on-screen/off-screen state
+        // for the life of the instance, same pattern as the light-rays
+        // canvas in riley-page.js.
+        if (window.IntersectionObserver) {
+          ctx.visibilityObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                if (!ctx.running) {
+                  ctx.running = true;
+                  ctx.clock.getDelta(); // discard elapsed pause time — avoid a big delta jump
+                  animate(ctx);
+                }
+              } else if (ctx.running) {
+                ctx.running = false;
+                cancelAnimationFrame(ctx.rafId);
+              }
+            });
+          }, { threshold: 0 });
+          ctx.visibilityObserver.observe(canvasEl);
+        }
       }
 
       return true;

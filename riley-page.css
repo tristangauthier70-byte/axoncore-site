@@ -577,7 +577,16 @@ body.riley-page {
   100% { transform: translateY(100px) rotate(720deg); opacity: 0; }
 }
 
-/* Progress indicator on right of phone */
+/* Progress indicator on right of phone.
+   NOTE — currently dead/orphaned: no element with class="rp-demo__progress"
+   or "rp-demo__progress-fill" exists in riley.html (verified via grep), so
+   this never renders and riley-page.js's `document.querySelector('.rp-demo__progress-fill')`
+   always returns null (its `if (progressF)` guard silently no-ops). Left in
+   case the markup is reintroduced, but converted `height` (a layout-
+   triggering property — flagged by the design lint) to `transform: scaleY()`
+   so it's compositor-safe if/when it comes back. If this markup IS
+   reintroduced, update riley-page.js's `progressF.style.height = ...` line
+   to `progressF.style.transform = 'scaleY(' + prog + ')'` to match. */
 .rp-demo__progress {
   width: 3px;
   height: 200px;
@@ -585,14 +594,17 @@ body.riley-page {
   border-radius: 2px;
   position: relative;
   align-self: center;
+  overflow: hidden;
 }
 .rp-demo__progress-fill {
   position: absolute;
   top: 0; left: 0; right: 0;
+  height: 100%;
   background: var(--ax-accent);
   border-radius: 2px;
-  height: 0%;
-  transition: height 0.1s;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.1s;
 }
 
 /* ── SECTION 4: STATS ─────────────────────────────────────────── */
@@ -828,10 +840,16 @@ body.riley-page {
 .rp-footer a:hover { color: #fff; }
 
 /* ── "YOUR TURN" BANNER ──────────────────────────────────────── */
+/* Was animating `background-position` — a paint-triggering property, not a
+   compositor one — on an infinite 4s loop that starts running the instant
+   the page loads and never stops. Same visual (a gradient sliding
+   sideways forever) is achieved compositor-only by doubling the gradient
+   width inside a wrapper and animating `transform: translateX` instead,
+   which the compositor thread can run without repainting this element
+   every frame for the lifetime of the page. */
 .rp-try-banner {
-  background: linear-gradient(90deg, #7c3aed, #a78bfa, #7c3aed);
-  background-size: 200% 100%;
-  animation: rp-banner-shift 4s linear infinite;
+  position: relative;
+  overflow: hidden;
   text-align: center;
   padding: 14px;
   font-size: 0.8rem;
@@ -840,7 +858,22 @@ body.riley-page {
   text-transform: uppercase;
   color: #fff;
 }
-@keyframes rp-banner-shift { to { background-position: 200% 0; } }
+.rp-try-banner::before {
+  content: '';
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 200%;
+  background: linear-gradient(90deg, #7c3aed, #a78bfa, #7c3aed, #a78bfa);
+  background-size: 50% 100%;
+  animation: rp-banner-shift 4s linear infinite;
+  will-change: transform;
+}
+.rp-try-banner span {
+  position: relative;
+  z-index: 1;
+}
+@keyframes rp-banner-shift { to { transform: translateX(-50%); } }
 
 /* ── TRY IT YOURSELF SECTION ─────────────────────────────────── */
 .rp-try {
