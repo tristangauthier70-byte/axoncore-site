@@ -436,22 +436,31 @@
   </footer>
 
   <!-- ─── SCRIPTS ──────────────────────────────────────────────── -->
+  <!-- All classic scripts below are marked defer: they sit at the end of
+       body already, but without defer the browser still executes each one
+       synchronously and serially the instant the parser reaches it — a
+       ~320KB SDK + 4 CDN libraries back-to-back was blocking the main
+       thread right when Lenis/GSAP/cursor rAF loops are trying to spin up.
+       defer lets the browser fetch all of them in parallel and run them
+       in a single deferred batch right before DOMContentLoaded, with
+       execution order preserved (defer + module scripts execute in
+       relative document order together) — same behavior, non-blocking. -->
   <!-- VAPI SDK — was missing entirely on this page before; riley.js needs window.Vapi -->
-  <script src="vapi-sdk.js"></script>
+  <script src="vapi-sdk.js" defer></script>
   <!-- Voice orb — sets window.RileyOrb before riley.js needs it -->
   <script type="module" src="riley-orb.js"></script>
   <!-- riley.js — starts VAPI SDK initialization immediately -->
   <script type="module" src="riley.js"></script>
 
   <!-- Animation dependencies -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="https://unpkg.com/splitting/dist/splitting.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="https://unpkg.com/splitting/dist/splitting.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js" defer></script>
 
   <!-- Page animations -->
-  <script src="riley-page.js"></script>
-  <script src="riley-demo.js"></script>
+  <script src="riley-page.js" defer></script>
+  <script src="riley-demo.js" defer></script>
   <script>
     /* Hint chip click → fills input and focuses */
     function rp_insertHint(el) {

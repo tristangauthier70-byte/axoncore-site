@@ -722,12 +722,24 @@ body.riley-page {
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   box-shadow: 0 0 0 0 rgba(167,139,250,0.4);
+  z-index: 0; /* contains the pulse pseudo-element's stacking context */
+}
+/* Pulse ring moved off box-shadow (which repaints the whole shadow every
+   frame) onto a transform/opacity pseudo-element — compositor-only, same
+   "expanding, fading halo" look, no paint cost while it loops forever. */
+.rp-cta__avatar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(167,139,250,0.5);
+  z-index: -1;
   animation: rp-avatar-pulse 2.5s ease-out infinite;
 }
 @keyframes rp-avatar-pulse {
-  0%   { box-shadow: 0 0 0 0   rgba(167,139,250,0.5); }
-  70%  { box-shadow: 0 0 0 30px rgba(167,139,250,0); }
-  100% { box-shadow: 0 0 0 0   rgba(167,139,250,0); }
+  0%   { transform: scale(1);    opacity: 0.5; }
+  70%  { transform: scale(1.75); opacity: 0; }
+  100% { transform: scale(1.75); opacity: 0; }
 }
 .rp-cta__rings {
   position: absolute;

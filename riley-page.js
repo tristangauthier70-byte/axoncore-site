@@ -27,12 +27,19 @@
   function initLenis() {
     if (TOUCH || MOBILE || !window.Lenis) return;
     var lenis = new window.Lenis({ lerp: 0.08, smoothWheel: true });
-    function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
-    requestAnimationFrame(raf);
-    if (window.ScrollTrigger) {
+    /* Drive Lenis from exactly one rAF source. Previously this started an
+       independent requestAnimationFrame loop AND registered lenis.raf on
+       GSAP's ticker, so lenis.raf() ran twice per frame — doubling the
+       smoothing math on every single frame of scrolling, whether or not
+       anything was actually scrolling. Use the GSAP ticker (recommended
+       for ScrollTrigger integration) when available; fall back to a plain
+       rAF loop only if GSAP/ScrollTrigger didn't load. */
+    if (window.gsap && window.ScrollTrigger) {
       lenis.on('scroll', window.ScrollTrigger.update);
       window.gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
       window.gsap.ticker.lagSmoothing(0);
+    } else {
+      (function raf(t) { lenis.raf(t); requestAnimationFrame(raf); })();
     }
   }
 
@@ -131,7 +138,15 @@
       gl.viewport(0, 0, canvas.width, canvas.height);
     }
     resize();
-    window.addEventListener('resize', resize);
+    /* Coalesce rapid-fire resize events (e.g. dragging a window edge) to
+       once per animation frame instead of reading offsetWidth/offsetHeight
+       and resetting the WebGL viewport on every single native event. */
+    var resizeQueued = false;
+    window.addEventListener('resize', function () {
+      if (resizeQueued) return;
+      resizeQueued = true;
+      requestAnimationFrame(function () { resizeQueued = false; resize(); });
+    });
 
     var start = performance.now();
     var mx = 0.5, my = 0.55;
@@ -141,6 +156,7 @@
     });
 
     function draw() {
+      if (!running) return;
       var t = (performance.now() - start) * 0.001;
       gl.enable(gl.BLEND);
       gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
@@ -151,7 +167,28 @@
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       requestAnimationFrame(draw);
     }
-    draw();
+
+    /* This canvas lives in the CTA section at the bottom of the page —
+       below the fold for most of a visit. Without this, the shader loop
+       ran on every rAF tick from page load, forever, even while the
+       section was nowhere near the viewport. Pause/resume with visibility. */
+    var running = false;
+    if (window.IntersectionObserver) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting && !running) {
+            running = true;
+            start = performance.now(); /* avoid a big time jump in u_t after being paused */
+            requestAnimationFrame(draw);
+          } else if (!entry.isIntersecting) {
+            running = false;
+          }
+        });
+      }, { threshold: 0 }).observe(wrap);
+    } else {
+      running = true;
+      draw();
+    }
   }
 
   /* ── Pinned iPhone conversation (ScrollTrigger) ──────────────── */

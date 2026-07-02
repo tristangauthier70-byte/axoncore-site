@@ -89,19 +89,65 @@
  * correct (additive blending's alpha accumulates from the sprite's own
  * gradient alpha, so empty background pixels stay fully transparent and
  * glow pixels naturally gain partial alpha). It's also cheaper — no extra
- * render targets/passes — which helps hold 60fps alongside the per-vertex
- * noise displacement.
+ * render targets/passes.
  *
- * ── NOISE TECHNIQUE ─────────────────────────────────────────────────────
- * A compact classic 3D Simplex noise (Gustavson-style permutation lattice,
- * ported inline — no extra CDN dependency) drives per-vertex radial
- * displacement: each vertex is pushed in/out along its own normalized
- * direction from the sphere's center (valid since both spheres are
- * centered at the origin) by noise(baseVertexPosition * frequency + time).
- * Base (undisplaced) positions and per-vertex direction vectors are
- * precomputed once at geometry creation, so per-frame cost is just one
- * noise sample + a lerp per vertex — no normal recomputation is needed
- * since all materials here are unlit (MeshBasicMaterial/PointsMaterial).
+ * ── NOISE + DISPLACEMENT TECHNIQUE (GPU vertex shader) ─────────────────────
+ * Displacement used to be computed on the CPU: a hand-rolled JS Simplex
+ * noise sampled once per vertex per frame (~3200 verts total across both
+ * spheres), then written back into the position BufferAttribute and
+ * re-uploaded to the GPU every frame. That is a textbook main-thread
+ * bottleneck — thousands of scalar noise evaluations in a single JS loop,
+ * every animation frame, plus a full attribute re-upload.
+ *
+ * This version moves noise + displacement entirely into the vertex shader.
+ * Each vertex's ORIGINAL (undisplaced) position attribute is left untouched
+ * forever after geometry creation — it is never mutated or re-uploaded again.
+ * The outward direction used for displacement is simply normalize(position)
+ * computed live in-shader (equivalent to the old CPU-precomputed unit
+ * direction vectors, since both geometries are centered at the origin).
+ * Per-vertex work (one 3D simplex noise sample + a lerp along the direction
+ * vector) now runs in parallel across thousands of GPU shader cores instead
+ * of serially on the main thread. Per-frame JS cost is reduced to updating
+ * a handful of uniforms (amplitude, frequency, time) — O(1), not O(vertices).
+ *
+ * The GLSL noise function below is a direct inline port of the classic
+ * Ashima Arts / Stefan Gustavson 3D simplex noise ("webgl-noise", MIT-style/
+ * public-domain-friendly license, ubiquitously embedded inline like this in
+ * WebGL projects — no external dependency needed). It is a DIFFERENT
+ * concrete noise implementation than the old hand-rolled CPU permutation
+ * table (different lattice/permutation internals), so the exact lump
+ * pattern will not pixel-match the previous version — but it is the same
+ * class of coherent 3D simplex noise, tuned with the same amplitude/
+ * frequency/time parameters, so the organic "lumpy sphere" character and
+ * motion feel are preserved. See the report for what to specifically eyeball
+ * in-browser.
+ *
+ * ── SHADERMATERIAL vs onBeforeCompile ───────────────────────────────────
+ * ShaderMaterial was chosen over patching MeshBasicMaterial/PointsMaterial
+ * via onBeforeCompile. onBeforeCompile string-patches Three.js's internal
+ * generated shader source (chunk names, variable names like `transformed`,
+ * `mvPosition`), which is an implicit, version-sensitive contract that can
+ * silently break across Three.js releases. A small, explicit ShaderMaterial
+ * with its own vertex/fragment source is easier to reason about, keeps the
+ * noise/displacement math in one visible place, and only costs us having to
+ * manually opt back into the few built-in behaviors we still want (fog,
+ * output color-space conversion, and — for the inner Points — perspective
+ * size attenuation), each pulled in explicitly below via Three's own
+ * ShaderChunk `#include`s (`fog_pars_vertex`/`fog_vertex`,
+ * `fog_pars_fragment`/`fog_fragment`, `colorspace_fragment`,
+ * `tonemapping_fragment`, `common`). These `#include` directives are
+ * resolved by Three's shader preprocessor for ANY ShaderMaterial, not just
+ * built-in materials, so this is a supported, documented pattern.
+ *
+ * Tradeoff / gotcha specifically verified: `wireframe: true` on the outer
+ * mesh's material. Wireframe rendering in Three.js is NOT implemented in
+ * the shader at all — WebGLRenderer swaps in a wireframe index buffer and
+ * draws with gl.LINES instead of gl.TRIANGLES whenever `material.wireframe`
+ * is true, regardless of material type (MeshBasicMaterial, ShaderMaterial,
+ * anything). So a custom ShaderMaterial with `wireframe: true` renders as a
+ * wireframe exactly like the original MeshBasicMaterial did — confirmed by
+ * reading Three.js's WebGLRenderer/WebGLGeometries source, since no browser
+ * is available in this task to visually confirm it.
  *
  * ── RING IMPLEMENTATION ─────────────────────────────────────────────────
  * Each ripple is a THREE.TorusGeometry lying in the XY plane (facing the
@@ -111,7 +157,8 @@
  * over ~1.5s (eased), and once its lifetime elapses its geometry/material
  * are disposed and it's removed from the scene and the pool — no leaks.
  * Rings spawn periodically (every ~1.5-3s while active) and additionally on
- * volume spikes (with a short cooldown so spikes can't spam rings).
+ * volume spikes (with a short cooldown so spikes can't spam rings). Rings
+ * are unrelated to the noise displacement change above and are unchanged.
  */
 
 import * as THREE from 'three';
@@ -119,111 +166,184 @@ import * as THREE from 'three';
 // ───────────────────────────────────────────────────────────────────────
 // Exact palette — do not introduce any other hues. Glow textures are pure
 // white-to-transparent gradients; their visible color comes entirely from
-// each material's `color`, which is always one of these three values.
+// each material's `color`/`uColor`, which is always one of these three.
 // ───────────────────────────────────────────────────────────────────────
 const COLOR_PRIMARY = 0xA78BFA; // outer wireframe stroke
 const COLOR_ACCENT = 0x8B7CF6; // rings + inner sphere + glow tint
 const COLOR_AMBIENT = 0x1E2433; // fog / ambient tint only
 
 // ───────────────────────────────────────────────────────────────────────
-// Compact inline 3D Simplex noise (classic Gustavson-style permutation
-// lattice implementation, deterministically seeded so results are stable
-// across reloads). Public-domain algorithm; this is an original port.
+// Inline GLSL 3D simplex noise — classic Ashima Arts / Stefan Gustavson
+// "webgl-noise" implementation, MIT-style/public-domain-friendly and
+// commonly embedded inline like this with no external dependency. Shared
+// as a string fragment so both vertex shaders below can splice it in.
 // ───────────────────────────────────────────────────────────────────────
-class SimplexNoise3D {
-  constructor(seed = 1337) {
-    const p = new Uint8Array(256);
-    for (let i = 0; i < 256; i++) p[i] = i;
+const GLSL_SIMPLEX_NOISE_3D = `
+vec4 permute(vec4 x) { return mod(((x * 34.0) + 1.0) * x, 289.0); }
+vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
 
-    let s = seed >>> 0;
-    const rand = () => {
-      s = (s + 0x6D2B79F5) | 0;
-      let t = Math.imul(s ^ (s >>> 15), 1 | s);
-      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-    };
-    for (let i = 255; i > 0; i--) {
-      const j = Math.floor(rand() * (i + 1));
-      const tmp = p[i]; p[i] = p[j]; p[j] = tmp;
-    }
+float snoise(vec3 v) {
+  const vec2 C = vec2(1.0 / 6.0, 1.0 / 3.0);
+  const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
 
-    this.perm = new Uint8Array(512);
-    this.permMod12 = new Uint8Array(512);
-    for (let i = 0; i < 512; i++) {
-      this.perm[i] = p[i & 255];
-      this.permMod12[i] = this.perm[i] % 12;
-    }
-  }
+  vec3 i  = floor(v + dot(v, C.yyy));
+  vec3 x0 = v - i + dot(i, C.xxx);
 
-  noise3D(x, y, z) {
-    const grad3 = SimplexNoise3D.GRAD3;
-    const perm = this.perm;
-    const permMod12 = this.permMod12;
-    const F3 = 1.0 / 3.0;
-    const G3 = 1.0 / 6.0;
+  vec3 g = step(x0.yzx, x0.xyz);
+  vec3 l = 1.0 - g;
+  vec3 i1 = min(g.xyz, l.zxy);
+  vec3 i2 = max(g.xyz, l.zxy);
 
-    const s = (x + y + z) * F3;
-    const i = Math.floor(x + s);
-    const j = Math.floor(y + s);
-    const k = Math.floor(z + s);
-    const t = (i + j + k) * G3;
-    const X0 = i - t, Y0 = j - t, Z0 = k - t;
-    const x0 = x - X0, y0 = y - Y0, z0 = z - Z0;
+  vec3 x1 = x0 - i1 + C.xxx;
+  vec3 x2 = x0 - i2 + C.yyy;
+  vec3 x3 = x0 - D.yyy;
 
-    let i1, j1, k1, i2, j2, k2;
-    if (x0 >= y0) {
-      if (y0 >= z0) { i1 = 1; j1 = 0; k1 = 0; i2 = 1; j2 = 1; k2 = 0; }
-      else if (x0 >= z0) { i1 = 1; j1 = 0; k1 = 0; i2 = 1; j2 = 0; k2 = 1; }
-      else { i1 = 0; j1 = 0; k1 = 1; i2 = 1; j2 = 0; k2 = 1; }
-    } else {
-      if (y0 < z0) { i1 = 0; j1 = 0; k1 = 1; i2 = 0; j2 = 1; k2 = 1; }
-      else if (x0 < z0) { i1 = 0; j1 = 1; k1 = 0; i2 = 0; j2 = 1; k2 = 1; }
-      else { i1 = 0; j1 = 1; k1 = 0; i2 = 1; j2 = 1; k2 = 0; }
-    }
+  i = mod(i, 289.0);
+  vec4 p = permute(permute(permute(
+             i.z + vec4(0.0, i1.z, i2.z, 1.0))
+           + i.y + vec4(0.0, i1.y, i2.y, 1.0))
+           + i.x + vec4(0.0, i1.x, i2.x, 1.0));
 
-    const x1 = x0 - i1 + G3, y1 = y0 - j1 + G3, z1 = z0 - k1 + G3;
-    const x2 = x0 - i2 + 2 * G3, y2 = y0 - j2 + 2 * G3, z2 = z0 - k2 + 2 * G3;
-    const x3 = x0 - 1 + 3 * G3, y3 = y0 - 1 + 3 * G3, z3 = z0 - 1 + 3 * G3;
+  float n_ = 1.0 / 7.0;
+  vec3 ns = n_ * D.wyz - D.xzx;
 
-    const ii = i & 255, jj = j & 255, kk = k & 255;
-    let n0 = 0, n1 = 0, n2 = 0, n3 = 0;
+  vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
 
-    let t0 = 0.6 - x0 * x0 - y0 * y0 - z0 * z0;
-    if (t0 >= 0) {
-      const gi0 = permMod12[ii + perm[jj + perm[kk]]] * 3;
-      t0 *= t0;
-      n0 = t0 * t0 * (grad3[gi0] * x0 + grad3[gi0 + 1] * y0 + grad3[gi0 + 2] * z0);
-    }
+  vec4 x_ = floor(j * ns.z);
+  vec4 y_ = floor(j - 7.0 * x_);
 
-    let t1 = 0.6 - x1 * x1 - y1 * y1 - z1 * z1;
-    if (t1 >= 0) {
-      const gi1 = permMod12[ii + i1 + perm[jj + j1 + perm[kk + k1]]] * 3;
-      t1 *= t1;
-      n1 = t1 * t1 * (grad3[gi1] * x1 + grad3[gi1 + 1] * y1 + grad3[gi1 + 2] * z1);
-    }
+  vec4 x = x_ * ns.x + ns.yyyy;
+  vec4 y = y_ * ns.x + ns.yyyy;
+  vec4 h = 1.0 - abs(x) - abs(y);
 
-    let t2 = 0.6 - x2 * x2 - y2 * y2 - z2 * z2;
-    if (t2 >= 0) {
-      const gi2 = permMod12[ii + i2 + perm[jj + j2 + perm[kk + k2]]] * 3;
-      t2 *= t2;
-      n2 = t2 * t2 * (grad3[gi2] * x2 + grad3[gi2 + 1] * y2 + grad3[gi2 + 2] * z2);
-    }
+  vec4 b0 = vec4(x.xy, y.xy);
+  vec4 b1 = vec4(x.zw, y.zw);
 
-    let t3 = 0.6 - x3 * x3 - y3 * y3 - z3 * z3;
-    if (t3 >= 0) {
-      const gi3 = permMod12[ii + 1 + perm[jj + 1 + perm[kk + 1]]] * 3;
-      t3 *= t3;
-      n3 = t3 * t3 * (grad3[gi3] * x3 + grad3[gi3 + 1] * y3 + grad3[gi3 + 2] * z3);
-    }
+  vec4 s0 = floor(b0) * 2.0 + 1.0;
+  vec4 s1 = floor(b1) * 2.0 + 1.0;
+  vec4 sh = -step(h, vec4(0.0));
 
-    return 32.0 * (n0 + n1 + n2 + n3);
-  }
+  vec4 a0 = b0.xzyw + s0.xzyw * sh.xxyy;
+  vec4 a1 = b1.xzyw + s1.xzyw * sh.zzww;
+
+  vec3 p0 = vec3(a0.xy, h.x);
+  vec3 p1 = vec3(a0.zw, h.y);
+  vec3 p2 = vec3(a1.xy, h.z);
+  vec3 p3 = vec3(a1.zw, h.w);
+
+  vec4 norm = taylorInvSqrt(vec4(dot(p0, p0), dot(p1, p1), dot(p2, p2), dot(p3, p3)));
+  p0 *= norm.x;
+  p1 *= norm.y;
+  p2 *= norm.z;
+  p3 *= norm.w;
+
+  vec4 m = max(0.6 - vec4(dot(x0, x0), dot(x1, x1), dot(x2, x2), dot(x3, x3)), 0.0);
+  m = m * m;
+  return 42.0 * dot(m * m, vec4(dot(p0, x0), dot(p1, x1), dot(p2, x2), dot(p3, x3)));
 }
-SimplexNoise3D.GRAD3 = new Float32Array([
-  1, 1, 0, -1, 1, 0, 1, -1, 0, -1, -1, 0,
-  1, 0, 1, -1, 0, 1, 1, 0, -1, -1, 0, -1,
-  0, 1, 1, 0, -1, 1, 0, 1, -1, 0, -1, -1,
-]);
+`;
+
+// ───────────────────────────────────────────────────────────────────────
+// Outer wireframe icosahedron shaders. Displacement pushes each vertex
+// in/out along normalize(position) (valid since the geometry is centered
+// at the origin) by snoise(basePosition * frequency + time), mirroring the
+// old CPU algorithm's math exactly — just evaluated on the GPU instead.
+// ───────────────────────────────────────────────────────────────────────
+const OUTER_VERTEX_SHADER = `
+uniform float uAmplitude;
+uniform float uFrequency;
+uniform float uNoiseTime;
+
+${GLSL_SIMPLEX_NOISE_3D}
+
+#include <fog_pars_vertex>
+
+void main() {
+  vec3 dir = normalize(position);
+  float n = snoise(vec3(
+    position.x * uFrequency + uNoiseTime,
+    position.y * uFrequency + uNoiseTime,
+    position.z * uFrequency - uNoiseTime
+  ));
+  vec3 displaced = position + dir * n * uAmplitude;
+
+  vec4 mvPosition = modelViewMatrix * vec4(displaced, 1.0);
+  gl_Position = projectionMatrix * mvPosition;
+
+  #include <fog_vertex>
+}
+`;
+
+const OUTER_FRAGMENT_SHADER = `
+uniform vec3 uColor;
+uniform float uOpacity;
+
+#include <fog_pars_fragment>
+
+void main() {
+  gl_FragColor = vec4(uColor, uOpacity);
+
+  #include <fog_fragment>
+  #include <tonemapping_fragment>
+  #include <colorspace_fragment>
+}
+`;
+
+// ───────────────────────────────────────────────────────────────────────
+// Inner dotted-sphere shaders. Same displacement technique as the outer
+// mesh, plus manual perspective size-attenuation (Three's PointsMaterial
+// does this internally via uniforms it sets itself for isPointsMaterial —
+// a plain ShaderMaterial isn't recognized as such, so we replicate the
+// exact formula Three.js uses: size *= pixelRatio, scale = height * 0.5,
+// gl_PointSize = size * (scale / -mvPosition.z) under perspective).
+// ───────────────────────────────────────────────────────────────────────
+const INNER_VERTEX_SHADER = `
+uniform float uAmplitude;
+uniform float uFrequency;
+uniform float uNoiseTime;
+uniform float uSize;
+uniform float uScale;
+
+${GLSL_SIMPLEX_NOISE_3D}
+
+#include <common>
+#include <fog_pars_vertex>
+
+void main() {
+  vec3 dir = normalize(position);
+  float n = snoise(vec3(
+    position.x * uFrequency + uNoiseTime,
+    position.y * uFrequency + uNoiseTime,
+    position.z * uFrequency - uNoiseTime
+  ));
+  vec3 displaced = position + dir * n * uAmplitude;
+
+  vec4 mvPosition = modelViewMatrix * vec4(displaced, 1.0);
+  gl_Position = projectionMatrix * mvPosition;
+
+  gl_PointSize = uSize;
+  if (isPerspectiveMatrix(projectionMatrix)) {
+    gl_PointSize *= (uScale / -mvPosition.z);
+  }
+
+  #include <fog_vertex>
+}
+`;
+
+const INNER_FRAGMENT_SHADER = `
+uniform vec3 uColor;
+uniform float uOpacity;
+
+#include <fog_pars_fragment>
+
+void main() {
+  gl_FragColor = vec4(uColor, uOpacity);
+
+  #include <fog_fragment>
+  #include <tonemapping_fragment>
+  #include <colorspace_fragment>
+}
+`;
 
 // ───────────────────────────────────────────────────────────────────────
 // Small helper: builds a soft radial-gradient CanvasTexture (white center
@@ -250,41 +370,48 @@ function createGlowTexture() {
   return texture;
 }
 
-// Precompute base (undisplaced) positions + per-vertex outward direction
-// for a geometry centered at the origin (direction == normalized position).
-function precomputeDisplacementData(geometry) {
-  const posAttr = geometry.attributes.position;
-  const count = posAttr.count;
-  const base = new Float32Array(posAttr.array); // clone
-  const dirs = new Float32Array(count * 3);
-  for (let i = 0; i < count; i++) {
-    const ix = i * 3;
-    const x = base[ix], y = base[ix + 1], z = base[ix + 2];
-    const len = Math.hypot(x, y, z) || 1;
-    dirs[ix] = x / len;
-    dirs[ix + 1] = y / len;
-    dirs[ix + 2] = z / len;
-  }
-  return { base, dirs };
+// Builds the outer wireframe mesh's ShaderMaterial. `wireframe: true` is a
+// Material-level flag honored by WebGLRenderer independent of shader code
+// (see file-header comment) — no special-casing needed here for it to work.
+function createOuterMaterial() {
+  return new THREE.ShaderMaterial({
+    vertexShader: OUTER_VERTEX_SHADER,
+    fragmentShader: OUTER_FRAGMENT_SHADER,
+    wireframe: true,
+    transparent: true,
+    fog: true, // opts into Three's automatic per-frame fogColor/fogNear/fogFar uniform updates
+    uniforms: {
+      uColor: { value: new THREE.Color(COLOR_PRIMARY) },
+      uOpacity: { value: 0.85 },
+      uAmplitude: { value: 0.05 },
+      uFrequency: { value: 0.9 },
+      uNoiseTime: { value: 0 },
+      fogColor: { value: new THREE.Color() },
+      fogNear: { value: 1 },
+      fogFar: { value: 2000 },
+    },
+  });
 }
 
-function applyDisplacement(geometry, data, amplitude, noiseTime, noise, frequency) {
-  const posAttr = geometry.attributes.position;
-  const arr = posAttr.array;
-  const { base, dirs } = data;
-  for (let i = 0; i < posAttr.count; i++) {
-    const ix = i * 3;
-    const bx = base[ix], by = base[ix + 1], bz = base[ix + 2];
-    const n = noise.noise3D(
-      bx * frequency + noiseTime,
-      by * frequency + noiseTime,
-      bz * frequency - noiseTime
-    );
-    arr[ix] = bx + dirs[ix] * n * amplitude;
-    arr[ix + 1] = by + dirs[ix + 1] * n * amplitude;
-    arr[ix + 2] = bz + dirs[ix + 2] * n * amplitude;
-  }
-  posAttr.needsUpdate = true;
+function createInnerMaterial(pixelRatio, height) {
+  return new THREE.ShaderMaterial({
+    vertexShader: INNER_VERTEX_SHADER,
+    fragmentShader: INNER_FRAGMENT_SHADER,
+    transparent: true,
+    fog: true,
+    uniforms: {
+      uColor: { value: new THREE.Color(COLOR_ACCENT) },
+      uOpacity: { value: 0.9 },
+      uAmplitude: { value: 0.03 },
+      uFrequency: { value: 1.1 },
+      uNoiseTime: { value: 0 },
+      uSize: { value: 0.032 * pixelRatio },
+      uScale: { value: height * 0.5 },
+      fogColor: { value: new THREE.Color() },
+      fogNear: { value: 1 },
+      fogFar: { value: 2000 },
+    },
+  });
 }
 
 // ───────────────────────────────────────────────────────────────────────
@@ -305,7 +432,8 @@ function buildScene(canvas) {
   // default clear alpha is 1 (opaque). Explicitly zero it so every frame
   // clears to full transparency and the page shows through.
   renderer.setClearColor(0x000000, 0);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+  renderer.setPixelRatio(pixelRatio);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
 
   const width = canvas.clientWidth || window.innerWidth || 300;
@@ -319,30 +447,17 @@ function buildScene(canvas) {
   const camera = new THREE.PerspectiveCamera(45, width / Math.max(height, 1), 0.1, 100);
   camera.position.set(0, 0, 6);
 
-  // ── Outer wireframe icosahedron (organic, lumpy displacement) ──
+  // ── Outer wireframe icosahedron (organic, lumpy displacement via GPU shader) ──
   const outerGeo = new THREE.IcosahedronGeometry(1.6, 4); // moderate polycount (~2562 verts)
-  const outerMat = new THREE.MeshBasicMaterial({
-    color: COLOR_PRIMARY,
-    wireframe: true,
-    transparent: true,
-    opacity: 0.85,
-  });
+  const outerMat = createOuterMaterial();
   const outerMesh = new THREE.Mesh(outerGeo, outerMat);
   outerMesh.frustumCulled = false; // displacement is small; avoid per-frame bounding recompute
-  const outerData = precomputeDisplacementData(outerGeo);
 
   // ── Inner denser dotted sphere ──
   const innerGeo = new THREE.IcosahedronGeometry(0.72, 3); // denser relative to its size (~642 pts)
-  const innerMat = new THREE.PointsMaterial({
-    color: COLOR_ACCENT,
-    size: 0.032,
-    sizeAttenuation: true,
-    transparent: true,
-    opacity: 0.9,
-  });
+  const innerMat = createInnerMaterial(pixelRatio, height);
   const innerPoints = new THREE.Points(innerGeo, innerMat);
   innerPoints.frustumCulled = false;
-  const innerData = precomputeDisplacementData(innerGeo);
 
   const orbGroup = new THREE.Group();
   orbGroup.add(outerMesh, innerPoints);
@@ -389,11 +504,9 @@ function buildScene(canvas) {
     outerMesh,
     outerGeo,
     outerMat,
-    outerData,
     innerPoints,
     innerGeo,
     innerMat,
-    innerData,
     glowTexture,
     glowCore,
     glowCoreMat,
@@ -456,12 +569,25 @@ function randRingInterval() {
   return 1.5 + Math.random() * 1.5; // 1.5s - 3s
 }
 
+// Pushes current amplitude/frequency/time state into the two displacement
+// shaders' uniforms. This is the ENTIRE per-frame "displacement update" now
+// — O(1) uniform writes instead of an O(vertices) JS loop + noise sample.
+function setDisplacementUniforms(ctx, outerAmplitude, outerNoiseTime, innerAmplitude, innerNoiseTime) {
+  ctx.outerMat.uniforms.uAmplitude.value = outerAmplitude;
+  ctx.outerMat.uniforms.uNoiseTime.value = outerNoiseTime;
+  ctx.innerMat.uniforms.uAmplitude.value = innerAmplitude;
+  ctx.innerMat.uniforms.uNoiseTime.value = innerNoiseTime;
+}
+
 // ── Static single-frame render used for reduced-motion mode ──
 function renderStaticFrame(ctx) {
   const idleAmplitude = ctx.active ? 0.085 : 0.05;
   const noiseTime = 0.73; // fixed, pleasant snapshot — never advances
-  applyDisplacement(ctx.outerGeo, ctx.outerData, idleAmplitude, noiseTime, ctx.noise, 0.9);
-  applyDisplacement(ctx.innerGeo, ctx.innerData, idleAmplitude * 0.6, noiseTime + 4.1, ctx.noise, 1.1);
+  setDisplacementUniforms(
+    ctx,
+    idleAmplitude, noiseTime,
+    idleAmplitude * 0.6, noiseTime + 4.1
+  );
 
   const glowScale = 3.0 * (1 + ctx.displayVolume * 0.5);
   ctx.glowCore.scale.set(glowScale, glowScale, 1);
@@ -486,7 +612,9 @@ function animate(ctx) {
   const active = ctx.active;
   const v = ctx.displayVolume;
 
-  // ── Displacement amplitude & noise speed ──
+  // ── Displacement amplitude & noise speed (JS-side scalars only — the
+  // actual per-vertex noise/displacement work happens in the vertex
+  // shader now, driven by the uniforms these feed into below) ──
   const idleAmplitude = 0.05;
   const activeBaseAmplitude = 0.09; // elevated-but-calm motion during active silence
   const amplitude = active ? activeBaseAmplitude + v * 0.55 : idleAmplitude;
@@ -496,8 +624,11 @@ function animate(ctx) {
   const noiseSpeed = active ? activeNoiseSpeed : idleNoiseSpeed;
   ctx.noiseTime += delta * noiseSpeed;
 
-  applyDisplacement(ctx.outerGeo, ctx.outerData, amplitude, ctx.noiseTime, ctx.noise, 0.9);
-  applyDisplacement(ctx.innerGeo, ctx.innerData, amplitude * 0.6, ctx.noiseTime * 1.15 + 4.1, ctx.noise, 1.1);
+  setDisplacementUniforms(
+    ctx,
+    amplitude, ctx.noiseTime,
+    amplitude * 0.6, ctx.noiseTime * 1.15 + 4.1
+  );
 
   // ── Rotation (auto, faster while active) ──
   const rotSpeed = active ? 0.16 : 0.045;
@@ -546,6 +677,13 @@ function handleResize(ctx) {
   ctx.renderer.setSize(width, height, false);
   ctx.camera.aspect = width / Math.max(height, 1);
   ctx.camera.updateProjectionMatrix();
+
+  // Points size-attenuation uniforms depend on renderer pixel ratio/height
+  // (see createInnerMaterial's comment) — keep them in sync on resize.
+  const pixelRatio = ctx.renderer.getPixelRatio();
+  ctx.innerMat.uniforms.uSize.value = 0.032 * pixelRatio;
+  ctx.innerMat.uniforms.uScale.value = height * 0.5;
+
   if (ctx.reducedMotion) renderStaticFrame(ctx);
 }
 
@@ -588,7 +726,6 @@ const RileyOrb = {
 
       const ctx = {
         ...built,
-        noise: new SimplexNoise3D(1337),
         clock: new THREE.Clock(),
         clockElapsed: 0,
         noiseTime: 0,
