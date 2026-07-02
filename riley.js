@@ -6,10 +6,30 @@
 
   var vapi      = null;
   var callState = 'idle';
+  var orbReady  = false;
 
   var REDUCE_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var WAVEFORM_SEEDS = [0.55, 0.85, 1.15, 1.3, 1.05, 0.75, 0.5];
-  var waveformBars = null;
+
+  /* ── Orb init — falls back to the pulsing avatar if WebGL/orb unavailable ── */
+  function initOrb() {
+    var canvas   = document.getElementById('riley-orb-canvas');
+    var fallback = document.getElementById('rp-cta-avatar-fallback');
+    if (!canvas) return;
+
+    try {
+      if (window.RileyOrb && typeof window.RileyOrb.init === 'function') {
+        orbReady = !!window.RileyOrb.init(canvas);
+      }
+    } catch (err) {
+      console.warn('[Riley] orb init failed:', err);
+      orbReady = false;
+    }
+
+    if (!orbReady) {
+      canvas.hidden = true;
+      if (fallback) fallback.hidden = false;
+    }
+  }
 
   /* ── Wait for Vapi class from self-hosted bundle ── */
   function initVapi() {
@@ -25,7 +45,7 @@
       vapi = new window.Vapi(PUBLIC_KEY);
     } catch (err) {
       console.warn('[Riley] Vapi init failed:', err);
-      document.querySelectorAll('.riley-trigger, #riley-float-btn').forEach(function (el) {
+      document.querySelectorAll('.riley-trigger').forEach(function (el) {
         el.style.display = 'none';
       });
       return;
@@ -43,7 +63,7 @@
       console.log('[Riley] ready — buttons bound');
     } catch (err) {
       console.warn('[Riley] event setup failed:', err);
-      document.querySelectorAll('.riley-trigger, #riley-float-btn').forEach(function (el) {
+      document.querySelectorAll('.riley-trigger').forEach(function (el) {
         el.style.display = 'none';
       });
     }
@@ -71,8 +91,8 @@
   function setState(s) {
     callState = s;
 
-    var modal = document.getElementById('riley-modal');
-    if (modal) modal.dataset.state = s;
+    var panel = document.getElementById('riley-cta-panel');
+    if (panel) panel.dataset.state = s;
 
     document.querySelectorAll('.riley-trigger').forEach(function (btn) {
       btn.dataset.state = s;
@@ -94,41 +114,11 @@
     if (el) el.textContent = text;
   }
 
-  /* ── Modal helpers ── */
-  function showModal() {
-    var m = document.getElementById('riley-modal');
-    if (!m) return;
-    m.hidden = false;
-    document.body.style.overflow = 'hidden';
-    setTimeout(function () {
-      var endBtn = document.getElementById('riley-end-btn');
-      if (endBtn) endBtn.focus();
-    }, 300);
-  }
-
-  function hideModal() {
-    var m = document.getElementById('riley-modal');
-    if (!m) return;
-    m.hidden = true;
-    document.body.style.overflow = '';
+  function resetToIdle() {
     setState('idle');
+    setStatus('');
     resetMute();
-    resetWaveform();
-    var av = document.getElementById('riley-avatar');
-    if (av) av.dataset.speaking = 'false';
-  }
-
-  function getWaveformBars() {
-    if (waveformBars) return waveformBars;
-    var wf = document.getElementById('riley-waveform');
-    waveformBars = wf ? Array.prototype.slice.call(wf.querySelectorAll('.riley-waveform__bar')) : [];
-    return waveformBars;
-  }
-
-  function resetWaveform() {
-    getWaveformBars().forEach(function (bar) {
-      bar.style.setProperty('--bar-h', '4px');
-    });
+    if (orbReady && window.RileyOrb) window.RileyOrb.setActive(false);
   }
 
   function resetMute() {
@@ -147,7 +137,7 @@
 
     setState('connecting');
     setStatus('Connecting to Riley…');
-    showModal();
+    if (orbReady && window.RileyOrb) window.RileyOrb.setActive(true);
 
     try {
       var result = vapi.start(ASSISTANT_ID);
@@ -173,7 +163,8 @@
       if (callState !== 'idle' && callState !== 'ended' && callState !== 'error') {
         setState('ended');
         setStatus('Call ended. Thanks for speaking with Riley!');
-        setTimeout(hideModal, 2200);
+        if (orbReady && window.RileyOrb) window.RileyOrb.setActive(false);
+        setTimeout(resetToIdle, 2200);
       }
     }, 1200);
   }
@@ -195,42 +186,33 @@
   function onCallStart() {
     setState('active');
     setStatus('Riley is listening…');
+    if (orbReady && window.RileyOrb) window.RileyOrb.setActive(true);
   }
 
   function onCallEnd() {
     setState('ended');
     setStatus('Call ended. Thanks for speaking with Riley!');
-    resetWaveform();
-    setTimeout(hideModal, 2200);
+    if (orbReady && window.RileyOrb) {
+      window.RileyOrb.setActive(false);
+      window.RileyOrb.setVolume(0);
+    }
+    setTimeout(resetToIdle, 2200);
   }
 
   function onSpeechStart() {
-    var av = document.getElementById('riley-avatar');
-    if (av) av.dataset.speaking = 'true';
     setStatus('Riley is speaking…');
   }
 
   function onSpeechEnd() {
-    var av = document.getElementById('riley-avatar');
-    if (av) av.dataset.speaking = 'false';
     setStatus('Riley is listening…');
-    resetWaveform();
+    if (orbReady && window.RileyOrb) window.RileyOrb.setVolume(0);
   }
 
   /* Real amplitude from the live call — not decorative. VAPI emits a 0-1
-     float periodically; spread it across bars with a fixed per-bar seed
-     plus gentle phase-shifted jitter so they don't move in lockstep. */
+     float periodically; feed it straight into the orb's displacement/glow. */
   function onVolumeLevel(v) {
     if (REDUCE_MOTION) return;
-    var bars = getWaveformBars();
-    if (!bars.length) return;
-    var t = performance.now() / 1000;
-    bars.forEach(function (bar, i) {
-      var seed   = WAVEFORM_SEEDS[i % WAVEFORM_SEEDS.length];
-      var jitter = 0.75 + 0.25 * Math.sin(t * 6 + i * 1.3);
-      var h = 4 + v * 40 * seed * jitter;
-      bar.style.setProperty('--bar-h', Math.max(4, Math.min(44, h)).toFixed(1) + 'px');
-    });
+    if (orbReady && window.RileyOrb) window.RileyOrb.setVolume(v);
   }
 
   function onCallStartFailed(evt) {
@@ -243,7 +225,8 @@
       setState('error');
       setStatus("Couldn't connect to Riley — please try again in a moment.");
       console.warn('[Riley] failed at stage:', stage);
-      setTimeout(hideModal, 5000);
+      if (orbReady && window.RileyOrb) window.RileyOrb.setActive(false);
+      setTimeout(resetToIdle, 5000);
     }
   }
 
@@ -265,14 +248,20 @@
 
     setState('error');
     setStatus(display);
-    setTimeout(hideModal, 5000);
+    if (orbReady && window.RileyOrb) window.RileyOrb.setActive(false);
+    setTimeout(resetToIdle, 5000);
   }
 
   /* ── Boot ── */
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initVapi);
-  } else {
+  function boot() {
+    initOrb();
     initVapi();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
   }
 
 }());

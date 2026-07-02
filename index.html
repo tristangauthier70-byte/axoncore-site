@@ -50,7 +50,7 @@
         <div class="ax-header__panel" role="menu">
           <a href="services.html" class="ax-header__panel-item" role="menuitem"><span class="ax-header__panel-label">Services</span><span class="ax-header__panel-desc">What Axon Core builds for you</span></a>
           <a href="how-it-works.html" class="ax-header__panel-item" role="menuitem"><span class="ax-header__panel-label">How It Works</span><span class="ax-header__panel-desc">From call to live in 14 days</span></a>
-          <a href="demo.html" class="ax-header__panel-item" role="menuitem"><span class="ax-header__panel-label">Live Demo</span><span class="ax-header__panel-desc">Talk to Riley — our AI agent</span></a>
+          <a href="riley.html" class="ax-header__panel-item" role="menuitem"><span class="ax-header__panel-label">Live Demo</span><span class="ax-header__panel-desc">Talk to Riley — our AI agent</span></a>
         </div>
       </div>
       <div class="ax-header__drop">
@@ -77,7 +77,7 @@
       <span class="ax-header__mobile-group-label">Platform</span>
       <a href="services.html"               class="ax-header__mobile-link" onclick="axCloseMenu()">Services</a>
       <a href="how-it-works.html"           class="ax-header__mobile-link" onclick="axCloseMenu()">How It Works</a>
-      <a href="demo.html"                   class="ax-header__mobile-link" onclick="axCloseMenu()">Live Demo</a>
+      <a href="riley.html"                   class="ax-header__mobile-link" onclick="axCloseMenu()">Live Demo</a>
       <span class="ax-header__mobile-group-label">Results</span>
       <a href="results.html"                class="ax-header__mobile-link" onclick="axCloseMenu()">ROI Calculator</a>
       <a href="results.html#ax-industries"  class="ax-header__mobile-link" onclick="axCloseMenu()">ROI by Industry</a>
@@ -150,10 +150,10 @@
         <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
       </a>
       <a href="#ax-services" class="ax-btn-ghost">See How It Works</a>
-      <button class="riley-trigger ax-btn-riley" id="riley-hero-btn" type="button" data-default-label="Talk to Riley — Live Demo">
+      <a href="riley.html" class="ax-btn-riley" id="riley-hero-btn">
         <span class="riley-pulse-dot"></span>
         <span class="riley-btn-label">Talk to Riley — Live Demo</span>
-      </button>
+      </a>
     </div>
     <div class="ax-hero__typed-wrap ax-reveal ax-reveal-delay-4" style="margin-top:2.5rem;">
       <span style="color:var(--ax-muted);font-size:0.9rem;">Works across: </span>
@@ -621,10 +621,10 @@
         </div>
       </div>
     </div>
-    <button class="riley-trigger ax-btn-primary ax-reveal ax-reveal-delay-3" data-default-label="Talk to Riley Now" style="font-size:1.05rem;padding:18px 40px;">
+    <a href="riley.html" class="ax-btn-primary ax-reveal ax-reveal-delay-3" style="font-size:1.05rem;padding:18px 40px;">
       <span class="riley-pulse-dot"></span>
       <span class="riley-btn-label">Talk to Riley Now</span>
-    </button>
+    </a>
     <p class="ax-reveal ax-reveal-delay-4" style="margin-top:1.2rem;font-size:0.82rem;color:var(--ax-muted);">
       Calls typically last 60&ndash;90 seconds. Microphone access required.
     </p>
@@ -1005,59 +1005,14 @@
 <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
 
 <!-- ══════════════════════════════════════════════
-     RILEY VOICE DEMO
+     RILEY VOICE DEMO — full experience lives on riley.html now
 ══════════════════════════════════════════════ -->
-<div id="riley-modal" hidden data-state="idle" role="dialog" aria-modal="true" aria-labelledby="riley-name">
-  <div class="riley-modal__backdrop"></div>
-  <div class="riley-modal__card">
-
-    <div class="riley-avatar" id="riley-avatar" data-speaking="false">
-      <span class="riley-avatar__ring riley-avatar__ring--1"></span>
-      <span class="riley-avatar__ring riley-avatar__ring--2"></span>
-      <span class="riley-avatar__ring riley-avatar__ring--3"></span>
-      <span class="riley-avatar__face">R</span>
-    </div>
-
-    <p class="riley-name" id="riley-name">Riley</p>
-    <p class="riley-subtitle">AI Voice Agent &middot; Axoncore</p>
-
-    <p class="riley-status-text" id="riley-status-text" aria-live="polite">Connecting&hellip;</p>
-
-    <div class="riley-waveform" id="riley-waveform" aria-hidden="true">
-      <span class="riley-waveform__bar"></span>
-      <span class="riley-waveform__bar"></span>
-      <span class="riley-waveform__bar"></span>
-      <span class="riley-waveform__bar"></span>
-      <span class="riley-waveform__bar"></span>
-      <span class="riley-waveform__bar"></span>
-      <span class="riley-waveform__bar"></span>
-    </div>
-
-    <div class="riley-controls">
-      <button id="riley-mute-btn" class="riley-ctrl-btn riley-ctrl-btn--mute" type="button" data-muted="false" aria-label="Mute microphone">
-        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"/>
-        </svg>
-        <span class="riley-btn-label">Mute</span>
-      </button>
-      <button id="riley-end-btn" class="riley-ctrl-btn riley-ctrl-btn--end" type="button" aria-label="End call">
-        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-        </svg>
-        <span class="riley-btn-label">End Call</span>
-      </button>
-    </div>
-
-    <p class="riley-brand">Hear what your customers would experience</p>
-  </div>
-</div>
-
-<!-- Floating Riley button (bottom-right) -->
-<button id="riley-float-btn" class="riley-trigger" type="button" data-default-label="Talk to Riley" aria-label="Talk to Riley — Live Demo">
+<!-- Floating Riley button (bottom-right) — links to the dedicated Riley page -->
+<a href="riley.html" id="riley-float-btn" aria-label="Talk to Riley — Live Demo">
   <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
     <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"/>
   </svg>
-</button>
+</a>
 
 <!-- Cookie Notice -->
 <div id="ax-cookie-notice" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(8,8,10,0.97);border-top:1px solid rgba(255,255,255,0.1);padding:14px 24px;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:0.82rem;color:rgba(226,232,240,0.75);">
@@ -1077,9 +1032,6 @@
   }
 })();
 </script>
-
-<script src="vapi-sdk.js" defer></script>
-<script src="riley.js" defer></script>
 
 </body>
 </html>

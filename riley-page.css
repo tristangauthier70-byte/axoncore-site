@@ -627,7 +627,7 @@ body.riley-page {
   line-height: 1.4;
 }
 
-/* ── SECTION 5: CTA (light rays + talk to riley) ──────────────── */
+/* ── SECTION 5: CTA (light rays + talk to riley, orb left / content right) ── */
 .rp-cta {
   min-height: 100vh;
   display: flex;
@@ -636,18 +636,39 @@ body.riley-page {
   position: relative;
   overflow: hidden;
   padding: 80px 40px;
-  text-align: center;
 }
 .rp-cta__rays {
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
+.rp-cta__grid {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(280px, 440px) 1fr;
+  align-items: center;
+  gap: 64px;
+}
+.rp-cta__orb-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-width: 440px;
+}
+#riley-orb-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
 .rp-cta__content {
   position: relative;
   z-index: 2;
-  max-width: 700px;
-  margin: 0 auto;
+  max-width: 560px;
+  text-align: left;
 }
 .rp-cta__eyebrow {
   font-size: 0.75rem;
@@ -669,29 +690,50 @@ body.riley-page {
   font-size: 1rem;
   color: rgba(255,255,255,0.5);
   line-height: 1.6;
-  margin-bottom: 48px;
+  margin-bottom: 32px;
 }
+.rp-cta__content .riley-status-text {
+  text-align: left;
+  margin: 0 0 20px;
+}
+.rp-cta__content .riley-controls {
+  justify-content: flex-start;
+  margin-top: 16px;
+  display: none;
+}
+#riley-cta-panel[data-state="active"] .rp-cta__content .riley-controls,
+#riley-cta-panel[data-state="connecting"] .rp-cta__content .riley-controls {
+  display: flex;
+}
+#riley-cta-panel[data-state="connecting"] .rp-cta__content .riley-controls {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+/* Fallback avatar — only shown if WebGL/orb init fails, see riley-page.js */
 .rp-cta__avatar {
   width: 80px; height: 80px;
-  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  background: linear-gradient(135deg, var(--ax-accent-deep), var(--ax-accent));
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   font-weight: 900; font-size: 1.8rem;
-  margin: 0 auto 40px;
-  position: relative;
-  box-shadow: 0 0 0 0 rgba(124,58,237,0.4);
+  color: var(--ax-bg);
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 0 rgba(167,139,250,0.4);
   animation: rp-avatar-pulse 2.5s ease-out infinite;
 }
 @keyframes rp-avatar-pulse {
-  0%   { box-shadow: 0 0 0 0   rgba(124,58,237,0.5); }
-  70%  { box-shadow: 0 0 0 30px rgba(124,58,237,0); }
-  100% { box-shadow: 0 0 0 0   rgba(124,58,237,0); }
+  0%   { box-shadow: 0 0 0 0   rgba(167,139,250,0.5); }
+  70%  { box-shadow: 0 0 0 30px rgba(167,139,250,0); }
+  100% { box-shadow: 0 0 0 0   rgba(167,139,250,0); }
 }
 .rp-cta__rings {
   position: absolute;
   inset: -20px;
   border-radius: 50%;
-  border: 1px solid rgba(124,58,237,0.2);
+  border: 1px solid rgba(167,139,250,0.2);
   animation: rp-ring-expand 3s ease-out infinite;
 }
 .rp-cta__rings:nth-child(2) { animation-delay: 1s; }
@@ -709,8 +751,8 @@ body.riley-page {
   align-items: center;
   gap: 12px;
   padding: 20px 48px;
-  background: linear-gradient(135deg, #7c3aed, #6d28d9);
-  color: #fff;
+  background: linear-gradient(135deg, var(--ax-accent-deep), var(--ax-accent));
+  color: var(--ax-bg);
   font-size: 1.1rem;
   font-weight: 700;
   border: none;
@@ -723,8 +765,9 @@ body.riley-page {
 }
 .rp-cta__btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 20px 60px rgba(124,58,237,0.5);
+  box-shadow: 0 20px 60px rgba(167,139,250,0.5);
 }
+.rp-cta__btn[disabled] { cursor: wait; opacity: 0.75; }
 .rp-cta__btn.riley-trigger { /* uses existing riley.js state machine */ }
 .rp-cta__btn .riley-pulse-dot {
   display: inline-block;
@@ -736,6 +779,14 @@ body.riley-page {
   margin-top: 20px;
   font-size: 0.78rem;
   color: rgba(255,255,255,0.3);
+}
+
+@media (max-width: 900px) {
+  .rp-cta__grid { grid-template-columns: 1fr; gap: 32px; text-align: center; }
+  .rp-cta__orb-wrap { max-width: 280px; margin: 0 auto; }
+  .rp-cta__content { text-align: center; margin: 0 auto; }
+  .rp-cta__content .riley-status-text,
+  .rp-cta__content .riley-controls { justify-content: center; text-align: center; }
 }
 
 /* Loading spinner: visible while disabled (SDK init), gone when ready */

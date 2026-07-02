@@ -3,11 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="modulepreload" href="./vapi-sdk.js">
-  <link rel="preconnect" href="https://api.vapi.ai">
-  <link rel="dns-prefetch" href="https://api.vapi.ai">
-  <link rel="preconnect" href="https://aws.vapi.ai">
-  <link rel="dns-prefetch" href="https://aws.vapi.ai">
   <link rel="preconnect" href="https://www.googletagmanager.com">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-G6PEL64BSW"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G6PEL64BSW',{anonymize_ip:true});</script>
@@ -27,7 +22,7 @@
         <div class="ax-header__panel" role="menu">
           <a href="/services.html" class="ax-header__panel-item"><span class="ax-header__panel-label">Services</span><span class="ax-header__panel-desc">What Axon Core builds for you</span></a>
           <a href="/how-it-works.html" class="ax-header__panel-item"><span class="ax-header__panel-label">How It Works</span><span class="ax-header__panel-desc">From call to live in 14 days</span></a>
-          <a href="/demo.html" class="ax-header__panel-item"><span class="ax-header__panel-label">Live Demo</span><span class="ax-header__panel-desc">Talk to Riley — our AI agent</span></a>
+          <a href="/riley.html" class="ax-header__panel-item"><span class="ax-header__panel-label">Live Demo</span><span class="ax-header__panel-desc">Talk to Riley — our AI agent</span></a>
         </div>
       </div>
       <div class="ax-header__drop">
@@ -48,7 +43,7 @@
     <nav class="ax-header__mobile-nav">
       <a href="/services.html" class="ax-header__mobile-link">Services</a>
       <a href="/how-it-works.html" class="ax-header__mobile-link">How It Works</a>
-      <a href="/demo.html" class="ax-header__mobile-link">Live Demo</a>
+      <a href="/riley.html" class="ax-header__mobile-link">Live Demo</a>
       <a href="/results.html" class="ax-header__mobile-link">ROI Calculator</a>
       <a href="/results.html#ax-industries" class="ax-header__mobile-link">ROI by Industry</a>
       <a href="/pricing.html" class="ax-header__mobile-link">Pricing</a>
@@ -80,10 +75,10 @@
     <h2 class="ax-headline ax-reveal" style="margin-top:16px;">Call Riley now &mdash;<br><span>she's always available.</span></h2>
     <p class="ax-subheadline ax-reveal" style="margin:16px auto 40px;">This is a real AI voice call. Riley will ask about your business, recommend the right Axoncore package, and handle the conversation end-to-end — just like your clients would experience.</p>
     <div class="ax-reveal" style="display:flex;justify-content:center;">
-      <button class="riley-trigger ax-btn-riley" id="riley-demo-btn" type="button" data-default-label="Call Riley — Start Demo" style="font-size:1.1rem;padding:18px 36px;">
+      <a href="riley.html" class="ax-btn-riley" id="riley-demo-btn" style="font-size:1.1rem;padding:18px 36px;">
         <span class="riley-pulse-dot"></span>
         <span class="riley-btn-label">Call Riley — Start Demo</span>
-      </button>
+      </a>
     </div>
     <p class="ax-reveal" style="margin-top:20px;font-size:0.8rem;color:var(--ax-muted);">For demonstration purposes only. Riley is an AI — not a human. Average call: 2&ndash;4 minutes.</p>
   </div>
@@ -204,44 +199,7 @@
   </div>
 </footer>
 <script>document.getElementById('ax-year').textContent=new Date().getFullYear();</script>
-<!-- Riley call modal — required by riley.js showModal() -->
-<div id="riley-modal" hidden data-state="idle" role="dialog" aria-modal="true" aria-labelledby="riley-name">
-  <div class="riley-modal__backdrop"></div>
-  <div class="riley-modal__card">
-    <div class="riley-avatar" id="riley-avatar" data-speaking="false">
-      <span class="riley-avatar__ring riley-avatar__ring--1"></span>
-      <span class="riley-avatar__ring riley-avatar__ring--2"></span>
-      <span class="riley-avatar__ring riley-avatar__ring--3"></span>
-      <span class="riley-avatar__face">R</span>
-    </div>
-    <p class="riley-name" id="riley-name">Riley</p>
-    <p class="riley-subtitle">AI Voice Agent &middot; Axoncore</p>
-    <p class="riley-status-text" id="riley-status-text" aria-live="polite">Connecting&hellip;</p>
-    <div class="riley-waveform" id="riley-waveform" aria-hidden="true">
-      <span class="riley-waveform__bar"></span>
-      <span class="riley-waveform__bar"></span>
-      <span class="riley-waveform__bar"></span>
-      <span class="riley-waveform__bar"></span>
-      <span class="riley-waveform__bar"></span>
-      <span class="riley-waveform__bar"></span>
-      <span class="riley-waveform__bar"></span>
-    </div>
-    <div class="riley-controls">
-      <button id="riley-mute-btn" class="riley-ctrl-btn riley-ctrl-btn--mute" type="button" data-muted="false" aria-label="Mute microphone">
-        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"/></svg>
-        <span class="riley-btn-label">Mute</span>
-      </button>
-      <button id="riley-end-btn" class="riley-ctrl-btn riley-ctrl-btn--end" type="button" aria-label="End call">
-        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-        <span class="riley-btn-label">End Call</span>
-      </button>
-    </div>
-    <p class="riley-brand">Hear what your customers would experience</p>
-  </div>
-</div>
-
 <script src="main.js"></script>
 <script src="demo.js"></script>
-<script type="module" src="riley.js"></script>
 </body>
 </html>

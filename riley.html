@@ -26,6 +26,15 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="riley-page.css">
 
+  <!-- Three.js — voice orb (riley-orb.js) -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"
+    }
+  }
+  </script>
+
   <!-- GA4 (same as main site) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-G6PEL64BSW"></script>
   <script>
@@ -351,46 +360,68 @@
   </section>
 
   <!-- ─── SECTION 5: CTA (LIVE RILEY) ─────────────────────────── -->
-  <section class="rp-cta" aria-labelledby="rp-cta-h">
+  <section class="rp-cta rp-cta--split" id="riley-cta-panel" aria-labelledby="rp-cta-h" data-state="idle">
     <!-- WebGL light rays -->
     <div class="rp-cta__rays" data-light-rays aria-hidden="true"></div>
 
-    <div class="rp-cta__content">
-      <p class="rp-cta__eyebrow" data-reveal>She's live right now</p>
-
-      <h2 class="rp-cta__headline" id="rp-cta-h">
-        Talk<br>to Riley.
-      </h2>
-
-      <p class="rp-cta__sub" data-reveal>
-        This is the real thing — the same AI that answers<br>
-        your future clients' calls, ready to take yours now.
-      </p>
-
-      <!-- Pulsing avatar -->
-      <div class="rp-cta__avatar" aria-hidden="true">
-        R
-        <div class="rp-cta__rings"></div>
-        <div class="rp-cta__rings"></div>
-        <div class="rp-cta__rings"></div>
+    <div class="rp-cta__grid">
+      <div class="rp-cta__orb-wrap" aria-hidden="true">
+        <canvas id="riley-orb-canvas"></canvas>
+        <!-- Fallback avatar — shown only if WebGL/orb init fails -->
+        <div class="rp-cta__avatar" id="rp-cta-avatar-fallback" hidden>
+          R
+          <div class="rp-cta__rings"></div>
+          <div class="rp-cta__rings"></div>
+          <div class="rp-cta__rings"></div>
+        </div>
       </div>
 
-      <!-- Talk to Riley button — uses riley.js state machine -->
-      <div class="rp-cta__btn-wrap">
-        <button class="rp-cta__btn riley-trigger" id="riley-cta-btn" aria-label="Start a live conversation with Riley">
-          <span class="riley-loading-indicator" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="9" stroke-dasharray="56" stroke-dashoffset="14"/>
+      <div class="rp-cta__content">
+        <p class="rp-cta__eyebrow" data-reveal>She's live right now</p>
+
+        <h2 class="rp-cta__headline" id="rp-cta-h">
+          Talk<br>to Riley.
+        </h2>
+
+        <p class="rp-cta__sub" data-reveal>
+          This is the real thing — the same AI that answers<br>
+          your future clients' calls, ready to take yours now.
+        </p>
+
+        <p class="riley-status-text" id="riley-status-text" aria-live="polite"></p>
+
+        <!-- Talk to Riley button — uses riley.js state machine -->
+        <div class="rp-cta__btn-wrap">
+          <button class="rp-cta__btn riley-trigger" id="riley-cta-btn" aria-label="Start a live conversation with Riley">
+            <span class="riley-loading-indicator" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="9" stroke-dasharray="56" stroke-dashoffset="14"/>
+              </svg>
+            </span>
+            <span class="riley-btn-label">
+              <span class="riley-pulse-dot" aria-hidden="true"></span>
+              Talk to Riley — Live Demo
+            </span>
+          </button>
+        </div>
+
+        <div class="riley-controls" id="riley-cta-controls">
+          <button id="riley-mute-btn" class="riley-ctrl-btn riley-ctrl-btn--mute" type="button" data-muted="false" aria-label="Mute microphone">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"/>
             </svg>
-          </span>
-          <span class="riley-btn-label">
-            <span class="riley-pulse-dot" aria-hidden="true"></span>
-            Talk to Riley — Live Demo
-          </span>
-        </button>
-      </div>
+            <span class="riley-btn-label">Mute</span>
+          </button>
+          <button id="riley-end-btn" class="riley-ctrl-btn riley-ctrl-btn--end" type="button" aria-label="End call">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+            <span class="riley-btn-label">End Call</span>
+          </button>
+        </div>
 
-      <p class="rp-cta__meta">Free · No sign-up · Takes 30 seconds</p>
+        <p class="rp-cta__meta">Free · No sign-up · Takes 30 seconds</p>
+      </div>
     </div>
   </section>
 
@@ -405,7 +436,11 @@
   </footer>
 
   <!-- ─── SCRIPTS ──────────────────────────────────────────────── -->
-  <!-- riley.js first — starts VAPI SDK initialization immediately -->
+  <!-- VAPI SDK — was missing entirely on this page before; riley.js needs window.Vapi -->
+  <script src="vapi-sdk.js"></script>
+  <!-- Voice orb — sets window.RileyOrb before riley.js needs it -->
+  <script type="module" src="riley-orb.js"></script>
+  <!-- riley.js — starts VAPI SDK initialization immediately -->
   <script type="module" src="riley.js"></script>
 
   <!-- Animation dependencies -->
