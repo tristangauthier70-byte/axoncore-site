@@ -911,31 +911,15 @@
       </div>
       <div class="ax-contact__right ax-reveal ax-reveal-delay-2">
         <div class="ax-calendly-wrap">
-          <div class="ax-consent-gate" id="ax-consent-gate" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:20px 24px;margin-bottom:16px;">
-            <label style="display:flex;gap:12px;align-items:flex-start;cursor:pointer;">
-              <input type="checkbox" id="ax-consent-check" style="margin-top:3px;accent-color:#7c3aed;width:16px;height:16px;flex-shrink:0;">
-              <span style="font-size:0.875rem;line-height:1.6;color:rgba(226,232,240,0.8);">
-                I agree to Axoncore collecting my name, email, and phone number to arrange a strategy call, as described in our <a href="/privacy.html" style="color:#7c3aed;" target="_blank">Privacy Policy</a>. I understand my data may be processed outside Singapore by our service providers (Calendly, Twilio, VAPI).
-              </span>
-            </label>
-          </div>
-          <div id="ax-calendly-holder" style="display:none;">
+          <div id="ax-calendly-holder">
             <div class="calendly-inline-widget"
-              data-url="https://calendly.com/tristangauthier70/30min?background_color=0a0518&text_color=e2e8f0&primary_color=7c3aed"
+              data-url="https://calendly.com/tristangauthier70/30min?background_color=08080a&text_color=e2e8f0&primary_color=a78bfa"
               style="min-width:300px;height:700px;"></div>
           </div>
+          <p style="font-size:0.8rem;line-height:1.6;color:rgba(226,232,240,0.55);margin-top:12px;">
+            By booking, you agree to Axoncore collecting your name, email, and phone number to arrange this call, as described in our <a href="/privacy.html" style="color:#A78BFA;" target="_blank">Privacy Policy</a>. Your data may be processed outside Singapore by our service providers (Calendly, Twilio, VAPI). You'll be asked to confirm this again before your booking is submitted.
+          </p>
         </div>
-        <script>
-        (function(){
-          var cb = document.getElementById('ax-consent-check');
-          var holder = document.getElementById('ax-calendly-holder');
-          if (cb && holder) {
-            cb.addEventListener('change', function(){
-              holder.style.display = this.checked ? 'block' : 'none';
-            });
-          }
-        })();
-        </script>
       </div>
     </div>
   </div>
@@ -1002,9 +986,9 @@
     <div class="ax-footer__bottom">
       <p>&copy; <span id="ax-year"></span> Victoria Janice, trading as Axoncore &nbsp;&middot;&nbsp; Singapore</p>
       <p style="color:var(--ax-muted);font-size:0.78rem;">
-        <a href="/privacy.html" style="color:var(--ax-muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#7c3aed'" onmouseout="this.style.color=''">Privacy Policy</a>
+        <a href="/privacy.html" style="color:var(--ax-muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#A78BFA'" onmouseout="this.style.color=''">Privacy Policy</a>
         &nbsp;&middot;&nbsp;
-        <a href="/terms.html" style="color:var(--ax-muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#7c3aed'" onmouseout="this.style.color=''">Terms of Service</a>
+        <a href="/terms.html" style="color:var(--ax-muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#A78BFA'" onmouseout="this.style.color=''">Terms of Service</a>
         &nbsp;&middot;&nbsp;
         Built with AI &mdash; to help your business run smarter.
       </p>
@@ -1066,9 +1050,9 @@
 </button>
 
 <!-- Cookie Notice -->
-<div id="ax-cookie-notice" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(10,5,24,0.97);border-top:1px solid rgba(255,255,255,0.1);padding:14px 24px;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:0.82rem;color:rgba(226,232,240,0.75);">
-  <span>This site uses cookies from Calendly for booking functionality. By continuing, you accept this. <a href="/privacy.html" style="color:#7c3aed;text-decoration:none;">Privacy Policy</a></span>
-  <button id="ax-cookie-ok" style="background:#7c3aed;color:#fff;border:none;border-radius:6px;padding:7px 18px;font-size:0.82rem;font-weight:600;cursor:pointer;white-space:nowrap;">Got it</button>
+<div id="ax-cookie-notice" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(8,8,10,0.97);border-top:1px solid rgba(255,255,255,0.1);padding:14px 24px;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:0.82rem;color:rgba(226,232,240,0.75);">
+  <span>This site uses cookies from Calendly for booking functionality. By continuing, you accept this. <a href="/privacy.html" style="color:#A78BFA;text-decoration:none;">Privacy Policy</a></span>
+  <button id="ax-cookie-ok" style="background:#A78BFA;color:#fff;border:none;border-radius:6px;padding:7px 18px;font-size:0.82rem;font-weight:600;cursor:pointer;white-space:nowrap;">Got it</button>
 </div>
 <script>
 (function(){
