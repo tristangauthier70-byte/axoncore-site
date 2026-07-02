@@ -141,7 +141,7 @@ p, li, span, a, label {
   align-items: center;
   gap: 0.5rem;
   padding: 0.85rem 2rem;
-  background: linear-gradient(135deg, #A78BFA, #7C3AED);
+  background: linear-gradient(135deg, var(--ax-accent), var(--ax-accent-deep));
   color: #fff !important;
   font-family: var(--ax-font-sans) !important;
   font-size: 0.95rem;
@@ -734,7 +734,7 @@ p, li, span, a, label {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--ax-accent), #7C3AED);
+  background: linear-gradient(135deg, var(--ax-accent), var(--ax-accent-deep));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1333,7 +1333,7 @@ hr {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #A78BFA, #6D28D9);
+  background: linear-gradient(135deg, var(--ax-accent), var(--ax-accent-deep));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1618,7 +1618,7 @@ hr {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #A78BFA, #6D28D9);
+  background: linear-gradient(135deg, var(--ax-accent), var(--ax-accent-deep));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1796,7 +1796,7 @@ hr {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #A78BFA, #7C3AED);
+  background: linear-gradient(135deg, var(--ax-accent), var(--ax-accent-deep));
   cursor: pointer;
   box-shadow: 0 0 12px rgba(167,139,250,0.5);
   transition: box-shadow 0.2s, transform 0.2s;
@@ -1811,7 +1811,7 @@ hr {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #A78BFA, #7C3AED);
+  background: linear-gradient(135deg, var(--ax-accent), var(--ax-accent-deep));
   cursor: pointer;
   border: none;
   box-shadow: 0 0 12px rgba(167,139,250,0.5);
@@ -2394,7 +2394,7 @@ hr {
   top: -12px;
   left: 50%;
   transform: translateX(-50%);
-  background: linear-gradient(135deg, #A78BFA, #7C3AED);
+  background: linear-gradient(135deg, var(--ax-accent), var(--ax-accent-deep));
   color: white;
   font-size: 0.72rem;
   font-weight: 700;
@@ -2747,7 +2747,7 @@ hr {
 }
 
 .ax-ind__bar-fill--after {
-  background: linear-gradient(90deg, #7C3AED, #A78BFA);
+  background: linear-gradient(90deg, var(--ax-accent-deep), var(--ax-accent));
   box-shadow: 0 0 10px rgba(167,139,250,0.45);
 }
 
@@ -2915,7 +2915,7 @@ hr {
   transform: translateX(-50%) translateY(-6px);
   min-width: 220px;
   max-width: calc(100vw - 24px);
-  background: rgba(12,9,25,0.97);
+  background: rgba(15,15,19,0.97);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--ax-border);
@@ -2998,7 +2998,7 @@ hr {
 }
 .ax-service-card__icon {
   width: 48px; height: 48px; border-radius: 12px;
-  background: rgba(124,58,237,0.12);
+  background: rgba(167,139,250,0.12);
   display: flex; align-items: center; justify-content: center;
   margin-bottom: 20px;
 }
@@ -3025,7 +3025,7 @@ hr {
 .ax-hiw-step:last-child { border-bottom: none; }
 .ax-hiw-step__num {
   width: 48px; height: 48px; border-radius: 50%;
-  background: rgba(124,58,237,0.15);
+  background: rgba(167,139,250,0.15);
   border: 1px solid var(--ax-border);
   display: flex; align-items: center; justify-content: center;
   font-size: 1.1rem; font-weight: 700; color: var(--ax-accent);
@@ -3129,7 +3129,7 @@ hr {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #A78BFA, #6D28D9);
+  background: linear-gradient(135deg, var(--ax-accent), var(--ax-accent-deep));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3509,7 +3509,7 @@ hr {
   background: rgba(167,139,250,0.12);
   border-color: var(--ax-accent);
   color: white;
-  box-shadow: 0 0 16px rgba(124,58,237,0.2);
+  box-shadow: 0 0 16px rgba(167,139,250,0.2);
 }
 
 .ax-roi__industry-icon {
@@ -3522,7 +3522,7 @@ hr {
    ============================================================ */
 
 .ax-roi__rec {
-  background: rgba(124,58,237,0.09);
+  background: rgba(167,139,250,0.09);
   border: 1px solid var(--ax-border);
   border-radius: var(--ax-radius);
   padding: 18px 20px;
@@ -4187,7 +4187,7 @@ hr {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--ax-accent, #7c3aed);
+  background: var(--ax-accent);
   flex-shrink: 0;
   animation: riley-dot-pulse 2s ease-in-out infinite;
 }
@@ -4200,7 +4200,7 @@ hr {
 .ax-btn-riley[data-state="connecting"] { opacity: 0.65; cursor: wait; }
 .ax-btn-riley[data-state="connecting"] .riley-pulse-dot {
   background: transparent;
-  border: 2px solid var(--ax-accent, #7c3aed);
+  border: 2px solid var(--ax-accent);
   border-top-color: transparent;
   border-radius: 50%;
   animation: riley-spin 0.7s linear infinite;
@@ -4228,26 +4228,26 @@ hr {
   width: 54px;
   height: 54px;
   border-radius: 50%;
-  background: var(--ax-accent, #7c3aed);
+  background: var(--ax-accent);
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
-  box-shadow: 0 4px 20px rgba(124, 58, 237, 0.5);
+  color: var(--ax-bg);
+  box-shadow: 0 4px 20px rgba(167,139,250,0.5);
   transition: transform 0.2s, box-shadow 0.2s;
   animation: riley-float-pulse 3s ease-in-out infinite;
 }
 
 @keyframes riley-float-pulse {
-  0%, 100% { box-shadow: 0 4px 20px rgba(124,58,237,0.5), 0 0 0 0 rgba(124,58,237,0.3); }
-  60%       { box-shadow: 0 4px 20px rgba(124,58,237,0.5), 0 0 0 12px rgba(124,58,237,0); }
+  0%, 100% { box-shadow: 0 4px 20px rgba(167,139,250,0.5), 0 0 0 0 rgba(167,139,250,0.3); }
+  60%       { box-shadow: 0 4px 20px rgba(167,139,250,0.5), 0 0 0 12px rgba(167,139,250,0); }
 }
 
 #riley-float-btn:hover {
   transform: scale(1.1);
-  box-shadow: 0 6px 28px rgba(124, 58, 237, 0.65);
+  box-shadow: 0 6px 28px rgba(167,139,250,0.65);
   animation: none;
 }
 
@@ -4269,7 +4269,7 @@ hr {
   right: calc(100% + 10px);
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(15, 8, 32, 0.92);
+  background: var(--ax-surface-mid);
   color: #e2e8f0;
   font-size: 0.78rem;
   font-weight: 500;
@@ -4302,7 +4302,7 @@ hr {
 .riley-modal__backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(5, 2, 15, 0.82);
+  background: rgba(5,5,7,0.85);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
@@ -4310,14 +4310,14 @@ hr {
 .riley-modal__card {
   position: relative;
   z-index: 1;
-  background: rgba(15, 8, 32, 0.97);
-  border: 1px solid rgba(167, 139, 250, 0.18);
+  background: var(--ax-surface-low);
+  border: 1px solid var(--ax-border);
   border-radius: 24px;
   padding: 48px 36px 36px;
   text-align: center;
   width: 100%;
   max-width: 340px;
-  box-shadow: 0 0 80px rgba(124,58,237,0.12), 0 24px 48px rgba(0,0,0,0.6);
+  box-shadow: 0 0 80px rgba(167,139,250,0.1), 0 24px 48px rgba(0,0,0,0.6);
   animation: riley-card-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
@@ -4371,16 +4371,16 @@ hr {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #7c3aed 0%, #a855f7 60%, #c084fc 100%);
+  background: linear-gradient(135deg, var(--ax-accent-deep) 0%, var(--ax-accent) 60%, var(--ax-accent-light) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.4rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--ax-bg);
   position: relative;
   z-index: 1;
-  box-shadow: 0 0 30px rgba(124, 58, 237, 0.6);
+  box-shadow: 0 0 30px rgba(167,139,250,0.6);
 }
 
 /* ── Text ────────────────────────────────────────── */
@@ -4503,7 +4503,7 @@ hr {
   transform: translateX(-50%) translateY(-6px);
   min-width: 220px;
   max-width: calc(100vw - 24px);
-  background: rgba(12,9,25,0.97);
+  background: rgba(15,15,19,0.97);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--ax-border);
@@ -4702,7 +4702,7 @@ hr {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #7c3aed, #A78BFA);
+  background: linear-gradient(135deg, var(--ax-accent-deep), var(--ax-accent));
   display: flex;
   align-items: center;
   justify-content: center;
