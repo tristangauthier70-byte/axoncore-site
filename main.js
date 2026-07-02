@@ -111,7 +111,7 @@
     draw();
   }
 
-  /* ── Scroll Reveal — 3D + Blur ── */
+  /* ── Scroll Reveal — 3D + Blur, bidirectional ── */
   function initScrollReveal() {
     const els = document.querySelectorAll('.ax-reveal');
     if (!els.length) return;
@@ -120,7 +120,13 @@
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
           entry.target.classList.add('ax-visible');
-          observer.unobserve(entry.target);
+          entry.target.classList.remove('ax-exit');
+        } else if (entry.boundingClientRect.top < 0) {
+          entry.target.classList.add('ax-exit');
+          entry.target.classList.remove('ax-visible');
+        } else {
+          entry.target.classList.remove('ax-visible');
+          entry.target.classList.remove('ax-exit');
         }
       });
     }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });

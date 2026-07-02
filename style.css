@@ -881,6 +881,18 @@ header-drawer {
   filter: blur(0);
 }
 
+/* Exit state — element has been scrolled past upward */
+.ax-reveal.ax-exit {
+  opacity: 0;
+  transform: perspective(1200px) translateY(-22px) rotateX(-5deg) scale(1.01);
+  filter: blur(3px);
+  transition:
+    opacity    0.42s cubic-bezier(0.4, 0, 1, 1),
+    transform  0.42s cubic-bezier(0.4, 0, 1, 1),
+    filter     0.32s ease;
+  transition-delay: 0s !important;
+}
+
 /* Headings and eyebrows: blur-to-sharp only (no 3D, cleaner) */
 .ax-headline.ax-reveal,
 .ax-eyebrow.ax-reveal,
@@ -902,6 +914,13 @@ header-drawer {
   opacity: 1;
   transform: translateY(0) scale(1);
   filter: blur(0);
+}
+
+.ax-headline.ax-reveal.ax-exit,
+.ax-eyebrow.ax-reveal.ax-exit {
+  opacity: 0;
+  transform: translateY(-14px) scale(1.005);
+  filter: blur(4px);
 }
 
 /* Stagger delays — tight cascade, elements feel connected not sequential */
