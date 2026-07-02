@@ -2,22 +2,27 @@
    AXONCORE — Futuristic AI Agency Design System
    ============================================================ */
 
-/* ── CSS Variables ── */
+/* ── CSS Variables — "The Quiet Signal" design system, see DESIGN.md ── */
 :root {
-  --ax-bg:          #080612;
-  --ax-bg-alt:      #0e0a1e;
-  --ax-accent:      #A78BFA;
-  --ax-accent-light:#C4B5FD;
-  --ax-accent-glow: rgba(167,139,250,0.35);
-  --ax-white:       #FFFFFF;
-  --ax-muted:       rgba(255,255,255,0.55);
-  --ax-border:      rgba(167,139,250,0.2);
-  --ax-card-bg:     rgba(14,10,30,0.8);
-  --ax-font-serif:  'Cormorant Garamond', Georgia, serif;
-  --ax-font-sans:   'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
-  --ax-radius:      12px;
-  --ax-radius-lg:   20px;
-  --ax-transition:  0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  --ax-bg:            #08080A;
+  --ax-bg-alt:        #0F0F13;
+  --ax-surface-mid:   #17171C;
+  --ax-surface-high:  #1E1E24;
+  --ax-accent:        #A78BFA;
+  --ax-accent-deep:   #8B7CF6;
+  --ax-accent-light:  #C4B5FD;
+  --ax-accent-glow:   rgba(167,139,250,0.35);
+  --ax-white:         #FFFFFF;
+  --ax-muted:         rgba(255,255,255,0.6);
+  --ax-border:        rgba(255,255,255,0.08);
+  --ax-card-bg:       rgba(15,15,19,0.8);
+  --ax-graph-ink:     #1E2433;
+  --ax-graph-line:    rgba(148,163,184,0.14);
+  --ax-font-serif:    'Cormorant Garamond', Georgia, serif;
+  --ax-font-sans:     'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  --ax-radius:        12px;
+  --ax-radius-lg:     20px;
+  --ax-transition:    0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 /* ── Global Reset & Base ── */
@@ -29,7 +34,7 @@
 
 html {
   scroll-behavior: smooth;
-  background-color: #080612;
+  background-color: #08080A;
 }
 
 body {
@@ -180,7 +185,7 @@ p, li, span, a, label {
   font-family: var(--ax-font-sans) !important;
   font-size: 0.95rem;
   font-weight: 600;
-  border: 1px solid rgba(167,139,250,0.45);
+  border: 1px solid var(--ax-border);
   border-radius: 6px;
   cursor: pointer;
   text-decoration: none;
@@ -519,7 +524,7 @@ p, li, span, a, label {
   height: 52px;
   border-radius: 12px;
   background: rgba(167,139,250,0.12);
-  border: 1px solid rgba(167,139,250,0.25);
+  border: 1px solid var(--ax-border);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -935,26 +940,10 @@ header-drawer {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Section gradient sweep — visible as each section enters viewport */
-.ax-section {
-  --ax-sweep-opacity: 0;
-  transition: --ax-sweep-opacity 1s ease;
-}
-
-.ax-section::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(167,139,250,0.07) 0%, transparent 70%);
-  opacity: var(--ax-sweep-opacity, 0);
-  pointer-events: none;
-  transition: opacity 1.2s ease;
-  z-index: 0;
-}
-
-.ax-section.ax-section-entered::after {
-  opacity: 1;
-}
+/* Section gradient sweep retired — see DESIGN.md "Don't let a purple radial-gradient
+   sweep fire on every section as it scrolls into view." Sections separate via
+   whitespace only now (The No-Color-Dividers Rule). main.js still toggles
+   .ax-section-entered via IntersectionObserver; it's simply unconsumed here now. */
 
 /* Card specific — slightly more dramatic tilt */
 .ax-card.ax-reveal {
@@ -1188,7 +1177,7 @@ hr {
   height: 36px;
   border-radius: 8px;
   background: rgba(167,139,250,0.1);
-  border: 1px solid rgba(167,139,250,0.2);
+  border: 1px solid var(--ax-border);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1514,7 +1503,7 @@ hr {
 
 .ax-demo__sugg {
   background: rgba(167,139,250,0.1);
-  border: 1px solid rgba(167,139,250,0.3);
+  border: 1px solid var(--ax-border);
   color: #C4B5FD;
   font-size: 11.5px;
   font-family: var(--ax-font-sans);
@@ -2196,11 +2185,15 @@ hr {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 1000;
-  background: rgba(8,6,18,0.7);
+  background: rgba(8,8,10,0.7);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(167,139,250,0.1);
-  transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
+  border-bottom: 1px solid transparent;
+  transition: background 0.3s, box-shadow 0.3s, transform 0.3s, border-color 0.3s;
+}
+
+.ax-header--scrolled {
+  border-bottom-color: var(--ax-border);
 }
 
 .ax-header--scrolled {
@@ -2379,15 +2372,13 @@ hr {
 }
 
 .ax-pricing__card:hover {
-  border-color: rgba(167,139,250,0.4);
+  background: var(--ax-surface-mid);
   transform: translateY(-4px);
-  box-shadow: 0 20px 50px rgba(167,139,250,0.1);
 }
 
 .ax-pricing__card--featured {
-  border-color: rgba(167,139,250,0.5);
-  background: rgba(167,139,250,0.06);
-  box-shadow: 0 0 0 1px rgba(167,139,250,0.2), 0 20px 60px rgba(167,139,250,0.15);
+  border-color: var(--ax-accent);
+  background: var(--ax-surface-mid);
 }
 
 .ax-pricing__card--featured::before {
@@ -2605,10 +2596,10 @@ hr {
 /* --- Projection panel --- */
 .ax-ind__panel {
   margin-top: 24px;
-  border: 1px solid rgba(167,139,250,0.3);
+  border: 1px solid var(--ax-border);
   border-radius: var(--ax-radius-lg);
   overflow: hidden;
-  background: rgba(14,10,30,0.8);
+  background: var(--ax-card-bg);
   backdrop-filter: blur(16px);
   position: relative;
 }
@@ -2669,7 +2660,7 @@ hr {
 
 .ax-ind__pmet {
   background: rgba(167,139,250,0.06);
-  border: 1px solid rgba(167,139,250,0.12);
+  border: 1px solid var(--ax-border);
   border-radius: 10px;
   padding: 14px 12px;
   text-align: center;
@@ -2846,7 +2837,7 @@ hr {
 
 .ax-contact__quote {
   padding: 20px 24px;
-  border: 1px solid rgba(167,139,250,0.18);
+  border: 1px solid var(--ax-border);
   background: rgba(167,139,250,0.05);
   border-radius: 8px;
   margin-top: 2rem;
@@ -2927,7 +2918,7 @@ hr {
   background: rgba(12,9,25,0.97);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(167,139,250,0.15);
+  border: 1px solid var(--ax-border);
   border-radius: 12px;
   padding: 6px;
   opacity: 0;
@@ -3002,7 +2993,7 @@ hr {
   display: inline-block;
   font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
   text-transform: uppercase; color: var(--ax-accent);
-  border: 1px solid rgba(167,139,250,0.3);
+  border: 1px solid var(--ax-border);
   border-radius: 100px; padding: 4px 12px; margin-bottom: 20px;
 }
 .ax-service-card__icon {
@@ -3035,7 +3026,7 @@ hr {
 .ax-hiw-step__num {
   width: 48px; height: 48px; border-radius: 50%;
   background: rgba(124,58,237,0.15);
-  border: 1px solid rgba(167,139,250,0.3);
+  border: 1px solid var(--ax-border);
   display: flex; align-items: center; justify-content: center;
   font-size: 1.1rem; font-weight: 700; color: var(--ax-accent);
   flex-shrink: 0;
@@ -3366,7 +3357,7 @@ hr {
 .ax-pricing__toggle {
   width: 100%;
   background: transparent;
-  border: 1px solid rgba(167,139,250,0.22);
+  border: 1px solid var(--ax-border);
   border-radius: 8px;
   color: rgba(167,139,250,0.85);
   cursor: pointer;
@@ -3470,7 +3461,7 @@ hr {
   letter-spacing: 0.04em;
   color: rgba(167,139,250,0.75);
   background: rgba(167,139,250,0.09);
-  border: 1px solid rgba(167,139,250,0.18);
+  border: 1px solid var(--ax-border);
   border-radius: 4px;
   padding: 3px 8px;
 }
@@ -3532,7 +3523,7 @@ hr {
 
 .ax-roi__rec {
   background: rgba(124,58,237,0.09);
-  border: 1px solid rgba(167,139,250,0.28);
+  border: 1px solid var(--ax-border);
   border-radius: var(--ax-radius);
   padding: 18px 20px;
   margin-top: 14px;
@@ -3698,7 +3689,7 @@ hr {
   padding: 12px 6px;
   background: rgba(167,139,250,0.05);
   border-radius: 10px;
-  border: 1px solid rgba(167,139,250,0.1);
+  border: 1px solid var(--ax-border);
 }
 
 .ax-projection__num {
@@ -3862,7 +3853,7 @@ hr {
   height: 32px;
   border-radius: 50%;
   background: rgba(167,139,250,0.07);
-  border: 1px solid rgba(167,139,250,0.28);
+  border: 1px solid var(--ax-border);
   color: var(--ax-accent);
   cursor: pointer;
   display: flex;
@@ -3965,7 +3956,7 @@ hr {
 
 .ax-pricing__vs-card--ax {
   background: rgba(14,10,30,0.95);
-  border: 1px solid rgba(167,139,250,0.3);
+  border: 1px solid var(--ax-border);
   box-shadow: 0 0 60px rgba(167,139,250,0.1), inset 0 1px 0 rgba(167,139,250,0.08);
 }
 
@@ -4104,7 +4095,7 @@ hr {
 
 .ax-pricing__vs-total--ax {
   background: rgba(167,139,250,0.07);
-  border: 1px solid rgba(167,139,250,0.18);
+  border: 1px solid var(--ax-border);
   color: rgba(167,139,250,0.6);
 }
 
@@ -4125,7 +4116,7 @@ hr {
   height: 40px;
   border-radius: 50%;
   background: var(--ax-bg-alt);
-  border: 1px solid rgba(167,139,250,0.2);
+  border: 1px solid var(--ax-border);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -4515,7 +4506,7 @@ hr {
   background: rgba(12,9,25,0.97);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(167,139,250,0.15);
+  border: 1px solid var(--ax-border);
   border-radius: 12px;
   padding: 6px;
   opacity: 0;
@@ -4588,7 +4579,7 @@ hr {
   text-align: center;
   position: relative;
   z-index: 1;
-  border-top: 1px solid rgba(167,139,250,0.12);
+  border-top: 1px solid var(--ax-border);
 }
 .ax-proof-strip__label {
   font-size: 0.7rem;
@@ -4644,9 +4635,9 @@ hr {
   background: linear-gradient(
     to right,
     transparent 0%,
-    rgba(167,139,250,0.22) 30%,
-    rgba(167,139,250,0.42) 50%,
-    rgba(167,139,250,0.22) 70%,
+    var(--ax-border) 30%,
+    rgba(255,255,255,0.16) 50%,
+    var(--ax-border) 70%,
     transparent 100%
   );
 }
@@ -4657,7 +4648,7 @@ hr {
 
 .ax-transcript {
   background: rgba(14,10,30,0.75);
-  border: 1px solid rgba(167,139,250,0.16);
+  border: 1px solid var(--ax-border);
   border-radius: 16px;
   padding: 24px;
   text-align: left;
@@ -4720,7 +4711,7 @@ hr {
   flex-shrink: 0;
   font-family: var(--ax-font-sans);
   color: white;
-  border: 1px solid rgba(167,139,250,0.3);
+  border: 1px solid var(--ax-border);
 }
 .ax-transcript__bubble {
   background: rgba(255,255,255,0.05);
@@ -4747,11 +4738,124 @@ hr {
   color: var(--ax-accent);
   text-align: center;
   padding-top: 10px;
-  border-top: 1px solid rgba(167,139,250,0.1);
+  border-top: 1px solid var(--ax-border);
   letter-spacing: 0.05em;
   opacity: 0.85;
 }
 @media (max-width: 600px) {
   .ax-transcript { padding: 18px; }
   .ax-transcript__bubble { font-size: 0.8rem; max-width: 85%; }
+}
+
+/* ============================================================
+   ROI Stat — After-Hours Snapshot Widget (Quiet Signal Graph component)
+   ============================================================ */
+.ax-roi-stat__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+  text-align: left;
+  max-width: 1080px;
+}
+
+.ax-roi-stat__lead { text-align: left; }
+
+.ax-roi-stat__widget {
+  position: relative;
+  background: var(--ax-bg-alt);
+  border-radius: var(--ax-radius-lg);
+  overflow: hidden;
+  padding: 36px;
+  transition: background 0.3s ease;
+}
+.ax-roi-stat__widget:hover { background: var(--ax-surface-mid); }
+
+.ax-roi-stat__widget canvas#ax-signal-widget {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.7;
+}
+
+.ax-roi-stat__widget-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.ax-roi-stat__live {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--ax-font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--ax-muted);
+  margin-bottom: 24px;
+}
+
+.ax-roi-stat__live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ax-accent);
+  box-shadow: 0 0 0 rgba(167,139,250,0.5);
+  animation: ax-live-pulse 2.4s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes ax-live-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(167,139,250,0.5); }
+  70%  { box-shadow: 0 0 0 8px rgba(167,139,250,0); }
+  100% { box-shadow: 0 0 0 0 rgba(167,139,250,0); }
+}
+
+.ax-roi-stat__metric {
+  margin-bottom: 28px;
+}
+.ax-roi-stat__metric-value {
+  display: block;
+  font-family: var(--ax-font-serif);
+  font-size: clamp(2.5rem, 4vw, 3.25rem);
+  font-weight: 700;
+  color: var(--ax-white);
+  line-height: 1;
+}
+.ax-roi-stat__metric-label {
+  display: block;
+  font-family: var(--ax-font-sans);
+  font-size: 0.9rem;
+  color: var(--ax-muted);
+  margin-top: 6px;
+}
+
+.ax-roi-stat__rows {
+  display: flex;
+  flex-direction: column;
+}
+.ax-roi-stat__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-top: 1px solid var(--ax-border);
+  font-family: var(--ax-font-sans);
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.75);
+}
+.ax-roi-stat__row strong {
+  color: var(--ax-white);
+  font-weight: 600;
+}
+
+@media (max-width: 860px) {
+  .ax-roi-stat__grid { grid-template-columns: 1fr; gap: 40px; }
+  .ax-roi-stat__lead, .ax-roi-stat__lead > div { text-align: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ax-roi-stat__live-dot { animation: none; }
 }

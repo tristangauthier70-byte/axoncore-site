@@ -636,14 +636,32 @@
 
 
 <!-- ══════════════════════════════════════════════
-     ROI STAT PULL-QUOTE
+     ROI STAT — paired with an illustrative after-hours snapshot widget
 ══════════════════════════════════════════════ -->
-<section class="ax-section" id="ax-roi-stat" style="padding:80px 40px;text-align:center;">
-  <div class="ax-container" style="max-width:620px;">
-    <div class="ax-reveal" style="font-family:var(--ax-font-serif);font-size:clamp(3.5rem,8vw,6rem);color:var(--ax-accent);line-height:1;font-weight:700;margin-bottom:0.5rem;">62%</div>
-    <p class="ax-reveal ax-reveal-delay-1" style="font-size:1.15rem;color:rgba(255,255,255,0.85);margin:0 0 0.75rem;">of calls to service businesses go unanswered after hours</p>
-    <p class="ax-reveal ax-reveal-delay-2" style="font-size:0.9rem;color:var(--ax-muted);margin:0 0 1.5rem;">Axoncore clients capture those calls &mdash; and the revenue that comes with them.</p>
-    <a href="results.html" class="ax-reveal ax-reveal-delay-3" style="color:var(--ax-accent);font-size:0.9rem;text-decoration:none;">Calculate your ROI &thinsp;&rarr;</a>
+<section class="ax-section" id="ax-roi-stat">
+  <div class="ax-container ax-roi-stat__grid">
+    <div class="ax-roi-stat__lead">
+      <div class="ax-reveal" style="font-family:var(--ax-font-serif);font-size:clamp(3.5rem,8vw,6rem);color:var(--ax-white);line-height:1;font-weight:700;margin-bottom:0.5rem;">62%</div>
+      <p class="ax-reveal ax-reveal-delay-1" style="font-size:1.15rem;color:rgba(255,255,255,0.85);margin:0 0 0.75rem;">of calls to service businesses go unanswered after hours</p>
+      <p class="ax-reveal ax-reveal-delay-2" style="font-size:0.9rem;color:var(--ax-muted);margin:0 0 1.5rem;">Axoncore clients capture those calls &mdash; and the revenue that comes with them.</p>
+      <a href="results.html" class="ax-reveal ax-reveal-delay-3" style="color:var(--ax-accent);font-size:0.9rem;text-decoration:none;">Calculate your ROI &thinsp;&rarr;</a>
+    </div>
+
+    <div class="ax-roi-stat__widget ax-reveal ax-reveal-delay-2">
+      <canvas id="ax-signal-widget" aria-hidden="true"></canvas>
+      <div class="ax-roi-stat__widget-inner">
+        <div class="ax-roi-stat__live"><span class="ax-roi-stat__live-dot" aria-hidden="true"></span>After-hours snapshot &mdash; what Riley catches while you sleep</div>
+        <div class="ax-roi-stat__metric">
+          <span class="ax-roi-stat__metric-value ax-counter" data-target="47">0</span>
+          <span class="ax-roi-stat__metric-label">calls answered overnight</span>
+        </div>
+        <div class="ax-roi-stat__rows">
+          <div class="ax-roi-stat__row"><span>Avg. response time</span><strong>&lt;3s</strong></div>
+          <div class="ax-roi-stat__row"><span>After-hours capture rate</span><strong>100%</strong></div>
+          <div class="ax-roi-stat__row"><span>Bookings confirmed</span><strong class="ax-counter" data-target="12">0</strong></div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -664,7 +682,7 @@
       <h2 class="ax-headline">Founding client pricing &mdash; <span>first 50 spots</span></h2>
       <p class="ax-subheadline" style="margin:0 auto 2rem;">Axoncore is offering founding rates to the first 50 clients. Prices increase when spots fill.</p>
     </div>
-    <div class="ax-reveal ax-reveal-delay-2" style="display:inline-block;background:rgba(167,139,250,0.12);border:1px solid rgba(167,139,250,0.35);border-radius:16px;padding:20px 44px;margin-bottom:2rem;">
+    <div class="ax-reveal ax-reveal-delay-2" style="display:inline-block;background:var(--ax-bg-alt);border:1px solid var(--ax-border);border-radius:16px;padding:20px 44px;margin-bottom:2rem;">
       <div style="font-family:var(--ax-font-serif);font-size:clamp(2.5rem,5vw,3.5rem);color:var(--ax-accent);line-height:1;font-weight:700;">from $145</div>
       <div style="font-size:0.9rem;color:var(--ax-muted);margin-top:6px;">per month SGD &middot; founding rate</div>
     </div>

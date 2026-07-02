@@ -1,20 +1,27 @@
 /* ============================================================
-   AXONCORE — Particle Network, Animations & Interactions
+   AXONCORE — The Quiet Signal Graph, Animations & Interactions
+   A dark, ambient node-graph rendered site-wide behind all content.
+   Reads as "Riley quietly listening/connecting" — see DESIGN.md,
+   Section 5, "The Quiet Signal Graph". Ambient nodes/lines stay in
+   the ink/slate family; the brand's one violet accent appears only
+   as a rare emphasis at the cursor's live connection point.
    ============================================================ */
 
 (function () {
   'use strict';
 
-  /* ── Particle Network Canvas ── */
+  /* ── The Quiet Signal Graph (ambient node-graph canvas) ── */
   function initParticles() {
     const canvas = document.getElementById('ax-particle-canvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     let W, H, particles = [], mouse = { x: null, y: null };
     const PARTICLE_COUNT = window.innerWidth < 768 ? 22 : 45;
     const MAX_DIST = 140;
-    const ACCENT = '167,139,250';
+    const GRAPH = '148,163,184';   /* --ax-graph-line family — ambient, always */
+    const SIGNAL = '167,139,250';  /* --ax-accent — rare emphasis at the cursor's live connection only */
 
     function resize() {
       W = canvas.width  = window.innerWidth;
@@ -24,10 +31,10 @@
     function Particle() {
       this.x  = Math.random() * W;
       this.y  = Math.random() * H;
-      this.vx = (Math.random() - 0.5) * 0.4;
-      this.vy = (Math.random() - 0.5) * 0.4;
+      this.vx = reduceMotion ? 0 : (Math.random() - 0.5) * 0.4;
+      this.vy = reduceMotion ? 0 : (Math.random() - 0.5) * 0.4;
       this.r  = Math.random() * 1.8 + 0.6;
-      this.alpha = Math.random() * 0.5 + 0.3;
+      this.alpha = Math.random() * 0.4 + 0.25;
     }
 
     Particle.prototype.update = function () {
@@ -43,10 +50,10 @@
     }
 
     function draw() {
-      ctx.fillStyle = '#080612';
+      ctx.fillStyle = '#08080A';
       ctx.fillRect(0, 0, W, H);
 
-      // Draw lines between nearby particles
+      // Ambient connections between nearby nodes — stays in the graph-ink/slate family always
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
@@ -54,22 +61,18 @@
           const distSq = dx * dx + dy * dy;
           if (distSq < MAX_DIST * MAX_DIST) {
             const dist = Math.sqrt(distSq);
-            var mdx = mouse.x !== null ? particles[i].x - mouse.x : 9999;
-            var mdy = mouse.x !== null ? particles[i].y - mouse.y : 0;
-            var mouseDist = mouse.x !== null ? Math.sqrt(mdx * mdx + mdy * mdy) : 9999;
-            var mouseBoost = mouseDist < 250 ? (1 - mouseDist / 250) * 0.45 : 0;
-            var opacity = (1 - dist / MAX_DIST) * (0.45 + mouseBoost);
-            var width = 0.6 + mouseBoost * 1.5;
+            const opacity = (1 - dist / MAX_DIST) * 0.35;
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(${ACCENT},${opacity})`;
-            ctx.lineWidth = width;
+            ctx.strokeStyle = `rgba(${GRAPH},${opacity})`;
+            ctx.lineWidth = 0.6;
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
             ctx.stroke();
           }
         }
 
-        // Mouse interaction — bright connecting lines to nearby particles
+        // Rare emphasis — the live connection point at the cursor brightens to Signal Violet.
+        // This is the one place the ambient graph and the brand accent mix (The One Voice Rule).
         if (mouse.x !== null) {
           const dx = particles[i].x - mouse.x;
           const dy = particles[i].y - mouse.y;
@@ -78,7 +81,7 @@
             const dist = Math.sqrt(distSq2);
             const opacity = (1 - dist / 220) * 0.85;
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(${ACCENT},${opacity})`;
+            ctx.strokeStyle = `rgba(${SIGNAL},${opacity})`;
             ctx.lineWidth = 1.2;
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(mouse.x, mouse.y);
@@ -86,17 +89,23 @@
           }
         }
 
-        // Draw dot
+        // Node
         ctx.beginPath();
         ctx.arc(particles[i].x, particles[i].y, particles[i].r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${ACCENT},${particles[i].alpha})`;
+        ctx.fillStyle = `rgba(${GRAPH},${particles[i].alpha})`;
         ctx.fill();
 
         particles[i].update();
       }
 
-      if (!document.hidden) requestAnimationFrame(draw);
+      if (!reduceMotion && !document.hidden) requestAnimationFrame(draw);
     }
+
+    resize();
+    init();
+    draw();
+
+    if (reduceMotion) return; // static frame only — no animation loop, no cursor reactivity
 
     document.addEventListener('visibilitychange', function () {
       if (!document.hidden) requestAnimationFrame(draw);
@@ -105,10 +114,80 @@
     window.addEventListener('resize', function () { resize(); init(); });
     window.addEventListener('mousemove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; });
     window.addEventListener('mouseleave', function () { mouse.x = null; mouse.y = null; });
+  }
 
-    resize();
-    init();
-    draw();
+  /* ── Quiet Signal Graph — contained mini instance for the ROI-stat widget card ── */
+  function initSignalWidget() {
+    const canvas = document.getElementById('ax-signal-widget');
+    if (!canvas) return;
+    const wrap = canvas.closest('.ax-roi-stat__widget');
+    const ctx = canvas.getContext('2d');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const GRAPH = '148,163,184';
+    const NODE_COUNT = 14;
+    const MAX_DIST = 90;
+    let W, H, nodes = [], started = false;
+
+    function resize() {
+      const rect = wrap.getBoundingClientRect();
+      W = canvas.width  = rect.width;
+      H = canvas.height = rect.height;
+    }
+
+    function makeNodes() {
+      nodes = [];
+      for (let i = 0; i < NODE_COUNT; i++) {
+        nodes.push({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          vx: reduceMotion ? 0 : (Math.random() - 0.5) * 0.2,
+          vy: reduceMotion ? 0 : (Math.random() - 0.5) * 0.2,
+          r: Math.random() * 1.4 + 0.5,
+          a: Math.random() * 0.3 + 0.2
+        });
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < MAX_DIST) {
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(${GRAPH},${(1 - dist / MAX_DIST) * 0.3})`;
+            ctx.lineWidth = 0.6;
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.stroke();
+          }
+        }
+        ctx.beginPath();
+        ctx.arc(nodes[i].x, nodes[i].y, nodes[i].r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${GRAPH},${nodes[i].a})`;
+        ctx.fill();
+        nodes[i].x += nodes[i].vx;
+        nodes[i].y += nodes[i].vy;
+        if (nodes[i].x < 0 || nodes[i].x > W) nodes[i].vx *= -1;
+        if (nodes[i].y < 0 || nodes[i].y > H) nodes[i].vy *= -1;
+      }
+      if (!reduceMotion) requestAnimationFrame(draw);
+    }
+
+    // Only run once the widget is actually visible — it sits below the fold on load.
+    const observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting && !started) {
+          started = true;
+          resize();
+          makeNodes();
+          draw();
+          window.addEventListener('resize', function () { resize(); makeNodes(); });
+        }
+      });
+    }, { threshold: 0.2 });
+    observer.observe(wrap);
   }
 
   /* ── Scroll Reveal — 3D + Blur, bidirectional ── */
@@ -156,6 +235,12 @@
     const target = parseFloat(el.dataset.target);
     const suffix = el.dataset.suffix || '';
     const prefix = el.dataset.prefix || '';
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      el.textContent = prefix + target + suffix;
+      return;
+    }
+
     const duration = 1800;
     const start = performance.now();
 
@@ -246,6 +331,7 @@
   /* ── Boot ── */
   function boot() {
     initParticles();
+    initSignalWidget();
     initScrollReveal();
     initSectionSweep();
     initCounters();
@@ -359,4 +445,24 @@
     hero.style.opacity = 1 - ratio * 0.5;
     hero.style.transform = 'translateY(' + (s * 0.12) + 'px)';
   }, { passive: true });
+})();
+
+/* ── Pricing Card — Full Details Toggle ── */
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.ax-pricing__toggle').forEach(function(btn) {
+      var details = btn.nextElementSibling;
+      if (!details || !details.classList.contains('ax-pricing__details')) return;
+      var label = btn.querySelector('.ax-pricing__toggle-text');
+      var openText = 'Hide package details';
+      var closedText = label ? label.textContent : 'See full package details';
+
+      btn.addEventListener('click', function() {
+        var open = btn.classList.toggle('ax-pricing__toggle--open');
+        details.classList.toggle('ax-pricing__details--open', open);
+        btn.setAttribute('aria-expanded', open);
+        if (label) label.textContent = open ? openText : closedText;
+      });
+    });
+  });
 })();
