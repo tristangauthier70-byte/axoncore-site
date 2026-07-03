@@ -297,15 +297,23 @@ body.riley-page {
   max-width: 340px;
 }
 .rp-label {
-  opacity: 0;
-  transform: translateX(-20px);
   margin-bottom: 48px;
-  transition: opacity 0.4s, transform 0.4s;
 }
-.rp-label.visible {
-  opacity: 1;
-  transform: translateX(0);
+/* Each piece of a label reveals on its own, staggered, instead of the whole
+   block fading in as one flat unit — reads as text "arriving" line by line
+   rather than a single generic fade. Opacity/transform only (compositor-
+   only, no layout cost) so this adds nothing to the scroll-jank budget. */
+.rp-label__num,
+.rp-label__text,
+.rp-label__sub {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
+.rp-label.visible .rp-label__num  { opacity: 1; transform: translateY(0); transition-delay: 0s; }
+.rp-label.visible .rp-label__text { opacity: 1; transform: translateY(0); transition-delay: 0.09s; }
+.rp-label.visible .rp-label__sub  { opacity: 1; transform: translateY(0); transition-delay: 0.18s; }
+
 .rp-label__num {
   font-size: 0.7rem;
   font-weight: 700;
@@ -326,6 +334,10 @@ body.riley-page {
   color: rgba(255,255,255,0.45);
   margin-top: 6px;
   line-height: 1.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rp-label__num, .rp-label__text, .rp-label__sub { transition: none; }
 }
 
 /* CSS iPhone 15 Frame */
