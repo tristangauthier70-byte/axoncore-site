@@ -312,7 +312,11 @@
       end: 'bottom+=' + (window.innerHeight * 5) + 'px top',
       pin: true,
       pinSpacing: true,
-      scrub: 0.4,   /* slight lag smooths instant native-scroll jumps into the reveal, without touching real scroll position */
+      /* instant sync — every other scroll interaction on this page (and the
+         rest of the site) is plain native scroll with no added lag; a scrub
+         lag here alone made this section feel like a different scroll pace
+         from everything around it. */
+      scrub: true,
       onUpdate: function (self) { onUpdate(self.progress); }
     });
   }
