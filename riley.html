@@ -68,9 +68,9 @@
 
 <body class="riley-page">
 
-  <!-- Custom cursor -->
-  <div class="ax-cursor-dot"  id="ax-cursor-dot"  aria-hidden="true"></div>
-  <div class="ax-cursor-ring" id="ax-cursor-ring" aria-hidden="true"></div>
+  <!-- Ambient background, same as every other page — ties this page back
+       into the rest of the site instead of sitting on its own flat black. -->
+  <canvas id="ax-particle-canvas" aria-hidden="true"></canvas>
 
   <!-- ─── HEADER ──────────────────────────────────────────────── -->
   <header class="rp-header" role="banner">
@@ -473,11 +473,10 @@
   <!-- riley.js — starts VAPI SDK initialization immediately -->
   <script type="module" src="riley.js"></script>
 
-  <!-- Animation dependencies -->
+  <!-- Animation dependencies — Lenis removed, see riley-page.js for why -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   <script src="https://unpkg.com/splitting/dist/splitting.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js" defer></script>
 
   <!-- Page animations -->
   <script src="riley-page.js" defer></script>

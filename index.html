@@ -33,6 +33,22 @@
 </head>
 <body>
 
+<!-- Opening entrance — adapted from Awwwards Pack "Cinematic Loader Entrance"
+     (Hero Animations #20, security-checked: only Google Fonts + GSAP CDN in
+     the original, both already vetted). Rebuilt in pure CSS instead of GSAP
+     and compressed from the original's ~7-8s sequence to ~1.1s — the source
+     technique is a genuine loading-gate pattern (marquee bars hold the
+     screen for several seconds before revealing content), which is exactly
+     the wrong tradeoff on a site that just got a real lag complaint. Page
+     content underneath renders completely normally in parallel the whole
+     time; this is a brief decorative overlay, not a gate. Removed from the
+     DOM entirely after it finishes (see main.js) so it costs nothing once
+     done. Skipped entirely for prefers-reduced-motion. -->
+<div id="ax-intro" aria-hidden="true">
+  <div class="ax-intro__band ax-intro__band--top"><div class="ax-intro__marquee"><span>Axon Core AI</span><span>Axon Core AI</span><span>Axon Core AI</span><span>Axon Core AI</span></div></div>
+  <div class="ax-intro__band ax-intro__band--bottom"><div class="ax-intro__marquee"><span>Axon Core AI</span><span>Axon Core AI</span><span>Axon Core AI</span><span>Axon Core AI</span></div></div>
+</div>
+
 <canvas id="ax-particle-canvas" aria-hidden="true"></canvas>
 
 <!-- ══════════════════════════════════════════════

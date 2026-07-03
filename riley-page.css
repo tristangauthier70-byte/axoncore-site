@@ -8,7 +8,8 @@ body.riley-page {
   background: var(--ax-bg);
   color: #fff;
   font-family: var(--ax-font-sans);
-  cursor: none; /* replaced by custom cursor */
+  /* cursor:none removed — the "custom cursor" it deferred to was two
+     unstyled (invisible) divs, so users browsed with no visible cursor. */
   overflow-x: hidden;
 }
 
@@ -24,8 +25,12 @@ body.riley-page {
   transition: background 0.4s, backdrop-filter 0.4s;
 }
 .rp-header.scrolled {
-  background: rgba(8,6,18,0.85);
-  backdrop-filter: blur(20px) saturate(180%);
+  background: rgba(8,8,10,0.9);
+  /* blur(20px) saturate(180%) recomputed a large gaussian over the full
+     header width on every scrolled frame — at retina DPR 2 that's 4x the
+     pixels of the DPR-1 test environment. blur(8px) keeps the frosted
+     look at a fraction of the per-frame compositing cost. */
+  backdrop-filter: blur(8px);
 }
 .rp-header__logo {
   font-weight: 800;

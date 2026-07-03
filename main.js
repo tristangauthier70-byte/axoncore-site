@@ -328,8 +328,28 @@
     type();
   }
 
+  /* ── Opening entrance cleanup — remove the overlay from the DOM once its
+     animation finishes (or immediately for reduced-motion) so it costs
+     nothing after the ~1.1s reveal. See index.html / style.css for the
+     animation itself. ── */
+  function initIntroCleanup() {
+    var intro = document.getElementById('ax-intro');
+    if (!intro) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      intro.remove();
+      return;
+    }
+    var band = intro.querySelector('.ax-intro__band--top');
+    if (!band) { intro.remove(); return; }
+    band.addEventListener('animationend', function () { intro.remove(); }, { once: true });
+    // Safety net in case the animationend listener is ever missed (e.g. tab
+    // backgrounded mid-animation) — never leave the overlay sitting forever.
+    setTimeout(function () { if (intro.parentNode) intro.remove(); }, 2000);
+  }
+
   /* ── Boot ── */
   function boot() {
+    initIntroCleanup();
     initParticles();
     initSignalWidget();
     initScrollReveal();

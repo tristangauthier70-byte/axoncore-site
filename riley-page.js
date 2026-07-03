@@ -23,42 +23,116 @@
   /* Label reveal thresholds */
   var LABELS_AT = [0.15, 0.45, 0.72];
 
-  /* ── Lenis smooth scroll ────────────────────────────────────── */
-  function initLenis() {
-    if (TOUCH || MOBILE || !window.Lenis) return;
-    var lenis = new window.Lenis({ lerp: 0.08, smoothWheel: true });
-    /* Drive Lenis from exactly one rAF source. Previously this started an
-       independent requestAnimationFrame loop AND registered lenis.raf on
-       GSAP's ticker, so lenis.raf() ran twice per frame — doubling the
-       smoothing math on every single frame of scrolling, whether or not
-       anything was actually scrolling. Use the GSAP ticker (recommended
-       for ScrollTrigger integration) when available; fall back to a plain
-       rAF loop only if GSAP/ScrollTrigger didn't load. */
-    if (window.gsap && window.ScrollTrigger) {
-      lenis.on('scroll', window.ScrollTrigger.update);
-      window.gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
-      window.gsap.ticker.lagSmoothing(0);
-    } else {
-      (function raf(t) { lenis.raf(t); requestAnimationFrame(raf); })();
-    }
-  }
+  /* ── Smooth scroll: REMOVED (was Lenis) ─────────────────────────
+     Lenis was measurably corrupting wheel input on this page: a
+     reproducible test dispatching 3000px of real wheel events produced
+     6334px of actual scrolling (deltas applied ~2x) plus another ~760px
+     of self-scrolling drift for seconds after input stopped — exactly the
+     reported "scroll barely moves, then flies to the bottom on its own"
+     symptom. Native macOS/browser scrolling is already smooth and
+     ScrollTrigger binds to native scroll by default, so the library was
+     all risk and no benefit here. The Lenis CDN script tag was removed
+     from riley.html at the same time.
 
-  /* ── Custom cursor (same as main site) ─────────────────────── */
-  function initCursor() {
-    var dot  = document.getElementById('ax-cursor-dot');
-    var ring = document.getElementById('ax-cursor-ring');
-    if (!dot || !ring || TOUCH) return;
-    var mx = 0, my = 0, rx = 0, ry = 0;
-    document.addEventListener('mousemove', function (e) { mx = e.clientX; my = e.clientY; dot.style.transform = 'translate(' + (mx-4) + 'px,' + (my-4) + 'px)'; });
-    (function lerp() {
-      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
-      ring.style.transform = 'translate(' + (rx-20) + 'px,' + (ry-20) + 'px)';
-      requestAnimationFrame(lerp);
-    })();
-    document.querySelectorAll('a, button, .rp-cap-card').forEach(function (el) {
-      el.addEventListener('mouseenter', function () { ring.classList.add('ax-cursor-ring--hover'); });
-      el.addEventListener('mouseleave', function () { ring.classList.remove('ax-cursor-ring--hover'); });
+     The custom cursor was also removed: body.riley-page set cursor:none
+     but the .ax-cursor-dot/-ring elements it was meant to replace never
+     had any CSS anywhere in the project — users browsed this page with
+     no visible cursor at all, while a dead rAF loop moved two invisible
+     divs every frame. */
+
+  /* ── Ambient background — same "Quiet Signal Graph" node canvas used on
+     every other page (see main.js), ported directly rather than loading
+     all of main.js here (which also drives scroll-reveal, counters, the
+     sticky header, card tilt, pricing toggle, etc. — none of which apply
+     to this page's markup, just parse/execute weight this page doesn't
+     need). Ties this page visually back into the rest of the site instead
+     of a flat, disconnected black. Identical implementation/cost profile
+     to the version already proven cheap across every other page. ── */
+  function initAmbientBackground() {
+    var canvas = document.getElementById('ax-particle-canvas');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+
+    var W, H, particles = [], mouse = { x: null, y: null };
+    var PARTICLE_COUNT = MOBILE ? 22 : 45;
+    var MAX_DIST = 140;
+    var GRAPH = '148,163,184';
+    var SIGNAL = '167,139,250';
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+
+    function Particle() {
+      this.x = Math.random() * W;
+      this.y = Math.random() * H;
+      this.vx = REDUCED ? 0 : (Math.random() - 0.5) * 0.4;
+      this.vy = REDUCED ? 0 : (Math.random() - 0.5) * 0.4;
+      this.r = Math.random() * 1.8 + 0.6;
+      this.alpha = Math.random() * 0.4 + 0.25;
+    }
+    Particle.prototype.update = function () {
+      this.x += this.vx; this.y += this.vy;
+      if (this.x < 0 || this.x > W) this.vx *= -1;
+      if (this.y < 0 || this.y > H) this.vy *= -1;
+    };
+
+    function init() {
+      particles = [];
+      for (var i = 0; i < PARTICLE_COUNT; i++) particles.push(new Particle());
+    }
+
+    function draw() {
+      ctx.fillStyle = '#08080A';
+      ctx.fillRect(0, 0, W, H);
+      for (var i = 0; i < particles.length; i++) {
+        for (var j = i + 1; j < particles.length; j++) {
+          var dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
+          var distSq = dx * dx + dy * dy;
+          if (distSq < MAX_DIST * MAX_DIST) {
+            var dist = Math.sqrt(distSq);
+            ctx.beginPath();
+            ctx.strokeStyle = 'rgba(' + GRAPH + ',' + ((1 - dist / MAX_DIST) * 0.35) + ')';
+            ctx.lineWidth = 0.6;
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+        if (mouse.x !== null) {
+          var mdx = particles[i].x - mouse.x, mdy = particles[i].y - mouse.y;
+          var mDistSq = mdx * mdx + mdy * mdy;
+          if (mDistSq < 220 * 220) {
+            var mDist = Math.sqrt(mDistSq);
+            ctx.beginPath();
+            ctx.strokeStyle = 'rgba(' + SIGNAL + ',' + ((1 - mDist / 220) * 0.85) + ')';
+            ctx.lineWidth = 1.2;
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.stroke();
+          }
+        }
+        ctx.beginPath();
+        ctx.arc(particles[i].x, particles[i].y, particles[i].r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(' + GRAPH + ',' + particles[i].alpha + ')';
+        ctx.fill();
+        particles[i].update();
+      }
+      if (!REDUCED && !document.hidden) requestAnimationFrame(draw);
+    }
+
+    resize();
+    init();
+    draw();
+    if (REDUCED) return;
+
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden) requestAnimationFrame(draw);
     });
+    window.addEventListener('resize', function () { resize(); init(); });
+    window.addEventListener('mousemove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; });
+    window.addEventListener('mouseleave', function () { mouse.x = null; mouse.y = null; });
   }
 
   /* ── Build phone conversation DOM ───────────────────────────── */
@@ -324,9 +398,8 @@
     if (window.gsap && window.ScrollTrigger) {
       window.gsap.registerPlugin(window.ScrollTrigger);
     }
+    initAmbientBackground();
     buildConversation();
-    initLenis();
-    initCursor();
     initHeader();
     initHero();
     initCaps();

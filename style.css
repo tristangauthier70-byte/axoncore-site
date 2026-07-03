@@ -2,6 +2,29 @@
    AXONCORE — Futuristic AI Agency Design System
    ============================================================ */
 
+/* ── Page transitions — native browser cross-fade between full-page
+   navigations (View Transitions API, "MPA" mode: `navigation: auto`).
+   Zero JS, zero bundle weight, hardware-composited. Browsers without
+   support (older Safari/Firefox) simply keep today's instant navigation
+   — this is pure progressive enhancement, nothing to break or slow down.
+   Respects prefers-reduced-motion by falling back to an instant swap. ── */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.32s;
+  animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
+
 /* ── CSS Variables — "The Quiet Signal" design system, see DESIGN.md ── */
 :root {
   --ax-bg:            #08080A;
@@ -4887,4 +4910,69 @@ hr {
 
 @media (prefers-reduced-motion: reduce) {
   .ax-roi-stat__live-dot { animation: none; }
+}
+
+/* ============================================================
+   Opening Entrance — adapted from Awwwards Pack "Cinematic Loader
+   Entrance" (Hero Animations #20), compressed ~7x and rebuilt in pure
+   CSS. See index.html for the full provenance/rationale comment.
+   ============================================================ */
+#ax-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  pointer-events: none;
+  background: transparent;
+}
+.ax-intro__band {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  overflow: hidden;
+  background: #08080A;
+  animation-duration: 1.1s;
+  animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  animation-fill-mode: forwards;
+}
+.ax-intro__band--top {
+  top: 0;
+  animation-name: ax-intro-slide-up;
+}
+.ax-intro__band--bottom {
+  bottom: 0;
+  animation-name: ax-intro-slide-down;
+}
+.ax-intro__marquee {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 48px;
+  white-space: nowrap;
+  font-family: var(--ax-font-serif);
+  font-weight: 600;
+  font-size: clamp(2rem, 7vw, 5rem);
+  color: #fff;
+  mix-blend-mode: difference;
+  animation: ax-intro-sweep 0.85s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+.ax-intro__marquee span { flex-shrink: 0; }
+
+@keyframes ax-intro-sweep {
+  from { transform: translateY(-50%) translateX(0); }
+  to   { transform: translateY(-50%) translateX(-38%); }
+}
+@keyframes ax-intro-slide-up {
+  0%, 45%  { transform: translateY(0); }
+  100%     { transform: translateY(-100%); }
+}
+@keyframes ax-intro-slide-down {
+  0%, 45%  { transform: translateY(0); }
+  100%     { transform: translateY(100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #ax-intro { display: none; }
 }
