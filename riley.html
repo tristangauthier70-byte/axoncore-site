@@ -18,14 +18,19 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://api.vapi.ai">
   <link rel="preconnect" href="https://aws.vapi.ai">
-  <!-- CDN origins for deferred/module scripts below (three.js, lenis, gsap,
-       ScrollTrigger, splitting) — none of these had a preconnect hint before,
-       so each one paid a fresh DNS+TCP+TLS handshake the moment the parser
-       reached it, serially adding to time-to-interactive on this
-       animation-heavy page. -->
+  <!-- Only three.js still comes from a CDN (jsdelivr, via the importmap
+       below) — gsap/ScrollTrigger/splitting used to load from cdnjs +
+       unpkg (two more origins, each its own DNS+TCP+TLS handshake) but are
+       now self-hosted (see script tags near the bottom) specifically
+       because that CDN fetch, when slow/cold-cache, was the root cause of
+       a confirmed bug: initPhoneConversation()'s ScrollTrigger pin
+       wouldn't exist until those scripts finished loading, and creating a
+       pin (with up to 5 viewport-heights of pinSpacing) that late/that
+       suddenly produced a large layout shift right as a visitor's first
+       scroll landed. Self-hosting removes the race entirely — same
+       treatment already applied to vapi-sdk.js and three.module.min.js on
+       this page for the same class of problem. -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-  <link rel="preconnect" href="https://unpkg.com" crossorigin>
 
   <!-- Fonts — same as main site -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -473,10 +478,16 @@
   <!-- riley.js — starts VAPI SDK initialization immediately -->
   <script type="module" src="riley.js"></script>
 
-  <!-- Animation dependencies — Lenis removed, see riley-page.js for why -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  <script src="https://unpkg.com/splitting/dist/splitting.min.js" defer></script>
+  <!-- Animation dependencies — Lenis removed, see riley-page.js for why.
+       gsap/ScrollTrigger/splitting self-hosted (pinned exact versions:
+       GSAP+ScrollTrigger 3.12.5, Splitting 1.1.0 — splitting was
+       previously fetched via an UNPINNED unpkg URL with no version in the
+       path at all, silently riding whatever "latest" happened to resolve
+       to) — eliminates the two-CDN-origin fetch race that let a visitor's
+       first scroll land before initPhoneConversation()'s pin existed. -->
+  <script src="gsap.min.js" defer></script>
+  <script src="ScrollTrigger.min.js" defer></script>
+  <script src="splitting.min.js" defer></script>
 
   <!-- Page animations -->
   <script src="riley-page.js" defer></script>
@@ -487,7 +498,7 @@
       var input = document.getElementById('rp-phone-input');
       if (input && !input.disabled) {
         input.value = el.textContent;
-        input.focus();
+        input.focus({ preventScroll: true }); // same fix as riley-demo.js setInput() — don't let focus silently scroll the page
         var send = document.getElementById('rp-phone-send');
         if (send && !send.disabled) send.click();
       }

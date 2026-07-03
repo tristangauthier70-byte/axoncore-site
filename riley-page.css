@@ -4,6 +4,27 @@
 ═══════════════════════════════════════════════════════════════ */
 
 /* ── Reset (inherits global, but override body for this page) ── */
+
+/* style.css sets html{scroll-behavior:smooth} sitewide (it's genuinely
+   useful for index.html's in-page anchor nav — #ax-pricing, #ax-contact —
+   so it stays there for everyone else). This file loads after style.css
+   and only on riley.html, so this override is scoped to this page alone.
+
+   GSAP's own ScrollTrigger docs warn against combining scroll-behavior:
+   smooth with ScrollTrigger, and this page runs a scrub-linked pin
+   (#rp-demo). Confirmed empirically, not just by the docs: with smooth
+   active, ANY native browser-driven scroll on this page (focus-triggered
+   scroll-into-view, keyboard/Tab navigation, etc.) turns into a slow,
+   eased, multi-hundred-millisecond-to-multi-second animated glide instead
+   of an instant jump — that's what made the setInput() focus() bug (see
+   riley-demo.js) read as a sluggish, unprompted "scroll flies down the
+   page" rather than an imperceptible snap. Native instant scrolling is
+   already smooth on real hardware; nothing on this page relies on
+   scroll-behavior:smooth (no same-page # anchor links exist here). */
+html {
+  scroll-behavior: auto;
+}
+
 body.riley-page {
   background: var(--ax-bg);
   color: #fff;

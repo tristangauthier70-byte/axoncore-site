@@ -224,7 +224,19 @@
   function setInput(enabled) {
     inputEl.disabled = !enabled;
     sendBtn.disabled = !enabled;
-    if (enabled) inputEl.focus();
+    /* preventScroll: true — THIS IS THE FIX for "scroll jumps to the bottom
+       on its own ~2s after page load." setInput(true) fires from the
+       auto-greet timer 1.2s after this script loads, completely unprompted
+       by the visitor. #rp-phone-input lives far down the page (section 4b,
+       "Try it yourself"), so a bare .focus() made the browser silently
+       invoke its native "scroll focused element into view" behavior on a
+       section nobody asked to see — confirmed via instrumented Playwright
+       trace: focus() fires, then scrollY climbs from 0 toward that input's
+       position over the next ~900ms with zero user input. preventScroll
+       keeps the input ready to type into (unchanged behavior for the
+       normal case where the visitor already has this section in view)
+       without hijacking the viewport for everyone else. */
+    if (enabled) inputEl.focus({ preventScroll: true });
     inputEl.placeholder = enabled ? 'Message Riley…' : 'Riley is typing…';
   }
   function matchAny(txt, words) {
