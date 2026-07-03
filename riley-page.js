@@ -305,10 +305,14 @@
     window.ScrollTrigger.create({
       trigger: section,
       start: 'top top',
-      end: 'bottom+=' + (window.innerHeight * 2.5) + 'px top',
+      /* 8 conversation beats + 3 labels need to be readable while scrolling.
+         At 2.5x viewport this played out in ~1-2s of real scrolling (roughly
+         one wheel flick per beat) — far too fast to read. 5x roughly doubles
+         the scroll distance per beat. */
+      end: 'bottom+=' + (window.innerHeight * 5) + 'px top',
       pin: true,
       pinSpacing: true,
-      scrub: true,   /* true = instant sync, smoother than 0.5 spring */
+      scrub: 0.4,   /* slight lag smooths instant native-scroll jumps into the reveal, without touching real scroll position */
       onUpdate: function (self) { onUpdate(self.progress); }
     });
   }
