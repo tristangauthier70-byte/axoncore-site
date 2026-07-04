@@ -9,7 +9,113 @@
   <link rel="stylesheet" href="style.css">
   <title>Pricing — Axoncore</title>
   <meta name="description" content="Simple, transparent AI front desk pricing. Packages A, B and C in SGD. Founding rates for first 50 clients.">
+  <meta property="og:title" content="Pricing — Axoncore">
+  <meta property="og:description" content="Simple, transparent AI front desk pricing. Packages A, B and C in SGD. Founding rates for first 50 clients.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://axoncoreai.com/pricing.html">
+  <meta property="og:site_name" content="Axoncore">
+  <meta property="og:image" content="https://axoncoreai.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_SG">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Pricing — Axoncore">
+  <meta name="twitter:description" content="Simple, transparent AI front desk pricing. Packages A, B and C in SGD. Founding rates for first 50 clients.">
+  <meta name="twitter:image" content="https://axoncoreai.com/og-image.png">
   <link rel="canonical" href="https://axoncoreai.com/pricing.html">
+
+  <!-- Structured data — every tier's real price, in plain parseable form.
+       The on-page tier switcher (tier.js) only renders the Lite figures
+       into static HTML by default; Standard/Pro/Enterprise only appear
+       after a visitor clicks through the switcher. A crawler or AI engine
+       reading the page without simulating those clicks would otherwise
+       only ever see Lite pricing — this schema exposes all three real
+       tiers per package regardless of UI state. Keep in sync with
+       tier.js's TIER_DATA if pricing changes. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": "https://axoncoreai.com/pricing.html#package-a",
+        "name": "Package A — Frontline Reception",
+        "description": "Your 24/7 AI voice receptionist. Answers every call in under 3 seconds, handles FAQs, and books, reschedules or cancels appointments — with after-hours call capture and lead recording on every enquiry.",
+        "provider": { "@type": "ProfessionalService", "name": "Axoncore", "url": "https://axoncoreai.com/" },
+        "areaServed": { "@type": "Country", "name": "Singapore" },
+        "offers": [
+          { "@type": "Offer", "name": "Package A — Lite", "priceCurrency": "SGD", "price": "145", "priceSpecification": [ { "@type": "UnitPriceSpecification", "price": "145", "priceCurrency": "SGD", "billingDuration": "P1M", "unitText": "per month, 300 minutes included" }, { "@type": "UnitPriceSpecification", "price": "599", "priceCurrency": "SGD", "unitText": "one-time setup fee" } ] },
+          { "@type": "Offer", "name": "Package A — Standard", "priceCurrency": "SGD", "price": "250", "priceSpecification": [ { "@type": "UnitPriceSpecification", "price": "250", "priceCurrency": "SGD", "billingDuration": "P1M", "unitText": "per month, 600 minutes included" }, { "@type": "UnitPriceSpecification", "price": "599", "priceCurrency": "SGD", "unitText": "one-time setup fee" } ] },
+          { "@type": "Offer", "name": "Package A — Pro", "priceCurrency": "SGD", "price": "450", "priceSpecification": [ { "@type": "UnitPriceSpecification", "price": "450", "priceCurrency": "SGD", "billingDuration": "P1M", "unitText": "per month, 1200 minutes included" }, { "@type": "UnitPriceSpecification", "price": "599", "priceCurrency": "SGD", "unitText": "one-time setup fee" } ] }
+        ]
+      },
+      {
+        "@type": "Service",
+        "@id": "https://axoncoreai.com/pricing.html#package-b",
+        "name": "Package B — Conversion System",
+        "description": "Everything in Package A, plus an AI website chatbot that responds to visitors in under 1 second, qualifies leads, and books appointments directly from the chat widget — with automated follow-up sequences and a lead dashboard.",
+        "provider": { "@type": "ProfessionalService", "name": "Axoncore", "url": "https://axoncoreai.com/" },
+        "areaServed": { "@type": "Country", "name": "Singapore" },
+        "offers": [
+          { "@type": "Offer", "name": "Package B — Lite", "priceCurrency": "SGD", "price": "600", "priceSpecification": [ { "@type": "UnitPriceSpecification", "price": "600", "priceCurrency": "SGD", "billingDuration": "P1M", "unitText": "per month, 300 minutes included" }, { "@type": "UnitPriceSpecification", "price": "999", "priceCurrency": "SGD", "unitText": "one-time setup fee" } ] },
+          { "@type": "Offer", "name": "Package B — Standard", "priceCurrency": "SGD", "price": "705", "priceSpecification": [ { "@type": "UnitPriceSpecification", "price": "705", "priceCurrency": "SGD", "billingDuration": "P1M", "unitText": "per month, 600 minutes included" }, { "@type": "UnitPriceSpecification", "price": "999", "priceCurrency": "SGD", "unitText": "one-time setup fee" } ] },
+          { "@type": "Offer", "name": "Package B — Pro", "priceCurrency": "SGD", "price": "905", "priceSpecification": [ { "@type": "UnitPriceSpecification", "price": "905", "priceCurrency": "SGD", "billingDuration": "P1M", "unitText": "per month, 1200 minutes included" }, { "@type": "UnitPriceSpecification", "price": "999", "priceCurrency": "SGD", "unitText": "one-time setup fee" } ] }
+        ]
+      },
+      {
+        "@type": "Service",
+        "@id": "https://axoncoreai.com/pricing.html#package-c",
+        "name": "Package C — OmniChannel Front Desk",
+        "description": "Everything in Package B, plus WhatsApp, Instagram and Facebook integration — your entire front desk automated across every channel customers use to reach you.",
+        "provider": { "@type": "ProfessionalService", "name": "Axoncore", "url": "https://axoncoreai.com/" },
+        "areaServed": { "@type": "Country", "name": "Singapore" },
+        "offers": [
+          { "@type": "Offer", "name": "Package C — Lite", "priceCurrency": "SGD", "price": "899", "priceSpecification": [ { "@type": "UnitPriceSpecification", "price": "899", "priceCurrency": "SGD", "billingDuration": "P1M", "unitText": "per month, 300 minutes included" }, { "@type": "UnitPriceSpecification", "price": "1399", "priceCurrency": "SGD", "unitText": "one-time setup fee" } ] },
+          { "@type": "Offer", "name": "Package C — Standard", "priceCurrency": "SGD", "price": "1199", "priceSpecification": [ { "@type": "UnitPriceSpecification", "price": "1199", "priceCurrency": "SGD", "billingDuration": "P1M", "unitText": "per month, 600 minutes included" }, { "@type": "UnitPriceSpecification", "price": "1399", "priceCurrency": "SGD", "unitText": "one-time setup fee" } ] },
+          { "@type": "Offer", "name": "Package C — Pro", "priceCurrency": "SGD", "price": "1399", "priceSpecification": [ { "@type": "UnitPriceSpecification", "price": "1399", "priceCurrency": "SGD", "billingDuration": "P1M", "unitText": "per month, 1200 minutes included" }, { "@type": "UnitPriceSpecification", "price": "1399", "priceCurrency": "SGD", "unitText": "one-time setup fee" } ] }
+        ]
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How long does setup take?",
+        "acceptedAnswer": { "@type": "Answer", "text": "14 days from your first discovery call to going live. We handle everything — you review and approve before anything is switched on." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is there a contract?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes, 36-month service agreement. This allows us to invest in building and optimising a system that's specifically tuned to your business. The longer horizon means your AI gets significantly smarter over time." }
+      },
+      {
+        "@type": "Question",
+        "name": "What if I get more calls than my plan?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Overage is billed at $0.60/min beyond your included minutes. Most clients stay within their plan — we help you select the right tier during the discovery call." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I upgrade my package or tier later?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes, anytime. You can move up a tier (Lite to Standard to Pro) or add more channels (Package A to B to C) as your business grows." }
+      },
+      {
+        "@type": "Question",
+        "name": "Do you handle all the technical setup?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Completely. You don't touch any configuration. We provision your phone number, integrate your booking system, and train the AI — then hand you a working system." }
+      },
+      {
+        "@type": "Question",
+        "name": "What happens after the 36-month term?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Your system continues running and you move to a month-to-month arrangement. We'll also discuss what improvements are available with any newer AI capabilities." }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 <canvas id="ax-particle-canvas" aria-hidden="true"></canvas>
@@ -20,7 +126,7 @@
       <div class="ax-header__drop">
         <button class="ax-header__link ax-header__droptrigger" aria-expanded="false" aria-haspopup="true">Platform<svg class="ax-header__chevron" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>
         <div class="ax-header__panel" role="menu">
-          <a href="/services.html" class="ax-header__panel-item" role="menuitem"><span class="ax-header__panel-label">Services</span><span class="ax-header__panel-desc">What Axon Core builds for you</span></a>
+          <a href="/services.html" class="ax-header__panel-item" role="menuitem"><span class="ax-header__panel-label">Services</span><span class="ax-header__panel-desc">What Axoncore builds for you</span></a>
           <a href="/how-it-works.html" class="ax-header__panel-item" role="menuitem"><span class="ax-header__panel-label">How It Works</span><span class="ax-header__panel-desc">From call to live in 14 days</span></a>
           <a href="/riley.html" class="ax-header__panel-item" role="menuitem"><span class="ax-header__panel-label">Live Demo</span><span class="ax-header__panel-desc">Talk to Riley — our AI agent</span></a>
         </div>
@@ -299,7 +405,7 @@
       <div class="ax-footer__links-group"><h4 class="ax-footer__col-title">Company</h4><ul class="ax-footer__list"><li><a href="/book-a-call.html">Book a Call</a></li><li><a href="mailto:helloaxoncore@gmail.com">Contact</a></li><li><a href="/privacy.html">Privacy Policy</a></li><li><a href="/terms.html">Terms of Service</a></li></ul></div>
     </div>
     <div class="ax-divider" style="margin:40px 0 24px;"></div>
-    <div class="ax-footer__bottom"><p>&copy; <span id="ax-year"></span> Axon Core AI &middot; Singapore</p></div>
+    <div class="ax-footer__bottom"><p>&copy; <span id="ax-year"></span> Axoncore &middot; Singapore</p></div>
   </div>
 </footer>
 <script>document.getElementById('ax-year').textContent=new Date().getFullYear();</script>
