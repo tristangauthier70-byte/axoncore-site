@@ -3420,7 +3420,10 @@ hr {
 }
 
 .ax-pricing__details--open {
-  max-height: 900px;
+  /* JS (main.js) sets an inline max-height to the panel's real scrollHeight
+     on open, which overrides this -- this is only a no-JS fallback, sized
+     generously so content is never silently clipped if JS doesn't run. */
+  max-height: 3000px;
   opacity: 1;
 }
 

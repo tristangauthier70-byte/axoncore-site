@@ -480,9 +480,29 @@
       btn.addEventListener('click', function() {
         var open = btn.classList.toggle('ax-pricing__toggle--open');
         details.classList.toggle('ax-pricing__details--open', open);
+        // Real content height, not a guessed fixed value -- a fixed
+        // max-height (previously 900px in CSS) silently clips whichever
+        // package's content happens to run longer than that guess at a
+        // given viewport width, with no visible error. Recomputed on
+        // every open so it's always correct for however long the content
+        // actually is, at whatever width the browser happens to be.
+        details.style.maxHeight = open ? details.scrollHeight + 'px' : '';
         btn.setAttribute('aria-expanded', open);
         if (label) label.textContent = open ? openText : closedText;
       });
+    });
+
+    // If the window is resized while a panel is open (rotation, DevTools
+    // docking, manual resize), text reflows and the panel's real height
+    // changes -- recompute so it can't silently clip again.
+    var resizeTimer;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function() {
+        document.querySelectorAll('.ax-pricing__details--open').forEach(function(d) {
+          d.style.maxHeight = d.scrollHeight + 'px';
+        });
+      }, 150);
     });
   });
 })();
