@@ -12,6 +12,15 @@
   var VOLUME_HINT  = '';  // 'lite' | 'standard' | 'pro'
   var USER_NAME    = '';
 
+  /* "Comprehension" state (dialogue spec v2, Section 2.1) — plain
+     module-scope vars, set once captured, never reset (a single demo
+     session doesn't loop back through greet/qualify_channel/qualify_volume,
+     so there's nothing to reset between). */
+  var VOLUME_NUMBER = null;  // integer or null — the actual monthly number given, if any
+  var BUSINESS_TYPE  = '';   // 'restaurant'|'salon'|'clinic'|'realestate'|'legal'|'other'|''
+  var BUSINESS_RAW   = '';   // user's own noun phrase for their business, verbatim, if captured
+  var CHANNEL_RAW    = '';   // specific channel term user actually used, if more specific than the bucket
+
   /* Retry/escalation counters — let the bot handle repeated "I don't know" /
      repeated "yes please, book me" without ever asking the exact same
      question twice in a row (see handleUncertain() and the fast-track
@@ -54,7 +63,7 @@
 
   // Auto-greet after 1.2s
   setTimeout(function () {
-    addMsg('riley', "Hi, I'm *Riley* — Axon Core's AI receptionist. I answer calls, qualify leads, and book appointments 24/7.\n\nWhat kind of business do you run?");
+    addMsg('riley', "I'm Riley — Axon Core's AI receptionist. I handle inbound calls and messages, qualify the lead, and book the appointment, end to end, with no human in the loop.\n\nWhat's the business?");
     STATE = 'greet';
     setInput(true);
   }, 1200);
@@ -116,15 +125,39 @@
            pricing once I know your setup" deferral, which would be untrue
            (setup is already known) and would ignore the real question. */
         var faqPkg = getPackage();
-        return riley("To recap — the *" + faqPkg.name + "* is " + faqPkg.setup + " setup (one-time) plus " + faqPkg.monthly + "/mo, including " + faqPkg.mins + ", on our 36-month founding-rate agreement. Want me to lock in that free strategy call so we can walk through it together?");
+        return riley("*" + faqPkg.name + "*: " + faqPkg.setup + " setup, " + faqPkg.monthly + "/mo, " + faqPkg.mins + " included, 36-month founding-client rate. I can lock in the strategy call now — want that?");
       }
-      return riley("Happy to get you exact numbers — I just need your setup first so I quote the right package, not a generic one. Takes 30 seconds. " + nextPrompt());
+      return riley("Exact numbers need your setup first — otherwise I'm quoting a generic package, not yours. " + nextPrompt());
     }
     if (matchAny(txt, FAQ_HOWITWORKS_WORDS)) {
-      return riley("I'm an AI trained on your specific business — your FAQs, pricing, services. When a client calls or messages:\n\n• I answer instantly, 24/7\n• I qualify them in 2 questions\n• I book the appointment automatically\n\nNo hold music. No missed calls. No humans needed. " + nextPrompt());
+      return riley("Trained on your FAQs, pricing, and services. When someone calls or messages:\n\n• Answered instantly, 24/7\n• Qualified in 2 questions\n• Booked automatically\n\nNo hold music, no missed calls, no human handoff. " + nextPrompt());
+    }
+    if (matchAny(txt, FAQ_RELIABILITY_WORDS)) {
+      /* New in dialogue spec v2 (Section 5, item 7) — highest-priority new
+         branch, checked ahead of FAQ_REALAI_WORDS deliberately: testing
+         showed a realistic phrasing like "what if the AI makes a mistake
+         and double-books someone" contains the bare word "ai", which
+         FAQ_REALAI_WORDS also matches. FAQ_REALAI_WORDS' word list is
+         broad by design (single common words like "ai"/"bot"), so if it
+         ran first it would win that collision and answer the wrong
+         question — exactly the failure mode this branch exists to
+         prevent. Checking the new, more specific reliability list first
+         means the more substantive question gets the substantive answer.
+         The reply already ends on its own forward-motion question
+         (principle 5 — state the offer once, don't chase it), so no
+         nextPrompt() is appended here — doing so would stack a second
+         question mark right after the first. */
+      return riley("No published error rate to quote honestly — this is a live, continuously-monitored system, not a static script. Double-bookings are prevented at the calendar layer (the system checks availability before confirming, same as a human would) — and Axon Core, not you, is responsible for fixing a scheduling error caused by the system itself. Want me to have Tristan walk through the monitoring setup on the strategy call?");
+    }
+    if (matchAny(txt, FAQ_CONTRACT_WORDS)) {
+      /* New in dialogue spec v2 (Section 5, item 8) — same priority tier
+         and same reasoning as FAQ_RELIABILITY_WORDS above (own closing
+         question, no nextPrompt() appended; checked ahead of
+         FAQ_REALAI_WORDS for the same collision-avoidance reason). */
+      return riley("Fair question. The 36-month term is what makes the founding-client rate possible — Axon Core prices this like infrastructure, not a trial subscription. If it's a concern, the strategy call is the place to raise it directly with Tristan before anything is signed — no commitment happens on this chat. Want me to flag that for the call?");
     }
     if (matchAny(txt, FAQ_REALAI_WORDS)) {
-      return riley("100% real AI — not a human, not a recording. The same technology answers your actual clients' calls every day. This exact conversation is what your callers experience.\n\n" + nextPrompt());
+      return riley("Real AI, not a human or a recording. This exact conversation — same latency, same logic — is what your callers get.\n\n" + nextPrompt());
     }
 
     /* State machine — runs BEFORE the generic book/interested/yes/sure
@@ -149,19 +182,65 @@
          branch, since we don't consult that word list here at all. */
       var nameMatch = txt.match(/(?:i'm|i am|my name is|name's)\s+([a-z]+)/i);
       if (nameMatch) USER_NAME = cap(nameMatch[1]);
+      /* Comprehension capability 2.2(a) — capture the user's own noun
+         phrase for their business (verbatim, reads as "heard") if they
+         used an "I run/we run/..." style lead-in, and classify a
+         BUSINESS_TYPE bucket independently (used as a fallback label when
+         BUSINESS_RAW isn't captured, or when the phrasing is too unusual
+         to match the capture regex at all — see Section 2.4/2.2(a)). */
+      var bizMatch = txt.match(/(?:i run|i own|we run|we own|we have|i have|we're a|i am a|i'm a|it's a|its a)\s+(?:a |an |the )?([a-z][a-z\s&'-]{1,38})/i);
+      if (bizMatch) {
+        var rawBiz = bizMatch[1].replace(/[.,!?;:]+\s*$/, '').trim();
+        /* Stored lowercase, not cap()'d here -- its only consumer,
+           businessTypeLine(), always embeds it mid-sentence ("for a " +
+           BUSINESS_RAW + " — "), so capitalizing at capture time produced
+           a stray mid-sentence capital (e.g. "for a Family dental clinic")
+           once combined into qualifyChannel()'s full line. The outer
+           cap(combined) in qualifyChannel() already handles capitalizing
+           just the first letter of the whole sentence correctly. */
+        if (rawBiz) BUSINESS_RAW = rawBiz;
+      }
+      BUSINESS_TYPE = classifyBusinessType(txt);
       return qualifyChannel();
     }
 
     if (STATE === 'qualify_channel') {
-      if (matchAny(txt, ['phone','call','ring','voice','number'])) {
-        CHANNEL_HINT = 'phone';
-        return qualifyVolume();
-      }
-      if (matchAny(txt, ['whatsapp','instagram','facebook','social','tiktok','all','every','omni','multiple','mix'])) {
+      /* Comprehension capability 2.2(d)/2.4 — capture a specific,
+         proper-noun-ish channel term if the user named one, for use in
+         recommend()'s coverage line. Captured regardless of which branch
+         below fires. */
+      CHANNEL_RAW = captureChannelRaw(txt);
+      /* Logic fix (dialogue spec v2, Section 5 item 3): the old
+         first-match-wins if/return chain misread "we take calls but
+         people mostly message us on the website" as phone-only, because
+         the phone check ran first and returned immediately — the chat
+         signal in the same sentence was silently dropped. Fix: check all
+         three categories, count how many matched, and only classify as a
+         single channel when exactly one matched; two or more means the
+         business genuinely is omnichannel. */
+      /* matchAnyNotNegated(), not plain matchAny() — see its definition
+         near isAffirmativeConsent() for why: a naive substring match on
+         single common words like "social"/"all"/"call" false-positives
+         on negated phrasing ("we don't do social", "no calls, just
+         chat"), which would wrongly push matchCount to 2+ and misroute a
+         genuinely single-channel answer to the omni bucket. */
+      var isPhone = matchAnyNotNegated(txt, ['phone','call','calls','ring','voice','number']);
+      var isOmni  = matchAnyNotNegated(txt, ['whatsapp','instagram','facebook','social','tiktok','all','every','omni','multiple','mix']);
+      var isChat  = matchAnyNotNegated(txt, ['chat','website','web','message','online','email']);
+      var matchCount = (isPhone ? 1 : 0) + (isOmni ? 1 : 0) + (isChat ? 1 : 0);
+      if (matchCount >= 2) {
         CHANNEL_HINT = 'omni';
         return qualifyVolume();
       }
-      if (matchAny(txt, ['chat','website','web','message','online','email'])) {
+      if (isPhone) {
+        CHANNEL_HINT = 'phone';
+        return qualifyVolume();
+      }
+      if (isOmni) {
+        CHANNEL_HINT = 'omni';
+        return qualifyVolume();
+      }
+      if (isChat) {
         CHANNEL_HINT = 'chat';
         return qualifyVolume();
       }
@@ -174,8 +253,25 @@
     }
 
     if (STATE === 'qualify_volume') {
-      var num = parseInt(txt.replace(/[^0-9]/g, ''), 10);
+      /* Bug fix (dialogue spec v2, Section 5 item 1): the old
+         `parseInt(txt.replace(/[^0-9]/g, ''), 10)` stripped every
+         non-digit character out of the ENTIRE string and concatenated
+         whatever digits remained — "150-200 a month" became the digit
+         string "150200", which parseInt read as 150,200 and would
+         wildly over-trigger the Pro tier on a parsing bug, not a real
+         signal. Fix: extract the first standalone number via regex
+         instead of concatenating every digit in the string. Also handles
+         thousands separators ("1,200 a month") and "k" shorthand
+         ("2k a month" → 2000). */
+      var numMatch = txt.match(/\d[\d,]*/);
+      var num = numMatch ? parseInt(numMatch[0].replace(/,/g, ''), 10) : NaN;
+      var kMatch = txt.match(/(\d+(?:\.\d+)?)\s*k\b/i);
+      if (kMatch) num = Math.round(parseFloat(kMatch[1]) * 1000);
       var hasNum = !isNaN(num);
+      /* Store the actual number given (not just the bucket) whenever one
+         was found, even if it doesn't cleanly land in a lite/pro bucket
+         by keyword — used by recommend()'s volumeLine() callback. */
+      if (hasNum) VOLUME_NUMBER = num;
       var liteWord = matchAny(txt, ['few','small','low','quiet','not many','10','20','30','40','50','60','70','80','90','100']);
       var proWord  = matchAny(txt, ['lots','many','busy','high','hundreds','over 200','250','300','400','500']);
       if ((hasNum && num < 120) || liteWord) {
@@ -225,7 +321,7 @@
     }
 
     /* Fallback */
-    riley("Got it. " + nextPrompt());
+    riley(nextPrompt());
   }
 
   /* ── Generic "sounds like they want to book" fallback ──────────
@@ -267,9 +363,9 @@
         return true;
       }
       var lines = [
-        "Glad to hear it — let's make sure we get you the right fit. Two quick questions first. ",
-        "Appreciate that — just one more thing so I recommend the right fit. ",
-        "Great, let's lock this in — one last detail first. "
+        "Right fit first needs two data points — ",
+        "One more input before I can size this correctly — ",
+        "Last detail, then this is locked to the right package — "
       ];
       var line = lines[Math.min(FASTTRACK_COUNT, lines.length - 1)];
       FASTTRACK_COUNT++;
@@ -278,7 +374,7 @@
     }
     /* Unexpected/transient state (e.g. still 'idle') — don't reference
        "2 quick questions" since qualification may already be done. */
-    riley("Great — let's get you sorted. " + nextPrompt());
+    riley(nextPrompt());
     return true;
   }
 
@@ -332,6 +428,25 @@
       return !NEGATION_WORDS_RE.test(windowWords);
     });
   }
+  /* General-purpose version of the same negation-window check, reused by
+     the qualify_channel multi-category classifier (Section 5 item 3).
+     Found via testing: a plain matchAny() on the omni word list false-
+     positives on "Phone only, we don't do social." — "social" is a real
+     substring match even though it's explicitly negated, which pushed
+     matchCount to 2 and misclassified a single-channel (phone-only)
+     answer as omni. That's the same class of bug isAffirmativeConsent()
+     was already written to prevent for "I don't want to book anything",
+     so it gets the same fix here rather than a bespoke one-off. */
+  function matchAnyNotNegated(txt, words) {
+    return words.some(function (w) {
+      var re = new RegExp('\\b' + escapeRegex(w) + '\\b', 'i');
+      var m = re.exec(txt);
+      if (!m) return false;
+      var before = txt.slice(0, m.index).trim();
+      var windowWords = before.length ? before.split(/\s+/).slice(-3).join(' ') : '';
+      return !NEGATION_WORDS_RE.test(windowWords);
+    });
+  }
 
   function handleRecommendOrBookReply(txt) {
     if (STATE === 'book') {
@@ -341,12 +456,12 @@
          affirmative here is harmless/idempotent (just replays the
          confirmation), never a fresh unconsented booking. */
       if (isDecline(txt)) {
-        return riley("That's already locked in on our end — if plans change, just let us know at hello@axoncoreai.com. Anything else I can help with?");
+        return riley("Already locked in. Reach hello@axoncoreai.com if that changes. Anything else?");
       }
       if (isAffirmativeConsent(txt)) {
         return showBooking();
       }
-      return riley("You're all set — check your inbox for the confirmation. Anything else I can help with before then?");
+      return riley("You're set — confirmation's in your inbox. Anything else before the call?");
     }
 
     /* STATE === 'recommend' */
@@ -359,7 +474,7 @@
     /* Neither a recognized decline nor a recognized affirmative — hedge
        or unrecognized text. Restate the offer without pressure; do NOT
        book, do NOT change state. */
-    return riley("Of course. Happy to answer anything else, or whenever you're ready, just say the word and I'll lock in that free 30-minute strategy call. " + nextPrompt());
+    return riley("No issue. Ask anything else, or say the word when you want the strategy call locked in. " + nextPrompt());
   }
 
   /* Warm, rotating decline acknowledgement — never books, never changes
@@ -367,9 +482,9 @@
      declines more than once doesn't see the same sentence twice. */
   function handleDecline() {
     var lines = [
-      "No worries at all — the offer's always open if you change your mind. Anything else I can help clarify?",
-      "Understood — no pressure at all. The free strategy call offer stands whenever you're ready — just ask.",
-      "Sure thing — take whatever time you need. I'm happy to answer any other questions about the setup or pricing."
+      "The offer stands, no expiry. Anything else worth covering first?",
+      "Understood. Same offer, whenever it's useful — the setup and pricing are open for questions in the meantime.",
+      "Noted. I can go deeper on setup, pricing, or anything else before you decide."
     ];
     var line = lines[Math.min(DECLINE_COUNT, lines.length - 1)];
     DECLINE_COUNT++;
@@ -388,7 +503,7 @@
 
     if (STATE === 'greet') {
       if (UNCERTAIN_COUNT === 1) {
-        return riley("No worries — could be a restaurant, salon, clinic, real estate agency, anything client-facing. What's closest?");
+        return riley("Broad categories: restaurant, salon, clinic, real estate, professional services. Closest fit?");
       }
       /* Still unsure on the second try — move on with a general/unknown
          business assumption instead of looping a third time. */
@@ -397,7 +512,7 @@
 
     if (STATE === 'qualify_channel') {
       if (UNCERTAIN_COUNT === 1) {
-        return riley("No problem — even a rough idea helps. Mostly phone calls, website messages, or social media like WhatsApp/Instagram/Facebook?");
+        return riley("A rough split works. Mostly phone, website messages, or WhatsApp/Instagram/Facebook?");
       }
       CHANNEL_HINT = CHANNEL_HINT || 'omni';
       return qualifyVolume();
@@ -405,7 +520,7 @@
 
     if (STATE === 'qualify_volume') {
       if (UNCERTAIN_COUNT === 1) {
-        return riley("No stress — a ballpark is fine. Under 100 a month, a few hundred, or more than that?");
+        return riley("Ballpark is fine. Under 100 a month, a few hundred, or more?");
       }
       VOLUME_HINT = VOLUME_HINT || 'standard';
       return recommend();
@@ -427,38 +542,41 @@
          fastTrackIntercept()'s lines) so a prospect who hesitates more
          than once doesn't see the exact same sentence twice. */
       var hedgeLines = [
-        "No pressure at all — totally your call. Whenever you're ready, just say the word and I'll lock in that free 30-minute strategy call for you. No obligation either way.",
-        "Take your time — there's no rush at all. Just let me know whenever you'd like that free strategy call and I'll get it locked in.",
-        "Totally fine to sit with it a bit longer. The free 30-minute strategy call offer isn't going anywhere whenever you're ready."
+        "Your call, no deadline attached. Say the word when you want the strategy call, and I'll lock it in.",
+        "The strategy call stays open — let me know when it's useful.",
+        "No expiry on the offer. Ready when you are."
       ];
       var hedgeLine = hedgeLines[Math.min(UNCERTAIN_COUNT - 1, hedgeLines.length - 1)];
       return riley(hedgeLine);
     }
 
-    return riley("That's alright, we'll figure it out together. " + nextPrompt());
+    return riley(nextPrompt());
   }
 
   /* ── Conversation steps ─────────────────────────────────────── */
   function qualifyChannel() {
     STATE = 'qualify_channel';
-    riley((USER_NAME ? 'Nice to meet you, ' + USER_NAME + '! ' : 'Got it. ') + "Quick question — how do clients usually reach you? *Phone calls*, *website chat*, *WhatsApp / Instagram / Facebook*, or a mix of all of them?");
+    var lead = USER_NAME ? USER_NAME + ' — ' : '';
+    var bizLine = businessTypeLine(); // "for a X — " or ''
+    var combined = lead + bizLine;
+    if (combined) combined = cap(combined); // capitalize whichever part leads
+    riley(combined + "How do clients reach you — phone, website chat, WhatsApp/Instagram/Facebook, or a mix?");
   }
 
   function qualifyVolume() {
     STATE = 'qualify_volume';
-    var channelLabel = CHANNEL_HINT === 'phone' ? 'calls' : CHANNEL_HINT === 'chat' ? 'website messages' : 'enquiries across your channels';
-    riley("Got it. And roughly how many " + channelLabel + " does your business handle in a typical month?");
+    riley("And roughly how many " + channelLabel() + " per month?");
   }
 
   function recommend() {
     STATE = 'recommend';
     var pkg = getPackage();
-    riley("Based on what you've told me, I'd recommend our *" + pkg.name + "*.\n\n• Setup: " + pkg.setup + " (one-time)\n• Monthly: " + pkg.monthly + "/mo\n• Includes: " + pkg.mins + "\n• 36-month agreement · Founding client rate\n\nThis covers " + channelCopy() + " — all handled automatically by your AI, 24/7. Want me to book you a free 30-minute strategy call with Tristan to get you live in 14 days?");
+    riley(volumeLine() + "*" + pkg.name + "* fits.\n\n• Setup: " + pkg.setup + " (one-time)\n• Monthly: " + pkg.monthly + "\n• Included: " + pkg.mins + "\n• 36-month agreement, founding-client rate\n\nCovers " + (CHANNEL_RAW || channelCopy()) + ", fully automated. I can put 30 minutes on Tristan's calendar to get this live in 14 days — want that?");
   }
 
   function showBooking() {
     STATE = 'book';
-    riley("Perfect — locking that in for you now.", function () {
+    riley("Locking that in now.", function () {
       setTimeout(function () {
         if (confirmEl) {
           /* Swap in a strategy call confirmation */
@@ -466,7 +584,7 @@
           var subEl   = confirmEl.querySelector('.rp-confirm__sub');
           var rows    = confirmEl.querySelectorAll('.rp-confirm__row');
           if (titleEl) titleEl.textContent = 'CALL BOOKED ✓';
-          if (subEl)   subEl.textContent   = 'Tristan will walk you through your custom setup.';
+          if (subEl)   subEl.textContent   = 'Tristan walks you through the setup directly.';
           if (rows[0]) rows[0].querySelector('.rp-confirm__val').textContent = USER_NAME || 'You';
           if (rows[1]) rows[1].querySelector('.rp-confirm__val').textContent = '30-min Strategy Call';
           if (rows[2]) rows[2].querySelector('.rp-confirm__val').textContent = 'hello@axoncoreai.com';
@@ -615,18 +733,37 @@
     'is this a bot', 'real ai', 'actual human', 'real person',
     'talking to a bot', 'talking to a human', 'even real', 'actually real'
   ];
+  /* New FAQ word lists (dialogue spec v2, Section 5 items 7-8) — a
+     sophisticated skeptical prospect asking about error rate/liability or
+     36-month contract risk previously had no answerable branch and fell
+     through to the generic fallback. Included in matchesFaqKeywords() too,
+     for the same reason the original three lists are: an uncertainty
+     phrase ("not sure I trust locking into 36 months") can still be a
+     genuine, answerable question, and the more specific FAQ signal should
+     win over the generic uncertainty heuristic. */
+  var FAQ_RELIABILITY_WORDS = [
+    'error rate', 'liable', 'liability', 'double-book', 'double book',
+    'mistake', 'hallucinate', 'what if you get it wrong', 'accuracy'
+  ];
+  var FAQ_CONTRACT_WORDS = [
+    '36-month', '36 month', 'lock in', 'lock-in', 'locked in', 'contract',
+    'cancel', 'get out of', 'exit clause', 'never heard of you',
+    'never heard of', "haven't heard of"
+  ];
   function matchesFaqKeywords(txt) {
-    return matchAny(txt, FAQ_PRICE_WORDS) || matchAny(txt, FAQ_HOWITWORKS_WORDS) || matchAny(txt, FAQ_REALAI_WORDS);
+    return matchAny(txt, FAQ_PRICE_WORDS) || matchAny(txt, FAQ_HOWITWORKS_WORDS) ||
+      matchAny(txt, FAQ_REALAI_WORDS) || matchAny(txt, FAQ_RELIABILITY_WORDS) ||
+      matchAny(txt, FAQ_CONTRACT_WORDS);
   }
   function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
   function escHtml(s) {
     return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
   function nextPrompt() {
-    if (STATE === 'greet')           return 'What kind of business do you run?';
-    if (STATE === 'qualify_channel') return 'How do clients usually reach you?';
-    if (STATE === 'qualify_volume')  return 'How many enquiries per month?';
-    return 'Ready to see what this looks like for your business?';
+    if (STATE === 'greet')           return "What's the business?";
+    if (STATE === 'qualify_channel') return 'How do clients reach you?';
+    if (STATE === 'qualify_volume')  return 'How many enquiries a month?';
+    return 'Want to see this running for your business specifically?';
   }
   function getPackage() {
     var ch  = CHANNEL_HINT  || 'omni';
@@ -640,6 +777,77 @@
     if (CHANNEL_HINT === 'phone') return 'phone calls 24/7';
     if (CHANNEL_HINT === 'chat')  return 'phone + website chat';
     return 'phone, website chat, WhatsApp, Instagram & Facebook';
+  }
+  function channelLabel() {
+    return CHANNEL_HINT === 'phone' ? 'calls' : CHANNEL_HINT === 'chat' ? 'website messages' : 'enquiries across your channels';
+  }
+
+  /* ── Comprehension helpers (dialogue spec v2, Section 2/5) ───────
+     classifyBusinessType() / captureChannelRaw() do the classification;
+     businessTypeLine() / volumeLine() are the small string builders that
+     turn captured state into a callback. Both string builders are written
+     defensively — they return '' whenever the relevant state isn't set,
+     so every call site degrades gracefully to the old generic phrasing
+     instead of producing a broken sentence like "For a , how do clients
+     reach you". Verified explicitly in the test harness below. */
+  var BUSINESS_TYPE_WORDS = {
+    restaurant: ['restaurant','cafe','café','diner','eatery','bar','bistro','kitchen','food'],
+    salon:      ['salon','spa','barber','nails','nail bar','aesthetics','beauty','wellness'],
+    clinic:     ['clinic','dental','dentist','doctor','medical','physio','healthcare','practice'],
+    realestate: ['real estate','realtor','property','properties','agency','estate agent'],
+    legal:      ['law firm','lawyer','legal','attorney','advocate']
+  };
+  var BUSINESS_TYPE_ORDER = ['restaurant', 'salon', 'clinic', 'realestate', 'legal'];
+  function classifyBusinessType(txt) {
+    for (var i = 0; i < BUSINESS_TYPE_ORDER.length; i++) {
+      var key = BUSINESS_TYPE_ORDER[i];
+      if (matchAny(txt, BUSINESS_TYPE_WORDS[key])) return key;
+    }
+    return 'other';
+  }
+  var BUSINESS_TYPE_LABELS = {
+    restaurant: 'restaurant',
+    salon: 'salon',
+    clinic: 'clinic',
+    realestate: 'real estate agency',
+    legal: 'law firm'
+  };
+  function businessTypeLine() {
+    if (BUSINESS_RAW) return 'for a ' + BUSINESS_RAW + ' — ';
+    if (BUSINESS_TYPE && BUSINESS_TYPE !== 'other' && BUSINESS_TYPE_LABELS[BUSINESS_TYPE]) {
+      return 'for a ' + BUSINESS_TYPE_LABELS[BUSINESS_TYPE] + ' — ';
+    }
+    return '';
+  }
+  /* Specific proper-noun-ish channel terms worth echoing verbatim if
+     present, checked most-specific-first (e.g. "instagram dms" before
+     bare "instagram"). NOTE: by the time any handler sees `txt` it has
+     already been lowercased upstream (handleSend calls
+     respond(text.toLowerCase())), so true case-preservation from the
+     visitor's original keystrokes isn't available at this layer without
+     threading the raw string through the whole state machine — a bigger
+     change than this content/state pass calls for. This returns a
+     proper-noun-capitalized display label instead (e.g. "WhatsApp",
+     "Instagram DMs"), which reads just as "heard" in the reply. */
+  var CHANNEL_RAW_TERMS = [
+    { re: /\binstagram dms\b/i, label: 'Instagram DMs' },
+    { re: /\binstagram\b/i, label: 'Instagram' },
+    { re: /\bwhatsapp\b/i, label: 'WhatsApp' },
+    { re: /\bfacebook messenger\b/i, label: 'Facebook Messenger' },
+    { re: /\bfacebook\b/i, label: 'Facebook' },
+    { re: /\btiktok\b/i, label: 'TikTok' },
+    { re: /\bwebsite chat\b/i, label: 'website chat' },
+    { re: /\blive chat\b/i, label: 'live chat' }
+  ];
+  function captureChannelRaw(txt) {
+    for (var i = 0; i < CHANNEL_RAW_TERMS.length; i++) {
+      if (CHANNEL_RAW_TERMS[i].re.test(txt)) return CHANNEL_RAW_TERMS[i].label;
+    }
+    return '';
+  }
+  function volumeLine() {
+    if (VOLUME_NUMBER === null || VOLUME_NUMBER === undefined || isNaN(VOLUME_NUMBER)) return '';
+    return 'At roughly ' + VOLUME_NUMBER + ' ' + channelLabel() + ' a month, ';
   }
 
   /* ── Confetti ───────────────────────────────────────────────── */
