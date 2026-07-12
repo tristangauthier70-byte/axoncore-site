@@ -57,7 +57,7 @@
        and per the HTML spec, module scripts and classic `defer` scripts
        execute strictly in document order as one combined queue — so a slow
        Three.js fetch was gating the execution START of riley.js,
-       riley-page.js, and riley-demo.js (the scripts that actually drive
+       riley-page.js (the scripts that actually drive
        scroll/animation/chat logic), even though none of them depend on
        Three.js at all. Switching to the minified build cuts that
        fetch/parse/compile cost roughly in half. -->
@@ -340,6 +340,11 @@
         <p class="rp-caps__eyebrow" data-reveal>Try it yourself</p>
         <h2 class="rp-try__headline" data-reveal>Your turn.<br><span>Ask Riley anything.</span></h2>
         <p class="rp-try__sub" data-reveal>This is the real qualification flow Riley runs on every call. Type anything — your business, your questions, or just "book a call."</p>
+        <!-- Click-to-fill-and-send restored: riley-chat.js exposes
+             window.rp_insertHint, which fills #rp-phone-input and clicks
+             #rp-phone-send — same wiring riley-demo.js used, before the
+             Voiceflow attempt replaced the input with its own encapsulated
+             widget that couldn't be reached into externally. -->
         <ul class="rp-try__hints" aria-label="Suggested messages">
           <li class="rp-try__hint" onclick="rp_insertHint(this)">I run a beauty clinic</li>
           <li class="rp-try__hint" onclick="rp_insertHint(this)">How much does this cost?</li>
@@ -369,18 +374,13 @@
               <div class="rp-phone__contact-status"><span class="rp-phone__contact-dot" aria-hidden="true"></span>AI Receptionist · Active</div>
             </div>
           </div>
+          <!-- Real Riley: calls /api/chat (Gemini, server-side) directly —
+               replaces both the old riley-demo.js keyword-matching engine
+               and the abandoned Voiceflow embed. Same #rp-messages /
+               #rp-phone-input / #rp-phone-send structure and rp-bubble*
+               classes riley-demo.js used, so the visual style is unchanged;
+               riley-chat.js drives it. -->
           <div class="rp-phone__messages" id="rp-messages" role="log" aria-live="polite"></div>
-          <div class="rp-phone__confirm" role="status">
-            <div class="rp-confirm__check" aria-hidden="true">✓</div>
-            <p class="rp-confirm__title">CALL BOOKED ✓</p>
-            <p class="rp-confirm__sub">Tristan will walk you through your custom setup.</p>
-            <div class="rp-confirm__card">
-              <div class="rp-confirm__row"><span>Client</span><span class="rp-confirm__val">You</span></div>
-              <div class="rp-confirm__row"><span>Service</span><span class="rp-confirm__val">30-min Strategy Call</span></div>
-              <div class="rp-confirm__row"><span>Email</span><span class="rp-confirm__val">hello@axoncoreai.com</span></div>
-              <div class="rp-confirm__row"><span>Status</span><span class="rp-confirm__val" style="color:#4ade80;">Confirmed ✓</span></div>
-            </div>
-          </div>
           <div class="rp-phone__input-bar">
             <input type="text" id="rp-phone-input" class="rp-phone__input" placeholder="Message Riley…" autocomplete="off" maxlength="200" disabled/>
             <button id="rp-phone-send" class="rp-phone__send" aria-label="Send" disabled>
@@ -499,19 +499,12 @@
 
   <!-- Page animations -->
   <script src="riley-page.js" defer></script>
-  <script src="riley-demo.js" defer></script>
-  <script>
-    /* Hint chip click → fills input and focuses */
-    function rp_insertHint(el) {
-      var input = document.getElementById('rp-phone-input');
-      if (input && !input.disabled) {
-        input.value = el.textContent;
-        input.focus({ preventScroll: true }); // same fix as riley-demo.js setInput() — don't let focus silently scroll the page
-        var send = document.getElementById('rp-phone-send');
-        if (send && !send.disabled) send.click();
-      }
-    }
-  </script>
+
+  <!-- Real Riley — calls /api/chat (Gemini, server-side) directly. Replaces
+       both the old riley-demo.js keyword-matching engine and the abandoned
+       Voiceflow embed. Also exposes window.rp_insertHint for the hint-chip
+       onclick handlers above. -->
+  <script src="riley-chat.js" defer></script>
 
 </body>
 </html>
