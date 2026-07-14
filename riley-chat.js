@@ -31,7 +31,10 @@
     if (e.key === 'Enter') handleSend();
   });
 
-  // Auto-greet after 1.2s, same timing/feel as the previous engine.
+  // Auto-greet after 1.2s, same timing/feel as the previous engine. No sig
+  // needed here — the backend allow-lists this exact greeting text since
+  // it's a fixed client-side constant, not server output (see AUTO_GREET_TEXT
+  // in api/chat.js).
   setInput(false);
   setTimeout(function () {
     addMsg('riley', AUTO_GREET_TEXT);
@@ -66,12 +69,15 @@
       })
       .then(function (result) {
         hideTyping();
-        if (!result.ok || !result.data || typeof result.data.reply !== 'string') {
+        if (!result.ok || !result.data || typeof result.data.reply !== 'string' || typeof result.data.sig !== 'string') {
           showError();
           return;
         }
         addMsg('riley', result.data.reply);
-        history.push({ role: 'assistant', content: result.data.reply });
+        // sig is echoed back on the next turn so the backend can verify this
+        // reply actually came from it — see HISTORY_SIGNING_SECRET in
+        // api/chat.js.
+        history.push({ role: 'assistant', content: result.data.reply, sig: result.data.sig });
       })
       .catch(function () {
         hideTyping();

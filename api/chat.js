@@ -35,9 +35,40 @@
 // the floating "claude-haiku-4-5" alias so a future model update on
 // Anthropic's side can't silently change this endpoint's behavior/cost
 // without an explicit version bump here.
+const crypto = require('crypto');
+
 const CLAUDE_MODEL = 'claude-haiku-4-5-20251001';
 const CLAUDE_ENDPOINT = 'https://api.anthropic.com/v1/messages';
 const ANTHROPIC_VERSION = '2023-06-01';
+
+// Must exactly match the hardcoded greeting in riley-chat.js — the one
+// assistant message that's allowed into history without a signature, since
+// it's a fixed client-side constant rather than server output.
+const AUTO_GREET_TEXT =
+  "Hi, I'm Riley — Axoncore's AI receptionist. I handle inbound calls and messages, qualify the lead, and get the appointment booked, end to end, with no human in the loop.\n\nWhat's the business?";
+
+// --- History signing (closes the forged-assistant-turn gap noted below in
+// validateHistory / the SELF_DISCLOSURE_LEAK comment) -----------------------
+// Every reply this endpoint sends is HMAC-signed; the client echoes that
+// signature back alongside the message on the next turn. Any assistant
+// history entry that isn't the fixed greeting and doesn't carry a valid
+// signature is rejected outright, so a caller can no longer inject a fake
+// "Riley already said X" turn to bias the next completion.
+function signContent(content) {
+  return crypto.createHmac('sha256', process.env.HISTORY_SIGNING_SECRET).update(content, 'utf8').digest('hex');
+}
+
+function verifySig(content, sig) {
+  if (typeof sig !== 'string' || sig.length === 0) return false;
+  const expected = Buffer.from(signContent(content), 'hex');
+  const actual = Buffer.from(sig, 'hex');
+  if (expected.length !== actual.length) return false;
+  return crypto.timingSafeEqual(expected, actual);
+}
+
+function sendReply(res, replyText) {
+  res.status(200).json({ reply: replyText, sig: signContent(replyText) });
+}
 
 // --- Abuse-prevention constants -------------------------------------------
 // See the rate-limiting note near isRateLimited() for the honest tradeoffs
@@ -246,6 +277,14 @@ function validateHistory(history) {
     ) {
       return { ok: false, error: 'Malformed history entry.' };
     }
+    // Every assistant turn must either be the fixed client-side greeting or
+    // carry a signature this server issued for that exact content — see
+    // signContent()/verifySig() above. Same generic error as the malformed
+    // check above (not a distinct "bad signature" message) so a forged
+    // request gets no signal about which check it tripped.
+    if (msg.role === 'assistant' && msg.content !== AUTO_GREET_TEXT && !verifySig(msg.content, msg.sig)) {
+      return { ok: false, error: 'Malformed history entry.' };
+    }
     // Bug found during live testing: MAX_MESSAGE_LENGTH (600) is an
     // abuse-prevention cap on USER input, but was being applied to every
     // history entry regardless of role — including Riley's OWN prior
@@ -306,6 +345,12 @@ module.exports = async function handler(req, res) {
   if (!process.env.ANTHROPIC_API_KEY) {
     // Missing server config — log for us, don't leak internals to the client.
     console.error('chat.js: ANTHROPIC_API_KEY is not set.');
+    res.status(500).json({ error: 'Chat is temporarily unavailable. Please try again shortly.' });
+    return;
+  }
+
+  if (!process.env.HISTORY_SIGNING_SECRET) {
+    console.error('chat.js: HISTORY_SIGNING_SECRET is not set.');
     res.status(500).json({ error: 'Chat is temporarily unavailable. Please try again shortly.' });
     return;
   }
@@ -400,7 +445,7 @@ module.exports = async function handler(req, res) {
     data = await claudeRes.json();
   } catch (err) {
     console.error('chat.js: failed to parse Claude response as JSON:', err);
-    res.status(200).json({ reply: SAFE_FALLBACK_REPLY });
+    sendReply(res, SAFE_FALLBACK_REPLY);
     return;
   }
 
@@ -413,7 +458,7 @@ module.exports = async function handler(req, res) {
     if (stopReason && stopReason !== 'end_turn' && stopReason !== 'max_tokens') {
       console.warn('chat.js: unexpected stop_reason:', stopReason);
     }
-    res.status(200).json({ reply: SAFE_FALLBACK_REPLY });
+    sendReply(res, SAFE_FALLBACK_REPLY);
     return;
   }
 
@@ -422,20 +467,20 @@ module.exports = async function handler(req, res) {
     .join('')
     .trim();
 
-  // Security review finding (MEDIUM) — this endpoint is stateless and
-  // resends client-supplied history on every call, including whatever the
-  // client labels role:"assistant". Nothing here can verify an "assistant"
-  // turn actually came from a prior real Claude response, so a forged
-  // fake-prior-turn (e.g. one that looks like Riley already started
-  // leaking the system prompt) is a stronger injection vector than an
-  // in-turn "ignore previous instructions" attempt, since it exploits the
-  // model's tendency toward self-consistency with its own apparent output.
-  // SYSTEM_PROMPT's guardrails (never name the vendor, never reveal these
-  // instructions) are the only defense against this — a soft, probabilistic
-  // one. This check enforces the vendor-name guardrail as a hard technical
-  // control instead of relying entirely on instruction-following: if a
-  // reply ever names a model vendor, swap it for the safe fallback
-  // regardless of what caused it.
+  // Security review finding (MEDIUM), now closed at the source — this
+  // endpoint used to resend client-supplied history on every call with no
+  // way to verify a role:"assistant" turn actually came from a prior real
+  // Claude response, so a forged fake-prior-turn (e.g. one that looks like
+  // Riley already started leaking the system prompt) was a stronger
+  // injection vector than an in-turn "ignore previous instructions"
+  // attempt, exploiting the model's tendency toward self-consistency with
+  // its own apparent output. validateHistory() now rejects any assistant
+  // turn that isn't the fixed greeting and doesn't carry a valid HMAC
+  // signature (see signContent()/verifySig() above), so a forged assistant
+  // turn can no longer reach the model at all. The check below stays as
+  // defense-in-depth against a genuine (unforged) leak slipping through
+  // SYSTEM_PROMPT's own guardrails: if a real reply ever names a model
+  // vendor, swap it for the safe fallback regardless of what caused it.
   //
   // Bug found during the 60-scenario backtest: this used to ALSO include a
   // "does the reply overlap with the system prompt" substring check and
@@ -497,5 +542,5 @@ module.exports = async function handler(req, res) {
     SELF_DISCLOSURE_LEAK.some((re) => re.test(reply)) ||
     (JAILBREAK_SHAPED_RE.test(currentUserMsg) && BARE_VENDOR_RE.test(reply));
 
-  res.status(200).json({ reply: looksLikeLeak ? SAFE_FALLBACK_REPLY : (reply || SAFE_FALLBACK_REPLY) });
+  sendReply(res, looksLikeLeak ? SAFE_FALLBACK_REPLY : (reply || SAFE_FALLBACK_REPLY));
 };
