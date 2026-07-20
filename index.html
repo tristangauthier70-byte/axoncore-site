@@ -12,11 +12,15 @@
   <link rel="preconnect" href="https://aws.vapi.ai">
   <link rel="dns-prefetch" href="https://aws.vapi.ai">
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Axoncore — AI Front Desk for Service Businesses</title>
-  <meta name="description" content="Axoncore replaces your traditional reception with an AI layer that handles enquiries, qualifies leads, and books appointments across phone, WhatsApp, Instagram, and your website — automatically.">
-  <meta property="og:title" content="Axoncore — AI Front Desk for Service Businesses">
-  <meta property="og:description" content="Your business never misses a lead again. AI-powered front desk systems for clinics, law firms, and service businesses.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#08080A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <title>Axoncore — AI Receptionist for Singapore Businesses</title>
+  <meta name="description" content="Axoncore builds AI receptionists that answer calls, WhatsApp & website chats 24/7 for Singapore clinics, law firms & service businesses. Book a free audit.">
+  <meta property="og:title" content="Axoncore — AI Receptionist for Singapore Businesses">
+  <meta property="og:description" content="Axoncore builds AI receptionists that answer calls, WhatsApp & website chats 24/7 for Singapore clinics, law firms & service businesses.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://axoncoreai.com/">
   <meta property="og:site_name" content="Axoncore">
@@ -25,8 +29,8 @@
   <meta property="og:image:height" content="630">
   <meta property="og:locale" content="en_SG">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Axoncore — AI Front Desk for Service Businesses">
-  <meta name="twitter:description" content="Your business never misses a lead again. AI-powered front desk systems for clinics, law firms, and service businesses.">
+  <meta name="twitter:title" content="Axoncore — AI Receptionist for Singapore Businesses">
+  <meta name="twitter:description" content="Axoncore builds AI receptionists that answer calls, WhatsApp & website chats 24/7 for Singapore clinics, law firms & service businesses.">
   <meta name="twitter:image" content="https://axoncoreai.com/og-image.png">
   <link rel="canonical" href="https://axoncoreai.com/">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -39,6 +43,7 @@
   {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
+    "@id": "https://axoncoreai.com/#organization",
     "name": "Axoncore",
     "legalName": "Victoria Janice",
     "url": "https://axoncoreai.com/",
@@ -49,7 +54,23 @@
     "areaServed": { "@type": "Country", "name": "Singapore" },
     "priceRange": "$$",
     "currenciesAccepted": "SGD",
-    "knowsAbout": ["AI voice receptionist", "AI phone answering service", "website chatbot", "WhatsApp automation", "omnichannel customer service automation", "appointment booking automation"]
+    "knowsAbout": ["AI receptionist Singapore", "AI voice agent for clinics", "AI phone answering service Singapore", "website chatbot", "WhatsApp automation", "omnichannel customer service automation", "appointment booking automation"],
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+      "opens": "00:00",
+      "closes": "23:59",
+      "description": "AI front desk service availability — answers calls, chats and messages 24/7."
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Axoncore AI Front Desk Packages",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Package A — AI Phone System", "url": "https://axoncoreai.com/pricing.html#ax-pkg-a" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Package B — Conversion System (Phone + Website Chatbot)", "url": "https://axoncoreai.com/pricing.html#ax-pkg-b" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Package C — Omnichannel Front Desk (Phone + Website + WhatsApp + Instagram + Facebook)", "url": "https://axoncoreai.com/pricing.html#ax-pkg-c" } }
+      ]
+    }
   }
   </script>
   <script type="application/ld+json">
@@ -57,7 +78,68 @@
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Axoncore",
-    "url": "https://axoncoreai.com/"
+    "url": "https://axoncoreai.com/",
+    "inLanguage": "en-SG",
+    "publisher": { "@id": "https://axoncoreai.com/#organization" }
+  }
+  </script>
+
+  <!-- FAQPage structured data — brand/positioning questions for AI answer
+       engines (ChatGPT, Claude, Gemini, Perplexity) and Google's rich
+       results. Distinct from pricing.html's FAQPage, which covers
+       contract/process questions. Keep figures in sync with pricing.html
+       and llms.txt if pricing ever changes. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is Axoncore?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Axoncore is a Singapore-based AI automation agency that builds and manages AI voice receptionists, website chatbots, and WhatsApp/Instagram/Facebook automation for service businesses — answering calls and messages and booking appointments 24/7 so enquiries stop going to voicemail or getting missed." }
+      },
+      {
+        "@type": "Question",
+        "name": "How much does an AI receptionist cost in Singapore?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Axoncore's AI voice receptionist (Package A — Frontline Reception) starts at SGD $145/month plus a SGD $599 one-time setup fee, on a 36-month agreement at current founding rates for the first 50 clients. Pricing scales with call volume and channel coverage — see the full package and tier breakdown on the Pricing page." }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Axoncore's AI identify itself as an AI on the phone?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Riley, Axoncore's AI voice receptionist, identifies herself as an AI assistant at the start of every call." }
+      },
+      {
+        "@type": "Question",
+        "name": "What happens if the AI can't handle a call or a caller asks for a human?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The AI escalates immediately — via call transfer, SMS, or a notification to your team — so a customer is never left stuck with a bot that can't help." }
+      },
+      {
+        "@type": "Question",
+        "name": "How is Axoncore different from a generic chatbot builder?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Axoncore isn't a self-serve tool you configure yourself. Each system is custom-built and trained specifically on one business's services, pricing, FAQs and tone by the Axoncore team, spans phone, website, WhatsApp, Instagram and Facebook, completes real appointment bookings, and is reviewed and retuned monthly — not a generic script running the same for every customer." }
+      },
+      {
+        "@type": "Question",
+        "name": "Which industries does Axoncore work best for?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Client-facing service businesses with steady enquiry volume: medical and dental clinics, law firms, beauty and aesthetics studios, real estate agencies, fitness and training studios, and home services businesses are the most common fits." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I keep my existing business phone number?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Axoncore integrates via call forwarding with your existing number (SingTel, StarHub, or M1) — there's no need to switch providers or numbers." }
+      },
+      {
+        "@type": "Question",
+        "name": "How long does it take to go live?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Most systems go live within 14 days of the first discovery call — fully built, trained on your business, and tested before anything is switched on." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Axoncore PDPA compliant?",
+        "acceptedAnswer": { "@type": "Answer", "text": "We handle your data in accordance with Singapore's Personal Data Protection Act (PDPA). We collect only the data needed for booking and support, and we don't intentionally collect sensitive categories like NRIC or health records. Prospect data is kept for up to 2 years; client data for the contract term plus 1 year, then deleted or anonymised. Every sub-processor we use is listed in our Privacy Policy, and by using our site you consent to your data being transferred to and processed by these overseas providers as described there. We never sell your data or share it with advertisers. See our full Privacy Policy for details." }
+      }
+    ]
   }
   </script>
 
@@ -190,10 +272,10 @@
   <div class="ax-hero__content">
     <div class="ax-hero__badge ax-reveal">
       <span class="ax-hero__badge-dot"></span>
-      AI Front Desk &mdash; Available 24/7
+      AI Voice Receptionist &mdash; Available 24/7
     </div>
     <h1 class="ax-hero__headline ax-reveal ax-reveal-delay-1">
-      Your Business Never<br>Misses a Lead <em>Again</em>
+      Singapore's AI Receptionist.<br>Your Business Never Misses a Lead <em>Again</em>
     </h1>
     <p class="ax-hero__sub ax-reveal ax-reveal-delay-2">
       Axoncore replaces your front desk with an AI system that
@@ -356,7 +438,7 @@
         <h3 class="ax-step__title">AI Phone System</h3>
         <p class="ax-step__body">24/7 AI voice agent that answers every call, handles FAQs, and books appointments. Never miss a lead outside business hours again.</p>
         <div style="margin-top:1rem;font-size:0.85rem;color:var(--ax-accent);font-weight:600;">from $145/month SGD</div>
-        <a href="services.html" style="display:inline-flex;align-items:center;gap:5px;margin-top:0.75rem;font-size:0.82rem;color:var(--ax-muted);text-decoration:none;">See full details <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+        <a href="services.html" style="display:inline-flex;align-items:center;gap:5px;margin-top:0.75rem;font-size:0.82rem;color:var(--ax-muted);text-decoration:none;">See AI Phone System details <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
       </div>
       <div class="ax-step ax-reveal ax-reveal-delay-2" style="text-align:left;border:1px solid rgba(167,139,250,0.3);">
         <div class="ax-pkg-header">
@@ -366,7 +448,7 @@
         <h3 class="ax-step__title">Conversion System</h3>
         <p class="ax-step__body">AI voice agent plus website chatbot. Captures leads from phone calls and your website simultaneously — round the clock.</p>
         <div style="margin-top:1rem;font-size:0.85rem;color:var(--ax-accent);font-weight:600;">from $600/month SGD</div>
-        <a href="services.html" style="display:inline-flex;align-items:center;gap:5px;margin-top:0.75rem;font-size:0.82rem;color:var(--ax-muted);text-decoration:none;">See full details <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+        <a href="services.html" style="display:inline-flex;align-items:center;gap:5px;margin-top:0.75rem;font-size:0.82rem;color:var(--ax-muted);text-decoration:none;">See Conversion System details <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
       </div>
       <div class="ax-step ax-reveal ax-reveal-delay-3" style="text-align:left;">
         <div class="ax-pkg-header">
@@ -375,7 +457,7 @@
         <h3 class="ax-step__title">Omnichannel Front Desk</h3>
         <p class="ax-step__body">Phone, website, WhatsApp, Instagram, and Facebook — one AI handles every channel your clients use to reach you.</p>
         <div style="margin-top:1rem;font-size:0.85rem;color:var(--ax-accent);font-weight:600;">from $899/month SGD</div>
-        <a href="services.html" style="display:inline-flex;align-items:center;gap:5px;margin-top:0.75rem;font-size:0.82rem;color:var(--ax-muted);text-decoration:none;">See full details <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+        <a href="services.html" style="display:inline-flex;align-items:center;gap:5px;margin-top:0.75rem;font-size:0.82rem;color:var(--ax-muted);text-decoration:none;">See Omnichannel Front Desk details <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
       </div>
     </div>
     <div style="text-align:center;margin-top:3rem;" class="ax-reveal ax-reveal-delay-4">
@@ -915,7 +997,8 @@
         <button class="ax-pricing__toggle" aria-expanded="false"><span class="ax-pricing__toggle-text">See full package details</span><svg class="ax-pricing__toggle-chevron" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>
         <div class="ax-pricing__details"><div class="ax-pricing__details-inner">
           <div class="ax-pricing__details-group"><h4 class="ax-pricing__details-heading">Everything in Package B, plus</h4><ul class="ax-pricing__details-list"><li>Instagram DM automation — AI replies to every enquiry in under 1 second</li><li>Facebook Messenger automation — same AI, same instant response</li><li>WhatsApp Business API via 360dialog — automated replies with rich media support</li><li>Unified AI brain across phone, website, WhatsApp, Instagram, and Facebook</li><li>All leads from every channel in one consolidated Google Sheets dashboard</li><li>Revenue reporting across all channels with monthly performance breakdown</li><li>Call minutes included per tier: 300 (Lite) · 600 (Standard) · 1,200 (Pro)</li><li>Overage billed at SGD $0.60/min — only charged on minutes beyond your included allowance</li></ul></div>
-          <div class="ax-pricing__details-group"><h4 class="ax-pricing__details-heading">Setup &amp; support</h4><ul class="ax-pricing__details-list"><li>Full multi-channel system built and deployed — go-live within 14 days</li><li>WhatsApp API registration and Meta Business verification handled by us</li><li>Instagram and Facebook page integration setup included</li><li>Monthly optimisation calls — review metrics and refine AI responses</li><li>Priority support — dedicated response within 4 hours, 7 days a week</li><li>Custom workflows for complex booking and intake scenarios</li></ul></div>
+          <div class="ax-pricing__details-group"><h4 class="ax-pricing__details-heading">Setup &amp; support</h4><ul class="ax-pricing__details-list"><li>Full multi-channel system built and deployed — go-live within 14 days</li><li>WhatsApp API registration and Meta Business verification handled step-by-step by us, on your business's own accounts</li><li>Instagram and Facebook page integration setup included</li><li>Monthly optimisation calls — review metrics and refine AI responses</li><li>Priority support — dedicated response within 4 hours, 7 days a week</li><li>Custom workflows for complex booking and intake scenarios</li></ul></div>
+          <div class="ax-pricing__details-group"><h4 class="ax-pricing__details-heading">What we need from you</h4><ul class="ax-pricing__details-list"><li>A Meta Business Manager account with your business verified — Meta only grants WhatsApp, Instagram &amp; Messenger access to a verified business, not to an agency on your behalf</li><li>WhatsApp: a phone number not currently active on personal WhatsApp or the WhatsApp Business App, to dedicate to your AI line</li><li>Instagram: a Professional (Business or Creator) account, linked to your Facebook Page</li><li>Facebook Messenger: your Facebook Page — Messenger runs through the same Page as Instagram, so one Page covers both channels</li><li>Temporary admin access to these accounts while we complete setup — handed back to you once the integration goes live</li><li>Any WhatsApp per-message fees are billed directly to your business's 360dialog account, passed through at cost — never marked up or bundled into our fee</li></ul></div>
           <div class="ax-pricing__details-tags"><span>VAPI Voice AI</span><span>Voiceflow</span><span>Manychat</span><span>360dialog</span><span>Claude AI</span><span>Zapier</span><span>Cal.com</span></div>
         </div></div>
         <p class="ax-pricing__ideal"><strong>Best for:</strong> Clinics and businesses ready to fully automate every customer touchpoint across every channel.</p>
@@ -924,6 +1007,75 @@
 
     </div>
     </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     AXONCORE VS A GENERIC CHATBOT
+     New positioning content — not an edit to existing marketing copy.
+══════════════════════════════════════════════ -->
+<section class="ax-section ax-section--alt" id="ax-compare">
+  <div class="ax-container">
+    <div class="ax-section-header ax-reveal" style="text-align:center;">
+      <span class="ax-eyebrow">How We're Different</span>
+      <h2 class="ax-headline">Axoncore vs. a<br><span>generic chatbot builder</span></h2>
+      <p class="ax-subheadline" style="margin:0 auto;">
+        Plenty of tools let you build a bot yourself. Axoncore builds, trains, and runs the whole system for you.
+      </p>
+    </div>
+    <div class="ax-steps" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr));">
+      <div class="ax-step ax-reveal ax-reveal-delay-1" style="text-align:left;">
+        <h3 class="ax-step__title">Fully managed, not self-serve</h3>
+        <p class="ax-step__body">There's no dashboard for you to learn or configure. Axoncore's team builds, trains, and maintains the system — you get a working AI front desk, not a DIY tool.</p>
+      </div>
+      <div class="ax-step ax-reveal ax-reveal-delay-2" style="text-align:left;">
+        <h3 class="ax-step__title">Trained on your business, not a template</h3>
+        <p class="ax-step__body">Every deployment is trained specifically on that business's own services, pricing, FAQs, and tone — not a generic script that answers the same way for every customer.</p>
+      </div>
+      <div class="ax-step ax-reveal ax-reveal-delay-3" style="text-align:left;">
+        <h3 class="ax-step__title">One AI, every channel</h3>
+        <p class="ax-step__body">The same AI brain answers phone calls, website chat, WhatsApp, Instagram and Facebook — not a single-channel widget bolted onto your site.</p>
+      </div>
+      <div class="ax-step ax-reveal ax-reveal-delay-1" style="text-align:left;">
+        <h3 class="ax-step__title">Completes the booking</h3>
+        <p class="ax-step__body">The AI books, reschedules, and cancels appointments directly in the conversation — it doesn't stop at answering a question.</p>
+      </div>
+      <div class="ax-step ax-reveal ax-reveal-delay-2" style="text-align:left;">
+        <h3 class="ax-step__title">Discloses that it's AI</h3>
+        <p class="ax-step__body">Riley identifies herself as an AI assistant at the start of every call — a deliberate design choice for trust, not a limitation.</p>
+      </div>
+      <div class="ax-step ax-reveal ax-reveal-delay-3" style="text-align:left;">
+        <h3 class="ax-step__title">Improves every month</h3>
+        <p class="ax-step__body">Call and chat transcripts are reviewed and the system retuned monthly, included in your fee — your AI in month 12 is meaningfully sharper than on day one.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     FAQ — brand & positioning questions.
+     JSON-LD FAQPage mirroring this content lives in <head>.
+     Distinct from pricing.html's FAQ, which covers contract/process Qs.
+══════════════════════════════════════════════ -->
+<section class="ax-section" id="ax-faq-home">
+  <div class="ax-container" style="max-width:760px;">
+    <div class="ax-section-header ax-reveal" style="text-align:center;">
+      <span class="ax-eyebrow">FAQ</span>
+      <h2 class="ax-headline">Questions people <span>actually ask</span></h2>
+    </div>
+    <div class="ax-faq ax-reveal">
+      <div class="ax-faq__item"><p class="ax-faq__q">What is Axoncore?</p><p class="ax-faq__a">A Singapore-based AI automation agency that builds and manages AI voice receptionists, website chatbots, and WhatsApp/Instagram/Facebook automation for service businesses — answering calls and messages and booking appointments 24/7 so enquiries stop going to voicemail or getting missed.</p></div>
+      <div class="ax-faq__item"><p class="ax-faq__q">How much does an AI receptionist cost in Singapore?</p><p class="ax-faq__a">Axoncore's AI voice receptionist (Package A — Frontline Reception) starts at SGD $145/month plus a SGD $599 one-time setup fee, on a 36-month agreement at current founding rates for the first 50 clients. Pricing scales with call volume and channel coverage — see the full <a href="pricing.html" style="color:var(--ax-accent);text-decoration:none;">package and tier breakdown</a>.</p></div>
+      <div class="ax-faq__item"><p class="ax-faq__q">Does Axoncore's AI identify itself as an AI on the phone?</p><p class="ax-faq__a">Yes. Riley, Axoncore's AI voice receptionist, identifies herself as an AI assistant at the start of every call.</p></div>
+      <div class="ax-faq__item"><p class="ax-faq__q">What happens if the AI can't handle a call or a caller asks for a human?</p><p class="ax-faq__a">The AI escalates immediately — via call transfer, SMS, or a notification to your team — so a customer is never left stuck with a bot that can't help.</p></div>
+      <div class="ax-faq__item"><p class="ax-faq__q">How is Axoncore different from a generic chatbot builder?</p><p class="ax-faq__a">Axoncore isn't a self-serve tool you configure yourself. Each system is custom-built and trained specifically on one business's services, pricing, FAQs and tone by the Axoncore team, spans phone, website, WhatsApp, Instagram and Facebook, completes real appointment bookings, and is reviewed and retuned monthly.</p></div>
+      <div class="ax-faq__item"><p class="ax-faq__q">Which industries does Axoncore work best for?</p><p class="ax-faq__a">Client-facing service businesses with steady enquiry volume: medical and dental clinics, law firms, beauty and aesthetics studios, real estate agencies, fitness and training studios, and home services businesses are the most common fits.</p></div>
+      <div class="ax-faq__item"><p class="ax-faq__q">Can I keep my existing business phone number?</p><p class="ax-faq__a">Yes. Axoncore integrates via call forwarding with your existing number (SingTel, StarHub, or M1) — there's no need to switch providers or numbers.</p></div>
+      <div class="ax-faq__item"><p class="ax-faq__q">How long does it take to go live?</p><p class="ax-faq__a">Most systems go live within 14 days of the first discovery call — fully built, trained on your business, and tested before anything is switched on.</p></div>
+      <div class="ax-faq__item"><p class="ax-faq__q">Is Axoncore PDPA compliant?</p><p class="ax-faq__a">We handle your data in accordance with Singapore's Personal Data Protection Act (PDPA). We collect only the data needed for booking and support, and we don't intentionally collect sensitive categories like NRIC or health records. Prospect data is kept for up to 2 years; client data for the contract term plus 1 year, then deleted or anonymised. Every sub-processor we use is listed in our Privacy Policy, and by using our site you consent to your data being transferred to and processed by these overseas providers as described there. We never sell your data or share it with advertisers. See our full <a href="privacy.html" style="color:var(--ax-accent);text-decoration:none;">Privacy Policy</a> for details.</p></div>
     </div>
   </div>
 </section>
