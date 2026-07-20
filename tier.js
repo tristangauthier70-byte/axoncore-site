@@ -12,9 +12,9 @@
       { name: 'Enterprise', enterprise: true }
     ],
     b: [
-      { name: 'Lite',       minutes: 300,  price: 600,  setup: 999  },
-      { name: 'Standard',   minutes: 600,  price: 705,  setup: 999  },
-      { name: 'Pro',        minutes: 1200, price: 905,  setup: 999  },
+      { name: 'Lite',       minutes: 300,  messages: 10000, price: 600,  setup: 999  },
+      { name: 'Standard',   minutes: 600,  messages: 30000, price: 705,  setup: 999  },
+      { name: 'Pro',        minutes: 1200, messages: 50000, price: 905,  setup: 999  },
       { name: 'Enterprise', enterprise: true }
     ],
     c: [
@@ -31,10 +31,11 @@
 
     card.querySelector('.ax-tier__name').textContent = t.name;
 
-    var monthlyEl = card.querySelector('[data-tier-monthly]');
-    var setupEl   = card.querySelector('[data-tier-setup]');
-    var minsEl    = card.querySelector('[data-tier-mins-feature]');
-    var perdayEl  = card.querySelector('[data-tier-perday]');
+    var monthlyEl  = card.querySelector('[data-tier-monthly]');
+    var setupEl    = card.querySelector('[data-tier-setup]');
+    var minsEl     = card.querySelector('[data-tier-mins-feature]');
+    var perdayEl   = card.querySelector('[data-tier-perday]');
+    var messagesEl = card.querySelector('[data-tier-messages-feature]');
 
     if (t.enterprise) {
       card.querySelector('.ax-tier__mins').textContent = 'High-volume — agreed on call';
@@ -45,9 +46,10 @@
         void monthlyEl.offsetWidth;
         monthlyEl.classList.add('ax-tier-flash');
       }
-      if (setupEl)  setupEl.innerHTML  = 'Setup &amp; pricing <span>tailored to your business</span>';
-      if (minsEl)   minsEl.textContent  = 'Volume of minutes agreed on discovery call';
-      if (perdayEl) perdayEl.textContent = '';
+      if (setupEl)    setupEl.innerHTML     = 'Setup &amp; pricing <span>tailored to your business</span>';
+      if (minsEl)     minsEl.textContent     = 'Volume of minutes agreed on discovery call';
+      if (perdayEl)   perdayEl.textContent   = '';
+      if (messagesEl) messagesEl.textContent = 'Volume of chatbot messages agreed on discovery call';
     } else {
       card.querySelector('.ax-tier__mins').textContent = t.minutes.toLocaleString() + ' min/mo';
 
@@ -64,6 +66,10 @@
         var perday = t.price / 30;
         var perdayStr = perday < 10 ? perday.toFixed(2) : Math.round(perday).toLocaleString();
         perdayEl.textContent = 'Less than SGD $' + perdayStr + ' / day';
+      }
+
+      if (messagesEl && t.messages) {
+        messagesEl.textContent = t.messages.toLocaleString() + ' chatbot messages / month included';
       }
     }
 
