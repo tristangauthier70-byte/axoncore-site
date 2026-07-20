@@ -381,13 +381,19 @@
 
 /* ── Floating CTA Button ── */
 (function() {
+  var contact = document.getElementById('ax-contact');
+  // #ax-contact only exists on index.html. Everywhere else, "#ax-contact"
+  // is a dead in-page anchor — the click does nothing since there's no
+  // matching element to scroll to. Fall back to the booking page itself,
+  // matching every other CTA on the site (header, footer, hero buttons).
+  var ctaHref = contact ? '#ax-contact' : '/book-a-call.html';
+
   var btn = document.createElement('div');
   btn.className = 'ax-float-cta';
-  btn.innerHTML = '<a href="#ax-contact" class="ax-btn-primary ax-float-cta__btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg><span>Book a Free Call</span></a>';
+  btn.innerHTML = '<a href="' + ctaHref + '" class="ax-btn-primary ax-float-cta__btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg><span>Book a Free Call</span></a>';
   document.body.appendChild(btn);
 
   var hero = document.getElementById('ax-hero');
-  var contact = document.getElementById('ax-contact');
 
   window.addEventListener('scroll', function() {
     var scrolled = window.scrollY;
