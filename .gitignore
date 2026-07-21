@@ -25,3 +25,5 @@ npm-debug.log*
 
 # Dependencies (if ever added)
 node_modules/
+.vercel
+.env*

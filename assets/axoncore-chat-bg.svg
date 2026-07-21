@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800">
+  <defs>
+    <pattern id="axoncorePattern" width="170" height="76" patternUnits="userSpaceOnUse" patternTransform="rotate(-24)">
+      <rect width="170" height="76" fill="#08080A"/>
+      <text x="8" y="30" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" letter-spacing="1.5" fill="#A78BFA" fill-opacity="0.09">axoncore</text>
+      <text x="45" y="66" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif" font-size="13" font-weight="500" letter-spacing="1.5" fill="#A78BFA" fill-opacity="0.09">axoncore</text>
+    </pattern>
+  </defs>
+  <rect width="800" height="800" fill="url(#axoncorePattern)"/>
+</svg>

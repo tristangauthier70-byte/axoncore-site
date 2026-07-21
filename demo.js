@@ -1592,7 +1592,7 @@
             em.appendChild(document.createTextNode('✨ This is Axoncore AI — your business could have Aria running 24/7. '));
             var link = document.createElement('a');
             link.href = '#ax-contact';
-            link.style.cssText = 'color:#C4B5FD;text-decoration:none;';
+            link.style.cssText = 'color:#7C5CE0;text-decoration:none;';
             link.textContent = 'Want this for your business?';
             link.addEventListener('click', function(){
               var overlay = document.getElementById('ax-demo-overlay');

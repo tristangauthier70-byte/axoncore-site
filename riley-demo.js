@@ -1743,7 +1743,7 @@
   function launchConfetti() {
     var phone = document.querySelector('.rp-phone');
     if (!phone) return;
-    var colors = ['#7c3aed','#a78bfa','#4ade80','#fbbf24','#f472b6'];
+    var colors = ['#5A3FB8','#6D4FD1','#4ade80','#fbbf24','#f472b6'];
     for (var i = 0; i < 20; i++) {
       (function (i) {
         setTimeout(function () {

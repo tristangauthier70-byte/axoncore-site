@@ -20,8 +20,8 @@
     let W, H, particles = [], mouse = { x: null, y: null };
     const PARTICLE_COUNT = window.innerWidth < 768 ? 22 : 45;
     const MAX_DIST = 140;
-    const GRAPH = '148,163,184';   /* --ax-graph-line family — ambient, always */
-    const SIGNAL = '167,139,250';  /* --ax-accent — rare emphasis at the cursor's live connection only */
+    const GRAPH = '71,85,105';     /* --ax-graph-line family — ambient, always */
+    const SIGNAL = '109,79,209';   /* --ax-accent — rare emphasis at the cursor's live connection only */
 
     function resize() {
       W = canvas.width  = window.innerWidth;
@@ -50,7 +50,7 @@
     }
 
     function draw() {
-      ctx.fillStyle = '#08080A';
+      ctx.fillStyle = '#FFFFFF';
       ctx.fillRect(0, 0, W, H);
 
       // Ambient connections between nearby nodes — stays in the graph-ink/slate family always
@@ -123,7 +123,7 @@
     const wrap = canvas.closest('.ax-roi-stat__widget');
     const ctx = canvas.getContext('2d');
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const GRAPH = '148,163,184';
+    const GRAPH = '71,85,105';
     const NODE_COUNT = 14;
     const MAX_DIST = 90;
     let W, H, nodes = [], started = false;

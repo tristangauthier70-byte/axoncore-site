@@ -214,12 +214,12 @@
 
     var roiEl = document.getElementById('ax-roi-roi-multiple');
     if (roiEl) {
-      roiEl.style.color = r.roiMultiple >= 3 ? '#4ade80' : r.roiMultiple >= 1.5 ? '#A78BFA' : '#facc15';
+      roiEl.style.color = r.roiMultiple >= 3 ? '#4ade80' : r.roiMultiple >= 1.5 ? '#6D4FD1' : '#facc15';
     }
 
     var paybackEl = document.getElementById('ax-roi-payback');
     if (paybackEl) {
-      paybackEl.style.color = r.paybackDays <= 60 ? '#4ade80' : r.paybackDays <= 120 ? '#A78BFA' : 'white';
+      paybackEl.style.color = r.paybackDays <= 60 ? '#4ade80' : r.paybackDays <= 120 ? '#6D4FD1' : '#121216';
     }
 
     updateRecommendation(r);

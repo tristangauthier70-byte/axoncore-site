@@ -1,0 +1,11 @@
+{
+  "detector": {
+    "ignoreRules": [
+      "em-dash-overuse",
+      "numbered-section-markers",
+      "layout-transition"
+    ],
+    "ignoreFiles": [],
+    "ignoreValues": []
+  }
+}

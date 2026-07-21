@@ -168,9 +168,9 @@ import * as THREE from 'three';
 // white-to-transparent gradients; their visible color comes entirely from
 // each material's `color`/`uColor`, which is always one of these three.
 // ───────────────────────────────────────────────────────────────────────
-const COLOR_PRIMARY = 0xA78BFA; // outer wireframe stroke
-const COLOR_ACCENT = 0x8B7CF6; // rings + inner sphere + glow tint
-const COLOR_AMBIENT = 0x1E2433; // fog / ambient tint only
+const COLOR_PRIMARY = 0x6D4FD1; // outer wireframe stroke
+const COLOR_ACCENT = 0x5A3FB8; // rings + inner sphere + glow tint
+const COLOR_AMBIENT = 0xEDEBE4; // fog / ambient tint only
 
 // ───────────────────────────────────────────────────────────────────────
 // Inline GLSL 3D simplex noise — classic Ashima Arts / Stefan Gustavson

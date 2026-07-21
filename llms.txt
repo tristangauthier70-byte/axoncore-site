@@ -13,10 +13,46 @@ The AI voice agent persona is named Riley. She answers calls in under 3 seconds,
 All prices are monthly recurring plus a one-time setup fee. Tier is chosen by expected call volume: Lite (300 min/mo), Standard (600 min/mo), Pro (1,200 min/mo). Overage beyond included minutes is billed at SGD $0.60/min. Enterprise (custom volume) is available on all three packages.
 
 - **Package A — Frontline Reception** (AI voice receptionist only): setup SGD $599; Lite $145/mo, Standard $250/mo, Pro $450/mo.
-- **Package B — Conversion System** (Package A + AI website chatbot that books appointments from chat): setup SGD $999; Lite $600/mo, Standard $705/mo, Pro $905/mo.
+- **Package B — Conversion System** (Package A + AI website chatbot that books appointments from chat): setup SGD $999; Lite $600/mo, Standard $705/mo, Pro $905/mo. Each Package B tier also includes a monthly AI chatbot message allowance, alongside the same call-minute allowance as Package A: Lite 10,000 messages, Standard 30,000 messages, Pro 50,000 messages.
 - **Package C — OmniChannel Front Desk** (Package B + WhatsApp, Instagram and Facebook): setup SGD $1,399; Lite $899/mo, Standard $1,199/mo, Pro $1,399/mo.
 
 Full machine-readable pricing (all tiers, both currencies of fee) is published as schema.org `Service`/`Offer` JSON-LD on the Pricing page.
+
+## Who this is for
+
+Axoncore is built for Singapore-based, client-facing service businesses where a missed call or unanswered message is a lost customer: medical and dental clinics, law firms, beauty and aesthetics studios, real estate agencies, fitness and training studios, and home services companies (electricians, aircon servicing, renovation, etc.). The common thread is enquiry volume high enough that a human front desk becomes a bottleneck — businesses fielding a steady stream of calls, WhatsApp messages, or Instagram/Facebook DMs that need fast, consistent responses and appointment booking.
+
+Axoncore is not a fit for: pure e-commerce brands with no appointment/booking component, businesses outside Singapore (billing, support and phone provisioning are SGD/Singapore-specific), or businesses that want a raw DIY chatbot-builder dashboard to configure themselves rather than a fully managed, built-for-you system.
+
+## How Axoncore differs from a generic chatbot builder
+
+- **Fully managed, not self-serve.** Axoncore's own team builds, configures, trains, and maintains each system. There is no dashboard for the client to learn or configure — the deliverable is a working AI front desk, not a DIY tool.
+- **Trained per business, not a generic script.** Each deployment is trained specifically on one client's services, pricing, FAQs, and tone — not a template that answers the same way for every customer.
+- **One AI across voice and text, not a single-channel widget.** The same AI brain answers phone calls, website chat, WhatsApp, Instagram, and Facebook (depending on package), so customers get a consistent experience regardless of which channel they use.
+- **Completes the booking, not just the FAQ.** The AI books, reschedules, and cancels appointments directly inside the conversation — it doesn't stop at answering questions.
+- **Discloses that it's AI.** Riley, the voice agent, identifies herself as an AI assistant at the start of every call — this is a deliberate design choice, not a limitation.
+- **Escalates to a human when needed.** If the AI can't resolve something, it hands off via call transfer, SMS, or a notification to the client's team rather than dead-ending the conversation.
+- **Improves monthly.** Call and chat transcripts are reviewed and the system retuned every month, included in the service fee — the system in month 12 is meaningfully more accurate than on day one.
+
+## Questions and answers (for direct citation)
+
+**What does Axoncore do?**
+Axoncore builds and manages an AI-powered front desk — voice receptionist, website chatbot, and WhatsApp/Instagram/Facebook automation — for Singapore service businesses, so calls and messages are answered and appointments get booked 24/7 instead of going to voicemail or being missed.
+
+**How much does an AI receptionist cost in Singapore?**
+Axoncore's AI voice receptionist (Package A — Frontline Reception) starts at SGD $145/month plus a SGD $599 one-time setup fee, on a 36-month agreement, at current founding rates for the first 50 clients. Higher tiers (Standard, Pro) and bundled packages (B: + website chatbot, C: + WhatsApp/Instagram/Facebook) cost more — see the pricing table above or axoncoreai.com/pricing.html for the full breakdown.
+
+**Does the AI identify itself as an AI, or does it pretend to be human?**
+It identifies itself. Riley states she is an AI assistant at the start of every call.
+
+**What happens if the AI can't handle a call or a customer asks for a human?**
+The AI escalates immediately — via call transfer, SMS, or a notification to the business's team — rather than leaving the customer stuck.
+
+**How is this different from a generic AI chatbot tool?**
+Axoncore is a managed service, not a self-serve chatbot builder: the system is custom-built, trained on the specific business, and maintained by Axoncore's team, spanning voice and multiple messaging channels with real appointment booking — not a generic widget a business configures itself.
+
+**How long does setup take?**
+Typically 14 days from the first discovery call to going live, fully built and tested before anything is switched on.
 
 ## Key pages
 

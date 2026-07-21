@@ -56,8 +56,8 @@
     var W, H, particles = [], mouse = { x: null, y: null };
     var PARTICLE_COUNT = MOBILE ? 22 : 45;
     var MAX_DIST = 140;
-    var GRAPH = '148,163,184';
-    var SIGNAL = '167,139,250';
+    var GRAPH = '71,85,105';
+    var SIGNAL = '109,79,209';
 
     function resize() {
       W = canvas.width = window.innerWidth;
@@ -84,7 +84,7 @@
     }
 
     function draw() {
-      ctx.fillStyle = '#08080A';
+      ctx.fillStyle = '#FFFFFF';
       ctx.fillRect(0, 0, W, H);
       for (var i = 0; i < particles.length; i++) {
         for (var j = i + 1; j < particles.length; j++) {
@@ -184,7 +184,7 @@
       '    ray+=max(0.0,1.0-abs(mod(a-ph+3.14159,6.28318)-3.14159)/w)*0.45;',
       '  }',
       '  float att=1.0-clamp(r/1.2,0.0,1.0);',
-      '  gl_FragColor=vec4(0.49,0.23,0.93,ray*att*0.55);',
+      '  gl_FragColor=vec4(0.427,0.310,0.820,ray*att*0.55);',
       '}'
     ].join('\n');
 
@@ -325,7 +325,7 @@
   function launchConfetti() {
     var phone = document.querySelector('.rp-phone');
     if (!phone) return;
-    var colors = ['#7c3aed','#a78bfa','#4ade80','#fbbf24','#f472b6'];
+    var colors = ['#5A3FB8','#6D4FD1','#4ade80','#fbbf24','#f472b6'];
     for (var i = 0; i < 24; i++) {
       (function (i) {
         setTimeout(function () {

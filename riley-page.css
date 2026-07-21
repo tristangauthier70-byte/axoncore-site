@@ -27,7 +27,7 @@ html {
 
 body.riley-page {
   background: var(--ax-bg);
-  color: #fff;
+  color: #121216;
   font-family: var(--ax-font-sans);
   /* cursor:none removed — the "custom cursor" it deferred to was two
      unstyled (invisible) divs, so users browsed with no visible cursor. */
@@ -40,13 +40,16 @@ body.riley-page {
   top: 0; left: 0; right: 0;
   z-index: 900;
   padding: 20px 40px;
+  /* Same notch/Dynamic Island clearance as .ax-header on the main site;
+     env() is 0px on non-notched devices, so this is a no-op there. */
+  padding-top: calc(20px + env(safe-area-inset-top, 0px));
   display: flex;
   align-items: center;
   justify-content: space-between;
   transition: background 0.4s, backdrop-filter 0.4s;
 }
 .rp-header.scrolled {
-  background: rgba(8,8,10,0.9);
+  background: rgba(18,18,22,0.9);
   /* blur(20px) saturate(180%) recomputed a large gaussian over the full
      header width on every scrolled frame — at retina DPR 2 that's 4x the
      pixels of the DPR-1 test environment. blur(8px) keeps the frosted
@@ -57,7 +60,7 @@ body.riley-page {
   font-weight: 800;
   font-size: 1.1rem;
   letter-spacing: -0.02em;
-  color: #fff;
+  color: #121216;
   text-decoration: none;
   display: flex; align-items: center; gap: 8px;
 }
@@ -69,18 +72,22 @@ body.riley-page {
 }
 .rp-header__back {
   font-size: 0.85rem;
-  color: rgba(255,255,255,0.6);
+  color: rgba(18,18,22,0.6);
   text-decoration: none;
   display: flex; align-items: center; gap: 6px;
   transition: color 0.2s;
 }
-.rp-header__back:hover { color: #fff; }
+.rp-header__back:hover { color: #121216; }
 .rp-header__back svg { transition: transform 0.2s; }
 .rp-header__back:hover svg { transform: translateX(-3px); }
 
 /* ── SECTION 1: HERO ──────────────────────────────────────────── */
 .rp-hero {
   min-height: 100vh;
+  /* See .rp-cta below / style.css .ax-hero for why: iOS Safari's chrome
+     resizes the viewport as you scroll, so 100vh (measured against the
+     largest possible viewport) overshoots the visible area on load. */
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   padding: 120px 40px 80px;
@@ -116,7 +123,7 @@ body.riley-page {
   font-weight: 900;
   line-height: 0.9;
   letter-spacing: -0.04em;
-  color: #fff;
+  color: #121216;
   margin: 0 0 28px;
 }
 .rp-hero__headline em {
@@ -125,7 +132,7 @@ body.riley-page {
 }
 .rp-hero__sub {
   font-size: clamp(1rem, 1.8vw, 1.25rem);
-  color: rgba(255,255,255,0.65);
+  color: rgba(18,18,22,0.65);
   line-height: 1.6;
   margin-bottom: 36px;
 }
@@ -137,8 +144,8 @@ body.riley-page {
 .rp-hero__chip {
   font-size: 0.75rem;
   font-weight: 500;
-  color: rgba(255,255,255,0.6);
-  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(18,18,22,0.6);
+  border: 1px solid rgba(18,18,22,0.12);
   border-radius: 100px;
   padding: 5px 14px;
   display: inline-flex; align-items: center; gap: 6px;
@@ -229,13 +236,13 @@ body.riley-page {
   transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
 }
 .rp-cap-card:hover {
-  border-color: rgba(124,58,237,0.5);
+  border-color: rgba(90,63,184,0.5);
   transform: translateY(-4px);
-  box-shadow: 0 20px 60px rgba(124,58,237,0.15);
+  box-shadow: 0 20px 60px rgba(90,63,184,0.15);
 }
 .rp-cap-card__icon {
   width: 52px; height: 52px;
-  background: rgba(124,58,237,0.12);
+  background: rgba(90,63,184,0.12);
   border-radius: 14px;
   display: flex; align-items: center; justify-content: center;
   margin-bottom: 24px;
@@ -250,7 +257,7 @@ body.riley-page {
 }
 .rp-cap-card__body {
   font-size: 0.9rem;
-  color: rgba(255,255,255,0.6);
+  color: rgba(18,18,22,0.6);
   line-height: 1.6;
 }
 
@@ -278,25 +285,25 @@ body.riley-page {
   align-items: center;
   gap: 8px;
   padding: 10px 12px;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  background: rgba(255,255,255,0.02);
+  border-top: 1px solid rgba(18,18,22,0.06);
+  background: rgba(18,18,22,0.02);
   flex-shrink: 0;
 }
 .rp-phone__input {
   flex: 1;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(18,18,22,0.06);
+  border: 1px solid rgba(18,18,22,0.1);
   border-radius: 20px;
   padding: 8px 14px;
   font-size: 0.78rem;
-  color: #fff;
+  color: #121216;
   font-family: var(--ax-font-sans);
   outline: none;
   transition: border-color 0.2s;
   min-width: 0;
 }
-.rp-phone__input::placeholder { color: rgba(255,255,255,0.35); }
-.rp-phone__input:focus { border-color: rgba(124,58,237,0.5); }
+.rp-phone__input::placeholder { color: rgba(18,18,22,0.35); }
+.rp-phone__input:focus { border-color: rgba(90,63,184,0.5); }
 .rp-phone__input:disabled { opacity: 0.5; cursor: not-allowed; }
 .rp-phone__send {
   width: 34px; height: 34px;
@@ -305,11 +312,11 @@ body.riley-page {
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   cursor: pointer;
-  color: #fff;
+  color: white;
   flex-shrink: 0;
   transition: background 0.2s, transform 0.15s;
 }
-.rp-phone__send:hover:not(:disabled) { background: #6d28d9; transform: scale(1.08); }
+.rp-phone__send:hover:not(:disabled) { background: #4A2F94; transform: scale(1.08); }
 .rp-phone__send:disabled { opacity: 0.4; cursor: not-allowed; }
 
 /* Explanation labels (left side) */
@@ -348,11 +355,11 @@ body.riley-page {
   font-weight: 700;
   line-height: 1.3;
   letter-spacing: -0.02em;
-  color: rgba(255,255,255,0.9);
+  color: rgba(18,18,22,0.9);
 }
 .rp-label__sub {
   font-size: 0.85rem;
-  color: rgba(255,255,255,0.45);
+  color: rgba(18,18,22,0.45);
   margin-top: 6px;
   line-height: 1.5;
 }
@@ -365,13 +372,13 @@ body.riley-page {
 .rp-phone {
   width: 320px;
   flex-shrink: 0;
-  background: #0d0d1a;
+  background: #F0EDF9;
   border-radius: 52px;
-  border: 8px solid #2a2440;
+  border: 8px solid #DCD5EE;
   box-shadow:
     0 60px 120px rgba(0,0,0,0.8),
-    0 0 0 1px rgba(255,255,255,0.06),
-    inset 0 0 0 1px rgba(255,255,255,0.04);
+    0 0 0 1px rgba(18,18,22,0.06),
+    inset 0 0 0 1px rgba(18,18,22,0.04);
   position: relative;
   overflow: hidden;
   transition: transform 0.4s, box-shadow 0.4s;
@@ -380,13 +387,13 @@ body.riley-page {
   transform: rotateY(6deg) rotateX(-2deg);
   box-shadow:
     -20px 60px 120px rgba(0,0,0,0.7),
-    0 0 0 1px rgba(255,255,255,0.08),
-    inset 0 0 0 1px rgba(255,255,255,0.05);
+    0 0 0 1px rgba(18,18,22,0.08),
+    inset 0 0 0 1px rgba(18,18,22,0.05);
 }
 .rp-phone__notch {
   width: 130px;
   height: 36px;
-  background: #2a2440;
+  background: #DCD5EE;
   border-radius: 0 0 28px 28px;
   margin: 0 auto;
   position: relative;
@@ -398,13 +405,13 @@ body.riley-page {
 }
 .rp-phone__notch-cam {
   width: 10px; height: 10px;
-  background: #1a1a2e;
+  background: #ECE9F5;
   border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(18,18,22,0.1);
 }
 .rp-phone__notch-speaker {
   width: 60px; height: 5px;
-  background: #1a1a2e;
+  background: #ECE9F5;
   border-radius: 3px;
 }
 .rp-phone__screen {
@@ -420,7 +427,7 @@ body.riley-page {
   padding: 6px 16px 4px;
   font-size: 0.6rem;
   font-weight: 600;
-  color: rgba(255,255,255,0.8);
+  color: rgba(18,18,22,0.8);
 }
 .rp-phone__statusbar-right {
   display: flex; gap: 4px; align-items: center;
@@ -431,24 +438,24 @@ body.riley-page {
   align-items: center;
   gap: 12px;
   padding: 12px 16px;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  background: rgba(255,255,255,0.02);
+  border-bottom: 1px solid rgba(18,18,22,0.06);
+  background: rgba(18,18,22,0.02);
 }
 .rp-phone__avatar {
   width: 40px; height: 40px;
-  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  background: linear-gradient(135deg, #5A3FB8, #6D4FD1);
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   font-weight: 800; font-size: 0.9rem;
   flex-shrink: 0;
-  box-shadow: 0 0 0 2px rgba(124,58,237,0.3);
+  box-shadow: 0 0 0 2px rgba(90,63,184,0.3);
   position: relative;
 }
 .rp-phone__avatar-ring {
   position: absolute;
   inset: -4px;
   border-radius: 50%;
-  border: 2px solid rgba(124,58,237,0.4);
+  border: 2px solid rgba(90,63,184,0.4);
   animation: rp-ring 2s ease-in-out infinite;
 }
 @keyframes rp-ring {
@@ -458,11 +465,11 @@ body.riley-page {
 .rp-phone__contact-name {
   font-size: 0.9rem;
   font-weight: 700;
-  color: #fff;
+  color: #121216;
 }
 .rp-phone__contact-status {
   font-size: 0.65rem;
-  color: rgba(255,255,255,0.45);
+  color: rgba(18,18,22,0.45);
 }
 .rp-phone__contact-dot {
   display: inline-block;
@@ -500,15 +507,15 @@ body.riley-page {
 }
 .rp-bubble--caller {
   align-self: flex-end;
-  background: rgba(124,58,237,0.25);
+  background: rgba(90,63,184,0.25);
   border-bottom-right-radius: 4px;
-  color: rgba(255,255,255,0.9);
+  color: rgba(18,18,22,0.9);
 }
 .rp-bubble--riley {
   align-self: flex-start;
-  background: rgba(255,255,255,0.08);
+  background: rgba(18,18,22,0.08);
   border-bottom-left-radius: 4px;
-  color: rgba(255,255,255,0.85);
+  color: rgba(18,18,22,0.85);
 }
 .rp-bubble--riley::before {
   content: 'Riley';
@@ -530,7 +537,7 @@ body.riley-page {
 }
 .rp-typing-dot {
   width: 6px; height: 6px;
-  background: rgba(255,255,255,0.4);
+  background: rgba(18,18,22,0.4);
   border-radius: 50%;
   animation: rp-typing 1.2s ease-in-out infinite;
 }
@@ -545,7 +552,7 @@ body.riley-page {
 .rp-phone__confirm {
   position: absolute;
   inset: 0;
-  background: linear-gradient(160deg, #1a0a3a, #0a1a2e);
+  background: linear-gradient(160deg, #F3EEFF, #EDF3FF);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -579,28 +586,28 @@ body.riley-page {
 }
 .rp-confirm__sub {
   font-size: 0.75rem;
-  color: rgba(255,255,255,0.5);
+  color: rgba(18,18,22,0.5);
   text-align: center;
   line-height: 1.5;
   margin-bottom: 20px;
 }
 .rp-confirm__card {
-  background: rgba(255,255,255,0.05);
+  background: rgba(18,18,22,0.05);
   border-radius: 12px;
   padding: 14px 16px;
   width: 100%;
   font-size: 0.72rem;
-  color: rgba(255,255,255,0.7);
-  border: 1px solid rgba(255,255,255,0.08);
+  color: rgba(18,18,22,0.7);
+  border: 1px solid rgba(18,18,22,0.08);
 }
 .rp-confirm__row {
   display: flex;
   gap: 8px;
   padding: 5px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  border-bottom: 1px solid rgba(18,18,22,0.05);
 }
 .rp-confirm__row:last-child { border-bottom: none; }
-.rp-confirm__val { color: rgba(255,255,255,0.9); font-weight: 600; }
+.rp-confirm__val { color: rgba(18,18,22,0.9); font-weight: 600; }
 
 /* Confetti particles */
 .rp-confetti {
@@ -628,7 +635,7 @@ body.riley-page {
 .rp-demo__progress {
   width: 3px;
   height: 200px;
-  background: rgba(255,255,255,0.1);
+  background: rgba(18,18,22,0.1);
   border-radius: 2px;
   position: relative;
   align-self: center;
@@ -673,13 +680,15 @@ body.riley-page {
 }
 .rp-stat__label {
   font-size: 0.8rem;
-  color: rgba(255,255,255,0.55);
+  color: rgba(18,18,22,0.55);
   line-height: 1.4;
 }
 
 /* ── SECTION 5: CTA (light rays + talk to riley, orb left / content right) ── */
 .rp-cta {
   min-height: 100vh;
+  /* Same iOS Safari dynamic-toolbar issue as .rp-hero above. */
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -725,7 +734,7 @@ body.riley-page {
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.45);
+  color: rgba(18,18,22,0.45);
   margin-bottom: 24px;
 }
 .rp-cta__headline {
@@ -733,12 +742,12 @@ body.riley-page {
   font-weight: 900;
   letter-spacing: -0.04em;
   line-height: 0.95;
-  color: #fff;
+  color: #121216;
   margin-bottom: 24px;
 }
 .rp-cta__sub {
   font-size: 1rem;
-  color: rgba(255,255,255,0.5);
+  color: rgba(18,18,22,0.5);
   line-height: 1.6;
   margin-bottom: 32px;
 }
@@ -771,7 +780,7 @@ body.riley-page {
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  box-shadow: 0 0 0 0 rgba(167,139,250,0.4);
+  box-shadow: 0 0 0 0 rgba(109,79,209,0.4);
   z-index: 0; /* contains the pulse pseudo-element's stacking context */
 }
 /* Pulse ring moved off box-shadow (which repaints the whole shadow every
@@ -782,7 +791,7 @@ body.riley-page {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: rgba(167,139,250,0.5);
+  background: rgba(109,79,209,0.5);
   z-index: -1;
   animation: rp-avatar-pulse 2.5s ease-out infinite;
 }
@@ -795,7 +804,7 @@ body.riley-page {
   position: absolute;
   inset: -20px;
   border-radius: 50%;
-  border: 1px solid rgba(167,139,250,0.2);
+  border: 1px solid rgba(109,79,209,0.2);
   animation: rp-ring-expand 3s ease-out infinite;
 }
 .rp-cta__rings:nth-child(2) { animation-delay: 1s; }
@@ -827,7 +836,7 @@ body.riley-page {
 }
 .rp-cta__btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 20px 60px rgba(167,139,250,0.5);
+  box-shadow: 0 20px 60px rgba(109,79,209,0.5);
 }
 .rp-cta__btn[disabled] { cursor: wait; opacity: 0.75; }
 .rp-cta__btn.riley-trigger { /* uses existing riley.js state machine */ }
@@ -840,7 +849,7 @@ body.riley-page {
 .rp-cta__meta {
   margin-top: 20px;
   font-size: 0.78rem;
-  color: rgba(255,255,255,0.3);
+  color: rgba(18,18,22,0.3);
 }
 
 @media (max-width: 900px) {
@@ -869,13 +878,13 @@ body.riley-page {
   justify-content: space-between;
   align-items: center;
   font-size: 0.8rem;
-  color: rgba(255,255,255,0.3);
+  color: rgba(18,18,22,0.3);
 }
 .rp-footer a {
-  color: rgba(255,255,255,0.4);
+  color: rgba(18,18,22,0.4);
   text-decoration: none;
 }
-.rp-footer a:hover { color: #fff; }
+.rp-footer a:hover { color: #121216; }
 
 /* ── "YOUR TURN" BANNER ──────────────────────────────────────── */
 /* Was animating `background-position` — a paint-triggering property, not a
@@ -894,7 +903,7 @@ body.riley-page {
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #fff;
+  color: white;
 }
 .rp-try-banner::before {
   content: '';
@@ -902,7 +911,7 @@ body.riley-page {
   position: absolute;
   inset: 0;
   width: 200%;
-  background: linear-gradient(90deg, #7c3aed, #a78bfa, #7c3aed, #a78bfa);
+  background: linear-gradient(90deg, #5A3FB8, #6D4FD1, #5A3FB8, #6D4FD1);
   background-size: 50% 100%;
   animation: rp-banner-shift 4s linear infinite;
   will-change: transform;
@@ -936,13 +945,13 @@ body.riley-page {
   font-weight: 900;
   letter-spacing: -0.03em;
   line-height: 1.1;
-  color: #fff;
+  color: #121216;
   margin: 16px 0 20px;
 }
 .rp-try__headline span { color: var(--ax-accent); }
 .rp-try__sub {
   font-size: 0.95rem;
-  color: rgba(255,255,255,0.55);
+  color: rgba(18,18,22,0.55);
   line-height: 1.6;
   margin-bottom: 32px;
 }
@@ -956,8 +965,8 @@ body.riley-page {
 .rp-try__hint {
   font-size: 0.78rem;
   font-weight: 500;
-  color: rgba(255,255,255,0.7);
-  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(18,18,22,0.7);
+  border: 1px solid rgba(18,18,22,0.12);
   border-radius: 100px;
   padding: 7px 16px;
   cursor: pointer;
@@ -965,9 +974,9 @@ body.riley-page {
   user-select: none;
 }
 .rp-try__hint:hover {
-  border-color: rgba(124,58,237,0.5);
-  color: #fff;
-  background: rgba(124,58,237,0.08);
+  border-color: rgba(90,63,184,0.5);
+  color: #121216;
+  background: rgba(90,63,184,0.08);
 }
 /* Taller phone for the interactive version */
 .rp-phone--try .rp-phone__screen { min-height: 520px; }
@@ -990,9 +999,22 @@ body.riley-page {
   .rp-demo__labels { display: none; }
   .rp-demo__progress { display: none; }
   .rp-phone { width: 290px; }
+  /* iOS Safari auto-zooms the page on focus for inputs under 16px. This is
+     a real <input> users type into (not just mockup decoration), so bump
+     it to 16px on mobile only — desktop keeps the smaller phone-mockup
+     proportions. */
+  .rp-phone__input { font-size: 16px; }
   .rp-stats__inner { grid-template-columns: repeat(2, 1fr); gap: 32px; }
   .rp-cta__headline { font-size: clamp(2.5rem, 12vw, 4.5rem); }
-  .rp-header { padding: 16px 20px; }
+  .rp-header { padding: 16px 20px; padding-top: calc(16px + env(safe-area-inset-top, 0px)); }
+  /* .rp-try__inner is a flex row (left copy + .rp-phone--try mockup) with no
+     stacking override — below 768px the 420px-max left column plus the
+     290px phone plus an 80px gap add up to well over the viewport width,
+     pushing .rp-phone--try off-screen and forcing horizontal scroll on the
+     whole page. Stack them like every other two-column section already does. */
+  .rp-try__inner { flex-direction: column; gap: 40px; align-items: center; }
+  .rp-try__left { max-width: 100%; text-align: center; padding-top: 0; }
+  .rp-try__hints { justify-content: center; }
 }
 
 /* ── CURSOR (same as main site) ──────────────────────────────── */

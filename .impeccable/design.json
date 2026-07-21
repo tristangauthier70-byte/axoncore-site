@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-02T00:00:00Z",
+  "title": "Design System: Axon Core AI",
+  "extensions": {
+    "colorMeta": {
+      "signal-violet": { "role": "primary", "displayName": "Signal Violet", "canonical": "oklch(74% 0.14 296)", "tonalRamp": ["#1A1330", "#2B1F4D", "#4A3480", "#6B4FB0", "#8B6FD0", "#A78BFA", "#C4B5FD", "#E5DEFC"] },
+      "signal-violet-deep": { "role": "primary-hover", "displayName": "Signal Violet Deep", "canonical": "oklch(68% 0.17 296)" },
+      "void-black": { "role": "neutral-bg", "displayName": "Void Black", "canonical": "oklch(9% 0.002 264)", "tonalRamp": ["#000000", "#08080A", "#0F0F13", "#17171C", "#1E1E24", "#2A2A32", "#4A4A55", "#6E6E7A"] },
+      "surface-low": { "role": "neutral-surface", "displayName": "Surface Low", "canonical": "oklch(12% 0.003 264)" },
+      "surface-mid": { "role": "neutral-surface", "displayName": "Surface Mid", "canonical": "oklch(15% 0.003 264)" },
+      "surface-high": { "role": "neutral-surface", "displayName": "Surface High", "canonical": "oklch(18% 0.004 264)" },
+      "paper-white": { "role": "neutral-ink", "displayName": "Paper White", "canonical": "oklch(100% 0 0)" },
+      "static-grey": { "role": "neutral-muted", "displayName": "Static Grey", "canonical": "oklch(66% 0.006 286)" },
+      "hairline": { "role": "neutral-divider", "displayName": "Hairline", "canonical": "rgba(255,255,255,0.08)" },
+      "graph-ink": { "role": "signature", "displayName": "Graph Ink", "canonical": "oklch(27% 0.03 264)", "tonalRamp": ["#0D1017", "#151A24", "#1E2433", "#2A3345", "#3A4558", "#4E5B70", "#6B7A90", "#9AA6B5"] },
+      "graph-line": { "role": "signature-line", "displayName": "Graph Line", "canonical": "rgba(148,163,184,0.14)" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero headline only, one per page." },
+      "headline": { "displayName": "Headline", "purpose": "Section headlines." },
+      "body": { "displayName": "Body", "purpose": "Paragraph copy, 65-75ch max line length." },
+      "label": { "displayName": "Label", "purpose": "Buttons, nav items, tags — not a per-section eyebrow." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "ease-standard", "value": "cubic-bezier(0.23, 1, 0.32, 1)", "purpose": "Default transition easing, carried forward from the existing --ax-transition token." },
+      { "name": "ease-out-expo", "value": "cubic-bezier(0.19, 1, 0.22, 1)", "purpose": "Scroll-reveal and hero entrance easing — exponential ease-out, no bounce/elastic." },
+      { "name": "duration-fast", "value": "0.2s", "purpose": "Hover/focus state changes." },
+      { "name": "duration-standard", "value": "0.4s", "purpose": "Default UI transitions." },
+      { "name": "duration-reveal", "value": "0.7s", "purpose": "Scroll-triggered section/element reveals." }
+    ],
+    "breakpoints": [
+      { "name": "mobile", "value": "768px" },
+      { "name": "tablet", "value": "1024px" },
+      { "name": "desktop", "value": "1200px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The rare accent moment — one per section maximum.",
+      "html": "<button class=\"ds-btn-primary\">Book a strategy call</button>",
+      "css": ".ds-btn-primary { background: #A78BFA; color: #08080A; padding: 14px 32px; border-radius: 999px; border: none; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 0.9375rem; cursor: pointer; transition: background 0.2s cubic-bezier(0.23,1,0.32,1), transform 0.2s cubic-bezier(0.23,1,0.32,1), box-shadow 0.2s ease; } .ds-btn-primary:hover { background: #8B7CF6; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(167,139,250,0.35); } .ds-btn-primary:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary action, transparent with a hairline border.",
+      "html": "<button class=\"ds-btn-ghost\">See how it works</button>",
+      "css": ".ds-btn-ghost { background: transparent; color: #FFFFFF; padding: 14px 32px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.08); font-family: 'Inter', sans-serif; font-weight: 500; font-size: 0.9375rem; cursor: pointer; transition: background 0.2s ease, border-color 0.2s ease; } .ds-btn-ghost:hover { background: #0F0F13; border-color: rgba(255,255,255,0.16); } .ds-btn-ghost:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; }"
+    },
+    {
+      "name": "Surface Card",
+      "kind": "card",
+      "refersTo": "card-surface",
+      "description": "Default content card — no border, no shadow, depth via tone step only.",
+      "html": "<div class=\"ds-card\"><h3 class=\"ds-card__title\">Real-time notifications</h3><p class=\"ds-card__body\">Every call, every lead, logged the moment it happens.</p></div>",
+      "css": ".ds-card { background: #0F0F13; border-radius: 20px; padding: 40px; transition: background 0.3s ease; } .ds-card:hover { background: #17171C; } .ds-card__title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.5rem; color: #FFFFFF; margin: 0 0 12px; } .ds-card__body { font-family: 'Inter', sans-serif; font-size: 1rem; line-height: 1.65; color: #9A9AA6; margin: 0; }"
+    },
+    {
+      "name": "Sticky Nav",
+      "kind": "nav",
+      "refersTo": "navigation",
+      "description": "Pinned header, translucent void-black with backdrop blur, hairline appears only after scroll starts.",
+      "html": "<nav class=\"ds-nav\"><span class=\"ds-nav__logo\">Axon Core</span><div class=\"ds-nav__links\"><a href=\"#\">Pricing</a><a href=\"#\">How it works</a></div><button class=\"ds-btn-primary\">Book a call</button></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 16px 32px; background: rgba(8,8,10,0.8); backdrop-filter: blur(12px); border-radius: 999px; border-bottom: 1px solid transparent; transition: border-color 0.3s ease; } .ds-nav--scrolled { border-bottom-color: rgba(255,255,255,0.08); } .ds-nav__logo { font-family: 'Cormorant Garamond', serif; color: #FFFFFF; font-size: 1.1rem; } .ds-nav__links { display: flex; gap: 24px; } .ds-nav__links a { font-family: 'Inter', sans-serif; font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.04em; color: #9A9AA6; text-decoration: none; transition: color 0.2s ease; } .ds-nav__links a:hover { color: #FFFFFF; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Quiet Signal",
+    "overview": "Axon Core sells trust, not spectacle: an SME owner in Singapore is deciding whether to let an AI answer their phones and handle their customers' money-generating calls for the next 36 months. The system reads as a restrained, near-black canvas where confidence comes from typographic discipline and generous space, not decoration. Riley, the AI voice agent, is present as a felt intelligence rather than a stated one: a quiet, dark node-graph motif evokes a mind quietly listening and connecting, without ever being labelled 'neural network' or 'AI brain' on the page. This system explicitly rejects the site's own previous default: a page-wide purple wash, colored border lines separating every section, and a purple glow sweeping in on every scroll trigger.",
+    "keyCharacteristics": [
+      "Void-black base, near-monochrome — color is earned, not default",
+      "One accent (signal violet) used on primary actions and select headline words only",
+      "Depth via tonal layering, not drop shadows",
+      "The node-graph motif is the system's one recurring signature, used sparingly",
+      "Serif display paired with sans body — contrast carries elegance without color"
+    ],
+    "rules": [
+      { "name": "The One Voice Rule", "body": "Signal Violet appears on ≤10% of any given viewport. If more than one element on screen is violet-filled, remove one.", "section": "colors" },
+      { "name": "The No-Color-Dividers Rule", "body": "Sections separate via whitespace and, rarely, a single Hairline rule — never a colored border, never a repeated glow sweep on every section boundary.", "section": "colors" },
+      { "name": "The Restraint Ceiling Rule", "body": "Display heading never exceeds clamp() max of 5.5rem and letter-spacing never goes tighter than -0.04em.", "section": "typography" },
+      { "name": "The Tonal Depth Rule", "body": "An element earns a lighter surface tone by being logically closer to the user — never by an arbitrary shadow.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do separate sections with whitespace as the default, only.",
+      "Do keep Signal Violet to ≤10% of any viewport.",
+      "Do use tonal layering for all depth.",
+      "Do give every animation a prefers-reduced-motion alternative.",
+      "Do verify Static Grey body text hits ≥4.5:1 contrast before shipping."
+    ],
+    "donts": [
+      "Don't reuse a colored border variable as a section-to-section divider.",
+      "Don't let a purple radial-gradient sweep fire on every section as it scrolls into view.",
+      "Don't fill an empty-feeling section with more small icons/copy — fill it with one considered thing.",
+      "Don't use gradient text, side-stripe colored borders, glassmorphism as decoration, identical icon-card grids, a tiny uppercase eyebrow above every section, or numbered scaffolding without a real sequence.",
+      "Don't add drop shadows for lift — step the tonal surface instead.",
+      "Don't let the Quiet Signal Graph become a second accent color system."
+    ]
+  }
+}
