@@ -156,7 +156,7 @@
             <div class="ax-demo__input-bar">
               <div class="ax-demo__input-wrap">
                 <svg class="ax-demo__input-emoji" width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#8696A0" stroke-width="1.8"/><path d="M8.5 14s1 1.5 3.5 1.5 3.5-1.5 3.5-1.5" stroke="#8696A0" stroke-width="1.8" stroke-linecap="round"/><circle cx="9" cy="10" r="1" fill="#8696A0"/><circle cx="15" cy="10" r="1" fill="#8696A0"/></svg>
-                <input type="text" id="ax-demo-input" class="ax-demo__input" placeholder="Message" autocomplete="off" maxlength="200"/>
+                <input type="text" id="ax-demo-input" class="ax-demo__input" placeholder="Message" aria-label="Type a message" autocomplete="off" maxlength="200"/>
                 <svg class="ax-demo__input-attach" width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48" stroke="#8696A0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
               <button class="ax-demo__send" id="ax-demo-send" aria-label="Send">
@@ -182,7 +182,7 @@
         <div class="ax-demo__confirm-row"><span>&#128100;</span><div><div class="ax-demo__confirm-label">Client</div><div class="ax-demo__confirm-value" id="ax-confirm-name">—</div></div></div>
       </div>
       <p class="ax-demo__confirm-note">This is what your clients experience &mdash; handled entirely by your AI, around the clock.</p>
-      <a href="#ax-contact" class="ax-btn-primary" onclick="document.getElementById('ax-demo-overlay').style.display='none'"><span>Want this for your business?</span><svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+      <a href="/book-a-call.html" class="ax-btn-primary" onclick="document.getElementById('ax-demo-overlay').style.display='none'"><span>Want this for your business?</span><svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
       <button class="ax-demo__confirm-close" onclick="axDemoReset();document.getElementById('ax-demo-overlay').style.display='none'">Try the demo again</button>
     </div>
   </div>

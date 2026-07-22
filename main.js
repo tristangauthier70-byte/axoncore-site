@@ -121,12 +121,13 @@
     const canvas = document.getElementById('ax-signal-widget');
     if (!canvas) return;
     const wrap = canvas.closest('.ax-roi-stat__widget');
+    if (!wrap) return;
     const ctx = canvas.getContext('2d');
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const GRAPH = '71,85,105';
     const NODE_COUNT = 14;
     const MAX_DIST = 90;
-    let W, H, nodes = [], started = false;
+    let W, H, nodes = [], started = false, running = false;
 
     function resize() {
       const rect = wrap.getBoundingClientRect();
@@ -172,18 +173,27 @@
         if (nodes[i].x < 0 || nodes[i].x > W) nodes[i].vx *= -1;
         if (nodes[i].y < 0 || nodes[i].y > H) nodes[i].vy *= -1;
       }
-      if (!reduceMotion) requestAnimationFrame(draw);
+      if (!reduceMotion && running) requestAnimationFrame(draw);
     }
 
     // Only run once the widget is actually visible — it sits below the fold on load.
+    // Pauses again once scrolled back out, matching the same off-screen-rAF fix
+    // already applied to the light-rays canvas and the orb (riley-page.js, riley-orb.js).
     const observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        if (entry.isIntersecting && !started) {
-          started = true;
-          resize();
-          makeNodes();
-          draw();
-          window.addEventListener('resize', function () { resize(); makeNodes(); });
+        if (entry.isIntersecting) {
+          if (!started) {
+            started = true;
+            resize();
+            makeNodes();
+            window.addEventListener('resize', function () { resize(); makeNodes(); });
+          }
+          if (!running) {
+            running = true;
+            draw();
+          }
+        } else {
+          running = false;
         }
       });
     }, { threshold: 0.2 });
@@ -507,6 +517,37 @@
       resizeTimer = setTimeout(function() {
         document.querySelectorAll('.ax-pricing__details--open').forEach(function(d) {
           d.style.maxHeight = d.scrollHeight + 'px';
+        });
+      }, 150);
+    });
+  });
+})();
+
+/* ── FAQ Accordion ── */
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.ax-faq__item').forEach(function(item) {
+      var q = item.querySelector('.ax-faq__q');
+      var a = item.querySelector('.ax-faq__a');
+      if (!q || !a) return;
+
+      a.setAttribute('aria-hidden', 'true');
+
+      q.addEventListener('click', function() {
+        var open = !item.classList.contains('is-open');
+        item.classList.toggle('is-open', open);
+        q.setAttribute('aria-expanded', open);
+        a.setAttribute('aria-hidden', String(!open));
+        a.style.maxHeight = open ? a.scrollHeight + 'px' : '';
+      });
+    });
+
+    var resizeTimer;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function() {
+        document.querySelectorAll('.ax-faq__item.is-open .ax-faq__a').forEach(function(a) {
+          a.style.maxHeight = a.scrollHeight + 'px';
         });
       }, 150);
     });

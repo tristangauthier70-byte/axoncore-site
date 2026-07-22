@@ -49,7 +49,7 @@ body.riley-page {
   transition: background 0.4s, backdrop-filter 0.4s;
 }
 .rp-header.scrolled {
-  background: rgba(18,18,22,0.9);
+  background: rgba(255,255,255,0.9);
   /* blur(20px) saturate(180%) recomputed a large gaussian over the full
      header width on every scrolled frame — at retina DPR 2 that's 4x the
      pixels of the DPR-1 test environment. blur(8px) keeps the frosted
@@ -372,9 +372,9 @@ body.riley-page {
 .rp-phone {
   width: 320px;
   flex-shrink: 0;
-  background: #F0EDF9;
+  background: #141316;
   border-radius: 52px;
-  border: 8px solid #DCD5EE;
+  border: 8px solid #0B0B0D;
   box-shadow:
     0 60px 120px rgba(0,0,0,0.8),
     0 0 0 1px rgba(18,18,22,0.06),
@@ -393,7 +393,7 @@ body.riley-page {
 .rp-phone__notch {
   width: 130px;
   height: 36px;
-  background: #DCD5EE;
+  background: #0B0B0D;
   border-radius: 0 0 28px 28px;
   margin: 0 auto;
   position: relative;
@@ -405,13 +405,13 @@ body.riley-page {
 }
 .rp-phone__notch-cam {
   width: 10px; height: 10px;
-  background: #ECE9F5;
+  background: #2C2A33;
   border-radius: 50%;
   border: 1px solid rgba(18,18,22,0.1);
 }
 .rp-phone__notch-speaker {
   width: 60px; height: 5px;
-  background: #ECE9F5;
+  background: #2C2A33;
   border-radius: 3px;
 }
 .rp-phone__screen {
@@ -419,6 +419,7 @@ body.riley-page {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  background: var(--ax-bg-alt);
 }
 .rp-phone__statusbar {
   display: flex;
@@ -744,6 +745,10 @@ body.riley-page {
   line-height: 0.95;
   color: #121216;
   margin-bottom: 24px;
+}
+.rp-cta__headline em {
+  font-style: normal;
+  color: var(--ax-accent);
 }
 .rp-cta__sub {
   font-size: 1rem;

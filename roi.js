@@ -219,7 +219,7 @@
 
     var paybackEl = document.getElementById('ax-roi-payback');
     if (paybackEl) {
-      paybackEl.style.color = r.paybackDays <= 60 ? '#4ade80' : r.paybackDays <= 120 ? '#6D4FD1' : '#121216';
+      paybackEl.style.color = r.paybackDays <= 60 ? '#4ade80' : r.paybackDays <= 120 ? '#6D4FD1' : '#facc15';
     }
 
     updateRecommendation(r);

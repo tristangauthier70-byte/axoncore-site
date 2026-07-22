@@ -404,9 +404,11 @@
   var overlay = document.getElementById('ax-demo-overlay');
 
   /* ── Init ── */
-  setTimeout(function(){ ariaGreet(); }, 900);
-  sendBtn.addEventListener('click', handleSend);
-  inputEl.addEventListener('keydown', function(e){ if (e.key === 'Enter') handleSend(); });
+  if (chat && inputEl && sendBtn) {
+    setTimeout(function(){ ariaGreet(); }, 900);
+    sendBtn.addEventListener('click', handleSend);
+    inputEl.addEventListener('keydown', function(e){ if (e.key === 'Enter') handleSend(); });
+  }
 
   /* ── Core helpers ── */
   function handleSend() {
@@ -1591,11 +1593,10 @@
             var em = document.createElement('em');
             em.appendChild(document.createTextNode('✨ This is Axoncore AI — your business could have Aria running 24/7. '));
             var link = document.createElement('a');
-            link.href = '#ax-contact';
+            link.href = '/book-a-call.html';
             link.style.cssText = 'color:#7C5CE0;text-decoration:none;';
             link.textContent = 'Want this for your business?';
             link.addEventListener('click', function(){
-              var overlay = document.getElementById('ax-demo-overlay');
               if (overlay) overlay.style.display = 'none';
             });
             em.appendChild(link);
@@ -1798,19 +1799,26 @@
             'A confirmation SMS has been sent to *' + phone + '*. We can\'t wait to see you! 💜\n\n— Aria',
             function(){
               STATE = 'confirmed';
-              document.getElementById('ax-confirm-service').textContent     = selectedServiceName;
-              document.getElementById('ax-confirm-datetime').textContent    = selectedDate + ' — ' + selectedTime;
-              document.getElementById('ax-confirm-consultant').textContent  = consultant.displayName;
-              document.getElementById('ax-confirm-name').textContent        = name;
-              var addonRow = document.getElementById('ax-confirm-addon-row');
-              if (selectedAddOn) {
-                document.getElementById('ax-confirm-addon').textContent = selectedAddOn;
-                addonRow.style.display = '';
-              } else {
-                addonRow.style.display = 'none';
+              var confirmService    = document.getElementById('ax-confirm-service');
+              var confirmDatetime   = document.getElementById('ax-confirm-datetime');
+              var confirmConsultant = document.getElementById('ax-confirm-consultant');
+              var confirmName       = document.getElementById('ax-confirm-name');
+              var addonRow          = document.getElementById('ax-confirm-addon-row');
+              var confirmAddon      = document.getElementById('ax-confirm-addon');
+              if (confirmService)    confirmService.textContent    = selectedServiceName;
+              if (confirmDatetime)   confirmDatetime.textContent   = selectedDate + ' — ' + selectedTime;
+              if (confirmConsultant) confirmConsultant.textContent = consultant.displayName;
+              if (confirmName)       confirmName.textContent       = name;
+              if (addonRow) {
+                if (selectedAddOn) {
+                  if (confirmAddon) confirmAddon.textContent = selectedAddOn;
+                  addonRow.style.display = '';
+                } else {
+                  addonRow.style.display = 'none';
+                }
               }
               /* Step 3: show overlay card after 2 more seconds */
-              setTimeout(function(){ overlay.style.display = 'flex'; }, 2000);
+              setTimeout(function(){ if (overlay) overlay.style.display = 'flex'; }, 2000);
             }
           );
         }, 2000);
