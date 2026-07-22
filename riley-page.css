@@ -679,10 +679,13 @@ body.riley-page {
   display: block;
   margin-bottom: 8px;
 }
-.rp-stat__label {
-  font-size: 0.8rem;
+.rp-stat__caption {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
   color: var(--ax-accent);
   line-height: 1.4;
+  margin-top: 4px;
 }
 
 /* ── SECTION 5: CTA (light rays + talk to riley, orb left / content right) ── */
