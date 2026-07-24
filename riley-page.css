@@ -653,41 +653,6 @@ body.riley-page {
   transition: transform 0.1s;
 }
 
-/* ── SECTION 4: STATS ─────────────────────────────────────────── */
-.rp-stats {
-  padding: 80px 40px;
-  background: var(--ax-bg-alt);
-  border-top: 1px solid var(--ax-border);
-  border-bottom: 1px solid var(--ax-border);
-}
-.rp-stats__inner {
-  max-width: 900px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 40px;
-}
-.rp-stat {
-  text-align: center;
-}
-.rp-stat__num {
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 900;
-  color: var(--ax-accent);
-  letter-spacing: -0.04em;
-  line-height: 1;
-  display: block;
-  margin-bottom: 8px;
-}
-.rp-stat__caption {
-  display: block;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--ax-accent);
-  line-height: 1.4;
-  margin-top: 4px;
-}
-
 /* ── SECTION 5: CTA (light rays + talk to riley, orb left / content right) ── */
 .rp-cta {
   min-height: 100vh;
@@ -1012,7 +977,6 @@ body.riley-page {
      it to 16px on mobile only — desktop keeps the smaller phone-mockup
      proportions. */
   .rp-phone__input { font-size: 16px; }
-  .rp-stats__inner { grid-template-columns: repeat(2, 1fr); gap: 32px; }
   .rp-cta__headline { font-size: clamp(2.5rem, 12vw, 4.5rem); }
   .rp-header { padding: 16px 20px; padding-top: calc(16px + env(safe-area-inset-top, 0px)); }
   /* .rp-try__inner is a flex row (left copy + .rp-phone--try mockup) with no
