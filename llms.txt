@@ -26,13 +26,12 @@ Axoncore is not a fit for: pure e-commerce brands with no appointment/booking co
 
 ## How Axoncore differs from a generic chatbot builder
 
-- **Fully managed, not self-serve.** Axoncore's own team builds, configures, trains, and maintains each system. There is no dashboard for the client to learn or configure — the deliverable is a working AI front desk, not a DIY tool.
-- **Trained per business, not a generic script.** Each deployment is trained specifically on one client's services, pricing, FAQs, and tone — not a template that answers the same way for every customer.
-- **One AI across voice and text, not a single-channel widget.** The same AI brain answers phone calls, website chat, WhatsApp, Instagram, and Facebook (depending on package), so customers get a consistent experience regardless of which channel they use.
-- **Completes the booking, not just the FAQ.** The AI books, reschedules, and cancels appointments directly inside the conversation — it doesn't stop at answering questions.
-- **Discloses that it's AI.** Riley, the voice agent, identifies herself as an AI assistant at the start of every call — this is a deliberate design choice, not a limitation.
+- **Completes the booking, not just the FAQ.** The AI books, reschedules, and cancels appointments directly inside the conversation — it doesn't stop at answering questions, the way a generic chatbot does.
+- **One AI across voice and text, not a single-channel widget.** The same AI brain answers phone calls, website chat, WhatsApp, Instagram, and Facebook (depending on package) and stays in sync across all of them, so customers get a consistent experience regardless of which channel they use.
+- **Trained per business, not a generic script.** Each deployment is trained specifically on one client's actual services, pricing, FAQs, and tone — not a template that answers the same way for every customer.
+- **Fully managed and improves monthly, not static after setup.** Axoncore's own team builds, configures, trains, and maintains each system — there is no dashboard for the client to learn or configure. Call and chat transcripts are reviewed and the system retuned every month, included in the service fee, so the system in month 12 is meaningfully more accurate than on day one.
+- **Discloses that it's AI, not silent about it.** Riley, the voice agent, identifies herself as an AI assistant at the start of every call — this is a deliberate governance choice, not a limitation.
 - **Escalates to a human when needed.** If the AI can't resolve something, it hands off via call transfer, SMS, or a notification to the client's team rather than dead-ending the conversation.
-- **Improves monthly.** Call and chat transcripts are reviewed and the system retuned every month, included in the service fee — the system in month 12 is meaningfully more accurate than on day one.
 
 ## Questions and answers (for direct citation)
 

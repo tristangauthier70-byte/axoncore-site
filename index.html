@@ -846,10 +846,10 @@
           <div class="ax-pricing__vs-sub">avg salary + 17% employer CPF</div>
           <div class="ax-pricing__vs-rule"></div>
           <ul class="ax-pricing__vs-items">
-            <li><span class="ax-vs-icon ax-vs-icon--bad">&#10005;</span>One person, one channel only</li>
-            <li><span class="ax-vs-icon ax-vs-icon--bad">&#10005;</span>9am&ndash;6pm weekdays only</li>
-            <li><span class="ax-vs-icon ax-vs-icon--bad">&#10005;</span>Sick days &amp; turnover risk</li>
-            <li><span class="ax-vs-icon ax-vs-icon--bad">&#10005;</span>CPF &amp; leave entitlements</li>
+            <li><span class="ax-vs-icon ax-vs-icon--bad" aria-hidden="true">&#10005;</span>One person, one channel only</li>
+            <li><span class="ax-vs-icon ax-vs-icon--bad" aria-hidden="true">&#10005;</span>9am&ndash;6pm weekdays only</li>
+            <li><span class="ax-vs-icon ax-vs-icon--bad" aria-hidden="true">&#10005;</span>Sick days &amp; turnover risk</li>
+            <li><span class="ax-vs-icon ax-vs-icon--bad" aria-hidden="true">&#10005;</span>CPF &amp; leave entitlements</li>
           </ul>
           <div class="ax-pricing__vs-total ax-pricing__vs-total--old">
             <span>36-month total cost</span>
@@ -868,10 +868,10 @@
           <div class="ax-pricing__vs-sub ax-pricing__vs-sub--ax">Lite tier &middot; Founding rate</div>
           <div class="ax-pricing__vs-rule ax-pricing__vs-rule--ax"></div>
           <ul class="ax-pricing__vs-items ax-pricing__vs-items--ax">
-            <li><span class="ax-vs-icon ax-vs-icon--good">&#10003;</span>Every channel, simultaneously</li>
-            <li><span class="ax-vs-icon ax-vs-icon--good">&#10003;</span>24/7 &mdash; weekends &amp; public holidays</li>
-            <li><span class="ax-vs-icon ax-vs-icon--good">&#10003;</span>No CPF, no overheads, no sick days</li>
-            <li><span class="ax-vs-icon ax-vs-icon--good">&#10003;</span>Gets smarter every month</li>
+            <li><span class="ax-vs-icon ax-vs-icon--good" aria-hidden="true">&#10003;</span>Every channel, simultaneously</li>
+            <li><span class="ax-vs-icon ax-vs-icon--good" aria-hidden="true">&#10003;</span>24/7 &mdash; weekends &amp; public holidays</li>
+            <li><span class="ax-vs-icon ax-vs-icon--good" aria-hidden="true">&#10003;</span>No CPF, no overheads, no sick days</li>
+            <li><span class="ax-vs-icon ax-vs-icon--good" aria-hidden="true">&#10003;</span>Gets smarter every month</li>
           </ul>
           <div class="ax-pricing__vs-total ax-pricing__vs-total--ax">
             <span>36-month total cost</span>
@@ -1026,30 +1026,38 @@
         Plenty of tools let you build a bot yourself. Axoncore builds, trains, and runs the whole system for you.
       </p>
     </div>
-    <div class="ax-steps" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr));">
-      <div class="ax-step ax-reveal ax-reveal-delay-1" style="text-align:left;">
-        <h3 class="ax-step__title">Fully managed, not self-serve</h3>
-        <p class="ax-step__body">There's no dashboard for you to learn or configure. Axoncore's team builds, trains, and maintains the system — you get a working AI front desk, not a DIY tool.</p>
-      </div>
-      <div class="ax-step ax-reveal ax-reveal-delay-2" style="text-align:left;">
-        <h3 class="ax-step__title">Trained on your business, not a template</h3>
-        <p class="ax-step__body">Every deployment is trained specifically on that business's own services, pricing, FAQs, and tone — not a generic script that answers the same way for every customer.</p>
-      </div>
-      <div class="ax-step ax-reveal ax-reveal-delay-3" style="text-align:left;">
-        <h3 class="ax-step__title">One AI, every channel</h3>
-        <p class="ax-step__body">The same AI brain answers phone calls, website chat, WhatsApp, Instagram and Facebook — not a single-channel widget bolted onto your site.</p>
-      </div>
-      <div class="ax-step ax-reveal ax-reveal-delay-1" style="text-align:left;">
-        <h3 class="ax-step__title">Completes the booking</h3>
-        <p class="ax-step__body">The AI books, reschedules, and cancels appointments directly in the conversation — it doesn't stop at answering a question.</p>
-      </div>
-      <div class="ax-step ax-reveal ax-reveal-delay-2" style="text-align:left;">
-        <h3 class="ax-step__title">Discloses that it's AI</h3>
-        <p class="ax-step__body">Riley identifies herself as an AI assistant at the start of every call — a deliberate design choice for trust, not a limitation.</p>
-      </div>
-      <div class="ax-step ax-reveal ax-reveal-delay-3" style="text-align:left;">
-        <h3 class="ax-step__title">Improves every month</h3>
-        <p class="ax-step__body">Call and chat transcripts are reviewed and the system retuned monthly, included in your fee — your AI in month 12 is meaningfully sharper than on day one.</p>
+    <div class="ax-pricing__vs ax-reveal" style="margin-top:60px;margin-bottom:0;">
+      <div class="ax-pricing__vs-grid">
+
+        <div class="ax-pricing__vs-card ax-pricing__vs-card--old">
+          <div class="ax-pricing__vs-tag">Generic chatbot builder</div>
+          <div class="ax-pricing__vs-rule"></div>
+          <ul class="ax-pricing__vs-items">
+            <li><span class="ax-vs-icon ax-vs-icon--bad" aria-hidden="true">&#10005;</span>Answers questions, then stops</li>
+            <li><span class="ax-vs-icon ax-vs-icon--bad" aria-hidden="true">&#10005;</span>One channel per tool, no shared memory</li>
+            <li><span class="ax-vs-icon ax-vs-icon--bad" aria-hidden="true">&#10005;</span>Generic script you configure yourself</li>
+            <li><span class="ax-vs-icon ax-vs-icon--bad" aria-hidden="true">&#10005;</span>Static after setup — you maintain it</li>
+            <li><span class="ax-vs-icon ax-vs-icon--bad" aria-hidden="true">&#10005;</span>Often silent about being AI</li>
+          </ul>
+        </div>
+
+        <div class="ax-pricing__vs-divider">
+          <div class="ax-pricing__vs-badge">VS</div>
+        </div>
+
+        <div class="ax-pricing__vs-card ax-pricing__vs-card--ax">
+          <div class="ax-pricing__vs-glow" aria-hidden="true"></div>
+          <div class="ax-pricing__vs-tag ax-pricing__vs-tag--ax">Axoncore</div>
+          <div class="ax-pricing__vs-rule ax-pricing__vs-rule--ax"></div>
+          <ul class="ax-pricing__vs-items ax-pricing__vs-items--ax">
+            <li><span class="ax-vs-icon ax-vs-icon--good" aria-hidden="true">&#10003;</span>Books, reschedules, cancels — closes it before they hang up</li>
+            <li><span class="ax-vs-icon ax-vs-icon--good" aria-hidden="true">&#10003;</span>One AI brain, every channel — phone, web, WhatsApp, Instagram, Facebook — stays in sync</li>
+            <li><span class="ax-vs-icon ax-vs-icon--good" aria-hidden="true">&#10003;</span>Trained on your actual services, pricing, and tone</li>
+            <li><span class="ax-vs-icon ax-vs-icon--good" aria-hidden="true">&#10003;</span>Fully managed, and retrained monthly from real transcripts — included</li>
+            <li><span class="ax-vs-icon ax-vs-icon--good" aria-hidden="true">&#10003;</span>Discloses it's AI upfront — deliberate governance, not a gap</li>
+          </ul>
+        </div>
+
       </div>
     </div>
   </div>
