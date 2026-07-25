@@ -2935,6 +2935,8 @@ hr {
 
 .calendly-inline-widget iframe {
   border-radius: 0 0 var(--ax-radius-lg) var(--ax-radius-lg);
+  /* Calendly ignores our primary_color embed param (their bug); shift their default blue toward our violet without touching the white/black. */
+  filter: hue-rotate(40deg);
 }
 
 .ax-contact__form-card::before {
