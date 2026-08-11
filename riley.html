@@ -31,19 +31,19 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://api.vapi.ai">
   <link rel="preconnect" href="https://aws.vapi.ai">
-  <!-- Only three.js still comes from a CDN (jsdelivr, via the importmap
-       below) — gsap/ScrollTrigger/splitting used to load from cdnjs +
-       unpkg (two more origins, each its own DNS+TCP+TLS handshake) but are
-       now self-hosted (see script tags near the bottom) specifically
-       because that CDN fetch, when slow/cold-cache, was the root cause of
-       a confirmed bug: initPhoneConversation()'s ScrollTrigger pin
-       wouldn't exist until those scripts finished loading, and creating a
-       pin (with up to 5 viewport-heights of pinSpacing) that late/that
+  <!-- gsap/ScrollTrigger/splitting used to load from cdnjs + unpkg (two
+       more origins, each its own DNS+TCP+TLS handshake) but are now
+       self-hosted (see script tags near the bottom) specifically because
+       that CDN fetch, when slow/cold-cache, was the root cause of a
+       confirmed bug: initPhoneConversation()'s ScrollTrigger pin wouldn't
+       exist until those scripts finished loading, and creating a pin
+       (with up to 5 viewport-heights of pinSpacing) that late/that
        suddenly produced a large layout shift right as a visitor's first
        scroll landed. Self-hosting removes the race entirely — same
-       treatment already applied to vapi-sdk.js and three.module.min.js on
-       this page for the same class of problem. -->
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+       treatment applied to vapi-sdk.js and three.module.min.js (below) on
+       this page for the same class of problem. No jsdelivr preconnect or
+       CSP allowance needed any more — nothing on this page fetches from
+       there. -->
 
   <!-- Fonts — same as main site -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -52,24 +52,26 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="riley-page.css">
 
-  <!-- Three.js — voice orb (riley-orb.js).
+  <!-- Three.js — voice orb (riley-orb.js). Self-hosted (three.module.min.js,
+       pinned at v0.170.0, same file jsdelivr served) for the identical
+       fetch-race reason as gsap/ScrollTrigger/splitting above — this used
+       to load from cdn.jsdelivr.net via this importmap, which meant a
+       fourth external origin on the page's critical render path.
        Using the MINIFIED build deliberately: build/three.module.js (the
        unminified ESM build) is 1.28MB (267KB gzipped) vs 676KB (172KB
-       gzipped) for build/three.module.min.js — same API, same module,
-       verified via `curl` against this exact CDN/version. This matters more
-       than it looks: riley-orb.js's static `import * as THREE from 'three'`
-       must fully fetch+parse+evaluate before riley-orb.js's own body runs,
-       and per the HTML spec, module scripts and classic `defer` scripts
-       execute strictly in document order as one combined queue — so a slow
-       Three.js fetch was gating the execution START of riley.js,
-       riley-page.js (the scripts that actually drive
-       scroll/animation/chat logic), even though none of them depend on
-       Three.js at all. Switching to the minified build cuts that
-       fetch/parse/compile cost roughly in half. -->
+       gzipped) for build/three.module.min.js — same API, same module.
+       This matters more than it looks: riley-orb.js's static
+       `import * as THREE from 'three'` must fully fetch+parse+evaluate
+       before riley-orb.js's own body runs, and per the HTML spec, module
+       scripts and classic `defer` scripts execute strictly in document
+       order as one combined queue — so a slow Three.js fetch was gating
+       the execution START of riley.js, riley-page.js (the scripts that
+       actually drive scroll/animation/chat logic), even though none of
+       them depend on Three.js at all. -->
   <script type="importmap">
   {
     "imports": {
-      "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js"
+      "three": "/three.module.min.js"
     }
   }
   </script>

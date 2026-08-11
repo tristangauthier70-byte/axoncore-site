@@ -25,7 +25,7 @@
       card.querySelector('.ax-tier__mins').textContent = 'High-volume — agreed on call';
 
       if (monthlyEl) {
-        monthlyEl.innerHTML = '<a href="#ax-contact" class="ax-tier__enterprise-cta">Book a call &#8594;</a>';
+        monthlyEl.innerHTML = '<a href="/book-a-call.html" class="ax-tier__enterprise-cta">Book a call &#8594;</a>';
         monthlyEl.classList.remove('ax-tier-flash');
         void monthlyEl.offsetWidth;
         monthlyEl.classList.add('ax-tier-flash');

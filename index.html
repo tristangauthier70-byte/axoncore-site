@@ -319,29 +319,7 @@
 <!-- SOCIAL PROOF STRIP -->
 <div class="ax-proof-strip">
   <div class="ax-container">
-    <p class="ax-proof-strip__label">Powered by</p>
-    <div class="ax-proof-strip__logos">
-      <span class="ax-proof-logo">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-        VAPI Voice AI
-      </span>
-      <span class="ax-proof-logo">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-        Anthropic Claude
-      </span>
-      <span class="ax-proof-logo">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        WhatsApp Business
-      </span>
-      <span class="ax-proof-logo">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        ElevenLabs
-      </span>
-      <span class="ax-proof-logo">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.06 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 16.92z"/></svg>
-        Twilio
-      </span>
-    </div>
+    <p class="ax-proof-strip__statement">Runs on enterprise voice and messaging infrastructure &mdash; including VAPI, Twilio, and Meta&rsquo;s WhatsApp Business API &mdash; with Anthropic Claude as the reasoning layer. We hold and manage every account; you never touch a dashboard or a vendor invoice.</p>
   </div>
 </div>
 
@@ -868,24 +846,9 @@
   </svg>
 </a>
 
-<!-- Cookie Notice -->
-<div id="ax-cookie-notice" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);border-top:1px solid rgba(18,18,22,0.1);padding:14px 24px;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:0.82rem;color:rgba(51,65,85,0.75);">
-  <span>This site uses cookies from Calendly for booking functionality. By continuing, you accept this. <a href="/privacy.html" style="color:#6D4FD1;text-decoration:none;">Privacy Policy</a></span>
-  <button id="ax-cookie-ok" style="background:#6D4FD1;color:#fff;border:none;border-radius:6px;padding:7px 18px;font-size:0.82rem;font-weight:600;cursor:pointer;white-space:nowrap;">Got it</button>
-</div>
-<script>
-(function(){
-  if (!localStorage.getItem('ax_cookie_ok')) {
-    var n = document.getElementById('ax-cookie-notice');
-    if (n) n.style.display = 'flex';
-    var btn = document.getElementById('ax-cookie-ok');
-    if (btn) btn.addEventListener('click', function(){
-      localStorage.setItem('ax_cookie_ok', '1');
-      n.style.display = 'none';
-    });
-  }
-})();
-</script>
+<!-- Cookie notice now lives in main.js (self-appending), so it renders on
+     every page that loads main.js instead of index.html alone — see the
+     "COOKIE NOTICE" block near the end of that file. -->
 
 </body>
 </html>

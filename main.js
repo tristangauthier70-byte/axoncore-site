@@ -553,3 +553,30 @@
     });
   });
 })();
+
+/* ── COOKIE NOTICE ──
+   Used to live as inline markup + a <script> on index.html only, which
+   meant a visitor landing directly on book-a-call.html — where every
+   header CTA, every footer CTA and both nav dropdowns send people —
+   loaded Calendly's third-party cookies with no notice at all.
+   Self-appending here instead, so it renders on every page that loads
+   this file (currently: index, pricing, services, how-it-works, results,
+   demo, book-a-call). riley.html doesn't load main.js and doesn't embed
+   Calendly, so it sets no third-party cookies and needs no notice. */
+(function () {
+  if (localStorage.getItem('ax_cookie_ok')) return;
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var n = document.createElement('div');
+    n.id = 'ax-cookie-notice';
+    n.style.cssText = 'display:flex;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);border-top:1px solid rgba(18,18,22,0.1);padding:14px 24px;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:0.82rem;color:rgba(51,65,85,0.75);';
+    n.innerHTML = '<span>This site uses cookies from Calendly for booking functionality. By continuing, you accept this. <a href="/privacy.html" style="color:#6D4FD1;text-decoration:none;">Privacy Policy</a></span>' +
+      '<button id="ax-cookie-ok" style="background:#6D4FD1;color:#fff;border:none;border-radius:6px;padding:7px 18px;font-size:0.82rem;font-weight:600;cursor:pointer;white-space:nowrap;">Got it</button>';
+    document.body.appendChild(n);
+
+    document.getElementById('ax-cookie-ok').addEventListener('click', function () {
+      localStorage.setItem('ax_cookie_ok', '1');
+      n.style.display = 'none';
+    });
+  });
+})();
