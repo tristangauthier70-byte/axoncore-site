@@ -1,49 +1,66 @@
 # Axoncore (axoncoreai.com) — robots.txt
-# Fully public marketing site, nothing to hide from crawlers.
-# AI crawlers are explicitly welcomed (not just left to the default) —
-# this site wants to be found and cited by generative answer engines.
+# Public marketing site — AI crawlers are explicitly welcomed on the pages
+# meant to be found and cited by generative answer engines.
+# Internal docs and build artifacts (*.md, dev/test bundles) are excluded —
+# see .vercelignore, which keeps them out of the deployment entirely.
 
 User-agent: *
 Allow: /
+Disallow: /*.md$
+Disallow: /vapi-browser-test.js
+Disallow: /vapi-entry.js
 
 # Generative / AI answer engines
 User-agent: GPTBot
 Allow: /
+Disallow: /*.md$
 
 User-agent: ChatGPT-User
 Allow: /
+Disallow: /*.md$
 
 User-agent: OAI-SearchBot
 Allow: /
+Disallow: /*.md$
 
 User-agent: ClaudeBot
 Allow: /
+Disallow: /*.md$
 
 User-agent: Claude-Web
 Allow: /
+Disallow: /*.md$
 
 User-agent: anthropic-ai
 Allow: /
+Disallow: /*.md$
 
 User-agent: PerplexityBot
 Allow: /
+Disallow: /*.md$
 
 User-agent: Perplexity-User
 Allow: /
+Disallow: /*.md$
 
 User-agent: Google-Extended
 Allow: /
+Disallow: /*.md$
 
 User-agent: Applebot-Extended
 Allow: /
+Disallow: /*.md$
 
 User-agent: Amazonbot
 Allow: /
+Disallow: /*.md$
 
 User-agent: meta-externalagent
 Allow: /
+Disallow: /*.md$
 
 User-agent: CCBot
 Allow: /
+Disallow: /*.md$
 
 Sitemap: https://axoncoreai.com/sitemap.xml

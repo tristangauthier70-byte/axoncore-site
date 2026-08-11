@@ -1,0 +1,7 @@
+*.md
+!README.md
+vapi-browser-test.js
+vapi-entry.js
+skills-lock.json
+.agents/
+.impeccable/
