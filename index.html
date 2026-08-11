@@ -39,7 +39,8 @@
 
   <!-- Structured data — entity + site search, for both traditional search
        and generative/AI answer engines (GEO). Keep facts here in sync with
-       pricing.html's tier.js TIER_DATA if pricing ever changes. -->
+       pricing-data.js (window.AXONCORE_PRICING) if pricing ever changes —
+       that's the canonical source; this markup can't read it directly. -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",

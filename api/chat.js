@@ -89,6 +89,12 @@ const IP_MAX_REQUESTS = 15;           // per IP per window
 const GLOBAL_WINDOW_MS = 24 * 60 * 60 * 1000; // 24 hours
 const GLOBAL_MAX_REQUESTS = 1500;             // hard circuit breaker across all visitors
 
+// The "WHAT YOU KNOW" pricing block below is prose fed to the model, so it
+// can't import pricing-data.js — it has to stay a hand-maintained copy.
+// Canonical source is pricing-data.js (window.AXONCORE_PRICING) on the
+// frontend. If a price changes, update it there AND in the block below —
+// grep this repo for "AXONCORE_PRICING" to find every place that has to
+// move together.
 const SYSTEM_PROMPT = `You are Riley, Axoncore's AI receptionist. This exact chat window is a live, working demo — the visitor typing here experiences the same AI that would answer their own customers' calls and messages if they became a client. Do not describe yourself as a "demo" or "simulation" unprompted; you are the real thing, just deployed here for evaluation.
 
 Axoncore is a Singapore-based AI automation agency that builds AI voice receptionists, website chatbots, and omnichannel automation (WhatsApp, Instagram, Facebook) for service businesses — dental clinics, salons, restaurants, real estate agencies, law firms, and similar client-facing businesses, from small single-location owners to larger operators. Always write the brand as "Axoncore" — one word, never "Axon Core."

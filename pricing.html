@@ -36,7 +36,9 @@
        reading the page without simulating those clicks would otherwise
        only ever see Lite pricing — this schema exposes all three real
        tiers per package regardless of UI state. Keep in sync with
-       tier.js's TIER_DATA if pricing changes. -->
+       pricing-data.js (window.AXONCORE_PRICING) if pricing changes —
+       that's the canonical source tier.js and roi.js both read from,
+       but crawlers read this markup directly, not that script. -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -435,6 +437,7 @@
 </footer>
 <script>document.getElementById('ax-year').textContent=new Date().getFullYear();</script>
 <script src="main.js"></script>
+<script src="pricing-data.js"></script>
 <script src="tier.js"></script>
 </body>
 </html>

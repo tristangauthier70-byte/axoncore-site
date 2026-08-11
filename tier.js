@@ -4,26 +4,10 @@
 (function () {
   'use strict';
 
-  var TIER_DATA = {
-    a: [
-      { name: 'Lite',       minutes: 300,  price: 145,  setup: 599  },
-      { name: 'Standard',   minutes: 600,  price: 250,  setup: 599  },
-      { name: 'Pro',        minutes: 1200, price: 450,  setup: 599  },
-      { name: 'Enterprise', enterprise: true }
-    ],
-    b: [
-      { name: 'Lite',       minutes: 300,  messages: 10000, price: 600,  setup: 999  },
-      { name: 'Standard',   minutes: 600,  messages: 30000, price: 705,  setup: 999  },
-      { name: 'Pro',        minutes: 1200, messages: 50000, price: 905,  setup: 999  },
-      { name: 'Enterprise', enterprise: true }
-    ],
-    c: [
-      { name: 'Lite',       minutes: 300,  price: 899,  setup: 1399 },
-      { name: 'Standard',   minutes: 600,  price: 1199, setup: 1399 },
-      { name: 'Pro',        minutes: 1200, price: 1399, setup: 1399 },
-      { name: 'Enterprise', enterprise: true }
-    ]
-  };
+  // Canonical prices live in pricing-data.js (window.AXONCORE_PRICING),
+  // loaded before this file. Don't redefine them here — that's the
+  // duplication that let this file and roi.js drift apart.
+  var TIER_DATA = window.AXONCORE_PRICING;
 
   function applyTier(card, pkg, idx) {
     var tiers = TIER_DATA[pkg];

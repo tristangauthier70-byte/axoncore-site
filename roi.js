@@ -28,14 +28,18 @@
   var NOSHOW_CURRENT     = 0.15;
   var NOSHOW_REDUCTION   = 0.29;
   var NOSHOW_AXONCORE    = NOSHOW_CURRENT * (1 - NOSHOW_REDUCTION);
-  var AXONCORE_MONTHLY_COST = 410;
 
-  /* ── Package data ── */
-  var PACKAGES = {
-    A: { name: 'Package A — Frontline Reception',    setup: 390,  monthly: 135 },
-    B: { name: 'Package B — Conversion System',      setup: 700,  monthly: 335 },
-    C: { name: 'Package C — OmniChannel Front Desk', setup: 990,  monthly: 840 }
-  };
+  /* ── Package data ──
+     Sourced from pricing-data.js (window.AXONCORE_PRICING), loaded
+     before this file — see that file for why. The ROI calculator
+     doesn't ask about call volume, so it has no basis to recommend a
+     specific tier; it reasons against each package's Lite tier, the
+     same "from $X/month" figure used sitewide. */
+  function packageRef(key) {
+    var k = key.toLowerCase();
+    var lite = window.AXONCORE_PRICING[k][0];
+    return { name: window.AXONCORE_PACKAGE_NAMES[k], setup: lite.setup, monthly: lite.price };
+  }
 
   /* ── State ── */
   var enquiries = 600;
@@ -133,7 +137,16 @@
 
     var monthlyUplift  = actualAx - actualNow;
     var annualUplift   = monthlyUplift * 12;
-    var annualCost     = AXONCORE_MONTHLY_COST * 12;
+
+    // Recommend the package first, then cost the ROI against THAT
+    // package's real price — not a flat, made-up monthly figure.
+    // This is also what updateRecommendation() below displays, so the
+    // headline ROI numbers and the recommendation box can no longer
+    // disagree with each other.
+    var recKey      = recommendPackage({ monthlyUplift: monthlyUplift });
+    var recPackage  = packageRef(recKey);
+    var annualCost  = recPackage.monthly * 12 + recPackage.setup;
+
     var roiMultiple    = annualUplift / annualCost;
     var paybackDays    = Math.ceil(annualCost / monthlyUplift * 30);
 
@@ -142,18 +155,19 @@
     var afterHoursRevenue = afterHoursMissed * CONV_RATE_CURRENT * val;
 
     return {
-      missedLeads:       missedLeads,
-      currentMonthly:    Math.round(actualNow),
-      axonMonthly:       Math.round(actualAx),
-      monthlyUplift:     Math.round(monthlyUplift),
-      annualUplift:      Math.round(annualUplift),
-      roiMultiple:       roiMultiple,
-      paybackDays:       paybackDays,
-      afterHoursRevenue: Math.round(afterHoursRevenue),
-      captureNow:        Math.round(captureNow * 100),
-      bookingsNow:       Math.round(bookingsNow),
-      bookingsAx:        Math.round(bookingsAx),
-      capturePercent:    Math.round(AXONCORE_CAPTURE * 100)
+      missedLeads:        missedLeads,
+      currentMonthly:     Math.round(actualNow),
+      axonMonthly:        Math.round(actualAx),
+      monthlyUplift:      Math.round(monthlyUplift),
+      annualUplift:       Math.round(annualUplift),
+      roiMultiple:        roiMultiple,
+      paybackDays:        paybackDays,
+      afterHoursRevenue:  Math.round(afterHoursRevenue),
+      captureNow:         Math.round(captureNow * 100),
+      bookingsNow:        Math.round(bookingsNow),
+      bookingsAx:         Math.round(bookingsAx),
+      capturePercent:     Math.round(AXONCORE_CAPTURE * 100),
+      recommendedPackage: recKey
     };
   }
 
@@ -171,8 +185,7 @@
     var detailEl = document.getElementById('ax-roi-rec-detail');
     if (!recEl || !nameEl || !detailEl) return;
 
-    var key = recommendPackage(r);
-    var pkg = PACKAGES[key];
+    var pkg = packageRef(r.recommendedPackage);
 
     var payback = Math.ceil((pkg.setup + pkg.monthly) / r.monthlyUplift * 30);
     var paybackStr = (payback > 0 && payback < 730) ? payback + '-day payback' : 'strong ROI';
