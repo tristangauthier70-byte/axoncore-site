@@ -66,15 +66,32 @@
       var card = document.getElementById('ax-pkg-' + pkg);
       if (!card) return;
 
-      var idx = 0;
-      applyTier(card, pkg, idx);
+      // Index lives on the element itself, not a closure var, so an
+      // outside caller (the pricing router) can move a card to a specific
+      // tier via axSetTier() below without these buttons losing track of
+      // where the card actually is.
+      card.dataset.tierIdx = '0';
+      applyTier(card, pkg, 0);
 
       card.querySelector('.ax-tier__btn--prev').addEventListener('click', function () {
-        if (idx > 0) { idx--; applyTier(card, pkg, idx); }
+        var idx = parseInt(card.dataset.tierIdx, 10);
+        if (idx > 0) { idx--; card.dataset.tierIdx = idx; applyTier(card, pkg, idx); }
       });
       card.querySelector('.ax-tier__btn--next').addEventListener('click', function () {
-        if (idx < TIER_DATA[pkg].length - 1) { idx++; applyTier(card, pkg, idx); }
+        var idx = parseInt(card.dataset.tierIdx, 10);
+        if (idx < TIER_DATA[pkg].length - 1) { idx++; card.dataset.tierIdx = idx; applyTier(card, pkg, idx); }
       });
     });
+
+    // Called by router.js once a visitor answers both questions, so the
+    // card they scroll down to already shows the tier that was just
+    // recommended instead of always defaulting to Lite.
+    window.axSetTier = function (pkg, idx) {
+      var card = document.getElementById('ax-pkg-' + pkg);
+      if (!card || !TIER_DATA[pkg]) return;
+      idx = Math.max(0, Math.min(idx, TIER_DATA[pkg].length - 1));
+      card.dataset.tierIdx = idx;
+      applyTier(card, pkg, idx);
+    };
   });
 })();

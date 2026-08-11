@@ -255,6 +255,29 @@
       <p class="ax-pricing__vs-note">This comparison shows Package A (phone only). Want every channel covered — phone, website, WhatsApp, Instagram &amp; Facebook, one AI brain across all of them? See Package C, from SGD $899/month, below.</p>
     </div>
 
+    <!-- Two-question router — same qualification Riley does on a call
+         (channel, then call volume), so a visitor doesn't have to
+         self-diagnose from three feature lists. -->
+    <div class="ax-router" id="ax-router">
+      <div class="ax-router__step" data-step="1">
+        <p class="ax-router__q">1. Where do your enquiries come in?</p>
+        <div class="ax-router__opts">
+          <button type="button" class="ax-router__opt" data-pkg="a" aria-pressed="false">Phone only</button>
+          <button type="button" class="ax-router__opt" data-pkg="b" aria-pressed="false">Phone + our website</button>
+          <button type="button" class="ax-router__opt" data-pkg="c" aria-pressed="false">Phone, website, WhatsApp &amp; social</button>
+        </div>
+      </div>
+      <div class="ax-router__step" data-step="2" hidden>
+        <p class="ax-router__q">2. Roughly how many calls a month?</p>
+        <div class="ax-router__opts">
+          <button type="button" class="ax-router__opt" data-tier="0" aria-pressed="false">Under 120</button>
+          <button type="button" class="ax-router__opt" data-tier="1" aria-pressed="false">120&ndash;250</button>
+          <button type="button" class="ax-router__opt" data-tier="2" aria-pressed="false">250+</button>
+        </div>
+      </div>
+      <div class="ax-router__result" id="ax-router-result" hidden></div>
+    </div>
+
     <div class="ax-pricing__grid">
 
       <!-- Package A -->
@@ -441,5 +464,6 @@
 <script src="main.js"></script>
 <script src="pricing-data.js"></script>
 <script src="tier.js"></script>
+<script src="router.js"></script>
 </body>
 </html>

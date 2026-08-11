@@ -843,6 +843,67 @@ body.riley-page {
 }
 @keyframes rp-spin { to { transform: rotate(360deg); } }
 
+/* ── NEXT STEP — bridges straight from the live call into booking,
+   instead of the page's only prior exit being "Home" in the footer ── */
+.rp-next {
+  padding: 64px 40px 76px;
+  text-align: center;
+  border-top: 1px solid var(--ax-border);
+}
+.rp-next__eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ax-accent);
+  margin-bottom: 16px;
+}
+.rp-next__headline {
+  font-family: var(--ax-font-serif);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 600;
+  color: #121216;
+  margin: 0 0 12px;
+  letter-spacing: -0.01em;
+}
+.rp-next__sub {
+  font-size: 1rem;
+  color: rgba(18,18,22,0.5);
+  max-width: 440px;
+  margin: 0 auto 32px;
+  line-height: 1.6;
+}
+.rp-next__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.rp-next__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 40px;
+  background: linear-gradient(135deg, var(--ax-accent-deep), var(--ax-accent));
+  color: var(--ax-bg);
+  font-size: 1.02rem;
+  font-weight: 700;
+  border-radius: 100px;
+  text-decoration: none;
+  letter-spacing: -0.01em;
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+.rp-next__btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 60px rgba(109,79,209,0.35);
+}
+.rp-next__link {
+  font-size: 0.9rem;
+  color: rgba(18,18,22,0.55);
+  text-decoration: none;
+}
+.rp-next__link:hover { color: var(--ax-accent); }
+
 /* ── FOOTER ───────────────────────────────────────────────────── */
 .rp-footer {
   padding: 40px;
