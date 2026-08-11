@@ -138,17 +138,22 @@
     var monthlyUplift  = actualAx - actualNow;
     var annualUplift   = monthlyUplift * 12;
 
-    // Recommend the package first, then cost the ROI against THAT
-    // package's real price — not a flat, made-up monthly figure.
+    // Recommend the package first, then cost everything below against
+    // THAT package's real price — not a flat, made-up monthly figure.
     // This is also what updateRecommendation() below displays, so the
-    // headline ROI numbers and the recommendation box can no longer
+    // headline numbers and the recommendation box can no longer
     // disagree with each other.
     var recKey      = recommendPackage({ monthlyUplift: monthlyUplift });
     var recPackage  = packageRef(recKey);
-    var annualCost  = recPackage.monthly * 12 + recPackage.setup;
 
-    var roiMultiple    = annualUplift / annualCost;
-    var paybackDays    = Math.ceil(annualCost / monthlyUplift * 30);
+    // Two intentionally different questions, each computed exactly once
+    // so nothing downstream can quietly duplicate the formula and drift:
+    //   roiMultiple — annual gain vs. a full year of the subscription
+    //   paybackDays — days of uplift to cover your first bill (setup +
+    //                 one month), the standard "payback period" sense
+    var annualCost  = recPackage.monthly * 12 + recPackage.setup;
+    var roiMultiple = annualUplift / annualCost;
+    var paybackDays = Math.ceil((recPackage.setup + recPackage.monthly) / monthlyUplift * 30);
 
     var afterHoursLeads   = Math.round(enq * 0.35);
     var afterHoursMissed  = Math.round(afterHoursLeads * (1 - captureNow));
@@ -187,8 +192,10 @@
 
     var pkg = packageRef(r.recommendedPackage);
 
-    var payback = Math.ceil((pkg.setup + pkg.monthly) / r.monthlyUplift * 30);
-    var paybackStr = (payback > 0 && payback < 730) ? payback + '-day payback' : 'strong ROI';
+    // r.paybackDays comes from calculate() — same number as the stats
+    // grid above. Don't recompute it here; that's how this and the
+    // headline figure drifted apart from each other in the first place.
+    var paybackStr = (r.paybackDays > 0 && r.paybackDays < 730) ? r.paybackDays + '-day payback' : 'strong ROI';
 
     nameEl.textContent   = pkg.name;
     detailEl.textContent = 'SGD $' + pkg.setup.toLocaleString() + ' setup · SGD $' + pkg.monthly.toLocaleString() + '/month · est. ' + paybackStr;
