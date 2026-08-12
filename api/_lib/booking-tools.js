@@ -41,7 +41,7 @@ const BOOK_MEETING_TOOL = {
       start_time: {
         type: 'string',
         description:
-          'The exact slot start time, copied exactly from a startTimeISO value check_availability returned (ISO 8601 UTC, e.g. 2026-08-14T01:00:00Z). Never invent or reformat this.',
+          'The exact UTC start_time value from check_availability\'s result, copied character-for-character. This is ALREADY converted from Singapore local time to UTC for you — never compute, convert, or reconstruct it yourself from the spoken local time (e.g. "9:00 am Singapore" is NOT "09:00:00Z" — copy the actual provided value, which will usually have a different hour).',
       },
       name: { type: 'string', description: "The visitor's full name." },
       email: { type: 'string', description: "The visitor's email address." },
@@ -129,9 +129,18 @@ async function executeBookingTool(name, rawInput) {
     // structurally distinct removes that ambiguity.
     const spoken = picks.map((s) => s.startTimeLocal).join(', or ');
     const reference = picks.map((s) => `${s.startTimeLocal} = ${s.startTimeISO}`).join(' | ');
+    // Fix-verification finding: even with the previous "for reference only,
+    // don't speak it" wording, a real conversation still booked the WRONG
+    // real slot — 09:00 UTC instead of the correct 01:00 UTC for "9:00 am
+    // Singapore" — because the model reconstructed a UTC string by pasting
+    // the spoken local hour straight in, rather than copying the given
+    // value. Silent and structurally valid (still a real bookable slot), so
+    // nothing else catches it — this has to be prevented at the prompt
+    // level. Now explicit that the values are pre-converted and must be
+    // copied verbatim, with the exact failure mode named directly.
     return {
       ok: true,
-      message: `Say to the caller, in your own words: "${spoken}, all Singapore time — which works for you?" Then once they pick one, use its exact start_time to call book_meeting. Do not say "start_time" or read any ISO timestamp aloud — that's for your own reference only. Reference (start_time for each option, not to be spoken): ${reference}`,
+      message: `Say to the caller, in your own words: "${spoken}, all Singapore time — which works for you?" Once they pick one, call book_meeting with its start_time value COPIED EXACTLY, character-for-character, from the reference list below. These values are already correctly converted to UTC for you — do not calculate, convert, or reconstruct start_time yourself from the spoken local time, and never assume the UTC hour matches the Singapore hour shown (it usually won't). Reference (exact start_time per option — copy verbatim, never speak it): ${reference}`,
     };
   }
 
