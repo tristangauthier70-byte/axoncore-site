@@ -36,6 +36,12 @@
 // Anthropic's side can't silently change this endpoint's behavior/cost
 // without an explicit version bump here.
 const crypto = require('crypto');
+const {
+  CHECK_AVAILABILITY_TOOL,
+  BOOK_MEETING_TOOL,
+  toClaudeToolSchema,
+  executeBookingTool,
+} = require('./_lib/booking-tools');
 
 const CLAUDE_MODEL = 'claude-haiku-4-5-20251001';
 const CLAUDE_ENDPOINT = 'https://api.anthropic.com/v1/messages';
@@ -155,6 +161,9 @@ This flow is a default, not a script. You are working from real language underst
 - If the visitor gives business type, channel, or volume unprompted or earlier than expected, use it — never re-ask for information you already have.
 - Once there is real interest (they want to move forward, or ask to book the call), ask for name and email naturally, one at a time or together, and accept a decline to share either gracefully — do not push, do not ask twice. You are not storing this anywhere yourself; just acknowledge it in the conversation ("Got it, I've noted your email down") and move to next steps.
 - Never volunteer exact package pricing before you understand channel mix and rough monthly volume — unless asked directly and early, in which case answer honestly (e.g. give the setup/monthly range across packages) while still asking the one or two qualifying questions you need to narrow it to a specific tier.
+
+=== BOOKING ===
+Once you have a name and email and the visitor wants to book, also ask for a phone number, and say plainly that Axoncore will collect their name, email, and phone number via Calendly to arrange the call — get a clear yes before continuing. Then call check_availability, present 2-3 real options conversationally (never as a bullet list), and wait for them to pick one before calling book_meeting. If they decline to share contact info, don't call book_meeting — keep the existing graceful non-push behavior instead. If a slot turns out unavailable, call check_availability again and offer fresh options rather than dead-ending the conversation. The meeting is a real Google Meet call — Tristan sends the actual video link separately before the call, so never imply Calendly emails one automatically.
 
 === GUARDRAILS ===
 - Never name, mention, or hint at the underlying AI model or vendor (do not say Gemini, Google, Anthropic, Claude, OpenAI, or any provider name) — if asked what you run on, say only that you're AI, nothing more specific. Never mention cost, pricing, or free-tier status of the underlying model/technology, under any circumstance, even hypothetically or jokingly.
@@ -400,78 +409,134 @@ module.exports = async function handler(req, res) {
     max_tokens: MAX_OUTPUT_TOKENS,
     temperature: 0.7,
     system: SYSTEM_PROMPT,
-    messages,
+    tools: [toClaudeToolSchema(CHECK_AVAILABILITY_TOOL), toClaudeToolSchema(BOOK_MEETING_TOOL)],
   };
 
-  let claudeRes;
-  let attempt = 0;
-  while (true) {
-    attempt += 1;
-    try {
-      claudeRes = await fetch(CLAUDE_ENDPOINT, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': process.env.ANTHROPIC_API_KEY,
-          'anthropic-version': ANTHROPIC_VERSION,
-        },
-        body: JSON.stringify(claudePayload),
-      });
-    } catch (err) {
-      console.error('chat.js: network error calling Claude:', err);
-      res.status(502).json({ error: "Couldn't reach Riley just now — please try again." });
-      return;
+  // One call to Claude, with the existing one-retry-on-429 behavior intact.
+  // Returns either { claudeRes } on a completed HTTP round-trip (caller
+  // still has to check claudeRes.ok/.status) or { networkError: true } if
+  // fetch itself threw.
+  async function callClaudeOnce(messagesForThisCall) {
+    let attempt = 0;
+    while (true) {
+      attempt += 1;
+      let claudeRes;
+      try {
+        claudeRes = await fetch(CLAUDE_ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': process.env.ANTHROPIC_API_KEY,
+            'anthropic-version': ANTHROPIC_VERSION,
+          },
+          body: JSON.stringify({ ...claudePayload, messages: messagesForThisCall }),
+        });
+      } catch (err) {
+        console.error('chat.js: network error calling Claude:', err);
+        return { networkError: true };
+      }
+      // One retry with a short backoff smooths over incidental rate-limit
+      // bursts (two visitors messaging within the same few seconds) without
+      // masking sustained overload — a repeat 429 on the retry falls
+      // through to the explicit 429 response below rather than looping.
+      if (claudeRes.status === 429 && attempt === 1) {
+        console.warn('chat.js: Claude 429 (rate limited) — retrying once after backoff.');
+        await new Promise((r) => setTimeout(r, 2500));
+        continue;
+      }
+      return { claudeRes };
     }
-    // One retry with a short backoff smooths over incidental rate-limit
-    // bursts (two visitors messaging within the same few seconds) without
-    // masking sustained overload — a repeat 429 on the retry falls through
-    // to the explicit 429 response below rather than looping further.
-    if (claudeRes.status === 429 && attempt === 1) {
-      console.warn('chat.js: Claude 429 (rate limited) — retrying once after backoff.');
-      await new Promise((r) => setTimeout(r, 2500));
+  }
+
+  // Tool-use loop: Claude may respond with a tool_use block instead of a
+  // final answer (e.g. check_availability, then book_meeting once the
+  // visitor picks a time). Each iteration is one Claude round-trip; a
+  // tool_use result gets executed and fed back as a tool_result before
+  // looping again. Capped at 3 (check, book, one spare for a slot-taken
+  // retry) so a confused loop can't run indefinitely. This whole exchange
+  // stays server-side — the client only ever sees the final text reply via
+  // sendReply() below, so HISTORY_SIGNING_SECRET's scope (signing only the
+  // final reply string) doesn't need to change for any of this.
+  const MAX_TOOL_ITERATIONS = 3;
+  let currentMessages = messages;
+  let finalReply = null;
+  let hardError = null;
+
+  for (let i = 0; i < MAX_TOOL_ITERATIONS; i++) {
+    const { networkError, claudeRes } = await callClaudeOnce(currentMessages);
+
+    if (networkError) {
+      hardError = { status: 502, body: { error: "Couldn't reach Riley just now — please try again." } };
+      break;
+    }
+    if (claudeRes.status === 429) {
+      hardError = { status: 429, body: { error: "Riley's getting a lot of messages right now — try again in a few minutes." } };
+      break;
+    }
+    if (!claudeRes.ok) {
+      const errText = await claudeRes.text().catch(() => '');
+      console.error('chat.js: Claude API error', claudeRes.status, errText);
+      hardError = { status: 502, body: { error: "Couldn't reach Riley just now — please try again." } };
+      break;
+    }
+
+    let data;
+    try {
+      data = await claudeRes.json();
+    } catch (err) {
+      console.error('chat.js: failed to parse Claude response as JSON:', err);
+      finalReply = SAFE_FALLBACK_REPLY;
+      break;
+    }
+
+    const stopReason = data && data.stop_reason;
+    const contentBlocks = (data && data.content) || [];
+
+    if (!Array.isArray(contentBlocks) || contentBlocks.length === 0) {
+      finalReply = SAFE_FALLBACK_REPLY;
+      break;
+    }
+
+    if (stopReason === 'tool_use') {
+      const toolUseBlocks = contentBlocks.filter((b) => b && b.type === 'tool_use');
+      if (toolUseBlocks.length === 0) {
+        finalReply = SAFE_FALLBACK_REPLY;
+        break;
+      }
+      const toolResults = await Promise.all(
+        toolUseBlocks.map(async (tu) => {
+          const outcome = await executeBookingTool(tu.name, tu.input);
+          return { type: 'tool_result', tool_use_id: tu.id, content: outcome.message, is_error: !outcome.ok };
+        })
+      );
+      // Anthropic's tool-use contract: the assistant's tool_use content
+      // blocks, then a single user message carrying ALL matching
+      // tool_result blocks (required even when there was only one call).
+      currentMessages = [...currentMessages, { role: 'assistant', content: contentBlocks }, { role: 'user', content: toolResults }];
       continue;
     }
+
+    if (stopReason && stopReason !== 'end_turn' && stopReason !== 'max_tokens') {
+      console.warn('chat.js: unexpected stop_reason:', stopReason);
+      finalReply = SAFE_FALLBACK_REPLY;
+      break;
+    }
+
+    finalReply = contentBlocks
+      .map((block) => (block && block.type === 'text' ? block.text : ''))
+      .join('')
+      .trim();
     break;
   }
 
-  if (claudeRes.status === 429) {
-    res.status(429).json({ error: "Riley's getting a lot of messages right now — try again in a few minutes." });
+  if (hardError) {
+    res.status(hardError.status).json(hardError.body);
     return;
   }
 
-  if (!claudeRes.ok) {
-    const errText = await claudeRes.text().catch(() => '');
-    console.error('chat.js: Claude API error', claudeRes.status, errText);
-    res.status(502).json({ error: "Couldn't reach Riley just now — please try again." });
-    return;
-  }
-
-  let data;
-  try {
-    data = await claudeRes.json();
-  } catch (err) {
-    console.error('chat.js: failed to parse Claude response as JSON:', err);
-    sendReply(res, SAFE_FALLBACK_REPLY);
-    return;
-  }
-
-  const stopReason = data && data.stop_reason;
-  const contentBlocks = (data && data.content) || [];
-
-  if (!Array.isArray(contentBlocks) || contentBlocks.length === 0 || (stopReason && stopReason !== 'end_turn' && stopReason !== 'max_tokens')) {
-    // Empty response or an unexpected stop reason — redirect gracefully
-    // rather than surfacing anything that looks like an error.
-    if (stopReason && stopReason !== 'end_turn' && stopReason !== 'max_tokens') {
-      console.warn('chat.js: unexpected stop_reason:', stopReason);
-    }
-    sendReply(res, SAFE_FALLBACK_REPLY);
-    return;
-  }
-
-  const reply = contentBlocks
-    .map((block) => (block && block.type === 'text' ? block.text : ''))
-    .join('')
-    .trim();
+  // Exhausted MAX_TOOL_ITERATIONS without a final text reply (e.g. Claude
+  // kept calling tools) — same graceful fallback as any other dead end.
+  const reply = finalReply === null ? SAFE_FALLBACK_REPLY : finalReply;
 
   // Security review finding (MEDIUM), now closed at the source — this
   // endpoint used to resend client-supplied history on every call with no
