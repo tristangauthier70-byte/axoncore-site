@@ -163,6 +163,9 @@ async function executeBookingTool(name, rawInput) {
     if (result.code === 'slot_taken') {
       return { ok: false, message: 'That slot just got taken — call check_availability again for fresh options rather than asking them to repeat themselves.' };
     }
+    if (result.code === 'slot_in_past' || result.code === 'invalid_time_format') {
+      return { ok: false, message: 'That time is not valid to book — call check_availability again and use one of its exact options rather than reconstructing the time yourself.' };
+    }
     return {
       ok: false,
       message: "I'm having trouble booking that right now — I can have Tristan follow up directly instead.",

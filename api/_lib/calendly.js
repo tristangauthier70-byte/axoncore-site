@@ -83,8 +83,14 @@ async function calendlyFetch(path, { method = 'GET', body } = {}) {
 // -> { ok: true, slots: [{ startTimeISO, startTimeLocal }] }
 // -> { ok: false, code: 'calendly_unavailable', message }
 async function getAvailableSlots({ daysAhead = MAX_AVAILABILITY_DAYS } = {}) {
+  // Backtest finding: days_ahead of 0 or negative produced an end_time
+  // before start_time, which Calendly rejects with "start_time must be
+  // before end_time" — surfaced to the caller as a misleading "calendar
+  // unavailable" message for what's actually just a benign edge-case input.
+  // Clamped to [1, MAX_AVAILABILITY_DAYS] instead of just the upper bound.
+  const clampedDays = Math.max(1, Math.min(daysAhead, MAX_AVAILABILITY_DAYS));
   const start = new Date(Date.now() + AVAILABILITY_START_BUFFER_MS);
-  const end = new Date(Date.now() + Math.min(daysAhead, MAX_AVAILABILITY_DAYS) * 24 * 60 * 60 * 1000);
+  const end = new Date(Date.now() + clampedDays * 24 * 60 * 60 * 1000);
 
   const qs = new URLSearchParams({
     event_type: process.env.CALENDLY_EVENT_TYPE_URI,
@@ -122,7 +128,7 @@ function formatSlotLocal(startTimeISO) {
 }
 
 // -> { ok: true, confirmationId, cancelUrl, rescheduleUrl, startTimeISO }
-// -> { ok: false, code: 'invalid_email' | 'slot_taken' | 'calendly_unavailable', message }
+// -> { ok: false, code: 'invalid_email' | 'slot_taken' | 'slot_in_past' | 'invalid_time_format' | 'calendly_unavailable', message }
 async function bookMeeting({ startTimeISO, name, email, phone }) {
   const body = {
     event_type: process.env.CALENDLY_EVENT_TYPE_URI,
@@ -175,15 +181,26 @@ async function bookMeeting({ startTimeISO, name, email, phone }) {
     };
   }
 
-  // Calendly's documented error codes are generic (400/401/403/404) with no
-  // discrete "slot taken" vs "bad email" distinction — classification here
-  // is pattern-matched against the real message text observed during Step 1
-  // testing, not guessed from docs.
-  const msg =
-    (data && (data.message || (Array.isArray(data.details) && data.details[0] && data.details[0].message))) || '';
+  // Calendly wraps EVERY 400 in the same generic top-level message ("The
+  // supplied parameters are invalid.") — the actually-specific reason lives
+  // in details[0]. Backtest finding: this used to check data.message FIRST
+  // (data.message || details[0].message), which meant the specific reason
+  // was never reached since the generic one is always truthy — a real
+  // double-booking test surfaced the generic fallback instead of the more
+  // helpful "that slot just got taken" message as a result. details[0] is
+  // now checked first; classification is against real error text/codes
+  // observed live (already_filled, "must be in the future", "must be a
+  // time"), not guessed from docs.
+  const detail = data && Array.isArray(data.details) && data.details[0];
+  const detailMsg = (detail && detail.message) || '';
+  const msg = detailMsg || (data && data.message) || '';
+
   let code = 'calendly_unavailable';
-  if (status === 400 && /email/i.test(msg)) code = 'invalid_email';
-  else if (status === 400 && /(time|slot|availab)/i.test(msg)) code = 'slot_taken';
+  if (detail && detail.code === 'already_filled') code = 'slot_taken';
+  else if (/already.*filled/i.test(detailMsg)) code = 'slot_taken';
+  else if (/must be in the future/i.test(detailMsg)) code = 'slot_in_past';
+  else if (/must be a time/i.test(detailMsg)) code = 'invalid_time_format';
+  else if (status === 400 && /email/i.test(msg)) code = 'invalid_email';
 
   console.error('calendly.js: bookMeeting failed', status, networkError || data);
   return { ok: false, code, message: msg || 'Could not complete the booking.' };

@@ -404,11 +404,27 @@ module.exports = async function handler(req, res) {
   // remapping needed (Gemini's API required "assistant" -> "model").
   const messages = history.map((msg) => ({ role: msg.role, content: msg.content }));
 
+  // Backtest finding: SYSTEM_PROMPT never stated the actual current date, so
+  // when Claude had to reconstruct which exact time a visitor picked ("the
+  // first option") from earlier turns rather than copying check_availability's
+  // literal ISO string, it had no grounding for what year it actually is —
+  // a real conversation produced a book_meeting call Calendly rejected with
+  // "start_time must be in the future". Computed fresh per request (this is
+  // a stateless function, so this is always genuinely "now").
+  const todayStr = new Date().toLocaleDateString('en-SG', {
+    timeZone: 'Asia/Singapore',
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+  const systemWithDate = `${SYSTEM_PROMPT}\n\n=== CURRENT DATE ===\nToday's date is ${todayStr} (Singapore time). Ground all date/time reasoning in this — never assume a different year, and never reconstruct a time yourself when a tool result already gave you the exact value to use.`;
+
   const claudePayload = {
     model: CLAUDE_MODEL,
     max_tokens: MAX_OUTPUT_TOKENS,
     temperature: 0.7,
-    system: SYSTEM_PROMPT,
+    system: systemWithDate,
     tools: [toClaudeToolSchema(CHECK_AVAILABILITY_TOOL), toClaudeToolSchema(BOOK_MEETING_TOOL)],
   };
 
