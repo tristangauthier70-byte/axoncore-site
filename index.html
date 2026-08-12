@@ -193,13 +193,7 @@
           <a href="riley.html" class="ax-header__panel-item" role="menuitem"><span class="ax-header__panel-label">Live Demo</span><span class="ax-header__panel-desc">Talk to Riley — our AI agent</span></a>
         </div>
       </div>
-      <div class="ax-header__drop">
-        <button class="ax-header__link ax-header__droptrigger" aria-expanded="false" aria-haspopup="true">Results<svg class="ax-header__chevron" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>
-        <div class="ax-header__panel" role="menu">
-          <a href="results.html" class="ax-header__panel-item" role="menuitem"><span class="ax-header__panel-label">ROI Calculator</span><span class="ax-header__panel-desc">See your projected returns</span></a>
-          <a href="results.html#ax-industries" class="ax-header__panel-item" role="menuitem"><span class="ax-header__panel-label">ROI by Industry</span><span class="ax-header__panel-desc">Benchmarks for your sector</span></a>
-        </div>
-      </div>
+      <a href="results.html" class="ax-header__link">ROI Calculator</a>
       <a href="pricing.html" class="ax-header__link">Pricing</a>
     </nav>
     <div class="ax-header__actions">
@@ -218,9 +212,7 @@
       <a href="services.html"               class="ax-header__mobile-link" onclick="axCloseMenu()">Services</a>
       <a href="how-it-works.html"           class="ax-header__mobile-link" onclick="axCloseMenu()">How It Works</a>
       <a href="riley.html"                   class="ax-header__mobile-link" onclick="axCloseMenu()">Live Demo</a>
-      <span class="ax-header__mobile-group-label">Results</span>
       <a href="results.html"                class="ax-header__mobile-link" onclick="axCloseMenu()">ROI Calculator</a>
-      <a href="results.html#ax-industries"  class="ax-header__mobile-link" onclick="axCloseMenu()">ROI by Industry</a>
       <a href="pricing.html"                class="ax-header__mobile-link" onclick="axCloseMenu()">Pricing</a>
       <a href="book-a-call.html" class="ax-btn-primary" style="margin-top:16px;justify-content:center;" onclick="axCloseMenu()">
         <span>Book a Free Strategy Call</span>
@@ -285,7 +277,7 @@
       across phone, WhatsApp, Instagram, and your website &mdash; around the clock.
     </p>
     <div class="ax-hero__cta ax-reveal ax-reveal-delay-3">
-      <a href="#ax-contact" class="ax-btn-primary">
+      <a href="book-a-call.html" class="ax-btn-primary">
         <span>Book a Free Strategy Call</span>
         <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
       </a>
@@ -555,7 +547,7 @@
     <p class="ax-reveal ax-reveal-delay-4" style="margin-top:1.2rem;font-size:0.82rem;color:var(--ax-muted);">
       Calls typically last 60&ndash;90 seconds. Microphone access required.
     </p>
-    <a href="demo.html" class="ax-reveal ax-reveal-delay-5" style="display:inline-block;margin-top:1.5rem;font-size:0.85rem;color:var(--ax-accent);text-decoration:none;">
+    <a href="pricing.html#ax-pkg-b" class="ax-reveal ax-reveal-delay-5" style="display:inline-block;margin-top:1.5rem;font-size:0.85rem;color:var(--ax-accent);text-decoration:none;">
       See the website chatbot demo too &thinsp;&rarr;
     </a>
   </div>
@@ -706,24 +698,11 @@
 
 
 <!-- ══════════════════════════════════════════════
-     CTA BANNER
-══════════════════════════════════════════════ -->
-<section class="ax-cta ax-section" id="ax-cta" style="padding:120px 40px;">
-  <div class="ax-cta__border ax-reveal">
-    <span class="ax-eyebrow">Get Started</span>
-    <h2 class="ax-headline ax-cta__headline">Every day you wait is<br><span>revenue walking out the door</span>.</h2>
-    <p class="ax-cta__sub">Book a free 30-minute strategy call. We&rsquo;ll audit your current setup, identify exactly where your business is losing revenue, and show you what an Axoncore system would look like for you &mdash; no obligation.</p>
-    <div class="ax-cta__buttons">
-      <a href="#ax-contact" class="ax-btn-primary"><span>Book Your Free Strategy Call</span><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
-      <a href="mailto:helloaxoncore@gmail.com" class="ax-btn-ghost">Email Our Team</a>
-    </div>
-    <p style="margin-top:2rem;font-size:0.8rem;color:var(--ax-muted);">&#128274; This call is obligation-free &nbsp;&middot;&nbsp; Results within 14 days &nbsp;&middot;&nbsp; Full setup handled by our team</p>
-  </div>
-</section>
-
-
-<!-- ══════════════════════════════════════════════
      CONTACT — CALENDLY
+     (This used to be preceded by a near-duplicate "CTA BANNER" section —
+     same pitch, same subhead, repeated almost verbatim — immediately
+     above this one. Deleted; this section already does that job with
+     the actual booking widget attached.)
 ══════════════════════════════════════════════ -->
 <section class="ax-cta ax-section" id="ax-contact" style="padding:120px 40px;">
   <div class="ax-cta-sphere" aria-hidden="true"></div>
@@ -778,7 +757,7 @@
         <ul class="ax-footer__list">
           <li><a href="#ax-services">Services</a></li>
           <li><a href="#ax-how">How It Works</a></li>
-          <li><a href="demo.html">Live Demo</a></li>
+          <li><a href="riley.html">Live Demo</a></li>
           <li><a href="pricing.html">Pricing</a></li>
           <li><a href="results.html">ROI Calculator</a></li>
         </ul>
@@ -807,11 +786,10 @@
           <li><a href="#ax-contact">Book a Strategy Call</a></li>
           <li><a href="#ax-contact">Get a Free Audit</a></li>
         </ul>
-        <div class="ax-footer__social">
-          <a href="#" class="ax-footer__social-link" aria-label="Instagram"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
-          <a href="#" class="ax-footer__social-link" aria-label="LinkedIn"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
-          <a href="#" class="ax-footer__social-link" aria-label="Facebook"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
-        </div>
+        <!-- Social icons removed — Instagram/LinkedIn/Facebook all pointed
+             to href="#" (dead placeholders), which is a worse look than no
+             icons at all for a company selling Instagram and Facebook
+             automation. Re-add once real profiles exist. -->
       </div>
     </div>
     <div class="ax-divider" style="margin:40px 0 24px;"></div>

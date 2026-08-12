@@ -178,7 +178,7 @@
             </svg>
           </div>
           <h3 class="rp-cap-card__title">Never misses a call</h3>
-          <p class="rp-cap-card__body">Riley answers 24/7, 365 — before the first ring ends. No hold music, no voicemail, no missed revenue at 2 AM.</p>
+          <p class="rp-cap-card__body">Riley answers 24/7, 365 — in under 3 seconds. No hold music, no voicemail, no missed revenue at 2 AM.</p>
         </div>
 
         <!-- Card 2 -->
@@ -218,8 +218,8 @@
       <div class="rp-demo__labels" aria-hidden="true">
         <div class="rp-label">
           <p class="rp-label__num">01</p>
-          <p class="rp-label__text">Answers in under a second</p>
-          <p class="rp-label__sub">No hold music. No voicemail. Riley picks up before the first ring ends, 24 / 7.</p>
+          <p class="rp-label__text">Answers in under 3 seconds</p>
+          <p class="rp-label__sub">No hold music. No voicemail. Riley picks up in under 3 seconds, 24 / 7.</p>
         </div>
         <div class="rp-label">
           <p class="rp-label__num">02</p>
@@ -458,13 +458,14 @@
 
   <!-- ─── FOOTER ───────────────────────────────────────────────── -->
   <footer class="rp-footer" role="contentinfo">
-    <span>© 2026 Axoncore · Singapore</span>
+    <span>© <span id="ax-year"></span> Victoria Janice, trading as Axoncore · Singapore</span>
     <div style="display:flex;gap:24px;">
       <a href="index.html">Home</a>
       <a href="/pricing.html">Pricing</a>
       <a href="/book-a-call.html">Contact</a>
     </div>
   </footer>
+  <script>document.getElementById('ax-year').textContent=new Date().getFullYear();</script>
 
   <!-- ─── SCRIPTS ──────────────────────────────────────────────── -->
   <!-- All classic scripts below are marked defer: they sit at the end of

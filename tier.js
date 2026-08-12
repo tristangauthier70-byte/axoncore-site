@@ -20,6 +20,7 @@
     var minsEl     = card.querySelector('[data-tier-mins-feature]');
     var perdayEl   = card.querySelector('[data-tier-perday]');
     var messagesEl = card.querySelector('[data-tier-messages-feature]');
+    var tcoEl      = card.querySelector('[data-tier-tco]');
 
     if (t.enterprise) {
       card.querySelector('.ax-tier__mins').textContent = 'High-volume — agreed on call';
@@ -34,6 +35,7 @@
       if (minsEl)     minsEl.textContent     = 'Volume of minutes agreed on discovery call';
       if (perdayEl)   perdayEl.textContent   = '';
       if (messagesEl) messagesEl.textContent = 'Volume of chatbot messages agreed on discovery call';
+      if (tcoEl)      tcoEl.textContent      = '36-month total: priced on your discovery call';
     } else {
       card.querySelector('.ax-tier__mins').textContent = t.minutes.toLocaleString() + ' min/mo';
 
@@ -54,6 +56,11 @@
 
       if (messagesEl && t.messages) {
         messagesEl.textContent = t.messages.toLocaleString() + ' chatbot messages / month included';
+      }
+
+      if (tcoEl) {
+        var tco = t.setup + (t.price * 36);
+        tcoEl.textContent = '36-month total: SGD $' + tco.toLocaleString() + ' (setup + 36 × monthly)';
       }
     }
 
