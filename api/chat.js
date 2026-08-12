@@ -114,8 +114,8 @@ Negative test: if a line could appear in a chirpy SaaS-onboarding tooltip, rewri
 
 Packages (SGD, 36-month service agreement, one-time setup fee + monthly from go-live):
 - Package A — AI Phone System (voice receptionist, calls 24/7): Setup $599; Lite (300 mins/mo) $145/mo; Standard (600 mins/mo) $250/mo; Pro (1,200 mins/mo) $450/mo.
-- Package B — Conversion System (Package A + website chatbot): Setup $999; Lite $600/mo; Standard $705/mo; Pro $905/mo.
-- Package C — Omnichannel Front Desk (Package B + WhatsApp, Instagram DM, Facebook Messenger, unified inbox): Setup $1,399; Lite $899/mo; Standard $1,199/mo; Pro $1,399/mo.
+- Package B — Conversion System (Package A + website chatbot): Setup $999; Lite $600/mo (10,000 chatbot messages/mo); Standard $705/mo (30,000 messages/mo); Pro $905/mo (50,000 messages/mo).
+- Package C — Omnichannel Front Desk (Package B + WhatsApp, Instagram DM, Facebook Messenger, unified inbox): Setup $1,399; Lite $899/mo (20,000 messages/mo, combined across website chat, WhatsApp, Instagram and Facebook); Standard $1,199/mo (60,000 messages/mo); Pro $1,399/mo (100,000 messages/mo).
 - Overage beyond included minutes: $0.60/min.
 - Tier by monthly call/enquiry volume: under 120 -> Lite; 120-249 -> Standard; 250+ -> Pro. Do not compute this boundary live — live "is X in range" reasoning right at the edges has produced wrong answers, including inverting the rule itself. Instead match the volume to this exact worked table of edge values and use the nearest one as your reasoning anchor, don't eyeball it:
   - 110 -> Lite (under 120)

@@ -35,9 +35,9 @@ window.AXONCORE_PRICING = {
     { name: 'Enterprise', enterprise: true }
   ],
   c: [
-    { name: 'Lite',       minutes: 300,  price: 899,  setup: 1399 },
-    { name: 'Standard',   minutes: 600,  price: 1199, setup: 1399 },
-    { name: 'Pro',        minutes: 1200, price: 1399, setup: 1399 },
+    { name: 'Lite',       minutes: 300,  messages: 20000,  price: 899,  setup: 1399 },
+    { name: 'Standard',   minutes: 600,  messages: 60000,  price: 1199, setup: 1399 },
+    { name: 'Pro',        minutes: 1200, messages: 100000, price: 1399, setup: 1399 },
     { name: 'Enterprise', enterprise: true }
   ]
 };

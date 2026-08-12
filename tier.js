@@ -9,6 +9,13 @@
   // duplication that let this file and roi.js drift apart.
   var TIER_DATA = window.AXONCORE_PRICING;
 
+  // No business owner knows their monthly call *minutes* — they know
+  // roughly how many *calls* they get. This is the same under-120 /
+  // 120-250 / 250+ boundary already used in the pricing FAQ, in
+  // router.js, and in api/chat.js's tier logic — keyed by minutes so
+  // it drops straight into the existing tier lookup.
+  var CALL_BANDS = { 300: 'under 120 calls/mo', 600: '120–250 calls/mo', 1200: '250+ calls/mo' };
+
   function applyTier(card, pkg, idx) {
     var tiers = TIER_DATA[pkg];
     var t     = tiers[idx];
@@ -37,7 +44,8 @@
       if (messagesEl) messagesEl.textContent = 'Volume of chatbot messages agreed on discovery call';
       if (tcoEl)      tcoEl.textContent      = '36-month total: priced on your discovery call';
     } else {
-      card.querySelector('.ax-tier__mins').textContent = t.minutes.toLocaleString() + ' min/mo';
+      card.querySelector('.ax-tier__mins').textContent =
+        (CALL_BANDS[t.minutes] || '') + ' · ' + t.minutes.toLocaleString() + ' min';
 
       if (monthlyEl) {
         monthlyEl.innerHTML = 'SGD $' + t.price.toLocaleString() + '<span class="ax-pricing__per">/month</span>';
