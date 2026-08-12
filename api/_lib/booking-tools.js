@@ -121,10 +121,17 @@ async function executeBookingTool(name, rawInput) {
     }
 
     const picks = pickSpreadSlots(result.slots, 3);
-    const listed = picks.map((s) => `${s.startTimeLocal} (start_time: ${s.startTimeISO})`).join(', ');
+    // Deliberately split into a "say this" sentence and a separately labeled
+    // reference block, rather than one run-on sentence mixing spoken text
+    // with inline ISO timestamps — a live voice model composing speech from
+    // a single blended string stumbled on this in testing ("I seem to have
+    // misspoken"). Keeping what to SAY and what to REMEMBER visually and
+    // structurally distinct removes that ambiguity.
+    const spoken = picks.map((s) => s.startTimeLocal).join(', or ');
+    const reference = picks.map((s) => `${s.startTimeLocal} = ${s.startTimeISO}`).join(' | ');
     return {
       ok: true,
-      message: `Open slots, Singapore time: ${listed}. Ask which one works, then confirm name, email, and phone before booking.`,
+      message: `Say to the caller, in your own words: "${spoken}, all Singapore time — which works for you?" Then once they pick one, use its exact start_time to call book_meeting. Do not say "start_time" or read any ISO timestamp aloud — that's for your own reference only. Reference (start_time for each option, not to be spoken): ${reference}`,
     };
   }
 
