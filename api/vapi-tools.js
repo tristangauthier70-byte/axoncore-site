@@ -1,0 +1,80 @@
+// /api/vapi-tools.js
+//
+// Webhook VAPI POSTs to mid-call when Riley (the voice assistant) invokes a
+// custom tool. Named generically rather than "booking" — a future VAPI tool
+// (e.g. an FAQ lookup) can be added as another case in the dispatch below
+// without a new endpoint or a new server URL entered into VAPI's dashboard.
+//
+// Request/response shape confirmed against VAPI's current docs:
+//   in:  { message: { type: "tool-calls", toolCallList: [{ id, name, arguments }] } }
+//   out: { results: [{ toolCallId, result: "<string the assistant speaks>" }] }
+//
+// Auth: VAPI's own secret/signature mechanism (server.secret -> a signature
+// header) has open reliability reports in their community forum, so this
+// uses the more explicit, unambiguous path instead — a static shared
+// secret set on the tool's server.headers config in VAPI, checked here with
+// the same timing-safe-compare idiom api/chat.js already uses for its own
+// signing (see verifySig() there). This can write a real calendar event, so
+// a request that fails this check is rejected before its body is even read.
+const crypto = require('crypto');
+const { executeBookingTool } = require('./_lib/booking-tools');
+
+const TOOL_SECRET_HEADER = 'x-vapi-tool-secret';
+
+function verifyVapiSecret(req) {
+  const expected = process.env.VAPI_TOOL_WEBHOOK_SECRET;
+  const provided = req.headers[TOOL_SECRET_HEADER];
+  if (!expected || typeof provided !== 'string' || provided.length === 0) return false;
+  const expectedBuf = Buffer.from(expected, 'utf8');
+  const providedBuf = Buffer.from(provided, 'utf8');
+  if (expectedBuf.length !== providedBuf.length) return false;
+  return crypto.timingSafeEqual(expectedBuf, providedBuf);
+}
+
+module.exports = async function handler(req, res) {
+  if (req.method !== 'POST') {
+    res.status(405).json({ error: 'Method not allowed.' });
+    return;
+  }
+
+  if (!process.env.VAPI_TOOL_WEBHOOK_SECRET) {
+    console.error('vapi-tools.js: VAPI_TOOL_WEBHOOK_SECRET is not set.');
+    res.status(500).json({ error: 'Tool webhook temporarily unavailable.' });
+    return;
+  }
+
+  if (!verifyVapiSecret(req)) {
+    console.warn('vapi-tools.js: rejected request — missing or invalid shared secret.');
+    res.status(401).json({ error: 'Unauthorized.' });
+    return;
+  }
+
+  // Same defensive fallback as api/chat.js — Vercel's Node runtime normally
+  // parses application/json bodies automatically.
+  let body = req.body;
+  if (typeof body === 'string') {
+    try {
+      body = JSON.parse(body);
+    } catch (err) {
+      res.status(400).json({ error: 'Invalid request body.' });
+      return;
+    }
+  }
+
+  const toolCallList =
+    body && body.message && Array.isArray(body.message.toolCallList) ? body.message.toolCallList : [];
+
+  if (toolCallList.length === 0) {
+    res.status(400).json({ error: 'No tool calls in request.' });
+    return;
+  }
+
+  const results = await Promise.all(
+    toolCallList.map(async (call) => {
+      const outcome = await executeBookingTool(call.name, call.arguments);
+      return { toolCallId: call.id, result: outcome.message };
+    })
+  );
+
+  res.status(200).json({ results });
+};
