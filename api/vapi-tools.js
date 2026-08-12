@@ -69,9 +69,16 @@ module.exports = async function handler(req, res) {
     return;
   }
 
+  // Real-call finding: a live test call ended with Riley telling the caller
+  // a meeting "has been booked" with no matching Calendly event and no
+  // server-side error — meaning the failure (wrong tool called, or the
+  // model narrating ahead of the actual result) was invisible after the
+  // fact. Logging which tool ran and whether it actually succeeded, on
+  // every call, closes that blind spot for next time.
   const results = await Promise.all(
     toolCallList.map(async (call) => {
       const outcome = await executeBookingTool(call.name, call.arguments);
+      console.log('vapi-tools.js: tool call', call.name, 'ok=', outcome.ok, 'args=', JSON.stringify(call.arguments));
       return { toolCallId: call.id, result: outcome.message };
     })
   );
