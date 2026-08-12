@@ -163,7 +163,7 @@ This flow is a default, not a script. You are working from real language underst
 - Never volunteer exact package pricing before you understand channel mix and rough monthly volume — unless asked directly and early, in which case answer honestly (e.g. give the setup/monthly range across packages) while still asking the one or two qualifying questions you need to narrow it to a specific tier.
 
 === BOOKING ===
-Once you have a name and email and the visitor wants to book, also ask for a phone number, and say plainly that Axoncore will collect their name, email, and phone number via Calendly to arrange the call — get a clear yes before continuing. Then call check_availability, present 2-3 real options conversationally (never as a bullet list), and wait for them to pick one before calling book_meeting. If they decline to share contact info, don't call book_meeting — keep the existing graceful non-push behavior instead. If a slot turns out unavailable, call check_availability again and offer fresh options rather than dead-ending the conversation. The meeting is a real Google Meet call — Tristan sends the actual video link separately before the call, so never imply Calendly emails one automatically.
+Once you have a name and email and the visitor wants to book, also ask for a phone number, and say plainly that Axoncore will collect their name, email, and phone number via Calendly to arrange the call — get a clear yes before continuing. Then call check_availability, present 2-3 real options conversationally (never as a bullet list), and wait for them to pick one before calling book_meeting. If they decline to share contact info, don't call book_meeting — keep the existing graceful non-push behavior instead. If a slot turns out unavailable, call check_availability again and offer fresh options rather than dead-ending the conversation. The meeting is a real Google Meet call — Tristan sends the actual video link separately before the call, so never imply Calendly emails one automatically. If the visitor wants to change the time AFTER book_meeting has already succeeded earlier in this same conversation, do not call book_meeting again — there is no reschedule tool yet, and a second call creates a separate second real meeting rather than moving the first. Tell them plainly that the confirmation email Calendly just sent includes a reschedule link they can use directly, or that Tristan can handle the change if they'd rather just reply to that email.
 
 === GUARDRAILS ===
 - Never name, mention, or hint at the underlying AI model or vendor (do not say Gemini, Google, Anthropic, Claude, OpenAI, or any provider name) — if asked what you run on, say only that you're AI, nothing more specific. Never mention cost, pricing, or free-tier status of the underlying model/technology, under any circumstance, even hypothetically or jokingly.
@@ -468,15 +468,32 @@ module.exports = async function handler(req, res) {
   // final answer (e.g. check_availability, then book_meeting once the
   // visitor picks a time). Each iteration is one Claude round-trip; a
   // tool_use result gets executed and fed back as a tool_result before
-  // looping again. Capped at 3 (check, book, one spare for a slot-taken
-  // retry) so a confused loop can't run indefinitely. This whole exchange
-  // stays server-side — the client only ever sees the final text reply via
-  // sendReply() below, so HISTORY_SIGNING_SECRET's scope (signing only the
-  // final reply string) doesn't need to change for any of this.
-  const MAX_TOOL_ITERATIONS = 3;
+  // looping again.
+  //
+  // QA finding (2026-08-12): this was previously capped at 3 on the theory
+  // of "check, book, one spare for a slot-taken retry" — but that "spare"
+  // round IS iteration i=2, the last one the loop allows. If that round's
+  // tool_use call succeeds (e.g. a slot-taken retry that books a different
+  // real slot), the loop still exits right after executing it (i becomes 3,
+  // the for-condition fails) WITHOUT a 4th Claude call to turn that result
+  // into a reply — so finalReply stays null and the visitor would have
+  // gotten SAFE_FALLBACK_REPLY (an unrelated redirect) while a real
+  // Calendly event had just been created with no acknowledgment anywhere in
+  // the conversation. Traced via code inspection, not live-reproduced
+  // (getting Claude to chain exactly 3 consecutive tool_use rounds in one
+  // request isn't reliably scriptable), but the control-flow is
+  // unambiguous. Raised to 6 for real headroom (check -> book fails ->
+  // check again -> book succeeds -> final text is 5 Claude calls), AND
+  // — as defense in depth against exhaustion regardless of the exact cap —
+  // lastToolOutcome below guarantees the visitor is never left without an
+  // answer that reflects what actually happened server-side.
+  const MAX_TOOL_ITERATIONS = 6;
   let currentMessages = messages;
   let finalReply = null;
   let hardError = null;
+  // Most recently executed tool call's outcome this request, if any — see
+  // MAX_TOOL_ITERATIONS comment above and the exhaustion fallback below.
+  let lastToolOutcome = null;
 
   for (let i = 0; i < MAX_TOOL_ITERATIONS; i++) {
     const { networkError, claudeRes } = await callClaudeOnce(currentMessages);
@@ -519,12 +536,22 @@ module.exports = async function handler(req, res) {
         finalReply = SAFE_FALLBACK_REPLY;
         break;
       }
-      const toolResults = await Promise.all(
-        toolUseBlocks.map(async (tu) => {
-          const outcome = await executeBookingTool(tu.name, tu.input);
-          return { type: 'tool_result', tool_use_id: tu.id, content: outcome.message, is_error: !outcome.ok };
-        })
-      );
+      const outcomes = await Promise.all(toolUseBlocks.map((tu) => executeBookingTool(tu.name, tu.input)));
+      const toolResults = outcomes.map((outcome, idx) => ({
+        type: 'tool_result',
+        tool_use_id: toolUseBlocks[idx].id,
+        content: outcome.message,
+        is_error: !outcome.ok,
+      }));
+      // Deterministic (array order, not async-resolution order) — and
+      // prefers a successful outcome over a failed one if this round had
+      // more than one tool call, since a real side effect (e.g. a
+      // completed booking) is the thing most important not to lose track
+      // of if MAX_TOOL_ITERATIONS exhausts before a final reply. In
+      // practice the system prompt drives one tool call per round, so this
+      // mainly matters for the rare multi-tool-call round.
+      const successOutcome = outcomes.find((o) => o.ok);
+      lastToolOutcome = successOutcome || outcomes[outcomes.length - 1] || lastToolOutcome;
       // Anthropic's tool-use contract: the assistant's tool_use content
       // blocks, then a single user message carrying ALL matching
       // tool_result blocks (required even when there was only one call).
@@ -551,8 +578,16 @@ module.exports = async function handler(req, res) {
   }
 
   // Exhausted MAX_TOOL_ITERATIONS without a final text reply (e.g. Claude
-  // kept calling tools) — same graceful fallback as any other dead end.
-  const reply = finalReply === null ? SAFE_FALLBACK_REPLY : finalReply;
+  // kept calling tools). QA finding (2026-08-12): this used to always fall
+  // back to the generic SAFE_FALLBACK_REPLY here — an unrelated redirect
+  // with zero acknowledgment of anything that just happened. If the last
+  // round actually executed a tool this request, its message (already
+  // written in Riley's voice — see booking-tools.js's executeBookingTool
+  // contract) is a truthful description of real server-side state and is
+  // used directly instead, so a real side effect (most importantly a
+  // completed booking) can never be silently dropped from what the visitor
+  // sees, even in this worst-case exhaustion path.
+  const reply = finalReply !== null ? finalReply : (lastToolOutcome ? lastToolOutcome.message : SAFE_FALLBACK_REPLY);
 
   // Security review finding (MEDIUM), now closed at the source — this
   // endpoint used to resend client-supplied history on every call with no

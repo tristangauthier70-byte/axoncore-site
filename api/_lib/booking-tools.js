@@ -34,7 +34,7 @@ const CHECK_AVAILABILITY_TOOL = {
 const BOOK_MEETING_TOOL = {
   name: 'book_meeting',
   description:
-    'Book a confirmed meeting slot on the calendar. Only call this after the visitor has explicitly picked one specific time from what check_availability returned, and after you have their name, email, and phone number, and after they have agreed to Axoncore collecting that information (name, email, phone) via Calendly and its processors to arrange the call.',
+    'Book a confirmed meeting slot on the calendar. Only call this after the visitor has explicitly picked one specific time from what check_availability returned, and after you have their name, email, and phone number, and after they have agreed to Axoncore collecting that information (name, email, phone) via Calendly and its processors to arrange the call. Do NOT call this a second time in the same conversation to move a time that was already successfully booked earlier — there is no reschedule/cancel tool, so a second call creates a separate second real meeting instead of changing the first one. If the visitor wants to change a time that is already booked, tell them plainly that the confirmation email Calendly sent includes a reschedule link, or that Tristan can handle the change directly — never call this tool again for that purpose.',
   parameters: {
     type: 'object',
     properties: {
@@ -104,7 +104,15 @@ async function executeBookingTool(name, rawInput) {
   const input = rawInput || {};
 
   if (name === 'check_availability') {
-    const daysAhead = Number.isInteger(input.days_ahead) ? input.days_ahead : undefined;
+    // QA finding (2026-08-12): a real test with days_ahead sent as the
+    // STRING "3" (rather than the integer 3) silently fell through to
+    // undefined here (Number.isInteger rejects strings outright) and
+    // defaulted to the max 7-day window instead of respecting the request.
+    // Harmless in effect (7 is a safe/valid default, and VAPI's own docs
+    // show integer arguments), but coercing first means a numeric-looking
+    // string input still gets read correctly instead of silently ignored.
+    const coercedDaysAhead = Number(input.days_ahead);
+    const daysAhead = Number.isInteger(coercedDaysAhead) ? coercedDaysAhead : undefined;
     const result = await getAvailableSlots({ daysAhead });
 
     if (!result.ok) {
@@ -138,9 +146,17 @@ async function executeBookingTool(name, rawInput) {
     // nothing else catches it — this has to be prevented at the prompt
     // level. Now explicit that the values are pre-converted and must be
     // copied verbatim, with the exact failure mode named directly.
+    // QA finding (2026-08-12): a real conversation described the closest
+    // offered option as "today" ("that's today, in about 45 minutes") when
+    // it was actually the next calendar day — the model substituted a
+    // relative-day word for the real weekday/date given right here in
+    // `spoken`. Same class of bug as the UTC-copy issue above (a value the
+    // tool already computed correctly gets silently replaced by the
+    // model's own — wrong — inference), so it gets the same fix: name the
+    // exact failure mode directly rather than assume it won't happen.
     return {
       ok: true,
-      message: `Say to the caller, in your own words: "${spoken}, all Singapore time — which works for you?" Once they pick one, call book_meeting with its start_time value COPIED EXACTLY, character-for-character, from the reference list below. These values are already correctly converted to UTC for you — do not calculate, convert, or reconstruct start_time yourself from the spoken local time, and never assume the UTC hour matches the Singapore hour shown (it usually won't). Reference (exact start_time per option — copy verbatim, never speak it): ${reference}`,
+      message: `Say to the caller, in your own words: "${spoken}, all Singapore time — which works for you?" Always state the actual weekday and date exactly as given above for each option — never substitute a relative word like "today" or "tomorrow", even for the closest option. Once they pick one, call book_meeting with its start_time value COPIED EXACTLY, character-for-character, from the reference list below. These values are already correctly converted to UTC for you — do not calculate, convert, or reconstruct start_time yourself from the spoken local time, and never assume the UTC hour matches the Singapore hour shown (it usually won't). Reference (exact start_time per option — copy verbatim, never speak it): ${reference}`,
     };
   }
 
@@ -160,14 +176,26 @@ async function executeBookingTool(name, rawInput) {
     });
 
     if (result.ok) {
+      // QA finding (2026-08-12): a real conversation where the visitor said
+      // "whatever's soonest" booked the CORRECT slot (verified against
+      // Calendly — right day, right UTC time) but Riley's own final reply
+      // told the visitor the meeting was "today" when the booked day was
+      // actually tomorrow — a relative-word paraphrase slip on top of an
+      // otherwise-correct booking. Same fix shape as the earlier UTC-time
+      // bug: name the exact failure mode directly in the tool result rather
+      // than trust the model to avoid it unprompted.
+      const spokenDate = formatSlotLocal(result.startTimeISO);
       return {
         ok: true,
-        message: `Booked for ${formatSlotLocal(result.startTimeISO)}, Singapore time. Tristan will send the Google Meet link before the call. A confirmation has been sent to ${input.email.trim()}.`,
+        message: `Booked. Tell the caller it's confirmed for "${spokenDate}, Singapore time" — state that exact day and date, never a relative word like "today" or "tomorrow" even if it's the soonest option. Tristan will send the Google Meet link before the call. A confirmation has been sent to ${input.email.trim()}.`,
       };
     }
 
     if (result.code === 'invalid_email') {
       return { ok: false, message: "That email didn't go through — could you double check it and give it to me again?" };
+    }
+    if (result.code === 'invalid_phone') {
+      return { ok: false, message: "That phone number didn't go through — could you give it again, including the country code?" };
     }
     if (result.code === 'slot_taken') {
       return { ok: false, message: 'That slot just got taken — call check_availability again for fresh options rather than asking them to repeat themselves.' };

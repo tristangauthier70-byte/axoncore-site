@@ -77,7 +77,24 @@ module.exports = async function handler(req, res) {
   // every call, closes that blind spot for next time.
   const results = await Promise.all(
     toolCallList.map(async (call) => {
-      const outcome = await executeBookingTool(call.name, call.arguments);
+      // QA hardening (2026-08-12): VAPI's own docs show `arguments` as an
+      // already-parsed object, and every real test so far has matched
+      // that — but tool-calling arguments arriving as a JSON-encoded
+      // STRING instead is a known format variance in other providers'
+      // function-calling implementations, and nothing here would catch it
+      // (a bare string has no .start_time etc., so it would silently look
+      // like a missing-field validation failure with no diagnostic trail).
+      // Same defensive-parse pattern already used for req.body above.
+      let args = call.arguments;
+      if (typeof args === 'string') {
+        try {
+          args = JSON.parse(args);
+        } catch (err) {
+          console.warn('vapi-tools.js: tool call arguments arrived as a non-JSON string', call.name);
+          args = {};
+        }
+      }
+      const outcome = await executeBookingTool(call.name, args);
       console.log('vapi-tools.js: tool call', call.name, 'ok=', outcome.ok, 'args=', JSON.stringify(call.arguments));
       return { toolCallId: call.id, result: outcome.message };
     })

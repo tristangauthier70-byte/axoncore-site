@@ -128,7 +128,7 @@ function formatSlotLocal(startTimeISO) {
 }
 
 // -> { ok: true, confirmationId, cancelUrl, rescheduleUrl, startTimeISO }
-// -> { ok: false, code: 'invalid_email' | 'slot_taken' | 'slot_in_past' | 'invalid_time_format' | 'calendly_unavailable', message }
+// -> { ok: false, code: 'invalid_email' | 'invalid_phone' | 'slot_taken' | 'slot_in_past' | 'invalid_time_format' | 'calendly_unavailable', message }
 async function bookMeeting({ startTimeISO, name, email, phone }) {
   const body = {
     event_type: process.env.CALENDLY_EVENT_TYPE_URI,
@@ -193,6 +193,7 @@ async function bookMeeting({ startTimeISO, name, email, phone }) {
   // time"), not guessed from docs.
   const detail = data && Array.isArray(data.details) && data.details[0];
   const detailMsg = (detail && detail.message) || '';
+  const detailParam = (detail && detail.parameter) || '';
   const msg = detailMsg || (data && data.message) || '';
 
   let code = 'calendly_unavailable';
@@ -200,6 +201,16 @@ async function bookMeeting({ startTimeISO, name, email, phone }) {
   else if (/already.*filled/i.test(detailMsg)) code = 'slot_taken';
   else if (/must be in the future/i.test(detailMsg)) code = 'slot_in_past';
   else if (/must be a time/i.test(detailMsg)) code = 'invalid_time_format';
+  // QA finding (2026-08-12): a real test booking with phone "123" got back
+  // details: [{ message: 'phone_number is invalid format', parameter:
+  // 'text_reminder_number' }] — unhandled by any branch above, so it fell
+  // through to the generic calendly_unavailable code and told the visitor
+  // "I'm having trouble booking that right now" (implying a system problem
+  // on Axoncore's end) instead of asking them to correct a phone number
+  // they can actually fix. Matched on the parameter name first (most
+  // specific signal Calendly gives) with a message-text fallback in case
+  // the exact wording varies.
+  else if (detailParam === 'text_reminder_number' || /phone.*(invalid|format)/i.test(detailMsg)) code = 'invalid_phone';
   else if (status === 400 && /email/i.test(msg)) code = 'invalid_email';
 
   console.error('calendly.js: bookMeeting failed', status, networkError || data);
