@@ -55,7 +55,7 @@
   "redirects": [
     {
       "source": "/demo.html",
-      "destination": "/pricing.html#ax-pkg-b",
+      "destination": "/pricing.html#ax-pkg-chat",
       "permanent": true
     }
   ]

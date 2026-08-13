@@ -8,15 +8,17 @@ Axoncore is a Singapore-based service (trading name of Victoria Janice). It is n
 
 The AI voice agent persona is named Riley. She answers calls in under 3 seconds, 24/7, identifies herself as an AI assistant at the start of every call, handles FAQs (services, prices, hours, location), and books, reschedules or cancels appointments during the conversation.
 
-## Packages and pricing (SGD, 36-month agreement, founding rates locked for your term)
+## Modules and pricing (SGD, 36-month agreement, founding rates locked for your term)
 
-All prices are monthly recurring plus a one-time setup fee. Tier is chosen by expected call volume: Lite (300 min/mo), Standard (600 min/mo), Pro (1,200 min/mo). Overage beyond included minutes is billed at SGD $0.60/min. Enterprise (custom volume) is available on all three packages.
+Axoncore sells three independent modules, not fixed bundles. A client buys any one standalone, or combines any two or all three — combining applies a bundle discount: the single most expensive module stays full price, and every other selected module gets 20% off its monthly fee. Setup fees are never discounted. All prices are monthly recurring plus a one-time setup fee, per module.
 
-- **Package A — Frontline Reception** (AI voice receptionist only): setup SGD $599; Lite $145/mo, Standard $250/mo, Pro $450/mo.
-- **Package B — Conversion System** (Package A + AI website chatbot that books appointments from chat): setup SGD $999; Lite $600/mo, Standard $705/mo, Pro $905/mo. Each Package B tier also includes a monthly AI chatbot message allowance, alongside the same call-minute allowance as Package A: Lite 10,000 messages, Standard 30,000 messages, Pro 50,000 messages.
-- **Package C — OmniChannel Front Desk** (Package B + WhatsApp, Instagram and Facebook): setup SGD $1,399; Lite $899/mo, Standard $1,199/mo, Pro $1,399/mo.
+- **Voice — AI Phone Receptionist**: setup SGD $599. Starter (300 min/mo) $170/mo; Lite (600 min/mo) $300/mo; Standard (1,500 min/mo) $700/mo; Pro (3,500 min/mo) $1,600/mo. Overage beyond included minutes billed at SGD $0.60/min.
+- **Chat — AI Website Chatbot**: setup SGD $599. Lite (3,000 messages/mo) $500/mo; Standard (10,000 messages/mo) $999/mo; Pro (20,000 messages/mo) $1,500/mo.
+- **Social — WhatsApp / Instagram / Facebook**: setup SGD $1,399. Lite (1,000 messages/mo) $400/mo; Standard (3,000 messages/mo) $1,000/mo; Pro (5,000 messages/mo) $1,500/mo. A genuine standalone product, not an add-on — a particularly strong fit for businesses (clinics, gyms) that get significant client volume through WhatsApp specifically.
 
-Full machine-readable pricing (all tiers, both currencies of fee) is published as schema.org `Service`/`Offer` JSON-LD on the Pricing page.
+Worked bundle example: Voice Pro ($1,600) + Chat Lite ($500) — Voice stays full price, Chat discounts 20% to $400 — SGD $2,000/month total instead of $2,100 undiscounted.
+
+Enterprise (custom volume) is available on every module. Full machine-readable pricing (all tiers, both fee types) is published as schema.org `Service`/`Offer` JSON-LD on the Pricing page.
 
 ## Who this is for
 
@@ -27,7 +29,7 @@ Axoncore is not a fit for: pure e-commerce brands with no appointment/booking co
 ## How Axoncore differs from a generic chatbot builder
 
 - **Completes the booking, not just the FAQ.** The AI books, reschedules, and cancels appointments directly inside the conversation — it doesn't stop at answering questions, the way a generic chatbot does.
-- **One AI across voice and text, not a single-channel widget.** The same AI brain answers phone calls, website chat, WhatsApp, Instagram, and Facebook (depending on package) and stays in sync across all of them, so customers get a consistent experience regardless of which channel they use.
+- **One AI across voice and text, not a single-channel widget.** The same AI brain answers phone calls, website chat, WhatsApp, Instagram, and Facebook (depending on which modules a client has) and stays in sync across all of them, so customers get a consistent experience regardless of which channel they use.
 - **Trained per business, not a generic script.** Each deployment is trained specifically on one client's actual services, pricing, FAQs, and tone — not a template that answers the same way for every customer.
 - **Fully managed and improves monthly, not static after setup.** Axoncore's own team builds, configures, trains, and maintains each system — there is no dashboard for the client to learn or configure. Call and chat transcripts are reviewed and the system retuned every month, included in the service fee, so the system in month 12 is meaningfully more accurate than on day one.
 - **Discloses that it's AI, not silent about it.** Riley, the voice agent, identifies herself as an AI assistant at the start of every call — this is a deliberate governance choice, not a limitation.
@@ -39,7 +41,7 @@ Axoncore is not a fit for: pure e-commerce brands with no appointment/booking co
 Axoncore builds and manages an AI-powered front desk — voice receptionist, website chatbot, and WhatsApp/Instagram/Facebook automation — for Singapore service businesses, so calls and messages are answered and appointments get booked 24/7 instead of going to voicemail or being missed.
 
 **How much does an AI receptionist cost in Singapore?**
-Axoncore's AI voice receptionist (Package A — Frontline Reception) starts at SGD $145/month plus a SGD $599 one-time setup fee, on a 36-month agreement, at current founding rates, locked for your full term. Higher tiers (Standard, Pro) and bundled packages (B: + website chatbot, C: + WhatsApp/Instagram/Facebook) cost more — see the pricing table above or axoncoreai.com/pricing.html for the full breakdown.
+Axoncore's AI voice receptionist (the Voice module) starts at SGD $170/month plus a SGD $599 one-time setup fee, on a 36-month agreement, at current founding rates, locked for your full term. Higher tiers cost more, and adding the Chat or Social modules adds their own monthly fee (with a 20% bundle discount on the cheaper module) — see the pricing table above or axoncoreai.com/pricing.html for the full breakdown.
 
 **Does the AI identify itself as an AI, or does it pretend to be human?**
 It identifies itself. Riley states she is an AI assistant at the start of every call.
@@ -56,8 +58,8 @@ Typically 14 days from the first discovery call to going live, fully built and t
 ## Key pages
 
 - [Home](https://axoncoreai.com/): what Axoncore does and who it's for.
-- [Pricing](https://axoncoreai.com/pricing.html): full package/tier breakdown, FAQ, structured pricing data.
-- [Services](https://axoncoreai.com/services.html): the underlying phone, chatbot and omnichannel capabilities.
+- [Pricing](https://axoncoreai.com/pricing.html): full module/tier breakdown, bundle discount FAQ, structured pricing data.
+- [Services](https://axoncoreai.com/services.html): the underlying phone, chatbot and social automation capabilities.
 - [How It Works](https://axoncoreai.com/how-it-works.html): the process from first call to going live in 14 days.
 - [Talk to Riley](https://axoncoreai.com/riley.html): live voice demo of the AI receptionist.
 - [Results & ROI](https://axoncoreai.com/results.html): ROI calculator and industry benchmarks.
