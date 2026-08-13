@@ -2738,6 +2738,54 @@ hr {
 }
 .ax-router__result-book:hover { box-shadow: 0 12px 30px rgba(109,79,209,0.35); }
 
+/* Module checkboxes — visually reuse .ax-router__opt's pill styling
+   (same class applied alongside .ax-router__check), just wrapping a
+   real <input type="checkbox"> instead of a <button> so multi-select
+   is keyboard/screen-reader native rather than JS-simulated. */
+.ax-router__check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+}
+
+/* Live bundle-total bar — same visual language as .ax-router__result
+   (border-top divider, centered), but built for N module lines instead
+   of one fixed package result. */
+.ax-router__bundle-bar {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--ax-border);
+}
+.ax-router__bundle-lines {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 18px;
+  margin-bottom: 14px;
+}
+.ax-router__bundle-line {
+  font-size: 0.88rem;
+  color: var(--ax-muted);
+}
+.ax-router__bundle-line strong { color: var(--ax-white); font-weight: 700; margin-right: 4px; }
+.ax-router__bundle-discount {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 8px;
+  background: rgba(109,79,209,0.15);
+  color: var(--ax-accent);
+  border-radius: 100px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.ax-router__bundle-total {
+  font-family: var(--ax-font-serif);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--ax-accent-deep);
+  margin: 0 0 20px;
+}
+
 @keyframes ax-pricing-flash {
   0%, 100% { box-shadow: none; }
   30% { box-shadow: 0 0 0 3px var(--ax-accent); }

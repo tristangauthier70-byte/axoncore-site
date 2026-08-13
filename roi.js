@@ -29,22 +29,54 @@
   var NOSHOW_REDUCTION   = 0.29;
   var NOSHOW_AXONCORE    = NOSHOW_CURRENT * (1 - NOSHOW_REDUCTION);
 
-  /* ── Package data ──
-     Sourced from pricing-data.js (window.AXONCORE_PRICING), loaded
-     before this file — see that file for why. The ROI calculator
-     doesn't ask about call volume, so it has no basis to recommend a
-     specific tier; it reasons against each package's Lite tier, the
-     same "from $X/month" figure used sitewide. */
-  function packageRef(key) {
-    var k = key.toLowerCase();
-    var lite = window.AXONCORE_PRICING[k][0];
-    return { name: window.AXONCORE_PACKAGE_NAMES[k], setup: lite.setup, monthly: lite.price };
-  }
-
   /* ── State ── */
   var enquiries = 600;
   var avgValue  = 300;
   var respTime  = '4hr';
+  var channels  = { voice: true, chat: true, social: false }; // matches the checked defaults in results.html
+
+  /* ── Module data ──
+     Sourced from pricing-data.js (window.AXONCORE_MODULES) and
+     bundle-pricing.js (window.computeBundlePrice), both loaded before
+     this file. Unlike the old single-package model, the calculator now
+     recommends one tier PER selected channel, then prices the whole
+     combination through the same discount function the pricing page
+     and router use — so this box can never disagree with what
+     pricing.html would actually charge for the same selection. */
+  function selectedChannels() {
+    return Object.keys(channels).filter(function (k) { return channels[k]; });
+  }
+
+  // Picks the cheapest tier whose allowance covers the estimated volume
+  // for that module, falling back to the largest paid tier if volume
+  // exceeds every cap (Enterprise is never auto-recommended here).
+  function tierIndexForVolume(moduleKey, volume) {
+    var tiers = window.AXONCORE_MODULES[moduleKey].tiers;
+    for (var i = 0; i < tiers.length; i++) {
+      if (tiers[i].enterprise) return Math.max(0, i - 1);
+      var cap = tiers[i].minutes || tiers[i].messages;
+      if (volume <= cap) return i;
+    }
+    return tiers.length - 2;
+  }
+
+  // The calculator only collects one aggregate "enquiries" number, not a
+  // per-channel breakdown, so each selected channel's volume is
+  // estimated FROM that same number rather than measured directly.
+  // Voice: ~2.5 min/call, the same average used in Pricing & Packages
+  // and in tier.js's band labels. Chat/Social: a real chat or WhatsApp
+  // exchange is several messages, not one — 5 messages/enquiry is a
+  // deliberately simple, documented estimate, not a measured rate.
+  function estimatedVolume(moduleKey) {
+    if (moduleKey === 'voice') return enquiries * 2.5;
+    return enquiries * 5;
+  }
+
+  function recommendedSelections() {
+    return selectedChannels().map(function (key) {
+      return { module: key, tierIdx: tierIndexForVolume(key, estimatedVolume(key)) };
+    });
+  }
 
   /* ── Boot ── */
   document.addEventListener('DOMContentLoaded', function () {
@@ -53,7 +85,6 @@
 
     var sliderEnq = document.getElementById('ax-roi-enquiries');
     var sliderVal = document.getElementById('ax-roi-value');
-    var respBtns  = document.querySelectorAll('.ax-roi__resp-btn');
     var valEnq    = document.getElementById('ax-roi-enq-val');
     var valAmt    = document.getElementById('ax-roi-amt-val');
 
@@ -73,12 +104,23 @@
       recalculate();
     });
 
-    /* Response time buttons */
-    respBtns.forEach(function (btn) {
+    /* Response time buttons (real <button>s, not checkboxes — single-select) */
+    var timeBtns = document.querySelectorAll('.ax-roi__resp-grid:not(#ax-roi-channels) .ax-roi__resp-btn');
+    timeBtns.forEach(function (btn) {
       btn.addEventListener('click', function () {
-        respBtns.forEach(function (b) { b.classList.remove('active'); });
+        timeBtns.forEach(function (b) { b.classList.remove('active'); });
         this.classList.add('active');
         respTime = this.dataset.time;
+        recalculate();
+      });
+    });
+
+    /* Channel-mix checkboxes — which modules the calculator recommends */
+    var channelInputs = document.querySelectorAll('#ax-roi-channels input[type="checkbox"]');
+    channelInputs.forEach(function (cb) {
+      cb.addEventListener('change', function () {
+        channels[cb.dataset.channel] = cb.checked;
+        cb.closest('.ax-roi__resp-btn').classList.toggle('active', cb.checked);
         recalculate();
       });
     });
@@ -138,22 +180,28 @@
     var monthlyUplift  = actualAx - actualNow;
     var annualUplift   = monthlyUplift * 12;
 
-    // Recommend the package first, then cost everything below against
-    // THAT package's real price — not a flat, made-up monthly figure.
-    // This is also what updateRecommendation() below displays, so the
-    // headline numbers and the recommendation box can no longer
-    // disagree with each other.
-    var recKey      = recommendPackage({ monthlyUplift: monthlyUplift });
-    var recPackage  = packageRef(recKey);
+    // Recommend a module combination first, then cost everything below
+    // against THAT combination's real bundled price — not a flat,
+    // made-up monthly figure. This is also what updateRecommendation()
+    // below displays, so the headline numbers and the recommendation
+    // box can no longer disagree with each other, and can never disagree
+    // with what pricing.html would charge for the same selection, since
+    // both go through the same computeBundlePrice().
+    var selections = recommendedSelections();
+    var bundle = selections.length ? window.computeBundlePrice(selections, 0.20) : null;
 
-    // Two intentionally different questions, each computed exactly once
-    // so nothing downstream can quietly duplicate the formula and drift:
-    //   roiMultiple — annual gain vs. a full year of the subscription
-    //   paybackDays — days of uplift to cover your first bill (setup +
-    //                 one month), the standard "payback period" sense
-    var annualCost  = recPackage.monthly * 12 + recPackage.setup;
-    var roiMultiple = annualUplift / annualCost;
-    var paybackDays = Math.ceil((recPackage.setup + recPackage.monthly) / monthlyUplift * 30);
+    var annualCost, roiMultiple, paybackDays;
+    if (!bundle || bundle.enterprise) {
+      annualCost = null;
+      roiMultiple = null;
+      paybackDays = null;
+    } else {
+      annualCost  = bundle.monthlyTotal * 12 + bundle.setupTotal;
+      roiMultiple = annualCost > 0 ? annualUplift / annualCost : 0;
+      paybackDays = monthlyUplift > 0
+        ? Math.ceil((bundle.setupTotal + bundle.monthlyTotal) / monthlyUplift * 30)
+        : Infinity;
+    }
 
     var afterHoursLeads   = Math.round(enq * 0.35);
     var afterHoursMissed  = Math.round(afterHoursLeads * (1 - captureNow));
@@ -172,15 +220,8 @@
       bookingsNow:        Math.round(bookingsNow),
       bookingsAx:         Math.round(bookingsAx),
       capturePercent:     Math.round(AXONCORE_CAPTURE * 100),
-      recommendedPackage: recKey
+      bundle:             bundle
     };
-  }
-
-  /* ── Package recommendation ── */
-  function recommendPackage(r) {
-    if (respTime === 'nextday' || r.monthlyUplift > 12000) return 'C';
-    if (r.monthlyUplift > 5000) return 'B';
-    return 'A';
   }
 
   /* ── Update recommendation callout ── */
@@ -190,15 +231,32 @@
     var detailEl = document.getElementById('ax-roi-rec-detail');
     if (!recEl || !nameEl || !detailEl) return;
 
-    var pkg = packageRef(r.recommendedPackage);
+    if (!r.bundle || !r.bundle.lines || !r.bundle.lines.length) {
+      nameEl.textContent   = 'Select a channel above';
+      detailEl.textContent = 'Check at least one of Phone / Website / WhatsApp, Instagram & Facebook to see a recommendation.';
+      recEl.classList.add('ax-roi__rec--visible');
+      return;
+    }
+
+    if (r.bundle.enterprise) {
+      nameEl.textContent   = 'Custom / Enterprise';
+      detailEl.textContent = 'Priced on a discovery call for your volume.';
+      recEl.classList.add('ax-roi__rec--visible');
+      return;
+    }
 
     // r.paybackDays comes from calculate() — same number as the stats
     // grid above. Don't recompute it here; that's how this and the
-    // headline figure drifted apart from each other in the first place.
+    // headline figure drifted apart from each other in the past.
     var paybackStr = (r.paybackDays > 0 && r.paybackDays < 730) ? r.paybackDays + '-day payback' : 'strong ROI';
 
-    nameEl.textContent   = pkg.name;
-    detailEl.textContent = 'SGD $' + pkg.setup.toLocaleString() + ' setup · SGD $' + pkg.monthly.toLocaleString() + '/month · est. ' + paybackStr;
+    var nameParts = r.bundle.lines.map(function (l) {
+      var shortName = window.AXONCORE_MODULES[l.module].label.split(' — ')[0];
+      return shortName + ' (' + l.tier.name + ')';
+    });
+
+    nameEl.textContent   = nameParts.join(' + ');
+    detailEl.textContent = 'SGD $' + r.bundle.setupTotal.toLocaleString() + ' setup · SGD $' + r.bundle.monthlyTotal.toLocaleString() + '/month · est. ' + paybackStr;
 
     recEl.classList.add('ax-roi__rec--visible');
   }
@@ -212,8 +270,8 @@
     animateValue('ax-roi-axon-rev',        r.axonMonthly,       0,   '$', '');
     animateValue('ax-roi-monthly-uplift',  r.monthlyUplift,     0,   '+$', '');
     animateValue('ax-roi-annual-uplift',   r.annualUplift,      0,   '+$', '');
-    animateValue('ax-roi-roi-multiple',    r.roiMultiple,       1,   '', 'x');
-    animateValue('ax-roi-payback',         r.paybackDays,       0,   '', ' days');
+    animateValue('ax-roi-roi-multiple',    r.roiMultiple || 0,  1,   '', 'x');
+    animateValue('ax-roi-payback',         isFinite(r.paybackDays) ? r.paybackDays : 0, 0, '', ' days');
     animateValue('ax-roi-afterhours',      r.afterHoursRevenue, 0,   '$', '');
     animateValue('ax-roi-capture-now',     r.captureNow,        0,   '', '%');
     animateValue('ax-roi-bookings-now',    r.bookingsNow,       0,   '', '');
@@ -233,12 +291,12 @@
     if (capEl) capEl.style.width = r.captureNow + '%';
 
     var roiEl = document.getElementById('ax-roi-roi-multiple');
-    if (roiEl) {
+    if (roiEl && r.roiMultiple != null) {
       roiEl.style.color = r.roiMultiple >= 3 ? '#4ade80' : r.roiMultiple >= 1.5 ? '#6D4FD1' : '#facc15';
     }
 
     var paybackEl = document.getElementById('ax-roi-payback');
-    if (paybackEl) {
+    if (paybackEl && isFinite(r.paybackDays)) {
       paybackEl.style.color = r.paybackDays <= 60 ? '#4ade80' : r.paybackDays <= 120 ? '#6D4FD1' : '#facc15';
     }
 

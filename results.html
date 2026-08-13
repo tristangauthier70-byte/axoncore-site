@@ -164,10 +164,19 @@
           </div>
         </div>
         <div class="ax-roi__field">
+          <label class="ax-roi__label" style="margin-bottom:12px;display:block;">How do enquiries actually reach you?</label>
+          <div class="ax-roi__resp-grid" id="ax-roi-channels" style="grid-template-columns:1fr 1fr 1fr;">
+            <label class="ax-roi__resp-btn active"><input type="checkbox" data-channel="voice" checked style="position:absolute;opacity:0;width:0;height:0;"><span class="ax-roi__resp-icon">&#128222;</span><span class="ax-roi__resp-label">Phone</span></label>
+            <label class="ax-roi__resp-btn active"><input type="checkbox" data-channel="chat" checked style="position:absolute;opacity:0;width:0;height:0;"><span class="ax-roi__resp-icon">&#128187;</span><span class="ax-roi__resp-label">Website</span></label>
+            <label class="ax-roi__resp-btn"><input type="checkbox" data-channel="social" style="position:absolute;opacity:0;width:0;height:0;"><span class="ax-roi__resp-icon">&#128172;</span><span class="ax-roi__resp-label">WhatsApp / IG / FB</span></label>
+          </div>
+          <p class="ax-roi__field-hint">Select every channel that applies &mdash; this decides which modules we recommend below</p>
+        </div>
+        <div class="ax-roi__field">
           <div class="ax-roi__field-header"><label class="ax-roi__label" for="ax-roi-enquiries">Monthly enquiries received</label><span class="ax-roi__field-val"><span id="ax-roi-enq-val">600</span></span></div>
           <input type="range" id="ax-roi-enquiries" class="ax-roi__slider" min="30" max="1000" step="10" value="600">
           <div class="ax-roi__slider-range"><span>30</span><span>1,000</span></div>
-          <p class="ax-roi__field-hint">Calls, messages, DMs, form fills &mdash; all combined</p>
+          <p class="ax-roi__field-hint">Across the channels you selected above &mdash; all combined</p>
         </div>
         <div class="ax-roi__field">
           <div class="ax-roi__field-header"><label class="ax-roi__label" for="ax-roi-value">Average booking value</label><span class="ax-roi__field-val"><span id="ax-roi-amt-val">$300</span></span></div>
@@ -220,7 +229,7 @@
           <div class="ax-roi__rec-eyebrow">Based on your numbers, we recommend</div>
           <span class="ax-roi__rec-name" id="ax-roi-rec-name"></span>
           <span class="ax-roi__rec-detail" id="ax-roi-rec-detail"></span>
-          <a href="/pricing.html" class="ax-roi__rec-link">See full package details <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+          <a href="/pricing.html" class="ax-roi__rec-link">See full module details <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
         </div>
       </div>
     </div>
@@ -270,6 +279,7 @@
 <script>document.getElementById('ax-year').textContent=new Date().getFullYear();</script>
 <script src="main.js"></script>
 <script src="pricing-data.js"></script>
+<script src="bundle-pricing.js"></script>
 <script src="roi.js"></script>
 </body>
 </html>

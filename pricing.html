@@ -12,10 +12,10 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-G6PEL64BSW"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G6PEL64BSW',{anonymize_ip:true});</script>
   <link rel="stylesheet" href="style.css">
-  <title>AI Receptionist Pricing Singapore | Axoncore Packages</title>
-  <meta name="description" content="Transparent AI receptionist pricing in SGD for Singapore businesses. Packages A, B & C — phone, chatbot & omnichannel automation. Founding rates available.">
-  <meta property="og:title" content="AI Receptionist Pricing Singapore | Axoncore Packages">
-  <meta property="og:description" content="Transparent AI receptionist pricing in SGD for Singapore businesses. Packages A, B & C — phone, chatbot & omnichannel automation.">
+  <title>AI Receptionist Pricing Singapore | Axoncore Modules</title>
+  <meta name="description" content="Transparent AI automation pricing in SGD for Singapore businesses. Voice, Chat &amp; Social — independent modules, mix and match what your business needs. Founding rates available.">
+  <meta property="og:title" content="AI Receptionist Pricing Singapore | Axoncore Modules">
+  <meta property="og:description" content="Transparent AI automation pricing in SGD for Singapore businesses. Voice, Chat &amp; Social — independent modules, mix and match what your business needs.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://axoncoreai.com/pricing.html">
   <meta property="og:site_name" content="Axoncore">
@@ -24,62 +24,67 @@
   <meta property="og:image:height" content="630">
   <meta property="og:locale" content="en_SG">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="AI Receptionist Pricing Singapore | Axoncore Packages">
-  <meta name="twitter:description" content="Transparent AI receptionist pricing in SGD for Singapore businesses. Packages A, B & C — phone, chatbot & omnichannel automation.">
+  <meta name="twitter:title" content="AI Receptionist Pricing Singapore | Axoncore Modules">
+  <meta name="twitter:description" content="Transparent AI automation pricing in SGD for Singapore businesses. Voice, Chat &amp; Social — independent modules, mix and match what your business needs.">
   <meta name="twitter:image" content="https://axoncoreai.com/og-image.png">
   <link rel="canonical" href="https://axoncoreai.com/pricing.html">
 
   <!-- Structured data — every tier's real price, in plain parseable form.
-       The on-page tier switcher (tier.js) only renders the Lite figures
-       into static HTML by default; Standard/Pro/Enterprise only appear
+       The on-page tier switcher (tier.js) only renders the first tier's
+       figures into static HTML by default; other tiers only appear
        after a visitor clicks through the switcher. A crawler or AI engine
        reading the page without simulating those clicks would otherwise
-       only ever see Lite pricing — this schema exposes all three real
-       tiers per package regardless of UI state. Keep in sync with
-       pricing-data.js (window.AXONCORE_PRICING) if pricing changes —
-       that's the canonical source tier.js and roi.js both read from,
-       but crawlers read this markup directly, not that script. -->
+       only ever see one tier's pricing — this schema exposes every real
+       tier per module regardless of UI state. Keep in sync with
+       pricing-data.js (window.AXONCORE_MODULES) if pricing changes —
+       that's the canonical source tier.js, router.js and roi.js all read
+       from, but crawlers read this markup directly, not that script.
+       Voice/Chat/Social are sold standalone or in any combination, with
+       a 20%-off-the-cheaper-module(s) bundle discount — see the FAQ
+       below and Terms §5.7 for the bundle mechanic; each Offer here is
+       the standalone (undiscounted) price for that module alone. -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "Service",
-        "@id": "https://axoncoreai.com/pricing.html#package-a",
-        "name": "Package A — Frontline Reception",
+        "@id": "https://axoncoreai.com/pricing.html#module-voice",
+        "name": "Voice — AI Phone Receptionist",
         "description": "Your 24/7 AI voice receptionist. Answers calls in under 3 seconds, handles FAQs, and books, reschedules or cancels appointments — with after-hours call capture and lead recording on every enquiry.",
         "provider": { "@type": "ProfessionalService", "name": "Axoncore", "url": "https://axoncoreai.com/" },
         "areaServed": { "@type": "Country", "name": "Singapore" },
         "offers": [
-          { "@type": "Offer", "name": "Package A — Lite", "priceCurrency": "SGD", "price": "145", "priceSpecification": [ { "@type": "UnitPriceSpecification", "price": "145", "priceCurrency": "SGD", "billingDuration": "P1M", "unitText": "per month, 300 minutes included" }, { "@type": "UnitPriceSpecification", "price": "599", "priceCurrency": "SGD", "unitText": "one-time setup fee" } ] },
-          { "@type": "Offer", "name": "Package A — Standard", "priceCurrency": "SGD", "price": "250", "priceSpecification": [ { "@type": "UnitPriceSpecification", "price": "250", "priceCurrency": "SGD", "billingDuration": "P1M", "unitText": "per month, 600 minutes included" }, { "@type": "UnitPriceSpecification", "price": "599", "priceCurrency": "SGD", "unitText": "one-time setup fee" } ] },
-          { "@type": "Offer", "name": "Package A — Pro", "priceCurrency": "SGD", "price": "450", "priceSpecification": [ { "@type": "UnitPriceSpecification", "price": "450", "priceCurrency": "SGD", "billingDuration": "P1M", "unitText": "per month, 1200 minutes included" }, { "@type": "UnitPriceSpecification", "price": "599", "priceCurrency": "SGD", "unitText": "one-time setup fee" } ] }
+          { "@type": "Offer", "name": "Voice — Starter", "priceCurrency": "SGD", "price": "170", "priceSpecification": [ { "@type": "UnitPriceSpecification", "price": "170", "priceCurrency": "SGD", "billingDuration": "P1M", "unitText": "per month, 300 minutes included" }, { "@type": "UnitPriceSpecification", "price": "599", "priceCurrency": "SGD", "unitText": "one-time setup fee" } ] },
+          { "@type": "Offer", "name": "Voice — Lite", "priceCurrency": "SGD", "price": "300", "priceSpecification": [ { "@type": "UnitPriceSpecification", "price": "300", "priceCurrency": "SGD", "billingDuration": "P1M", "unitText": "per month, 600 minutes included" }, { "@type": "UnitPriceSpecification", "price": "599", "priceCurrency": "SGD", "unitText": "one-time setup fee" } ] },
+          { "@type": "Offer", "name": "Voice — Standard", "priceCurrency": "SGD", "price": "700", "priceSpecification": [ { "@type": "UnitPriceSpecification", "price": "700", "priceCurrency": "SGD", "billingDuration": "P1M", "unitText": "per month, 1500 minutes included" }, { "@type": "UnitPriceSpecification", "price": "599", "priceCurrency": "SGD", "unitText": "one-time setup fee" } ] },
+          { "@type": "Offer", "name": "Voice — Pro", "priceCurrency": "SGD", "price": "1600", "priceSpecification": [ { "@type": "UnitPriceSpecification", "price": "1600", "priceCurrency": "SGD", "billingDuration": "P1M", "unitText": "per month, 3500 minutes included" }, { "@type": "UnitPriceSpecification", "price": "599", "priceCurrency": "SGD", "unitText": "one-time setup fee" } ] }
         ]
       },
       {
         "@type": "Service",
-        "@id": "https://axoncoreai.com/pricing.html#package-b",
-        "name": "Package B — Conversion System",
-        "description": "Everything in Package A, plus an AI website chatbot that responds to visitors in under 3 seconds, qualifies leads, and books appointments directly from the chat widget — with a consolidated lead dashboard.",
+        "@id": "https://axoncoreai.com/pricing.html#module-chat",
+        "name": "Chat — AI Website Chatbot",
+        "description": "An AI website chatbot that responds to visitors in under 3 seconds, qualifies leads, and books appointments directly from the chat widget — with a consolidated lead dashboard. Sold standalone or bundled with Voice and/or Social.",
         "provider": { "@type": "ProfessionalService", "name": "Axoncore", "url": "https://axoncoreai.com/" },
         "areaServed": { "@type": "Country", "name": "Singapore" },
         "offers": [
-          { "@type": "Offer", "name": "Package B — Lite", "priceCurrency": "SGD", "price": "600", "priceSpecification": [ { "@type": "UnitPriceSpecification", "price": "600", "priceCurrency": "SGD", "billingDuration": "P1M", "unitText": "per month, 300 minutes and 10,000 chatbot messages included" }, { "@type": "UnitPriceSpecification", "price": "999", "priceCurrency": "SGD", "unitText": "one-time setup fee" } ] },
-          { "@type": "Offer", "name": "Package B — Standard", "priceCurrency": "SGD", "price": "705", "priceSpecification": [ { "@type": "UnitPriceSpecification", "price": "705", "priceCurrency": "SGD", "billingDuration": "P1M", "unitText": "per month, 600 minutes and 30,000 chatbot messages included" }, { "@type": "UnitPriceSpecification", "price": "999", "priceCurrency": "SGD", "unitText": "one-time setup fee" } ] },
-          { "@type": "Offer", "name": "Package B — Pro", "priceCurrency": "SGD", "price": "905", "priceSpecification": [ { "@type": "UnitPriceSpecification", "price": "905", "priceCurrency": "SGD", "billingDuration": "P1M", "unitText": "per month, 1200 minutes and 50,000 chatbot messages included" }, { "@type": "UnitPriceSpecification", "price": "999", "priceCurrency": "SGD", "unitText": "one-time setup fee" } ] }
+          { "@type": "Offer", "name": "Chat — Lite", "priceCurrency": "SGD", "price": "500", "priceSpecification": [ { "@type": "UnitPriceSpecification", "price": "500", "priceCurrency": "SGD", "billingDuration": "P1M", "unitText": "per month, 3,000 chatbot messages included" }, { "@type": "UnitPriceSpecification", "price": "599", "priceCurrency": "SGD", "unitText": "one-time setup fee" } ] },
+          { "@type": "Offer", "name": "Chat — Standard", "priceCurrency": "SGD", "price": "999", "priceSpecification": [ { "@type": "UnitPriceSpecification", "price": "999", "priceCurrency": "SGD", "billingDuration": "P1M", "unitText": "per month, 10,000 chatbot messages included" }, { "@type": "UnitPriceSpecification", "price": "599", "priceCurrency": "SGD", "unitText": "one-time setup fee" } ] },
+          { "@type": "Offer", "name": "Chat — Pro", "priceCurrency": "SGD", "price": "1500", "priceSpecification": [ { "@type": "UnitPriceSpecification", "price": "1500", "priceCurrency": "SGD", "billingDuration": "P1M", "unitText": "per month, 20,000 chatbot messages included" }, { "@type": "UnitPriceSpecification", "price": "599", "priceCurrency": "SGD", "unitText": "one-time setup fee" } ] }
         ]
       },
       {
         "@type": "Service",
-        "@id": "https://axoncoreai.com/pricing.html#package-c",
-        "name": "Package C — OmniChannel Front Desk",
-        "description": "Everything in Package B, plus WhatsApp, Instagram and Facebook integration — your entire front desk automated across every channel customers use to reach you.",
+        "@id": "https://axoncoreai.com/pricing.html#module-social",
+        "name": "Social — WhatsApp / Instagram / Facebook",
+        "description": "WhatsApp, Instagram and Facebook automation — one AI replies across every social channel your customers use, in under 3 seconds, with a consolidated lead dashboard. A genuine standalone product, not an add-on — especially strong for businesses like clinics and gyms that get significant client volume through WhatsApp. Sold standalone or bundled with Voice and/or Chat.",
         "provider": { "@type": "ProfessionalService", "name": "Axoncore", "url": "https://axoncoreai.com/" },
         "areaServed": { "@type": "Country", "name": "Singapore" },
         "offers": [
-          { "@type": "Offer", "name": "Package C — Lite", "priceCurrency": "SGD", "price": "899", "priceSpecification": [ { "@type": "UnitPriceSpecification", "price": "899", "priceCurrency": "SGD", "billingDuration": "P1M", "unitText": "per month, 300 minutes and 20,000 messages (across website chat, WhatsApp, Instagram and Facebook combined) included" }, { "@type": "UnitPriceSpecification", "price": "1399", "priceCurrency": "SGD", "unitText": "one-time setup fee" } ] },
-          { "@type": "Offer", "name": "Package C — Standard", "priceCurrency": "SGD", "price": "1199", "priceSpecification": [ { "@type": "UnitPriceSpecification", "price": "1199", "priceCurrency": "SGD", "billingDuration": "P1M", "unitText": "per month, 600 minutes and 60,000 messages (across website chat, WhatsApp, Instagram and Facebook combined) included" }, { "@type": "UnitPriceSpecification", "price": "1399", "priceCurrency": "SGD", "unitText": "one-time setup fee" } ] },
-          { "@type": "Offer", "name": "Package C — Pro", "priceCurrency": "SGD", "price": "1399", "priceSpecification": [ { "@type": "UnitPriceSpecification", "price": "1399", "priceCurrency": "SGD", "billingDuration": "P1M", "unitText": "per month, 1200 minutes and 100,000 messages (across website chat, WhatsApp, Instagram and Facebook combined) included" }, { "@type": "UnitPriceSpecification", "price": "1399", "priceCurrency": "SGD", "unitText": "one-time setup fee" } ] }
+          { "@type": "Offer", "name": "Social — Lite", "priceCurrency": "SGD", "price": "400", "priceSpecification": [ { "@type": "UnitPriceSpecification", "price": "400", "priceCurrency": "SGD", "billingDuration": "P1M", "unitText": "per month, 1,000 messages included" }, { "@type": "UnitPriceSpecification", "price": "1399", "priceCurrency": "SGD", "unitText": "one-time setup fee" } ] },
+          { "@type": "Offer", "name": "Social — Standard", "priceCurrency": "SGD", "price": "1000", "priceSpecification": [ { "@type": "UnitPriceSpecification", "price": "1000", "priceCurrency": "SGD", "billingDuration": "P1M", "unitText": "per month, 3,000 messages included" }, { "@type": "UnitPriceSpecification", "price": "1399", "priceCurrency": "SGD", "unitText": "one-time setup fee" } ] },
+          { "@type": "Offer", "name": "Social — Pro", "priceCurrency": "SGD", "price": "1500", "priceSpecification": [ { "@type": "UnitPriceSpecification", "price": "1500", "priceCurrency": "SGD", "billingDuration": "P1M", "unitText": "per month, 5,000 messages included" }, { "@type": "UnitPriceSpecification", "price": "1399", "priceCurrency": "SGD", "unitText": "one-time setup fee" } ] }
         ]
       }
     ]
@@ -118,12 +123,12 @@
       {
         "@type": "Question",
         "name": "What if I get more calls than my plan?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Overage is billed at $0.60/min beyond your included minutes. For example, on Lite (300 min, $145/mo), going 100 minutes over costs an extra $60 — $205 total that month. If you're regularly running over by that much, moving up a tier is usually cheaper: Standard gives you 600 minutes for $250/mo. We help you pick the right tier during the discovery call to avoid this in the first place." }
+        "acceptedAnswer": { "@type": "Answer", "text": "Overage is billed at $0.60/min beyond your included Voice minutes. For example, on Voice Starter (300 min, $170/mo), going 100 minutes over costs an extra $60 — $230 total that month. If you're regularly running over by that much, moving up a tier is usually cheaper: Lite gives you 600 minutes for $300/mo. We help you pick the right tier during the discovery call to avoid this in the first place." }
       },
       {
         "@type": "Question",
-        "name": "Can I upgrade my package or tier later?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes, anytime. You can move up a tier (Lite to Standard to Pro) or add more channels (Package A to B to C) as your business grows." }
+        "name": "Can I upgrade my modules or tiers later?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes, anytime. You can move up a tier within any module, or add another module — Voice, Chat, or Social — to your setup. Adding a module gets you the bundle discount: 20% off the cheaper module's monthly fee." }
       },
       {
         "@type": "Question",
@@ -142,13 +147,18 @@
       },
       {
         "@type": "Question",
-        "name": "What's the difference between Package A, B, and C?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Package A — Frontline Reception is the AI voice receptionist only (phone calls), from SGD $145/month. Package B — Conversion System adds an AI website chatbot that books appointments from chat, from SGD $600/month. Package C — OmniChannel Front Desk adds WhatsApp, Instagram and Facebook on top of that, from SGD $899/month. Each package has Lite, Standard and Pro tiers priced by monthly call volume." }
+        "name": "What's the difference between Voice, Chat, and Social?",
+        "acceptedAnswer": { "@type": "Answer", "text": "They're three independent modules, not tiers of the same product. Voice is your AI phone receptionist, from SGD $170/month. Chat is an AI website chatbot, from SGD $500/month. Social automates WhatsApp, Instagram and Facebook, from SGD $400/month. Buy any one standalone, or combine any two or all three — combining gets you a 20% discount on the cheaper module(s)." }
       },
       {
         "@type": "Question",
-        "name": "Which package and tier should I choose?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Tier is driven by phone call volume: under 120 calls/month fits Lite, 120–250 calls/month fits Standard, and 250+ calls/month fits Pro. Package is driven by which channels you need covered — phone only (A), phone plus website chat (B), or phone, website, WhatsApp, Instagram and Facebook (C). We help confirm the right combination during the discovery call." }
+        "name": "Which modules and tiers should I choose?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Choose modules based on where your enquiries actually come in — phone (Voice), website (Chat), WhatsApp, Instagram or Facebook (Social) — any combination is fine, including just one. Tier within each module is driven by volume: for Voice, under 120 calls/month fits Starter, 120–240 fits Lite, 240–600 fits Standard, and 600+ fits Pro. For Chat and Social, tier is driven by expected monthly message volume. We help confirm the right combination during the discovery call, or use the ROI Calculator for a starting recommendation." }
+      },
+      {
+        "@type": "Question",
+        "name": "What's the bundle discount?",
+        "acceptedAnswer": { "@type": "Answer", "text": "When you combine two or three modules, the single most expensive module stays full price and every other module gets 20% off its monthly fee. For example, Voice Pro (SGD $1,600/mo) plus Chat Lite (SGD $500/mo) becomes SGD $1,600 + $400 = $2,000/mo instead of $2,100. Setup fees are never discounted, since they reflect real one-time build work regardless of how many modules you're adding. Full detail in Terms §5.7." }
       }
     ]
   }
@@ -243,8 +253,8 @@
         <div class="ax-pricing__vs-card ax-pricing__vs-card--ax">
           <div class="ax-pricing__vs-glow" aria-hidden="true"></div>
           <div class="ax-pricing__vs-tag ax-pricing__vs-tag--ax">Axoncore AI Front Desk</div>
-          <div class="ax-pricing__vs-amount ax-pricing__vs-amount--ax">SGD $145<span>/month</span></div>
-          <div class="ax-pricing__vs-sub ax-pricing__vs-sub--ax">Lite tier &middot; Founding rate</div>
+          <div class="ax-pricing__vs-amount ax-pricing__vs-amount--ax">SGD $170<span>/month</span></div>
+          <div class="ax-pricing__vs-sub ax-pricing__vs-sub--ax">Voice, Starter tier &middot; Founding rate</div>
           <div class="ax-pricing__vs-rule ax-pricing__vs-rule--ax"></div>
           <ul class="ax-pricing__vs-items ax-pricing__vs-items--ax">
             <li><span class="ax-vs-icon ax-vs-icon--good" aria-hidden="true">&#10003;</span>Answers every call, 24/7 &mdash; no queue, no voicemail</li>
@@ -254,45 +264,47 @@
           </ul>
           <div class="ax-pricing__vs-total ax-pricing__vs-total--ax">
             <span>36-month total cost</span>
-            <strong>From SGD $5,819</strong>
+            <strong>From SGD $6,719</strong>
           </div>
         </div>
 
       </div>
-      <p class="ax-pricing__vs-note">* Based on SGD $2,800/month (MOM 2023 median, receptionist role) + 17% employer CPF. Axoncore total based on Package A Lite: SGD $145/month &times; 36 months + SGD $599 setup.</p>
-      <p class="ax-pricing__vs-note">This comparison shows Package A (phone only). Want every channel covered — phone, website, WhatsApp, Instagram &amp; Facebook, one AI brain across all of them? See Package C, from SGD $899/month, below.</p>
+      <p class="ax-pricing__vs-note">* Based on SGD $2,800/month (MOM 2023 median, receptionist role) + 17% employer CPF. Axoncore total based on the Voice module, Starter tier: SGD $170/month &times; 36 months + SGD $599 setup.</p>
+      <p class="ax-pricing__vs-note">This comparison shows the Voice module alone. Want every channel covered — phone, website, WhatsApp, Instagram &amp; Facebook, one AI brain across all of them? Combine Voice, Chat and Social below — bundling gets you 20% off the cheaper module(s).</p>
     </div>
 
-    <!-- Two-question router — same qualification Riley does on a call
-         (channel, then call volume), so a visitor doesn't have to
-         self-diagnose from three feature lists. -->
+    <!-- Module picker — Voice, Chat and Social are three independent
+         modules, sold standalone or in any combination. All three start
+         checked (matching the "see everything" default the cards below
+         already had); unchecking a module hides its card and removes it
+         from the live bundle total. See router.js. -->
     <div class="ax-router" id="ax-router">
-      <div class="ax-router__step" data-step="1">
-        <p class="ax-router__q">1. Where do your enquiries come in?</p>
-        <div class="ax-router__opts">
-          <button type="button" class="ax-router__opt" data-pkg="a" aria-pressed="false">Phone only</button>
-          <button type="button" class="ax-router__opt" data-pkg="b" aria-pressed="false">Phone + our website</button>
-          <button type="button" class="ax-router__opt" data-pkg="c" aria-pressed="false">Phone, website, WhatsApp &amp; social</button>
-        </div>
+      <p class="ax-router__q">Which channels do you want automated?</p>
+      <div class="ax-router__opts" role="group" aria-label="Select modules">
+        <label class="ax-router__opt ax-router__check is-active">
+          <input type="checkbox" data-module="voice" checked style="position:absolute;opacity:0;width:0;height:0;">
+          Phone
+        </label>
+        <label class="ax-router__opt ax-router__check is-active">
+          <input type="checkbox" data-module="chat" checked style="position:absolute;opacity:0;width:0;height:0;">
+          Website
+        </label>
+        <label class="ax-router__opt ax-router__check is-active">
+          <input type="checkbox" data-module="social" checked style="position:absolute;opacity:0;width:0;height:0;">
+          WhatsApp, Instagram &amp; Facebook
+        </label>
       </div>
-      <div class="ax-router__step" data-step="2" hidden>
-        <p class="ax-router__q">2. Roughly how many calls a month?</p>
-        <div class="ax-router__opts">
-          <button type="button" class="ax-router__opt" data-tier="0" aria-pressed="false">Under 120</button>
-          <button type="button" class="ax-router__opt" data-tier="1" aria-pressed="false">120&ndash;250</button>
-          <button type="button" class="ax-router__opt" data-tier="2" aria-pressed="false">250+</button>
-        </div>
-      </div>
-      <div class="ax-router__result" id="ax-router-result" hidden></div>
+      <div class="ax-router__bundle-bar" id="ax-router-bundle-bar"></div>
     </div>
 
     <div class="ax-pricing__grid">
 
-      <!-- Package A -->
-      <div class="ax-pricing__card ax-reveal ax-reveal-delay-1" id="ax-pkg-a">
+      <!-- Voice -->
+      <div class="ax-pricing__card ax-reveal ax-reveal-delay-1" id="ax-pkg-voice">
+        <span id="ax-pkg-a" aria-hidden="true"></span><!-- alias for old #ax-pkg-a deep links (services.html, vercel.json redirect) -->
         <div class="ax-pricing__badge--founding">Founding Rate</div>
-        <div class="ax-pricing__tier-label">Package A</div>
-        <h3 class="ax-pricing__name">Frontline Reception</h3>
+        <div class="ax-pricing__tier-label">Voice Module</div>
+        <h3 class="ax-pricing__name">AI Phone Receptionist</h3>
         <p class="ax-pricing__tagline">Your 24/7 AI receptionist — answers day, night, weekends, holidays</p>
         <div class="ax-pricing__price-block">
           <div class="ax-tier-switcher">
@@ -300,17 +312,17 @@
               <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
             </button>
             <div class="ax-tier__center">
-              <span class="ax-tier__name">Lite</span>
-              <span class="ax-tier__mins">300 min/mo</span>
+              <span class="ax-tier__name">Starter</span>
+              <span class="ax-tier__mins">under ~120 calls/mo · 300 min</span>
             </div>
             <button class="ax-tier__btn ax-tier__btn--next" aria-label="Next tier">
               <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
             </button>
           </div>
           <div class="ax-pricing__setup" data-tier-setup>SGD $599 <span>one-time setup</span></div>
-          <div class="ax-pricing__monthly" data-tier-monthly>SGD $145<span class="ax-pricing__per">/month</span></div>
-          <div class="ax-pricing__perday" data-tier-perday>Less than SGD $4.83 / day</div>
-          <div class="ax-pricing__tco" data-tier-tco>36-month total: SGD $5,819</div>
+          <div class="ax-pricing__monthly" data-tier-monthly>SGD $170<span class="ax-pricing__per">/month</span></div>
+          <div class="ax-pricing__perday" data-tier-perday>Less than SGD $5.67 / day</div>
+          <div class="ax-pricing__tco" data-tier-tco>36-month total: SGD $6,719</div>
           <div class="ax-pricing__agreement">36-month agreement &mdash; founding rate, locked for your term &nbsp;&middot;&nbsp; <a href="/terms.html" style="color:inherit;opacity:0.7;font-size:0.85em;" target="_blank">View terms</a></div>
         </div>
         <ul class="ax-pricing__features">
@@ -320,21 +332,22 @@
           <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>After-hours call capture — captures every call the system receives</li>
           <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span data-tier-mins-feature>300 call minutes / month included</span></li>
         </ul>
-        <button class="ax-pricing__toggle" aria-expanded="false"><span class="ax-pricing__toggle-text">See full package details</span><svg class="ax-pricing__toggle-chevron" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>
+        <button class="ax-pricing__toggle" aria-expanded="false"><span class="ax-pricing__toggle-text">See full module details</span><svg class="ax-pricing__toggle-chevron" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>
         <div class="ax-pricing__details"><div class="ax-pricing__details-inner">
-          <div class="ax-pricing__details-group"><h4 class="ax-pricing__details-heading">What&rsquo;s included</h4><ul class="ax-pricing__details-list"><li>AI Voice Receptionist — answers in under 3 seconds, 24/7/365</li><li>Appointment booking, rescheduling &amp; cancellations handled on the call</li><li>Full FAQ capability — services, prices, opening hours, parking, directions</li><li>After-hours call capture — captures every call the system receives</li><li>Lead recording — name, phone &amp; email captured on every enquiry call</li><li>Booking confirmations via SMS &amp; email automatically sent to each client</li><li>Call recordings and transcripts stored for your review</li><li>Call minutes included per tier: 300 (Lite) · 600 (Standard) · 1,200 (Pro)</li><li>Overage billed at SGD $0.60/min — only charged on minutes beyond your included allowance</li><li>Riley identifies herself as an AI assistant at the start of every call. Outbound call campaigns require DNC Registry compliance &mdash; handled by your team or arranged with us.</li></ul></div>
+          <div class="ax-pricing__details-group"><h4 class="ax-pricing__details-heading">What&rsquo;s included</h4><ul class="ax-pricing__details-list"><li>AI Voice Receptionist — answers in under 3 seconds, 24/7/365</li><li>Appointment booking, rescheduling &amp; cancellations handled on the call</li><li>Full FAQ capability — services, prices, opening hours, parking, directions</li><li>After-hours call capture — captures every call the system receives</li><li>Lead recording — name, phone &amp; email captured on every enquiry call</li><li>Booking confirmations via SMS &amp; email automatically sent to each client</li><li>Call recordings and transcripts stored for your review</li><li>Call minutes included per tier: 300 (Starter) · 600 (Lite) · 1,500 (Standard) · 3,500 (Pro)</li><li>Overage billed at SGD $0.60/min — only charged on minutes beyond your included allowance</li><li>Riley identifies herself as an AI assistant at the start of every call. Outbound call campaigns require DNC Registry compliance &mdash; handled by your team or arranged with us.</li></ul></div>
           <div class="ax-pricing__details-group"><h4 class="ax-pricing__details-heading">Setup &amp; support</h4><ul class="ax-pricing__details-list"><li>Full system built and configured by our team — go-live within 14 days</li><li>AI trained on your exact services, pricing, tone of voice, and FAQs</li><li>Call forwarding integration with your existing number (SingTel / StarHub / M1)</li><li>Monthly performance report — calls, leads, and bookings generated</li><li>Technical maintenance, uptime monitoring &amp; hosting — fully included in your monthly fee, always</li><li>Post-launch changes to your AI&rsquo;s trained answers, scripts, pricing, or FAQs — SGD $300 per revision request once your system is live</li></ul></div>
-          <p class="ax-pricing__details-stack">Runs on enterprise voice infrastructure (VAPI, Twilio) with Anthropic Claude as the reasoning layer. We hold and manage every account &mdash; you never touch a dashboard or a vendor invoice.</p>
+          <p class="ax-pricing__details-stack">Runs on enterprise voice infrastructure (VAPI, Telnyx) with Anthropic Claude as the reasoning layer. We hold and manage every account &mdash; you never touch a dashboard or a vendor invoice.</p>
         </div></div>
-        <p class="ax-pricing__ideal"><strong>Best for:</strong> An AI voice agent for clinics and service businesses across Singapore losing bookings to missed calls and voicemail.</p>
+        <p class="ax-pricing__ideal"><strong>Best for:</strong> An AI voice agent for clinics and service businesses across Singapore losing bookings to missed calls and voicemail. Sold standalone or bundled with Chat and/or Social — bundling gets you 20% off the cheaper module(s).</p>
         <a href="/book-a-call.html" class="ax-btn-ghost ax-pricing__cta">Start My Free Audit</a>
       </div>
 
-      <!-- Package B -->
-      <div class="ax-pricing__card ax-pricing__card--featured ax-reveal ax-reveal-delay-2" id="ax-pkg-b">
-        <div class="ax-pricing__badge">Most Popular</div>
-        <div class="ax-pricing__tier-label" style="color:#7C5CE0;">Package B</div>
-        <h3 class="ax-pricing__name">Conversion System</h3>
+      <!-- Chat -->
+      <div class="ax-pricing__card ax-reveal ax-reveal-delay-2" id="ax-pkg-chat">
+        <span id="ax-pkg-b" aria-hidden="true"></span><!-- alias for old #ax-pkg-b deep links (services.html, index.html chatbot-demo CTA, vercel.json redirect) -->
+        <div class="ax-pricing__badge--founding">Founding Rate</div>
+        <div class="ax-pricing__tier-label" style="color:#7C5CE0;">Chat Module</div>
+        <h3 class="ax-pricing__name">AI Website Chatbot</h3>
         <p class="ax-pricing__tagline">Turn your website into a 24/7 booking machine</p>
         <div class="ax-pricing__price-block">
           <div class="ax-tier-switcher">
@@ -343,31 +356,30 @@
             </button>
             <div class="ax-tier__center">
               <span class="ax-tier__name">Lite</span>
-              <span class="ax-tier__mins">300 min/mo</span>
+              <span class="ax-tier__mins">3,000 msgs/mo</span>
             </div>
             <button class="ax-tier__btn ax-tier__btn--next" aria-label="Next tier">
               <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
             </button>
           </div>
-          <div class="ax-pricing__setup" data-tier-setup>SGD $999 <span>one-time setup</span></div>
-          <div class="ax-pricing__monthly" data-tier-monthly>SGD $600<span class="ax-pricing__per">/month</span></div>
-          <div class="ax-pricing__perday" data-tier-perday>Less than SGD $20 / day</div>
-          <div class="ax-pricing__tco" data-tier-tco>36-month total: SGD $22,599</div>
+          <div class="ax-pricing__setup" data-tier-setup>SGD $599 <span>one-time setup</span></div>
+          <div class="ax-pricing__monthly" data-tier-monthly>SGD $500<span class="ax-pricing__per">/month</span></div>
+          <div class="ax-pricing__perday" data-tier-perday>Less than SGD $16.67 / day</div>
+          <div class="ax-pricing__tco" data-tier-tco>36-month total: SGD $18,599</div>
           <div class="ax-pricing__agreement">36-month agreement &mdash; continuous optimisation included &nbsp;&middot;&nbsp; <a href="/terms.html" style="color:inherit;opacity:0.7;font-size:0.85em;" target="_blank">View terms</a></div>
         </div>
         <ul class="ax-pricing__features">
-          <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Everything in Package A</li>
           <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>AI website chatbot — responds to visitors in &lt;3 seconds</li>
-          <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span data-tier-messages-feature>10,000 chatbot messages / month included</span></li>
+          <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span data-tier-messages-feature>3,000 chatbot messages / month included</span></li>
           <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Lead qualification &amp; intent capture</li>
           <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Direct booking from website chat</li>
           <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Works on every website — some hosts may require a paid tier for custom code embedding</li>
         </ul>
-        <button class="ax-pricing__toggle" aria-expanded="false"><span class="ax-pricing__toggle-text">See full package details</span><svg class="ax-pricing__toggle-chevron" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>
+        <button class="ax-pricing__toggle" aria-expanded="false"><span class="ax-pricing__toggle-text">See full module details</span><svg class="ax-pricing__toggle-chevron" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>
         <div class="ax-pricing__details"><div class="ax-pricing__details-inner">
-          <div class="ax-pricing__details-group"><h4 class="ax-pricing__details-heading">Everything in Package A, plus</h4><ul class="ax-pricing__details-list"><li>AI website chatbot — responds to every visitor in under 3 seconds</li><li>Lead qualification — captures treatment interest and intent before booking</li><li>Appointment booking directly from the chat widget (no phone call needed)</li><li>Google Sheets lead dashboard — every enquiry logged with name, date, and source</li><li>Works on every website, including Shopify, WordPress, Wix, Squarespace, and Webflow — some website hosts may require a premium/paid tier to embed custom code, which we'll confirm during your discovery call</li><li>Call minutes included per tier: 300 (Lite) · 600 (Standard) · 1,200 (Pro)</li><li>Chatbot messages included per tier: 10,000 (Lite) · 30,000 (Standard) · 50,000 (Pro)</li><li>Overage billed at SGD $0.60/min — only charged on minutes beyond your included allowance</li></ul></div>
+          <div class="ax-pricing__details-group"><h4 class="ax-pricing__details-heading">What&rsquo;s included</h4><ul class="ax-pricing__details-list"><li>AI website chatbot — responds to every visitor in under 3 seconds</li><li>Lead qualification — captures treatment interest and intent before booking</li><li>Appointment booking directly from the chat widget (no phone call needed)</li><li>Google Sheets lead dashboard — every enquiry logged with name, date, and source</li><li>Works on every website, including Shopify, WordPress, Wix, Squarespace, and Webflow — some website hosts may require a premium/paid tier to embed custom code, which we'll confirm during your discovery call</li><li>Chatbot messages included per tier: 3,000 (Lite) · 10,000 (Standard) · 20,000 (Pro)</li></ul></div>
           <div class="ax-pricing__details-group"><h4 class="ax-pricing__details-heading">Setup &amp; support</h4><ul class="ax-pricing__details-list"><li>Full system built and configured — go-live within 14 days</li><li>Chatbot trained on your services, FAQs, and complete booking journey</li><li>Zapier automation setup for lead routing to your Google Sheets dashboard</li><li>Monthly performance report with enquiry volume and conversion metrics</li><li>Technical maintenance, uptime monitoring &amp; hosting — fully included in your monthly fee, always</li><li>Post-launch changes to your AI&rsquo;s trained answers, scripts, pricing, or FAQs — SGD $300 per revision request once your system is live</li></ul></div>
-          <p class="ax-pricing__details-stack">Runs on enterprise voice and chat infrastructure (VAPI, Twilio) with Anthropic Claude as the reasoning layer. We hold and manage every account and integration &mdash; you never touch a dashboard or a vendor invoice.</p>
+          <p class="ax-pricing__details-stack">Runs on Voiceflow, powered by Google Gemini as the reasoning layer. We hold and manage every account and integration &mdash; you never touch a dashboard or a vendor invoice.</p>
           <div class="ax-pricing__widget-demo">
             <p class="ax-pricing__widget-demo-label">Try it live &mdash; this is Lumina Aesthetics, a fictional clinic we built to demonstrate the website chatbot:</p>
             <div class="ax-webchat">
@@ -412,16 +424,17 @@
             <p class="ax-pricing__widget-demo-disclaimer"><em>Lumina Aesthetics is a fictional business name created solely for demonstration purposes. Any resemblance to an actual business, clinic, or trading name in Singapore or elsewhere is entirely coincidental.</em></p>
           </div>
         </div></div>
-        <p class="ax-pricing__ideal"><strong>Best for:</strong> Businesses with an active website wanting to convert traffic into booked appointments automatically.</p>
+        <p class="ax-pricing__ideal"><strong>Best for:</strong> Businesses with an active website wanting to convert traffic into booked appointments automatically. Sold standalone or bundled with Voice and/or Social — bundling gets you 20% off the cheaper module(s).</p>
         <a href="/book-a-call.html" class="ax-btn-primary ax-pricing__cta">Start My Free Audit</a>
       </div>
 
-      <!-- Package C -->
-      <div class="ax-pricing__card ax-reveal ax-reveal-delay-3" id="ax-pkg-c">
-        <div class="ax-pricing__badge">Best Value per Channel</div>
-        <div class="ax-pricing__tier-label">Package C</div>
-        <h3 class="ax-pricing__name">OmniChannel Front Desk</h3>
-        <p class="ax-pricing__tagline">Your entire front desk, automated across every channel &mdash; five channels for less per channel than two</p>
+      <!-- Social -->
+      <div class="ax-pricing__card ax-reveal ax-reveal-delay-3" id="ax-pkg-social">
+        <span id="ax-pkg-c" aria-hidden="true"></span><!-- alias for old #ax-pkg-c deep links (services.html, vercel.json redirect) -->
+        <div class="ax-pricing__badge--founding">Founding Rate</div>
+        <div class="ax-pricing__tier-label">Social Module</div>
+        <h3 class="ax-pricing__name">WhatsApp, Instagram &amp; Facebook</h3>
+        <p class="ax-pricing__tagline">Every social touchpoint covered &mdash; one AI brain across WhatsApp, Instagram &amp; Facebook</p>
         <div class="ax-pricing__price-block">
           <div class="ax-tier-switcher">
             <button class="ax-tier__btn ax-tier__btn--prev" aria-label="Previous tier">
@@ -429,43 +442,42 @@
             </button>
             <div class="ax-tier__center">
               <span class="ax-tier__name">Lite</span>
-              <span class="ax-tier__mins">300 min/mo</span>
+              <span class="ax-tier__mins">1,000 msgs/mo</span>
             </div>
             <button class="ax-tier__btn ax-tier__btn--next" aria-label="Next tier">
               <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
             </button>
           </div>
           <div class="ax-pricing__setup" data-tier-setup>SGD $1,399 <span>one-time setup</span></div>
-          <div class="ax-pricing__monthly" data-tier-monthly>SGD $899<span class="ax-pricing__per">/month</span></div>
-          <div class="ax-pricing__perday" data-tier-perday>Less than SGD $30 / day</div>
-          <div class="ax-pricing__tco" data-tier-tco>36-month total: SGD $33,763</div>
+          <div class="ax-pricing__monthly" data-tier-monthly>SGD $400<span class="ax-pricing__per">/month</span></div>
+          <div class="ax-pricing__perday" data-tier-perday>Less than SGD $13.33 / day</div>
+          <div class="ax-pricing__tco" data-tier-tco>36-month total: SGD $15,799</div>
           <div class="ax-pricing__agreement">36-month agreement &mdash; monthly strategy calls included &nbsp;&middot;&nbsp; <a href="/terms.html" style="color:inherit;opacity:0.7;font-size:0.85em;" target="_blank">View terms</a></div>
         </div>
         <ul class="ax-pricing__features">
-          <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Everything in Package B</li>
           <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Instagram &amp; Facebook Messenger automation</li>
           <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>WhatsApp Business API — replies in &lt;3 seconds</li>
-          <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>One AI brain across every channel</li>
-          <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span data-tier-messages-feature>20,000 messages / month included</span></li>
+          <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>One AI brain across every social channel</li>
+          <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span data-tier-messages-feature>1,000 messages / month included</span></li>
           <li><svg class="ax-pricing__check" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Priority support &amp; monthly optimisation calls</li>
         </ul>
-        <button class="ax-pricing__toggle" aria-expanded="false"><span class="ax-pricing__toggle-text">See full package details</span><svg class="ax-pricing__toggle-chevron" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>
+        <button class="ax-pricing__toggle" aria-expanded="false"><span class="ax-pricing__toggle-text">See full module details</span><svg class="ax-pricing__toggle-chevron" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>
         <div class="ax-pricing__details"><div class="ax-pricing__details-inner">
-          <div class="ax-pricing__details-group"><h4 class="ax-pricing__details-heading">Everything in Package B, plus</h4><ul class="ax-pricing__details-list"><li>Instagram DM automation — AI replies to every enquiry in under 3 seconds</li><li>Facebook Messenger automation — same AI, same instant response</li><li>WhatsApp Business API via 360dialog — automated replies with rich media support</li><li>Unified AI brain across phone, website, WhatsApp, Instagram, and Facebook</li><li>All leads from every channel in one consolidated Google Sheets dashboard</li><li>Revenue reporting across all channels with monthly performance breakdown</li><li>Call minutes included per tier: 300 (Lite) · 600 (Standard) · 1,200 (Pro)</li><li>Messages included per tier, across website chat, WhatsApp, Instagram and Facebook combined: 20,000 (Lite) · 60,000 (Standard) · 100,000 (Pro)</li><li>Overage billed at SGD $0.60/min — only charged on minutes beyond your included allowance</li></ul></div>
+          <div class="ax-pricing__details-group"><h4 class="ax-pricing__details-heading">What&rsquo;s included</h4><ul class="ax-pricing__details-list"><li>Instagram DM automation — AI replies to every enquiry in under 3 seconds</li><li>Facebook Messenger automation — same AI, same instant response</li><li>WhatsApp Business API via 360dialog — automated replies with rich media support</li><li>Unified AI brain across WhatsApp, Instagram, and Facebook</li><li>All leads from every social channel in one consolidated Google Sheets dashboard</li><li>Revenue reporting across all channels with monthly performance breakdown</li><li>Messages included per tier: 1,000 (Lite) · 3,000 (Standard) · 5,000 (Pro)</li></ul></div>
           <div class="ax-pricing__details-group"><h4 class="ax-pricing__details-heading">Setup &amp; support</h4><ul class="ax-pricing__details-list"><li>Full multi-channel system built and deployed — go-live within 14 days</li><li>WhatsApp API registration and Meta Business verification handled step-by-step by us, on your business's own accounts</li><li>Instagram and Facebook page integration setup included</li><li>Monthly optimisation calls — review metrics and refine AI responses</li><li>Priority support — dedicated response within 4 hours, 7 days a week</li><li>Custom workflows for complex booking and intake scenarios</li><li>Technical maintenance, uptime monitoring &amp; hosting — fully included in your monthly fee, always</li><li>Post-launch changes to your AI&rsquo;s trained answers, scripts, pricing, or FAQs — SGD $300 per revision request once your system is live</li></ul></div>
           <div class="ax-pricing__details-group"><h4 class="ax-pricing__details-heading">What we need from you</h4><ul class="ax-pricing__details-list"><li>A Meta Business Manager account with your business verified — Meta only grants WhatsApp, Instagram &amp; Messenger access to a verified business, not to an agency on your behalf</li><li>WhatsApp: a phone number not currently active on personal WhatsApp or the WhatsApp Business App, to dedicate to your AI line</li><li>Instagram: a Professional (Business or Creator) account, linked to your Facebook Page</li><li>Facebook Messenger: your Facebook Page — Messenger runs through the same Page as Instagram, so one Page covers both channels</li><li>Temporary admin access to these accounts while we complete setup — handed back to you once the integration goes live</li><li>Any WhatsApp per-message fees are billed directly to your business's 360dialog account, passed through at cost — never marked up or bundled into our fee</li></ul></div>
-          <p class="ax-pricing__details-stack">Runs on enterprise voice and messaging infrastructure (VAPI, Twilio, Meta&rsquo;s WhatsApp Business API via 360dialog) with Anthropic Claude as the reasoning layer. We hold and manage every account &mdash; you never touch a dashboard or a vendor invoice.</p>
+          <p class="ax-pricing__details-stack">Runs on Meta&rsquo;s WhatsApp Business API via 360dialog, with Anthropic Claude as the reasoning layer. We hold and manage every account &mdash; you never touch a dashboard or a vendor invoice.</p>
         </div></div>
-        <p class="ax-pricing__ideal"><strong>Best for:</strong> Clinics and businesses ready to fully automate every customer touchpoint across every channel.</p>
+        <p class="ax-pricing__ideal"><strong>Best for:</strong> Clinics, gyms and businesses whose clients reach them mainly through WhatsApp, Instagram or Facebook rather than phone or web — a genuine, standalone product in its own right, not an add-on. Sold standalone or bundled with Voice and/or Chat — bundling gets you 20% off the cheaper module(s).</p>
         <a href="/book-a-call.html" class="ax-btn-ghost ax-pricing__cta">Start My Free Audit</a>
       </div>
 
     </div>
     <div class="ax-pricing__footer ax-reveal ax-reveal-delay-4">
       <p>&#128274; All systems built and managed by our team &nbsp;&middot;&nbsp; 14-day setup &nbsp;&middot;&nbsp; 36-month service agreement</p>
-      <p style="margin-top:10px;font-size:0.8rem;opacity:0.6;">Not sure which package fits your business? <a href="/results.html#ax-roi" style="color:var(--ax-accent);text-decoration:none;opacity:1;">Use the ROI Calculator</a> &mdash; it will recommend the right one for your numbers.</p>
+      <p style="margin-top:10px;font-size:0.8rem;opacity:0.6;">Not sure which modules fit your business? <a href="/results.html#ax-roi" style="color:var(--ax-accent);text-decoration:none;opacity:1;">Use the ROI Calculator</a> &mdash; it will recommend the right combination for your numbers.</p>
     </div>
-    <p class="ax-pricing__terms-summary"><strong>Before you book:</strong> every package is a 36-month minimum term, starting from your go-live date, not your signing date. The one-time setup fee and Monthly Subscription are both collected by card via Stripe. Call-minute overage is billed at SGD $0.60/min, invoiced in arrears and payable within 14 days. You can exit early with 60 days&rsquo; written notice &mdash; the remaining monthly fees become payable, capped at a maximum of 6 months. All prices on this page are in SGD and exclude GST &mdash; Axoncore is not currently GST-registered, so GST isn&rsquo;t added to invoices today. Full detail in <a href="/terms.html#t5">&sect;5</a>&ndash;<a href="/terms.html#t7">7</a> of our Terms.</p>
+    <p class="ax-pricing__terms-summary"><strong>Before you book:</strong> every module is a 36-month minimum term, starting from your go-live date, not your signing date. The one-time setup fee and Monthly Subscription are both collected by card via Stripe. Call-minute overage is billed at SGD $0.60/min, invoiced in arrears and payable within 14 days. You can exit early with 60 days&rsquo; written notice &mdash; the remaining monthly fees become payable, capped at a maximum of 6 months. All prices on this page are in SGD and exclude GST &mdash; Axoncore is not currently GST-registered, so GST isn&rsquo;t added to invoices today. Full detail in <a href="/terms.html#t5">&sect;5</a>&ndash;<a href="/terms.html#t7">7</a> of our Terms.</p>
   </div>
 </section>
 
@@ -481,13 +493,14 @@
       <div class="ax-faq__item"><button type="button" class="ax-faq__q" aria-expanded="false"><span class="ax-faq__q-text">How do I actually pay?</span><svg class="ax-faq__icon" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></button><p class="ax-faq__a">By card via Stripe. You&rsquo;ll add a payment method before your setup fee is charged, and your Monthly Subscription and any overage are billed automatically to the same card each cycle.</p></div>
       <div class="ax-faq__item"><button type="button" class="ax-faq__q" aria-expanded="false"><span class="ax-faq__q-text">What happens if I want to cancel?</span><svg class="ax-faq__icon" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></button><p class="ax-faq__a">Email <a href="mailto:helloaxoncore@gmail.com">helloaxoncore@gmail.com</a> with 60 days&rsquo; written notice. If you&rsquo;re inside the 36-month term, an early termination fee applies — the remaining monthly fees, capped at 6 months (<a href="/terms.html#t7">&sect;7.2</a>). After the term, it&rsquo;s month-to-month with 30 days&rsquo; notice.</p></div>
       <div class="ax-faq__item"><button type="button" class="ax-faq__q" aria-expanded="false"><span class="ax-faq__q-text">What happens to my data if we part ways?</span><svg class="ax-faq__icon" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></button><p class="ax-faq__a">We hold your business data for up to 30 days after termination. Request deletion in writing to <a href="mailto:helloaxoncore@gmail.com">helloaxoncore@gmail.com</a> and we&rsquo;ll securely delete it within 30 days (<a href="/terms.html#t12">&sect;12.3</a>).</p></div>
-      <div class="ax-faq__item"><button type="button" class="ax-faq__q" aria-expanded="false"><span class="ax-faq__q-text">What if I get more calls than my plan?</span><svg class="ax-faq__icon" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></button><p class="ax-faq__a">Overage is billed at $0.60/min beyond your included minutes. For example, on Lite (300 min, $145/mo), going 100 minutes over costs an extra $60 &mdash; $205 total that month. If you&rsquo;re regularly running over by that much, moving up a tier is usually cheaper: Standard gives you 600 minutes for $250/mo. We help you pick the right tier during the discovery call to avoid this in the first place.</p></div>
-      <div class="ax-faq__item"><button type="button" class="ax-faq__q" aria-expanded="false"><span class="ax-faq__q-text">Can I upgrade my package or tier later?</span><svg class="ax-faq__icon" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></button><p class="ax-faq__a">Yes, anytime. You can move up a tier (Lite → Standard → Pro) or add more channels (Package A → B → C) as your business grows.</p></div>
+      <div class="ax-faq__item"><button type="button" class="ax-faq__q" aria-expanded="false"><span class="ax-faq__q-text">What if I get more calls than my plan?</span><svg class="ax-faq__icon" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></button><p class="ax-faq__a">Overage is billed at $0.60/min beyond your included Voice minutes. For example, on Voice Starter (300 min, $170/mo), going 100 minutes over costs an extra $60 &mdash; $230 total that month. If you&rsquo;re regularly running over by that much, moving up a tier is usually cheaper: Lite gives you 600 minutes for $300/mo. We help you pick the right tier during the discovery call to avoid this in the first place.</p></div>
+      <div class="ax-faq__item"><button type="button" class="ax-faq__q" aria-expanded="false"><span class="ax-faq__q-text">Can I upgrade my modules or tiers later?</span><svg class="ax-faq__icon" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></button><p class="ax-faq__a">Yes, anytime. You can move up a tier within any module, or add another module — Voice, Chat, or Social — to your setup. Adding a module gets you the bundle discount: 20% off the cheaper module&rsquo;s monthly fee.</p></div>
       <div class="ax-faq__item"><button type="button" class="ax-faq__q" aria-expanded="false"><span class="ax-faq__q-text">Do you handle all the technical setup?</span><svg class="ax-faq__icon" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></button><p class="ax-faq__a">Completely. You don't touch any configuration. We provision your phone number, integrate your booking system, and train the AI — then hand you a working system.</p></div>
       <div class="ax-faq__item"><button type="button" class="ax-faq__q" aria-expanded="false"><span class="ax-faq__q-text">Can I change what my AI says after it's live?</span><svg class="ax-faq__icon" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></button><p class="ax-faq__a">Technical maintenance, uptime, and hosting are always included in your monthly fee — that never changes. Once your system is trained, tested, and live, revisiting and reconfiguring its trained answers, scripts, pricing, or FAQs is a separate SGD $300 per request, since it means our team going back into your live configuration. We recommend reviewing everything carefully before go-live to get it right the first time.</p></div>
       <div class="ax-faq__item"><button type="button" class="ax-faq__q" aria-expanded="false"><span class="ax-faq__q-text">What happens after the 36-month term?</span><svg class="ax-faq__icon" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></button><p class="ax-faq__a">Your system continues running and you move to a month-to-month arrangement. We'll also discuss what improvements are available with any newer AI capabilities.</p></div>
-      <div class="ax-faq__item"><button type="button" class="ax-faq__q" aria-expanded="false"><span class="ax-faq__q-text">What's the difference between Package A, B, and C?</span><svg class="ax-faq__icon" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></button><p class="ax-faq__a">Package A — Frontline Reception is the AI voice receptionist only (phone calls), from SGD $145/month. Package B — Conversion System adds an AI website chatbot that books appointments from chat, from SGD $600/month. Package C — OmniChannel Front Desk adds WhatsApp, Instagram and Facebook on top of that, from SGD $899/month. Each package has Lite, Standard and Pro tiers priced by monthly call volume.</p></div>
-      <div class="ax-faq__item"><button type="button" class="ax-faq__q" aria-expanded="false"><span class="ax-faq__q-text">Which package and tier should I choose?</span><svg class="ax-faq__icon" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></button><p class="ax-faq__a">Tier is driven by phone call volume: under 120 calls/month fits Lite, 120–250 calls/month fits Standard, and 250+ calls/month fits Pro. Package is driven by which channels you need covered — phone only (A), phone plus website chat (B), or phone, website, WhatsApp, Instagram and Facebook (C). We help confirm the right combination during the discovery call.</p></div>
+      <div class="ax-faq__item"><button type="button" class="ax-faq__q" aria-expanded="false"><span class="ax-faq__q-text">What's the difference between Voice, Chat, and Social?</span><svg class="ax-faq__icon" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></button><p class="ax-faq__a">They're three independent modules, not tiers of the same product. Voice is your AI phone receptionist, from SGD $170/month. Chat is an AI website chatbot, from SGD $500/month. Social automates WhatsApp, Instagram and Facebook, from SGD $400/month. Buy any one standalone, or combine any two or all three — combining gets you a 20% discount on the cheaper module(s).</p></div>
+      <div class="ax-faq__item"><button type="button" class="ax-faq__q" aria-expanded="false"><span class="ax-faq__q-text">Which modules and tiers should I choose?</span><svg class="ax-faq__icon" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></button><p class="ax-faq__a">Choose modules based on where your enquiries actually come in — phone (Voice), website (Chat), WhatsApp, Instagram or Facebook (Social) — any combination is fine, including just one. Tier within each module is driven by volume: for Voice, under 120 calls/month fits Starter, 120–240 fits Lite, 240–600 fits Standard, and 600+ fits Pro. For Chat and Social, tier is driven by expected monthly message volume. We help confirm the right combination during the discovery call, or use the ROI Calculator for a starting recommendation.</p></div>
+      <div class="ax-faq__item"><button type="button" class="ax-faq__q" aria-expanded="false"><span class="ax-faq__q-text">What's the bundle discount?</span><svg class="ax-faq__icon" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></button><p class="ax-faq__a">When you combine two or three modules, the single most expensive module stays full price and every other module gets 20% off its monthly fee. For example, Voice Pro (SGD $1,600/mo) plus Chat Lite (SGD $500/mo) becomes SGD $1,600 + $400 = $2,000/mo instead of $2,100. Setup fees are never discounted, since they reflect real one-time build work regardless of how many modules you're adding. Full detail in <a href="/terms.html#t5">&sect;5.7</a> of our Terms.</p></div>
     </div>
   </div>
 </section>
@@ -524,6 +537,7 @@
 <script>document.getElementById('ax-year').textContent=new Date().getFullYear();</script>
 <script src="main.js"></script>
 <script src="pricing-data.js"></script>
+<script src="bundle-pricing.js"></script>
 <script src="tier.js"></script>
 <script src="router.js"></script>
 <!-- Lumina Aesthetics chatbot demo, moved here from the retired demo.html —

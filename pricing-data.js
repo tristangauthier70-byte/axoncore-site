@@ -2,12 +2,14 @@
    AXONCORE — Canonical Pricing Data
    ============================================================
    Single source of truth for setup fees, monthly fees, minute
-   allowances and chatbot-message allowances, across all three
-   packages and their tiers.
+   allowances and message allowances, across all three modules
+   (Voice / Chat / Social) and their tiers. Modules are sold
+   standalone or bundled — see bundle-pricing.js for the
+   20%-off-the-cheaper-module(s) discount rule.
 
-   Loaded before tier.js (pricing.html) and roi.js (results.html).
-   If a price changes, change it ONCE, here — never inside tier.js
-   or roi.js directly.
+   Loaded before bundle-pricing.js, tier.js (pricing.html) and
+   roi.js (results.html). If a price changes, change it ONCE,
+   here — never inside tier.js, router.js or roi.js directly.
 
    Two things this file does NOT reach, and which still have to be
    updated by hand when a price changes, because they're read by
@@ -17,33 +19,42 @@
         executed JS, so those numbers are necessarily duplicated.
      2. api/chat.js — Riley's own ground-truth pricing knowledge
         for the live chat/voice demo, evaluated server-side.
-   Both carry a comment pointing back to this file. Grep this repo
-   for "AXONCORE_PRICING" before you ship a price change to confirm
-   every reference moved together.
+     3. llms.txt — the AI-crawler-facing summary, actively read by
+        GPTBot/ClaudeBot/PerplexityBot per robots.txt.
+   All three carry a comment pointing back to this file. Grep this
+   repo for "AXONCORE_MODULES" before you ship a price change to
+   confirm every reference moved together.
    ============================================================ */
-window.AXONCORE_PRICING = {
-  a: [
-    { name: 'Lite',       minutes: 300,  price: 145,  setup: 599  },
-    { name: 'Standard',   minutes: 600,  price: 250,  setup: 599  },
-    { name: 'Pro',        minutes: 1200, price: 450,  setup: 599  },
-    { name: 'Enterprise', enterprise: true }
-  ],
-  b: [
-    { name: 'Lite',       minutes: 300,  messages: 10000, price: 600,  setup: 999  },
-    { name: 'Standard',   minutes: 600,  messages: 30000, price: 705,  setup: 999  },
-    { name: 'Pro',        minutes: 1200, messages: 50000, price: 905,  setup: 999  },
-    { name: 'Enterprise', enterprise: true }
-  ],
-  c: [
-    { name: 'Lite',       minutes: 300,  messages: 20000,  price: 899,  setup: 1399 },
-    { name: 'Standard',   minutes: 600,  messages: 60000,  price: 1199, setup: 1399 },
-    { name: 'Pro',        minutes: 1200, messages: 100000, price: 1399, setup: 1399 },
-    { name: 'Enterprise', enterprise: true }
-  ]
-};
-
-window.AXONCORE_PACKAGE_NAMES = {
-  a: 'Package A — Frontline Reception',
-  b: 'Package B — Conversion System',
-  c: 'Package C — OmniChannel Front Desk'
+window.AXONCORE_MODULES = {
+  voice: {
+    label: 'Voice — AI Phone Receptionist',
+    unit: 'minutes',
+    tiers: [
+      { name: 'Starter',    minutes: 300,  price: 170,  setup: 599, band: 'under ~120 calls/mo' },
+      { name: 'Lite',       minutes: 600,  price: 300,  setup: 599, band: '~120–240 calls/mo' },
+      { name: 'Standard',   minutes: 1500, price: 700,  setup: 599, band: '~240–600 calls/mo' },
+      { name: 'Pro',        minutes: 3500, price: 1600, setup: 599, band: '~600+ calls/mo' },
+      { name: 'Enterprise', enterprise: true }
+    ]
+  },
+  chat: {
+    label: 'Chat — AI Website Chatbot',
+    unit: 'messages',
+    tiers: [
+      { name: 'Lite',       messages: 3000,  price: 500,  setup: 599 },
+      { name: 'Standard',   messages: 10000, price: 999,  setup: 599 },
+      { name: 'Pro',        messages: 20000, price: 1500, setup: 599 },
+      { name: 'Enterprise', enterprise: true }
+    ]
+  },
+  social: {
+    label: 'Social — WhatsApp / Instagram / Facebook',
+    unit: 'messages',
+    tiers: [
+      { name: 'Lite',       messages: 1000, price: 400,  setup: 1399 },
+      { name: 'Standard',   messages: 3000, price: 1000, setup: 1399 },
+      { name: 'Pro',        messages: 5000, price: 1500, setup: 1399 },
+      { name: 'Enterprise', enterprise: true }
+    ]
+  }
 };

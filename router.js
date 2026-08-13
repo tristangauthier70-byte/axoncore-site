@@ -1,91 +1,129 @@
 /* ============================================================
-   AXONCORE — Two-Question Pricing Router
+   AXONCORE — Module Picker + Live Bundle Total
    ============================================================
-   Riley qualifies a caller in two questions (channel, then call
-   volume) before recommending a package — see riley-dialogue-spec.md.
-   The website asked visitors nothing and made them self-diagnose
-   from three feature-list cards. This is the same two questions,
-   on the page that actually needs them.
+   Voice, Chat and Social are three independent modules, each
+   with its own tier a visitor can step through — unlike the old
+   package model, a single "which package" question can't
+   determine a whole bundle's price anymore, since e.g. Voice
+   Pro + Chat Lite needs two independently-chosen tiers.
 
-   Uses the same volume bands as api/chat.js's tier logic (under 120
-   -> Lite, 120-249 -> Standard, 250+ -> Pro) — as discrete buttons,
-   not a live boundary calculation, which is the class of bug that
-   comment in api/chat.js specifically warns about. Reads prices from
-   pricing-data.js (window.AXONCORE_PRICING), loaded before this file.
+   Checkboxes (not radios) show/hide each module's pricing card;
+   the tier steppers on those cards already exist (tier.js) and
+   are reused as-is here rather than re-implemented. Every change
+   — a checkbox toggling, or a tier stepper click on a visible
+   card (tier.js dispatches 'ax-tier-change' for both) — recomputes
+   the bundle total via computeBundlePrice(), so this bar can never
+   show a number the pricing cards below it don't agree with.
+
+   Reads from pricing-data.js (window.AXONCORE_MODULES) and
+   bundle-pricing.js (window.computeBundlePrice), both loaded
+   before this file.
    ============================================================ */
 (function () {
   'use strict';
 
+  var DISCOUNT = 0.20;
+
   document.addEventListener('DOMContentLoaded', function () {
     var root = document.getElementById('ax-router');
-    if (!root || !window.AXONCORE_PRICING) return;
+    if (!root || !window.AXONCORE_MODULES || !window.computeBundlePrice) return;
 
-    var step1    = root.querySelector('[data-step="1"]');
-    var step2    = root.querySelector('[data-step="2"]');
-    var resultEl = document.getElementById('ax-router-result');
-    var chosenPkg = null;
+    var checks = root.querySelectorAll('.ax-router__check input[type="checkbox"]');
+    var bar    = document.getElementById('ax-router-bundle-bar');
+    if (!checks.length || !bar) return;
 
-    function selectOpt(group, btn) {
-      group.querySelectorAll('.ax-router__opt').forEach(function (b) {
-        b.classList.remove('is-active');
-        b.setAttribute('aria-pressed', 'false');
+    function selectedModules() {
+      var selected = [];
+      checks.forEach(function (cb) {
+        if (cb.checked) selected.push(cb.dataset.module);
       });
-      btn.classList.add('is-active');
-      btn.setAttribute('aria-pressed', 'true');
+      return selected;
     }
 
-    step1.querySelectorAll('.ax-router__opt').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        selectOpt(step1, btn);
-        chosenPkg = btn.dataset.pkg;
-        step2.hidden = false;
-        // Re-answering question 1 should re-open question 2 fresh rather
-        // than leave a stale result from a previous package showing.
-        resultEl.hidden = true;
-        step2.querySelectorAll('.ax-router__opt').forEach(function (b) {
-          b.classList.remove('is-active');
-          b.setAttribute('aria-pressed', 'false');
-        });
-        step2.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    function cardFor(key) {
+      return document.getElementById('ax-pkg-' + key);
+    }
+
+    function updateCardVisibility() {
+      var selected = selectedModules();
+      Object.keys(window.AXONCORE_MODULES).forEach(function (key) {
+        var card = cardFor(key);
+        if (card) card.hidden = (selected.indexOf(key) === -1);
       });
-    });
+    }
 
-    step2.querySelectorAll('.ax-router__opt').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        selectOpt(step2, btn);
-        showResult(chosenPkg, parseInt(btn.dataset.tier, 10));
+    function updateBundleBar() {
+      var selected = selectedModules();
+
+      if (selected.length === 0) {
+        bar.innerHTML = '<p class="ax-router__bundle-total">Select at least one channel above to see pricing.</p>';
+        return;
+      }
+
+      var selections = selected.map(function (key) {
+        var card = cardFor(key);
+        var idx  = card ? parseInt(card.dataset.tierIdx || '0', 10) : 0;
+        return { module: key, tierIdx: idx };
       });
-    });
 
-    function showResult(pkg, tierIdx) {
-      var tier = window.AXONCORE_PRICING[pkg][tierIdx];
-      var name = window.AXONCORE_PACKAGE_NAMES[pkg];
-      var msgPart = tier.messages
-        ? (' and ' + tier.messages.toLocaleString() + ' chatbot messages')
-        : '';
+      var result = window.computeBundlePrice(selections, DISCOUNT);
 
-      resultEl.innerHTML =
-        '<p class="ax-router__result-pkg">' + name + ' &middot; ' + tier.name + ' tier</p>' +
-        '<p class="ax-router__result-detail">SGD $' + tier.setup.toLocaleString() + ' setup + SGD $' +
-          tier.price.toLocaleString() + '/month &middot; ' + tier.minutes.toLocaleString() +
-          ' call minutes' + msgPart + ' included &middot; 36-month agreement</p>' +
-        '<div class="ax-router__result-actions">' +
-          '<button type="button" class="ax-router__result-view" id="ax-router-view">See the full card &darr;</button>' +
-          '<a href="/book-a-call.html?pkg=' + pkg + '&amp;tier=' + tier.name.toLowerCase() +
-            '" class="ax-router__result-book">Book a call &rarr;</a>' +
-        '</div>';
-      resultEl.hidden = false;
-      resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (result.enterprise) {
+        bar.innerHTML = '<p class="ax-router__bundle-total">Custom pricing for this combination — <a href="/book-a-call.html" class="ax-router__result-book">book a call &rarr;</a></p>';
+        return;
+      }
 
-      document.getElementById('ax-router-view').addEventListener('click', function () {
-        if (window.axSetTier) window.axSetTier(pkg, tierIdx);
-        var card = document.getElementById('ax-pkg-' + pkg);
+      var lineHtml = result.lines.map(function (l) {
+        var shortName = window.AXONCORE_MODULES[l.module].label.split(' — ')[0];
+        var priceStr  = 'SGD $' + l.finalPrice.toLocaleString() + '/mo';
+        if (l.discounted) priceStr += ' <span class="ax-router__bundle-discount">20% off</span>';
+        return '<span class="ax-router__bundle-line"><strong>' + shortName + '</strong> ' + priceStr + '</span>';
+      }).join('');
+
+      bar.innerHTML =
+        '<div class="ax-router__bundle-lines">' + lineHtml + '</div>' +
+        '<p class="ax-router__bundle-total">SGD $' + result.monthlyTotal.toLocaleString() +
+          '<span class="ax-pricing__per">/month</span> &nbsp;+&nbsp; SGD $' + result.setupTotal.toLocaleString() + ' setup</p>' +
+        '<a href="/book-a-call.html" class="ax-router__result-book">Book a call &rarr;</a>';
+    }
+
+    function flashVisibleCards() {
+      selectedModules().forEach(function (key) {
+        var card = cardFor(key);
         if (!card) return;
-        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
         card.classList.remove('ax-pricing__card--flash');
-        void card.offsetWidth; /* restart the animation on repeat clicks */
+        void card.offsetWidth; /* restart the animation on repeat toggles */
         card.classList.add('ax-pricing__card--flash');
       });
     }
+
+    checks.forEach(function (cb) {
+      cb.addEventListener('change', function () {
+        cb.closest('.ax-router__check').classList.toggle('is-active', cb.checked);
+
+        updateCardVisibility();
+        updateBundleBar();
+        flashVisibleCards();
+
+        if (cb.checked) {
+          var card = cardFor(cb.dataset.module);
+          if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
+    });
+
+    // tier.js fires this on every stepper click, and once per card on
+    // page load — recalculating here means the bar always matches
+    // whatever tier a visible card is actually showing, without this
+    // file needing to know anything about tier.js's button markup.
+    document.addEventListener('ax-tier-change', function () {
+      updateBundleBar();
+    });
+
+    // All three modules start checked to match the site's existing
+    // "show everything" default — unchecking narrows the bundle rather
+    // than starting from an empty page.
+    updateCardVisibility();
+    updateBundleBar();
   });
 })();
