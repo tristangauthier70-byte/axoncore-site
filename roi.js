@@ -233,7 +233,7 @@
 
     if (!r.bundle || !r.bundle.lines || !r.bundle.lines.length) {
       nameEl.textContent   = 'Select a channel above';
-      detailEl.textContent = 'Check at least one of Phone / Website / WhatsApp, Instagram & Facebook to see a recommendation.';
+      detailEl.textContent = 'Check at least one of Phone / Website / WhatsApp to see a recommendation.';
       recEl.classList.add('ax-roi__rec--visible');
       return;
     }

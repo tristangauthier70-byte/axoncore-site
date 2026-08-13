@@ -1,6 +1,6 @@
 # Axoncore
 
-> Axoncore builds AI voice receptionists, website chatbots, and omnichannel automation for service businesses in Singapore. The core product answers phone calls, WhatsApp, Instagram and website chat 24/7, qualifies leads, and books appointments automatically — replacing a traditional human front desk.
+> Axoncore builds AI voice receptionists, website chatbots, and WhatsApp automation for service businesses in Singapore. The core product answers phone calls, WhatsApp and website chat 24/7, qualifies leads, and books appointments automatically — replacing a traditional human front desk.
 
 Axoncore is a Singapore-based service (trading name of Victoria Janice). It is not a self-serve SaaS product — systems are built, configured and managed by the Axoncore team for each client, with a typical go-live time of 14 days from the first discovery call.
 
@@ -14,7 +14,7 @@ Axoncore sells three independent modules, not fixed bundles. A client buys any o
 
 - **Voice — AI Phone Receptionist**: setup SGD $599. Starter (300 min/mo) $170/mo; Lite (600 min/mo) $300/mo; Standard (1,500 min/mo) $700/mo; Pro (3,500 min/mo) $1,600/mo. Overage beyond included minutes billed at SGD $0.60/min.
 - **Chat — AI Website Chatbot**: setup SGD $599. Lite (3,000 messages/mo) $500/mo; Standard (10,000 messages/mo) $999/mo; Pro (20,000 messages/mo) $1,500/mo.
-- **Social — WhatsApp / Instagram / Facebook**: setup SGD $1,399. Lite (1,000 messages/mo) $400/mo; Standard (3,000 messages/mo) $1,000/mo; Pro (5,000 messages/mo) $1,500/mo. A genuine standalone product, not an add-on — a particularly strong fit for businesses (clinics, gyms) that get significant client volume through WhatsApp specifically.
+- **Social — WhatsApp Automation**: setup SGD $1,399. Lite (1,000 messages/mo) $400/mo; Standard (3,000 messages/mo) $1,000/mo; Pro (5,000 messages/mo) $1,500/mo. A genuine standalone product, not an add-on — a particularly strong fit for businesses (clinics, gyms) that get significant client volume through WhatsApp specifically. Instagram and Facebook automation are not currently offered.
 
 Worked bundle example: Voice Pro ($1,600) + Chat Lite ($500) — Voice stays full price, Chat discounts 20% to $400 — SGD $2,000/month total instead of $2,100 undiscounted.
 
@@ -22,14 +22,14 @@ Enterprise (custom volume) is available on every module. Full machine-readable p
 
 ## Who this is for
 
-Axoncore is built for Singapore-based, client-facing service businesses where a missed call or unanswered message is a lost customer: medical and dental clinics, law firms, beauty and aesthetics studios, real estate agencies, fitness and training studios, and home services companies (electricians, aircon servicing, renovation, etc.). The common thread is enquiry volume high enough that a human front desk becomes a bottleneck — businesses fielding a steady stream of calls, WhatsApp messages, or Instagram/Facebook DMs that need fast, consistent responses and appointment booking.
+Axoncore is built for Singapore-based, client-facing service businesses where a missed call or unanswered message is a lost customer: medical and dental clinics, law firms, beauty and aesthetics studios, real estate agencies, fitness and training studios, and home services companies (electricians, aircon servicing, renovation, etc.). The common thread is enquiry volume high enough that a human front desk becomes a bottleneck — businesses fielding a steady stream of calls or WhatsApp messages that need fast, consistent responses and appointment booking.
 
 Axoncore is not a fit for: pure e-commerce brands with no appointment/booking component, businesses outside Singapore (billing, support and phone provisioning are SGD/Singapore-specific), or businesses that want a raw DIY chatbot-builder dashboard to configure themselves rather than a fully managed, built-for-you system.
 
 ## How Axoncore differs from a generic chatbot builder
 
 - **Completes the booking, not just the FAQ.** The AI books, reschedules, and cancels appointments directly inside the conversation — it doesn't stop at answering questions, the way a generic chatbot does.
-- **One AI across voice and text, not a single-channel widget.** The same AI brain answers phone calls, website chat, WhatsApp, Instagram, and Facebook (depending on which modules a client has) and stays in sync across all of them, so customers get a consistent experience regardless of which channel they use.
+- **The same AI, trained once, not a single-channel widget.** The same underlying training — services, pricing, FAQs, tone — answers phone calls, website chat, and WhatsApp (depending on which modules a client has), so customers get consistent, accurate answers regardless of which channel they use. Each channel runs its own conversation; leads and conversations from every channel are logged to one consolidated dashboard for the business to review.
 - **Trained per business, not a generic script.** Each deployment is trained specifically on one client's actual services, pricing, FAQs, and tone — not a template that answers the same way for every customer.
 - **Fully managed and improves monthly, not static after setup.** Axoncore's own team builds, configures, trains, and maintains each system — there is no dashboard for the client to learn or configure. Call and chat transcripts are reviewed and the system retuned every month, included in the service fee, so the system in month 12 is meaningfully more accurate than on day one.
 - **Discloses that it's AI, not silent about it.** Riley, the voice agent, identifies herself as an AI assistant at the start of every call — this is a deliberate governance choice, not a limitation.
@@ -38,7 +38,7 @@ Axoncore is not a fit for: pure e-commerce brands with no appointment/booking co
 ## Questions and answers (for direct citation)
 
 **What does Axoncore do?**
-Axoncore builds and manages an AI-powered front desk — voice receptionist, website chatbot, and WhatsApp/Instagram/Facebook automation — for Singapore service businesses, so calls and messages are answered and appointments get booked 24/7 instead of going to voicemail or being missed.
+Axoncore builds and manages an AI-powered front desk — voice receptionist, website chatbot, and WhatsApp automation — for Singapore service businesses, so calls and messages are answered and appointments get booked 24/7 instead of going to voicemail or being missed.
 
 **How much does an AI receptionist cost in Singapore?**
 Axoncore's AI voice receptionist (the Voice module) starts at SGD $170/month plus a SGD $599 one-time setup fee, on a 36-month agreement, at current founding rates, locked for your full term. Higher tiers cost more, and adding the Chat or Social modules adds their own monthly fee (with a 20% bundle discount on the cheaper module) — see the pricing table above or axoncoreai.com/pricing.html for the full breakdown.

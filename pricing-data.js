@@ -48,7 +48,7 @@ window.AXONCORE_MODULES = {
     ]
   },
   social: {
-    label: 'Social — WhatsApp / Instagram / Facebook',
+    label: 'Social — WhatsApp Automation',
     unit: 'messages',
     tiers: [
       { name: 'Lite',       messages: 1000, price: 400,  setup: 1399 },

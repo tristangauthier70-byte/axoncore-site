@@ -314,7 +314,7 @@
   function initTyped() {
     const el = document.getElementById('ax-typed');
     if (!el) return;
-    const words = ['Phone Calls', 'WhatsApp', 'Instagram', 'Your Website', 'Facebook'];
+    const words = ['Phone Calls', 'WhatsApp', 'Your Website'];
     let wordIndex = 0, charIndex = 0, deleting = false;
 
     function type() {
