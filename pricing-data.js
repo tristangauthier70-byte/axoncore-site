@@ -41,6 +41,7 @@ window.AXONCORE_MODULES = {
     label: 'Chat — AI Website Chatbot',
     unit: 'messages',
     tiers: [
+      { name: 'Starter',    messages: 1500,  price: 300,  setup: 599 },
       { name: 'Lite',       messages: 3000,  price: 500,  setup: 599 },
       { name: 'Standard',   messages: 10000, price: 999,  setup: 599 },
       { name: 'Pro',        messages: 20000, price: 1500, setup: 599 },
@@ -51,9 +52,10 @@ window.AXONCORE_MODULES = {
     label: 'Social — WhatsApp Automation',
     unit: 'messages',
     tiers: [
-      { name: 'Lite',       messages: 1000, price: 400,  setup: 1399 },
-      { name: 'Standard',   messages: 3000, price: 1000, setup: 1399 },
-      { name: 'Pro',        messages: 5000, price: 1500, setup: 1399 },
+      { name: 'Starter',    messages: 1000,  price: 400,  setup: 1399 },
+      { name: 'Lite',       messages: 3000,  price: 1000, setup: 1399 },
+      { name: 'Standard',   messages: 5000,  price: 1500, setup: 1399 },
+      { name: 'Pro',        messages: 10000, price: 2500, setup: 1399 },
       { name: 'Enterprise', enterprise: true }
     ]
   }
