@@ -590,7 +590,7 @@ module.exports = async function handler(req, res) {
         finalReply = SAFE_FALLBACK_REPLY;
         break;
       }
-      const outcomes = await Promise.all(toolUseBlocks.map((tu) => executeBookingTool(tu.name, tu.input)));
+      const outcomes = await Promise.all(toolUseBlocks.map((tu) => executeBookingTool(tu.name, tu.input, 'chat')));
       const toolResults = outcomes.map((outcome, idx) => ({
         type: 'tool_result',
         tool_use_id: toolUseBlocks[idx].id,

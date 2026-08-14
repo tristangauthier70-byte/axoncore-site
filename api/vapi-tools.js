@@ -113,7 +113,7 @@ module.exports = async function handler(req, res) {
           args = {};
         }
       }
-      const outcome = await executeBookingTool(name, args);
+      const outcome = await executeBookingTool(name, args, 'voice');
       console.log('vapi-tools.js: tool call', name, 'ok=', outcome.ok, 'args=', JSON.stringify(args));
       return { toolCallId: call.id, result: outcome.message };
     })

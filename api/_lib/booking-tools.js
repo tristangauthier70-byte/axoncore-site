@@ -14,6 +14,18 @@
 // rename, not a real transform.
 
 const { getAvailableSlots, bookMeeting, formatSlotLocal, findMatchingBooking, cancelBooking } = require('./calendly');
+const { notifyBookingOutcome } = require('./email');
+
+// Never let a notification-email failure surface as a booking-flow failure
+// — the visitor's actual booking/cancel/reschedule result is already
+// decided by this point, this is a best-effort side channel only.
+async function notify(params) {
+  try {
+    await notifyBookingOutcome(params);
+  } catch (err) {
+    console.error('booking-tools.js: notification email failed', err);
+  }
+}
 
 const CHECK_AVAILABILITY_TOOL = {
   name: 'check_availability',
@@ -158,7 +170,9 @@ function pickSpreadSlots(slots, count) {
 // directly and what Claude reads as the tool_result to paraphrase in
 // Riley's own voice. Never throws; every failure path (Calendly down, bad
 // input, slot taken) resolves to a graceful message, never a raw error.
-async function executeBookingTool(name, rawInput) {
+// surface: 'chat' | 'voice' | undefined — which Riley the call came from,
+// used only to label the notification email, never to change behavior.
+async function executeBookingTool(name, rawInput, surface) {
   const input = rawInput || {};
 
   if (name === 'check_availability') {
@@ -243,11 +257,31 @@ async function executeBookingTool(name, rawInput) {
       // bug: name the exact failure mode directly in the tool result rather
       // than trust the model to avoid it unprompted.
       const spokenDate = formatSlotLocal(result.startTimeISO);
+      await notify({
+        surface,
+        outcome: 'booked',
+        name: input.name.trim(),
+        email: input.email.trim(),
+        phone: input.phone.trim(),
+        timeLocal: spokenDate,
+      });
       return {
         ok: true,
         message: `Booked. Tell the caller it's confirmed for "${spokenDate}, Singapore time" — state that exact day and date, never a relative word like "today" or "tomorrow" even if it's the soonest option. Tristan will send the Google Meet link before the call. A confirmation has been sent to ${input.email.trim()}.`,
       };
     }
+
+    // One notification covers every failure code below — the visitor's
+    // contact fields are already known at this point regardless of which
+    // specific Calendly error came back.
+    await notify({
+      surface,
+      outcome: 'book_failed',
+      name: input.name.trim(),
+      email: input.email.trim(),
+      phone: input.phone.trim(),
+      detail: result.code || result.message,
+    });
 
     if (result.code === 'invalid_email') {
       return { ok: false, message: "That email didn't go through — could you double check it and give it to me again?" };
@@ -306,6 +340,14 @@ async function executeBookingTool(name, rawInput) {
     // wrong guess at someone else's details gets no signal about which
     // part was correct.
     if (!match.matched) {
+      await notify({
+        surface,
+        outcome: name === 'cancel_meeting' ? 'cancel_failed' : 'reschedule_failed',
+        name: input.name.trim(),
+        email: input.email.trim(),
+        phone: input.phone.trim(),
+        detail: 'No matching booking found for the details given',
+      });
       return {
         ok: false,
         message: "I couldn't find a matching appointment with those details — I can have Tristan follow up directly instead.",
@@ -317,8 +359,26 @@ async function executeBookingTool(name, rawInput) {
         typeof input.reason === 'string' && input.reason.trim().length > 0 ? input.reason.trim().slice(0, 500) : 'No reason given';
       const cancelResult = await cancelBooking({ eventUuid: match.event.uuid, reason });
       if (!cancelResult.ok) {
+        await notify({
+          surface,
+          outcome: 'cancel_failed',
+          name: input.name.trim(),
+          email: input.email.trim(),
+          phone: input.phone.trim(),
+          timeLocal: match.event.startTimeLocal,
+          detail: 'Calendly cancellation call failed',
+        });
         return { ok: false, message: "I'm having trouble cancelling that right now — I can have Tristan follow up directly instead." };
       }
+      await notify({
+        surface,
+        outcome: 'cancelled',
+        name: input.name.trim(),
+        email: input.email.trim(),
+        phone: input.phone.trim(),
+        timeLocal: match.event.startTimeLocal,
+        reason,
+      });
       return {
         ok: true,
         message: `Cancelled. Tell the visitor their appointment for "${match.event.startTimeLocal}, Singapore time" has been cancelled, and a cancellation confirmation has been sent to ${input.email.trim()}.`,
@@ -330,6 +390,15 @@ async function executeBookingTool(name, rawInput) {
     // reschedule_url performs behind the scenes (see calendly.js).
     const cancelResult = await cancelBooking({ eventUuid: match.event.uuid, reason: 'Rescheduled by client via AI assistant' });
     if (!cancelResult.ok) {
+      await notify({
+        surface,
+        outcome: 'reschedule_failed',
+        name: input.name.trim(),
+        email: input.email.trim(),
+        phone: input.phone.trim(),
+        timeLocal: match.event.startTimeLocal,
+        detail: 'Calendly cancellation call (step 1 of reschedule) failed',
+      });
       return { ok: false, message: "I'm having trouble updating that booking right now — I can have Tristan follow up directly instead." };
     }
 
@@ -342,6 +411,15 @@ async function executeBookingTool(name, rawInput) {
 
     if (bookResult.ok) {
       const spokenDate = formatSlotLocal(bookResult.startTimeISO);
+      await notify({
+        surface,
+        outcome: 'rescheduled',
+        name: input.name.trim(),
+        email: input.email.trim(),
+        phone: input.phone.trim(),
+        timeLocal: match.event.startTimeLocal,
+        newTimeLocal: spokenDate,
+      });
       return {
         ok: true,
         message: `Rescheduled. Tell the visitor it's confirmed for "${spokenDate}, Singapore time" — state that exact day and date, never a relative word like "today" or "tomorrow". A fresh confirmation has been sent to ${input.email.trim()}.`,
@@ -352,6 +430,19 @@ async function executeBookingTool(name, rawInput) {
     // released at this point (the cancellation above already succeeded),
     // so a failure here means the visitor currently has NO booking at all
     // — never let this read like a harmless retry of an unchanged state.
+    // Flagged clearly in the notification too, since this is the one
+    // failure mode where Tristan needs to personally follow up, not just
+    // be informed.
+    await notify({
+      surface,
+      outcome: 'reschedule_failed',
+      name: input.name.trim(),
+      email: input.email.trim(),
+      phone: input.phone.trim(),
+      timeLocal: match.event.startTimeLocal,
+      detail: `URGENT — old slot already released, new booking failed (${bookResult.code || 'unknown error'}). Visitor currently has NO booking at all.`,
+    });
+
     if (bookResult.code === 'slot_taken') {
       return {
         ok: false,
