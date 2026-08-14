@@ -460,14 +460,33 @@ module.exports = async function handler(req, res) {
   // Same date-grounding rationale as chat.js: this is a stateless function,
   // so "now" is always genuinely now, and Aria needs a real anchor date to
   // ever state a correct real calendar date for a booking.
-  const todayStr = new Date().toLocaleDateString('en-SG', {
-    timeZone: 'Asia/Singapore',
+  //
+  // Precomputed 14-day lookahead table, not just a single anchor date plus
+  // an instruction to "work out the arithmetic carefully": live testing
+  // found Haiku computing "this Saturday" as the wrong calendar date even
+  // with that instruction in place (stated a date that was actually a
+  // Monday). Weekday-to-date arithmetic is exactly the kind of thing an LLM
+  // gets wrong doing it "in its head" — it's free and deterministic in JS,
+  // so compute it here and let Claude look up the answer instead of
+  // deriving it.
+  const now = new Date();
+  const sgNow = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Singapore' }));
+  const todayStr = sgNow.toLocaleDateString('en-SG', {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   });
-  const systemWithDate = `${SYSTEM_PROMPT}\n\n=== TODAY'S DATE ===\nToday is ${todayStr} (Singapore time). Ground every date you state in this — work out weekday-to-date arithmetic carefully rather than guessing, and never assume a different year.`;
+  const lookahead = [];
+  for (let i = 0; i < 14; i++) {
+    const d = new Date(sgNow);
+    d.setDate(sgNow.getDate() + i);
+    const weekday = d.toLocaleDateString('en-SG', { weekday: 'long' });
+    const dateStr = d.toLocaleDateString('en-SG', { month: 'long', day: 'numeric', year: 'numeric' });
+    const tag = i === 0 ? ' (today)' : i === 1 ? ' (tomorrow)' : '';
+    lookahead.push(`${weekday}, ${dateStr}${tag}`);
+  }
+  const systemWithDate = `${SYSTEM_PROMPT}\n\n=== TODAY'S DATE & UPCOMING CALENDAR ===\nToday is ${todayStr} (Singapore time). The table below is precomputed and correct — read the date for a requested weekday directly from it, never compute weekday arithmetic yourself:\n${lookahead.join('\n')}\nFor a date beyond this table, count forward from its last row rather than guessing.`;
 
   const claudePayload = {
     model: CLAUDE_MODEL,
