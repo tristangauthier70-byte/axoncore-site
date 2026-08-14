@@ -617,7 +617,7 @@ p, li, span, a, label {
 /* Module teaser only (Voice/Engage/Connect) — the process-step titles
    ("Discovery Call" etc.) further down the page share .ax-step__title
    but should keep the default dark color, not go purple too. */
-#ax-services .ax-step__title { color: var(--ax-accent); }
+#ax-services .ax-step__title { color: var(--ax-accent) !important; }
 
 .ax-step__body {
   font-size: 1rem;
@@ -2567,7 +2567,7 @@ hr {
   font-family: var(--ax-font-serif) !important;
   font-weight: 700;
   font-size: 1.7rem;
-  color: var(--ax-accent);
+  color: var(--ax-accent) !important;
   margin: 0 0 6px;
 }
 
@@ -3310,7 +3310,7 @@ hr {
   display: flex; align-items: center; justify-content: center;
   margin-bottom: 20px;
 }
-.ax-service-card h3 { font-family: var(--ax-font-serif) !important; font-weight: 700; font-size: 1.6rem; color: var(--ax-accent); margin-bottom: 6px; }
+.ax-service-card h3 { font-family: var(--ax-font-serif) !important; font-weight: 700; font-size: 1.6rem; color: var(--ax-accent) !important; margin-bottom: 6px; }
 .ax-service-card__tagline { font-size: 1rem; font-weight: 600; color: var(--ax-white); margin: 0 0 12px; }
 .ax-service-card p { color: var(--ax-muted); line-height: 1.7; font-size: 0.95rem; }
 .ax-service-card__features { list-style: none; margin-top: 20px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
