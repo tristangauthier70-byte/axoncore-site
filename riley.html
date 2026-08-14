@@ -121,11 +121,11 @@
         <div class="rp-hero__chips" role="list">
           <span class="rp-hero__chip" role="listitem">
             <span class="rp-hero__chip-dot" aria-hidden="true"></span>
-            VAPI-Powered
+            Answers in Under 3s
           </span>
           <span class="rp-hero__chip" role="listitem">
             <span class="rp-hero__chip-dot" aria-hidden="true"></span>
-            Claude AI Brain
+            Escalates to a Human
           </span>
           <span class="rp-hero__chip" role="listitem">
             <span class="rp-hero__chip-dot" aria-hidden="true"></span>
@@ -212,6 +212,7 @@
 
   <!-- ─── SECTION 3: SCROLL DEMO ──────────────────────────────── -->
   <section class="rp-demo" id="rp-demo" aria-label="Riley conversation demo">
+    <p class="rp-caps__eyebrow" style="text-align:center;padding-top:40px;">Illustrative walkthrough &mdash; a real live conversation is just below</p>
     <div class="rp-demo__inner">
 
       <!-- Left: explanation labels -->
@@ -444,6 +445,52 @@
     </div>
   </section>
 
+  <!-- ─── SECTION: BEFORE YOU ASK — objection-handling, placed right
+       after the visitor has actually tried Riley (highest trust, still
+       highest scrutiny) and right before the final CTA. Reuses the same
+       rp-caps/rp-cap-card classes as the Capabilities section above for
+       free visual consistency — no new CSS needed. Deliberately covers
+       the emotional/trust objections (robotic, mistakes, existing
+       systems) that the homepage FAQ doesn't — see that FAQ for the
+       factual ones (pricing, PDPA, timeline) to avoid duplicating
+       content across pages. ─── -->
+  <section class="rp-caps" aria-labelledby="rp-objections-h">
+    <div class="rp-caps__inner">
+      <div class="rp-caps__header">
+        <p class="rp-caps__eyebrow" data-reveal>Before you ask</p>
+        <h2 class="rp-caps__headline" id="rp-objections-h" data-reveal>
+          We've probably<br>heard it already.
+        </h2>
+      </div>
+      <div class="rp-caps__grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr));">
+        <div class="rp-cap-card">
+          <h3 class="rp-cap-card__title">Will it sound robotic?</h3>
+          <p class="rp-cap-card__body">You just heard her. Riley speaks naturally, handles interruptions, and adapts to how the caller talks &mdash; not a script read aloud.</p>
+        </div>
+        <div class="rp-cap-card">
+          <h3 class="rp-cap-card__title">What if she gets something wrong?</h3>
+          <p class="rp-cap-card__body">Every system is trained and tested on your business before it goes live, then reviewed every month. When something's outside what Riley knows, she says so and hands off &mdash; she doesn't guess.</p>
+        </div>
+        <div class="rp-cap-card">
+          <h3 class="rp-cap-card__title">What if a caller wants a real person?</h3>
+          <p class="rp-cap-card__body">Immediate handover &mdash; by call transfer, SMS, or a notification to your team. Riley never leaves someone stuck with a bot that can't help.</p>
+        </div>
+        <div class="rp-cap-card">
+          <h3 class="rp-cap-card__title">Do I need to manage any of this?</h3>
+          <p class="rp-cap-card__body">No. Axoncore builds it, trains it, tests it, and keeps improving it every month. You approve the system once &mdash; you don't maintain it.</p>
+        </div>
+        <div class="rp-cap-card">
+          <h3 class="rp-cap-card__title">Can it actually book appointments, not just chat?</h3>
+          <p class="rp-cap-card__body">Yes &mdash; you just watched it happen above. Real availability checked, a real slot confirmed, a real confirmation sent. No human step in between.</p>
+        </div>
+        <div class="rp-cap-card">
+          <h3 class="rp-cap-card__title">Will it work with what I already use?</h3>
+          <p class="rp-cap-card__body">Most likely. Your existing phone number, booking calendar and tools are mapped out on the discovery call before anything is built &mdash; nothing changes on your end unless you want it to.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ─── NEXT STEP — the warmest lead on the site had nowhere to go
        from here before this; footer links used to be the only exit. ─── -->
   <section class="rp-next" aria-labelledby="rp-next-h">
@@ -452,6 +499,7 @@
     <p class="rp-next__sub">30-minute call. We map your enquiry flow and quote the exact package.</p>
     <div class="rp-next__actions">
       <a href="/book-a-call.html" class="rp-next__btn">Book a Free Strategy Call &rarr;</a>
+      <a href="/results.html" class="rp-next__link">Calculate my opportunity &rarr;</a>
       <a href="/pricing.html" class="rp-next__link">See pricing first &rarr;</a>
     </div>
   </section>
