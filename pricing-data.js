@@ -3,7 +3,7 @@
    ============================================================
    Single source of truth for setup fees, monthly fees, minute
    allowances and message allowances, across all three modules
-   (Voice / Chat / Social) and their tiers. Modules are sold
+   (Voice / Engage / Connect) and their tiers. Modules are sold
    standalone or bundled — see bundle-pricing.js for the
    20%-off-the-cheaper-module(s) discount rule.
 
@@ -38,7 +38,7 @@ window.AXONCORE_MODULES = {
     ]
   },
   chat: {
-    label: 'Chat — AI Website Chatbot',
+    label: 'Engage — AI Website Concierge',
     unit: 'messages',
     tiers: [
       { name: 'Starter',    messages: 1500,  price: 300,  setup: 599 },
@@ -49,7 +49,7 @@ window.AXONCORE_MODULES = {
     ]
   },
   social: {
-    label: 'Social — WhatsApp Automation',
+    label: 'Connect — AI WhatsApp Agent',
     unit: 'messages',
     tiers: [
       { name: 'Starter',    messages: 1000,  price: 400,  setup: 1399 },

@@ -13,10 +13,10 @@ The AI voice agent persona is named Riley. She answers calls in under 3 seconds,
 Axoncore sells three independent modules, not fixed bundles. A client buys any one standalone, or combines any two or all three — combining applies a bundle discount: the single most expensive module stays full price, and every other selected module gets 20% off its monthly fee. Setup fees are never discounted. All prices are monthly recurring plus a one-time setup fee, per module.
 
 - **Voice — AI Phone Receptionist**: setup SGD $599. Starter (300 min/mo) $170/mo; Lite (600 min/mo) $300/mo; Standard (1,500 min/mo) $700/mo; Pro (3,500 min/mo) $1,600/mo. Overage beyond included minutes billed at SGD $0.60/min.
-- **Chat — AI Website Chatbot**: setup SGD $599. Starter (1,500 messages/mo) $300/mo; Lite (3,000 messages/mo) $500/mo; Standard (10,000 messages/mo) $999/mo; Pro (20,000 messages/mo) $1,500/mo.
-- **Social — WhatsApp Automation**: setup SGD $1,399. Starter (1,000 messages/mo) $400/mo; Lite (3,000 messages/mo) $1,000/mo; Standard (5,000 messages/mo) $1,500/mo; Pro (10,000 messages/mo) $2,500/mo. A genuine standalone product, not an add-on — a particularly strong fit for businesses (clinics, gyms) that get significant client volume through WhatsApp specifically. Instagram and Facebook automation are not currently offered.
+- **Engage — AI Website Concierge**: setup SGD $599. Starter (1,500 messages/mo) $300/mo; Lite (3,000 messages/mo) $500/mo; Standard (10,000 messages/mo) $999/mo; Pro (20,000 messages/mo) $1,500/mo.
+- **Connect — AI WhatsApp Agent**: setup SGD $1,399. Starter (1,000 messages/mo) $400/mo; Lite (3,000 messages/mo) $1,000/mo; Standard (5,000 messages/mo) $1,500/mo; Pro (10,000 messages/mo) $2,500/mo. A genuine standalone product, not an add-on — a particularly strong fit for businesses (clinics, gyms) that get significant client volume through WhatsApp specifically. Instagram and Facebook automation are not currently offered.
 
-Worked bundle example: Voice Pro ($1,600) + Chat Lite ($500) — Voice stays full price, Chat discounts 20% to $400 — SGD $2,000/month total instead of $2,100 undiscounted.
+Worked bundle example: Voice Pro ($1,600) + Engage Lite ($500) — Voice stays full price, Engage discounts 20% to $400 — SGD $2,000/month total instead of $2,100 undiscounted.
 
 Enterprise (custom volume) is available on every module. Full machine-readable pricing (all tiers, both fee types) is published as schema.org `Service`/`Offer` JSON-LD on the Pricing page.
 
@@ -41,7 +41,7 @@ Axoncore is not a fit for: pure e-commerce brands with no appointment/booking co
 Axoncore builds and manages an AI-powered front desk — voice receptionist, website chatbot, and WhatsApp automation — for Singapore service businesses, so calls and messages are answered and appointments get booked 24/7 instead of going to voicemail or being missed.
 
 **How much does an AI receptionist cost in Singapore?**
-Axoncore's AI voice receptionist (the Voice module) starts at SGD $170/month plus a SGD $599 one-time setup fee, on a 36-month agreement, at current founding rates, locked for your full term. Higher tiers cost more, and adding the Chat or Social modules adds their own monthly fee (with a 20% bundle discount on the cheaper module) — see the pricing table above or axoncoreai.com/pricing.html for the full breakdown.
+Axoncore's AI voice receptionist (the Voice module) starts at SGD $170/month plus a SGD $599 one-time setup fee, on a 36-month agreement, at current founding rates, locked for your full term. Higher tiers cost more, and adding the Engage or Connect modules adds their own monthly fee (with a 20% bundle discount on the cheaper module) — see the pricing table above or axoncoreai.com/pricing.html for the full breakdown.
 
 **Does the AI identify itself as an AI, or does it pretend to be human?**
 It identifies itself. Riley states she is an AI assistant at the start of every call.
@@ -59,7 +59,7 @@ Typically 14 days from the first discovery call to going live, fully built and t
 
 - [Home](https://axoncoreai.com/): what Axoncore does and who it's for.
 - [Pricing](https://axoncoreai.com/pricing.html): full module/tier breakdown, bundle discount FAQ, structured pricing data.
-- [Services](https://axoncoreai.com/services.html): the underlying phone, chatbot and social automation capabilities.
+- [Services](https://axoncoreai.com/services.html): the underlying Voice, Engage, and Connect module capabilities.
 - [How It Works](https://axoncoreai.com/how-it-works.html): the process from first call to going live in 14 days.
 - [Talk to Riley](https://axoncoreai.com/riley.html): live voice demo of the AI receptionist.
 - [Results & ROI](https://axoncoreai.com/results.html): ROI calculator and industry benchmarks.

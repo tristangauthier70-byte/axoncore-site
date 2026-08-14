@@ -44,7 +44,7 @@
   // industry's typical channels) or by dragging the split sliders.
   var channelWeights = { voice: 50, chat: 50, social: 50 };
   var CHANNEL_LABELS = { voice: 'Phone', chat: 'Website', social: 'WhatsApp' };
-  var MODULE_SHORT   = { voice: 'Voice', chat: 'Chat', social: 'Social' };
+  var MODULE_SHORT   = { voice: 'Voice', chat: 'Engage', social: 'Connect' };
 
   /* ── Module data ──
      Sourced from pricing-data.js (window.AXONCORE_MODULES) and
@@ -79,7 +79,7 @@
   // estimated 600 calls AND 600 WhatsApp messages, effectively double-
   // counting the same enquiries and over-recommending tiers). Voice:
   // ~2.5 min/call, the same average used in Pricing & Packages and in
-  // tier.js's band labels. Chat/Social: a real chat or WhatsApp exchange
+  // tier.js's band labels. Engage/Connect: a real chat or WhatsApp exchange
   // is several messages, not one — 5 messages/enquiry is a deliberately
   // simple, documented estimate, not a measured rate.
   function estimatedVolume(moduleKey) {

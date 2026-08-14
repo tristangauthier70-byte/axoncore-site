@@ -1,11 +1,11 @@
 /* ============================================================
    AXONCORE — Module Picker + Live Bundle Total
    ============================================================
-   Voice, Chat and Social are three independent modules, each
+   Voice, Engage and Connect are three independent modules, each
    with its own tier a visitor can step through — unlike the old
    package model, a single "which package" question can't
    determine a whole bundle's price anymore, since e.g. Voice
-   Pro + Chat Lite needs two independently-chosen tiers.
+   Pro + Engage Lite needs two independently-chosen tiers.
 
    Checkboxes (not radios) show/hide each module's pricing card;
    the tier steppers on those cards already exist (tier.js) and

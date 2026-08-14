@@ -1,6 +1,6 @@
 /* demo.js
  *
- * Lumina Aesthetics "Try it live" chatbot demo, on pricing.html's Chat
+ * Lumina Aesthetics "Try it live" chatbot demo, on pricing.html's Engage
  * module card. Aria — the persona this widget speaks as — used to be a
  * fully local, hardcoded JavaScript state machine: ~1,800 lines of
  * keyword-matching against a scripted FAQ array, manual date/slot

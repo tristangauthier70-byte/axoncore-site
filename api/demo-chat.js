@@ -1,6 +1,6 @@
 // /api/demo-chat.js
 //
-// Aria — the "Try it live" chatbot demo on pricing.html's Chat module card.
+// Aria — the "Try it live" chatbot demo on pricing.html's Engage module card.
 // Aria plays the AI receptionist for Lumina Aesthetics, a FICTIONAL Singapore
 // aesthetic clinic built solely to demonstrate what an Axoncore AI website
 // chatbot looks and feels like. This is a marketing demo widget, not a real

@@ -40,11 +40,11 @@
       if (tcoEl)      tcoEl.textContent      = '36-month total: priced on your discovery call';
     } else {
       // Two-state field convention: a tier has EITHER t.minutes (Voice)
-      // OR t.messages (Chat/Social), never both, never null. Guard each
+      // OR t.messages (Engage/Connect), never both, never null. Guard each
       // read individually rather than assuming which one a given module
       // uses — this line previously called t.minutes.toLocaleString()
       // unconditionally, which threw the moment a messages-only tier
-      // (Chat/Social) reached it.
+      // (Engage/Connect) reached it.
       if (module.unit === 'minutes' && t.minutes) {
         card.querySelector('.ax-tier__mins').textContent =
           (t.band ? t.band + ' · ' : '') + t.minutes.toLocaleString() + ' min';
@@ -61,7 +61,7 @@
       if (setupEl) setupEl.innerHTML = 'SGD $' + t.setup.toLocaleString() + ' <span>one-time setup</span>';
 
       // Guarded the same way as messagesEl below — a Voice tier has no
-      // t.messages, a Chat/Social tier has no t.minutes, so each feature
+      // t.messages, an Engage/Connect tier has no t.minutes, so each feature
       // span only renders when its own module actually has that field.
       if (minsEl && t.minutes)     minsEl.textContent     = t.minutes.toLocaleString() + ' call minutes / month included';
       if (messagesEl && t.messages) messagesEl.textContent = t.messages.toLocaleString() + ' messages / month included';
