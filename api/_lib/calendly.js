@@ -217,4 +217,176 @@ async function bookMeeting({ startTimeISO, name, email, phone }) {
   return { ok: false, code, message: msg || 'Could not complete the booking.' };
 }
 
-module.exports = { getAvailableSlots, bookMeeting, formatSlotLocal, DEFAULT_TIMEZONE };
+// --- Reschedule / cancel (added 2026-08-14) ---------------------------
+//
+// Calendly's API has no "move this booking in place" endpoint — the same
+// mechanism Calendly's own reschedule_url uses under the hood is cancel +
+// rebook (confirmed by the old_invitee/new_invitee linkage fields present
+// on every invitee record). rescheduleBooking() in booking-tools.js
+// composes this the same way, using cancelBooking() below plus the
+// existing bookMeeting() above — there's no separate "reschedule" call
+// here, just the two primitives a reschedule is actually made of.
+//
+// Finding WHICH booking a visitor means is the other half of this: Calendly
+// doesn't expose a single "find by these four fields" endpoint, so
+// findMatchingBooking() below composes it from two confirmed-live calls —
+// GET /scheduled_events (filterable by invitee_email, status, and
+// min_start_time — all three confirmed working against the real account
+// before writing this) to get the visitor's active future bookings, then
+// GET /scheduled_events/{uuid}/invitees per candidate (event objects don't
+// carry invitee contact fields directly) to check phone/name against what
+// was actually typed/spoken.
+
+// Cached per warm serverless instance — this never changes for a single-
+// account integration, so refetching /users/me on every lookup would be
+// pure wasted latency. A cold start just refetches once.
+let cachedUserUri = null;
+async function getCurrentUserUri() {
+  if (cachedUserUri) return cachedUserUri;
+  const { httpOk, data } = await calendlyFetch('/users/me');
+  if (httpOk && data && data.resource && data.resource.uri) {
+    cachedUserUri = data.resource.uri;
+  }
+  return cachedUserUri;
+}
+
+// Security-lock design (per product decision): email + phone are the HARD
+// match — both must agree with what Calendly has on file for a booking to
+// be considered found at all. Name and the visitor's stated original
+// date/time are SOFT — used only to disambiguate when the same email+phone
+// has more than one active future booking, never as a reason to reject an
+// otherwise-matching booking. This means a visitor who mistypes their own
+// name slightly, or is vague on the exact original time, still gets
+// through — but someone who doesn't know the real phone number on file
+// does not, regardless of what name/date they guess.
+function normalizePhoneDigits(phone) {
+  return (phone || '').replace(/[^0-9]/g, '');
+}
+
+// -> { ok: true, matched: true, event: {uri, uuid, startTimeISO, startTimeLocal}, invitee: {name, email, phone} }
+// -> { ok: true, matched: false }   (calendar reachable, nothing matched — caller must NOT reveal which field failed, see booking-tools.js)
+// -> { ok: false, code: 'calendly_unavailable', message }
+async function findMatchingBooking({ email, phone, name, dateTimeHint }) {
+  const userUri = await getCurrentUserUri();
+  if (!userUri) {
+    return { ok: false, code: 'calendly_unavailable', message: 'Could not reach the calendar right now.' };
+  }
+
+  const qs = new URLSearchParams({
+    user: userUri,
+    invitee_email: email,
+    status: 'active',
+    min_start_time: isoNoMillis(new Date()),
+    count: '20',
+  });
+  const { httpOk, status, data, networkError } = await calendlyFetch(`/scheduled_events?${qs.toString()}`);
+  if (!httpOk) {
+    console.error('calendly.js: findMatchingBooking (list) failed', status, networkError || data);
+    return { ok: false, code: 'calendly_unavailable', message: 'Could not reach the calendar right now.' };
+  }
+
+  const candidateEvents = data.collection || [];
+  if (candidateEvents.length === 0) {
+    return { ok: true, matched: false };
+  }
+
+  // Event objects from the list call above don't include invitee contact
+  // fields — has to be fetched per event. Candidate count here is bounded
+  // by one person's own active future bookings (realistically 1, rarely
+  // more than 2-3), so N+1 calls is a non-issue.
+  const withInvitees = await Promise.all(
+    candidateEvents.map(async (event) => {
+      const uuid = event.uri.split('/').pop();
+      const { httpOk: invOk, data: invData } = await calendlyFetch(`/scheduled_events/${uuid}/invitees`);
+      const invitee = invOk && invData && invData.collection && invData.collection[0];
+      return { event, uuid, invitee };
+    })
+  );
+
+  const phoneDigits = normalizePhoneDigits(phone);
+  const phoneMatches = withInvitees.filter(
+    (c) => phoneDigits.length > 0 && c.invitee && normalizePhoneDigits(c.invitee.text_reminder_number) === phoneDigits
+  );
+
+  if (phoneMatches.length === 0) {
+    return { ok: true, matched: false };
+  }
+
+  const asMatch = (c) => ({
+    ok: true,
+    matched: true,
+    event: {
+      uri: c.event.uri,
+      uuid: c.uuid,
+      startTimeISO: c.event.start_time,
+      startTimeLocal: formatSlotLocal(c.event.start_time),
+    },
+    invitee: {
+      name: c.invitee.name,
+      email: c.invitee.email,
+      phone: c.invitee.text_reminder_number,
+    },
+  });
+
+  if (phoneMatches.length === 1) {
+    return asMatch(phoneMatches[0]);
+  }
+
+  // More than one active booking under the same email+phone. Real bug
+  // found in testing: this used to pick the "closest" candidate to
+  // dateTimeHint via Date.parse() on the visitor's free-text guess
+  // ("Saturday 15 August at 9:30am singapore time") — Date.parse() can't
+  // reliably parse natural language, so it silently fell through to
+  // phoneMatches[0] (whichever event Calendly happened to list first)
+  // instead of actually comparing times. Verified live: with two real
+  // bookings 30 minutes apart, this cancelled the WRONG one with no error
+  // or signal that it had guessed. Acting on the wrong real booking is the
+  // one failure mode this whole feature exists to prevent, so never guess
+  // from prose here.
+  //
+  // Exact-ISO retry path: if dateTimeHint is precisely one candidate's own
+  // start_time value, this IS a resolved answer, not a guess — it means
+  // the caller already went through the "ambiguous" branch once, read the
+  // real options back to the visitor, and is now retrying with the exact
+  // reference value copied verbatim (booking-tools.js instructs this
+  // explicitly, the same copy-verbatim pattern check_availability already
+  // uses for book_meeting's start_time).
+  const exact = dateTimeHint && phoneMatches.find((c) => c.event.start_time === dateTimeHint);
+  if (exact) {
+    return asMatch(exact);
+  }
+
+  return {
+    ok: true,
+    matched: 'ambiguous',
+    candidates: phoneMatches.map((c) => ({
+      uri: c.event.uri,
+      uuid: c.uuid,
+      startTimeISO: c.event.start_time,
+      startTimeLocal: formatSlotLocal(c.event.start_time),
+    })),
+  };
+}
+
+// -> { ok: true }
+// -> { ok: false, code: 'calendly_unavailable', message }
+async function cancelBooking({ eventUuid, reason }) {
+  const { httpOk, status, data, networkError } = await calendlyFetch(`/scheduled_events/${eventUuid}/cancellation`, {
+    method: 'POST',
+    body: { reason: (reason || '').slice(0, 500) },
+  });
+  if (!httpOk) {
+    console.error('calendly.js: cancelBooking failed', status, networkError || data);
+    return { ok: false, code: 'calendly_unavailable', message: 'Could not cancel that booking right now.' };
+  }
+  return { ok: true };
+}
+
+module.exports = {
+  getAvailableSlots,
+  bookMeeting,
+  formatSlotLocal,
+  findMatchingBooking,
+  cancelBooking,
+  DEFAULT_TIMEZONE,
+};

@@ -13,7 +13,7 @@
 // shape are structurally identical, so toClaudeToolSchema() below is a thin
 // rename, not a real transform.
 
-const { getAvailableSlots, bookMeeting, formatSlotLocal } = require('./calendly');
+const { getAvailableSlots, bookMeeting, formatSlotLocal, findMatchingBooking, cancelBooking } = require('./calendly');
 
 const CHECK_AVAILABILITY_TOOL = {
   name: 'check_availability',
@@ -48,6 +48,64 @@ const BOOK_MEETING_TOOL = {
       phone: { type: 'string', description: "The visitor's phone number." },
     },
     required: ['start_time', 'name', 'email', 'phone'],
+  },
+};
+
+// Security-lock design: name/email/phone/original_date_time are collected
+// from the visitor for BOTH tools below and checked against Calendly's own
+// record of the booking before anything is changed — see
+// findMatchingBooking() in calendly.js for exactly which of these four are
+// a hard requirement (email, phone) vs. a soft disambiguator (name,
+// original_date_time). Neither tool call should ever happen without the
+// caller (Claude) having already asked for and read back all four plus
+// gotten explicit confirmation — that's a prompt-level responsibility, not
+// something this schema can enforce on its own.
+const RESCHEDULE_MEETING_TOOL = {
+  name: 'reschedule_meeting',
+  description:
+    "Move an existing confirmed booking to a new time. Call this only after the visitor has given their full name, email, phone number, and the original date/time of their existing booking (the security check used to confirm it's really their booking), AND has picked a new specific time from what check_availability returned for the new slot. If no matching booking is found, this returns a generic 'could not find a matching appointment' result — do not tell the visitor which specific field failed to match, just offer to have Tristan follow up directly.",
+  parameters: {
+    type: 'object',
+    properties: {
+      name: { type: 'string', description: "The visitor's full name." },
+      email: { type: 'string', description: "The visitor's email address — must match the email on the existing booking." },
+      phone: { type: 'string', description: "The visitor's phone number, with country code — must match the phone on the existing booking." },
+      original_date_time: {
+        type: 'string',
+        description:
+          "The date/time of their EXISTING booking, as the visitor described it (e.g. 'Saturday 15 August at 10am'). Used only to identify which booking they mean if they have more than one — doesn't need to be perfectly formatted or converted.",
+      },
+      new_start_time: {
+        type: 'string',
+        description:
+          "The exact UTC start_time value from check_availability's result for the NEW time, copied character-for-character — same rule as book_meeting's start_time: never compute or reconstruct this yourself.",
+      },
+    },
+    required: ['name', 'email', 'phone', 'original_date_time', 'new_start_time'],
+  },
+};
+
+const CANCEL_MEETING_TOOL = {
+  name: 'cancel_meeting',
+  description:
+    "Cancel an existing confirmed booking. Call this only after the visitor has given their full name, email, phone number, and the original date/time of their existing booking (the security check used to confirm it's really their booking), AND has given a reason for cancelling. If no matching booking is found, this returns a generic 'could not find a matching appointment' result — do not tell the visitor which specific field failed to match, just offer to have Tristan follow up directly.",
+  parameters: {
+    type: 'object',
+    properties: {
+      name: { type: 'string', description: "The visitor's full name." },
+      email: { type: 'string', description: "The visitor's email address — must match the email on the existing booking." },
+      phone: { type: 'string', description: "The visitor's phone number, with country code — must match the phone on the existing booking." },
+      original_date_time: {
+        type: 'string',
+        description:
+          "The date/time of their EXISTING booking, as the visitor described it. Used only to identify which booking they mean if they have more than one.",
+      },
+      reason: {
+        type: 'string',
+        description: 'Why the visitor is cancelling — one of the offered preset reasons, or their own words if they chose something else.',
+      },
+    },
+    required: ['name', 'email', 'phone', 'original_date_time', 'reason'],
   },
 };
 
@@ -209,7 +267,113 @@ async function executeBookingTool(name, rawInput) {
     };
   }
 
+  if (name === 'reschedule_meeting' || name === 'cancel_meeting') {
+    const validation = validateContactFields(input);
+    if (!validation.ok) return validation;
+
+    if (name === 'reschedule_meeting' && (typeof input.new_start_time !== 'string' || input.new_start_time.trim().length === 0)) {
+      return { ok: false, message: 'A specific new time is needed — call check_availability again if the options are unclear.' };
+    }
+
+    const match = await findMatchingBooking({
+      email: input.email.trim(),
+      phone: input.phone.trim(),
+      name: input.name.trim(),
+      dateTimeHint: input.original_date_time,
+    });
+
+    if (!match.ok) {
+      return { ok: false, message: "I'm having trouble reaching the calendar right now — I can have Tristan follow up directly instead." };
+    }
+    // More than one active booking matched on email+phone alone — never
+    // guess which one from a free-text hint (see the comment in
+    // calendly.js on why that used to silently pick the wrong one). This
+    // is NOT the same as a genuine no-match: it doesn't count toward the
+    // "stop after two tries" rule, and it should not lead to the Tristan
+    // handoff — it's a legitimate one extra question, not a failed guess.
+    if (match.matched === 'ambiguous') {
+      const spoken = match.candidates.map((c) => c.startTimeLocal).join(', or ');
+      const reference = match.candidates.map((c) => `${c.startTimeLocal} = ${c.startTimeISO}`).join(' | ');
+      return {
+        ok: false,
+        ambiguous: true,
+        message: `More than one active booking matches that name/email/phone. Say to the visitor, in your own words: "${spoken}, all Singapore time — which one do you mean?" Once they pick one, call this tool again with original_date_time set to the EXACT ISO value copied verbatim from the reference below for their chosen option — never re-describe it in your own words or re-type what they said, since a second free-text guess can't be reliably matched either. Reference (copy verbatim, never speak it): ${reference}. This is a legitimate clarifying question, not a failed match — do not treat it as one of the two allowed no-match attempts, and do not offer the Tristan handoff for this specifically.`,
+      };
+    }
+    // Deliberately the SAME generic message whether the email had zero
+    // bookings, or matched a booking but the phone didn't — per the
+    // product decision not to reveal which specific field failed, so a
+    // wrong guess at someone else's details gets no signal about which
+    // part was correct.
+    if (!match.matched) {
+      return {
+        ok: false,
+        message: "I couldn't find a matching appointment with those details — I can have Tristan follow up directly instead.",
+      };
+    }
+
+    if (name === 'cancel_meeting') {
+      const reason =
+        typeof input.reason === 'string' && input.reason.trim().length > 0 ? input.reason.trim().slice(0, 500) : 'No reason given';
+      const cancelResult = await cancelBooking({ eventUuid: match.event.uuid, reason });
+      if (!cancelResult.ok) {
+        return { ok: false, message: "I'm having trouble cancelling that right now — I can have Tristan follow up directly instead." };
+      }
+      return {
+        ok: true,
+        message: `Cancelled. Tell the visitor their appointment for "${match.event.startTimeLocal}, Singapore time" has been cancelled, and a cancellation confirmation has been sent to ${input.email.trim()}.`,
+      };
+    }
+
+    // reschedule_meeting: Calendly has no in-place "move" endpoint — this
+    // is cancel-the-old + book-the-new, the same two steps Calendly's own
+    // reschedule_url performs behind the scenes (see calendly.js).
+    const cancelResult = await cancelBooking({ eventUuid: match.event.uuid, reason: 'Rescheduled by client via AI assistant' });
+    if (!cancelResult.ok) {
+      return { ok: false, message: "I'm having trouble updating that booking right now — I can have Tristan follow up directly instead." };
+    }
+
+    const bookResult = await bookMeeting({
+      startTimeISO: input.new_start_time.trim(),
+      name: input.name.trim(),
+      email: input.email.trim(),
+      phone: input.phone.trim(),
+    });
+
+    if (bookResult.ok) {
+      const spokenDate = formatSlotLocal(bookResult.startTimeISO);
+      return {
+        ok: true,
+        message: `Rescheduled. Tell the visitor it's confirmed for "${spokenDate}, Singapore time" — state that exact day and date, never a relative word like "today" or "tomorrow". A fresh confirmation has been sent to ${input.email.trim()}.`,
+      };
+    }
+
+    // Real failure mode worth naming explicitly: the OLD slot is already
+    // released at this point (the cancellation above already succeeded),
+    // so a failure here means the visitor currently has NO booking at all
+    // — never let this read like a harmless retry of an unchanged state.
+    if (bookResult.code === 'slot_taken') {
+      return {
+        ok: false,
+        message:
+          'The original time has already been released, and that new slot was just taken by someone else — the visitor currently has no booking at all. Call check_availability again immediately and get them onto a fresh slot right away, do not just apologize and stop.',
+      };
+    }
+    return {
+      ok: false,
+      message:
+        "The original time has already been released, but the new one could not be booked — the visitor currently has no booking at all. Say this plainly and offer to have Tristan follow up directly to get them rebooked.",
+    };
+  }
+
   return { ok: false, message: 'Unknown tool.' };
 }
 
-module.exports = { CHECK_AVAILABILITY_TOOL, BOOK_MEETING_TOOL, toClaudeToolSchema, executeBookingTool };
+module.exports = {
+  CHECK_AVAILABILITY_TOOL,
+  BOOK_MEETING_TOOL,
+  RESCHEDULE_MEETING_TOOL,
+  CANCEL_MEETING_TOOL,
+  toClaudeToolSchema,
+  executeBookingTool,
+};
