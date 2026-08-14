@@ -263,6 +263,25 @@ function normalizePhoneDigits(phone) {
   return (phone || '').replace(/[^0-9]/g, '');
 }
 
+// Real bug found in live testing (2026-08-14): a visitor was asked for
+// their phone "with country code" but gave only the local number
+// ("91851918", no "+65"); prompt-level compliance isn't 100% reliable, so
+// pure exact-digit equality against a stored number saved WITH a country
+// code silently found no match at all — even though it was genuinely
+// their own real booking. Since a Singapore local mobile number is 8
+// digits and effectively unique on its own, treat one side being an exact
+// suffix of the other as a match too (a country code is a weak security
+// signal for this business anyway — nearly every real client is +65).
+// Still requires >=7 digits on the shorter side so a short accidental
+// partial entry can't cheaply collide.
+function phoneDigitsMatch(a, b) {
+  if (!a || !b) return false;
+  if (a === b) return true;
+  const shorter = a.length <= b.length ? a : b;
+  const longer = a.length <= b.length ? b : a;
+  return shorter.length >= 7 && longer.endsWith(shorter);
+}
+
 // -> { ok: true, matched: true, event: {uri, uuid, startTimeISO, startTimeLocal}, invitee: {name, email, phone} }
 // -> { ok: true, matched: false }   (calendar reachable, nothing matched — caller must NOT reveal which field failed, see booking-tools.js)
 // -> { ok: false, code: 'calendly_unavailable', message }
@@ -305,7 +324,7 @@ async function findMatchingBooking({ email, phone, name, dateTimeHint }) {
 
   const phoneDigits = normalizePhoneDigits(phone);
   const phoneMatches = withInvitees.filter(
-    (c) => phoneDigits.length > 0 && c.invitee && normalizePhoneDigits(c.invitee.text_reminder_number) === phoneDigits
+    (c) => phoneDigits.length > 0 && c.invitee && phoneDigitsMatch(normalizePhoneDigits(c.invitee.text_reminder_number), phoneDigits)
   );
 
   if (phoneMatches.length === 0) {
