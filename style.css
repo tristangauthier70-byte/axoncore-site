@@ -609,8 +609,9 @@ p, li, span, a, label {
 
 .ax-step__title {
   font-family: var(--ax-font-serif) !important;
-  font-size: 1.1rem;
-  margin: 0 0 0.75rem;
+  font-weight: 700;
+  font-size: 1.4rem;
+  margin: 0 0 0.5rem;
 }
 
 .ax-step__body {
@@ -2559,14 +2560,16 @@ hr {
 
 .ax-pricing__name {
   font-family: var(--ax-font-serif) !important;
-  font-size: 1.3rem;
+  font-weight: 700;
+  font-size: 1.7rem;
   color: var(--ax-white);
-  margin: 0 0 4px;
+  margin: 0 0 6px;
 }
 
 .ax-pricing__tagline {
-  font-size: 0.9rem;
-  color: var(--ax-muted);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ax-white);
   margin: 0 0 24px;
 }
 
@@ -3292,10 +3295,9 @@ hr {
 }
 .ax-service-card__badge {
   display: inline-block;
-  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em;
   text-transform: uppercase; color: var(--ax-accent);
-  border: 1px solid var(--ax-border);
-  border-radius: 100px; padding: 4px 12px; margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 .ax-service-card__icon {
   width: 48px; height: 48px; border-radius: 12px;
@@ -3303,7 +3305,8 @@ hr {
   display: flex; align-items: center; justify-content: center;
   margin-bottom: 20px;
 }
-.ax-service-card h3 { font-size: 1.3rem; color: var(--ax-white); margin-bottom: 12px; }
+.ax-service-card h3 { font-family: var(--ax-font-serif) !important; font-weight: 700; font-size: 1.6rem; color: var(--ax-white); margin-bottom: 6px; }
+.ax-service-card__tagline { font-size: 1rem; font-weight: 600; color: var(--ax-white); margin: 0 0 12px; }
 .ax-service-card p { color: var(--ax-muted); line-height: 1.7; font-size: 0.95rem; }
 .ax-service-card__features { list-style: none; margin-top: 20px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
 .ax-service-card__features li {
