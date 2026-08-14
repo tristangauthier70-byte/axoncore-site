@@ -3184,8 +3184,10 @@ hr {
 
 .calendly-inline-widget iframe {
   border-radius: 0 0 var(--ax-radius-lg) var(--ax-radius-lg);
-  /* Calendly ignores our primary_color embed param (their bug); shift their default blue toward our violet without touching the white/black. */
-  filter: hue-rotate(40deg);
+  /* Calendly ignores our primary_color embed param (their bug); shift their default accent toward our violet (#6D4FD1) without touching the white/black.
+     Re-tuned from 40deg — Calendly's own default embed color has apparently drifted since this was last set, so 40deg was overshooting past violet into pink.
+     If this still isn't exact: increase the value to rotate further toward pink/magenta, decrease (or go negative) to rotate back toward blue. */
+  filter: hue-rotate(-36deg);
 }
 
 .ax-contact__form-card::before {
