@@ -209,6 +209,28 @@ async function executeBookingTool(name, rawInput, surface) {
     // structurally distinct removes that ambiguity.
     const spoken = picks.map((s) => s.startTimeLocal).join(', or ');
     const reference = picks.map((s) => `${s.startTimeLocal} = ${s.startTimeISO}`).join(' | ');
+
+    // Real bug found in testing (2026-08-14): a visitor asked "does 10am
+    // work?" on a day already offered at 9am, and Riley flatly said "10am
+    // isn't available" — false. pickSpreadSlots only surfaces ONE slot per
+    // calendar day (for variety in the initial offer), but Calendly
+    // genuinely had ~19 real bookable times that same day; 10am was one of
+    // them. Riley was comparing against the 3 spoken options instead of an
+    // actual availability check. Including every other real slot on those
+    // SAME days (already fetched, no extra API call) lets Riley answer a
+    // same-day "what about X time" honestly from real data instead of
+    // guessing from absence.
+    const pickedISOs = new Set(picks.map((s) => s.startTimeISO));
+    const pickedDates = new Set(picks.map((s) => s.startTimeISO.slice(0, 10)));
+    const sameDayOthers = result.slots.filter(
+      (s) => pickedDates.has(s.startTimeISO.slice(0, 10)) && !pickedISOs.has(s.startTimeISO)
+    );
+    const otherTimesNote =
+      sameDayOthers.length > 0
+        ? ` If the visitor asks for a different specific time on one of those same days, check this list of every other real slot available that day before saying anything is unavailable (copy verbatim if you use one, never invent a time not in this list): ${sameDayOthers
+            .map((s) => `${s.startTimeLocal} = ${s.startTimeISO}`)
+            .join(' | ')}.`
+        : '';
     // Fix-verification finding: even with the previous "for reference only,
     // don't speak it" wording, a real conversation still booked the WRONG
     // real slot — 09:00 UTC instead of the correct 01:00 UTC for "9:00 am
@@ -228,7 +250,7 @@ async function executeBookingTool(name, rawInput, surface) {
     // exact failure mode directly rather than assume it won't happen.
     return {
       ok: true,
-      message: `Say to the caller, in your own words: "${spoken}, all Singapore time — which works for you?" Always state the actual weekday and date exactly as given above for each option — never substitute a relative word like "today" or "tomorrow", even for the closest option. Once they pick one, call book_meeting with its start_time value COPIED EXACTLY, character-for-character, from the reference list below. These values are already correctly converted to UTC for you — do not calculate, convert, or reconstruct start_time yourself from the spoken local time, and never assume the UTC hour matches the Singapore hour shown (it usually won't). Reference (exact start_time per option — copy verbatim, never speak it): ${reference}`,
+      message: `Say to the caller, in your own words: "${spoken}, all Singapore time — which works for you?" Always state the actual weekday and date exactly as given above for each option — never substitute a relative word like "today" or "tomorrow", even for the closest option. Never state that a different time is unavailable unless you've actually checked it against real data — a wrong guess here has been a real, confirmed bug (a visitor asked about 10am and was wrongly told it wasn't available, when it genuinely was).${otherTimesNote} If the visitor asks about a day beyond what's listed here, call check_availability again rather than guessing. Once they pick one, call book_meeting with its start_time value COPIED EXACTLY, character-for-character, from the reference list below. These values are already correctly converted to UTC for you — do not calculate, convert, or reconstruct start_time yourself from the spoken local time, and never assume the UTC hour matches the Singapore hour shown (it usually won't). Reference (exact start_time per option — copy verbatim, never speak it): ${reference}`,
     };
   }
 
