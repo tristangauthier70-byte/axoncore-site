@@ -125,7 +125,23 @@
       });
     });
 
-    /* Industry selector buttons */
+    /* Industry selector buttons — also applies that industry's typical
+       channel mix (data-channels), so picking a sector shows visitors
+       the stack businesses like theirs actually run, not just their
+       own current voice/chat defaults. Channel checkboxes stay fully
+       editable afterward — this is a starting recommendation, not a
+       lock. */
+    function applyTypicalChannels(btn) {
+      if (!btn.dataset.channels) return;
+      var typical = btn.dataset.channels.split(',');
+      channelInputs.forEach(function (cb) {
+        var isTypical = typical.indexOf(cb.dataset.channel) !== -1;
+        cb.checked = isTypical;
+        channels[cb.dataset.channel] = isTypical;
+        cb.closest('.ax-roi__resp-btn').classList.toggle('active', isTypical);
+      });
+    }
+
     var industryBtns = document.querySelectorAll('.ax-roi__industry-btn');
     industryBtns.forEach(function (btn) {
       btn.addEventListener('click', function () {
@@ -143,11 +159,17 @@
         if (valEnq) valEnq.textContent = enq;
         if (valAmt) valAmt.textContent = '$' + val.toLocaleString();
 
+        applyTypicalChannels(this);
         recalculate();
       });
     });
 
-    /* Initial calculation with medical defaults (slider already set to 600/300 in HTML) */
+    /* Initial calculation — align channel checkboxes with whichever
+       industry button ships marked active in the HTML (currently
+       Medical/Dental) before the first render, so the recommendation
+       box is correct from the very first paint, not just after a click. */
+    var initialIndustryBtn = document.querySelector('.ax-roi__industry-btn.active');
+    if (initialIndustryBtn) applyTypicalChannels(initialIndustryBtn);
     recalculate();
 
     /* Animate in when visible */
