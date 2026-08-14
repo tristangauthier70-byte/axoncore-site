@@ -5,8 +5,21 @@
 // (e.g. an FAQ lookup) can be added as another case in the dispatch below
 // without a new endpoint or a new server URL entered into VAPI's dashboard.
 //
-// Request/response shape confirmed against VAPI's current docs:
-//   in:  { message: { type: "tool-calls", toolCallList: [{ id, name, arguments }] } }
+// Request/response shape — CORRECTED 2026-08-14 against a real live call's
+// actual payload (VAPI's own call-log API, cross-checked by sending both
+// shapes to this endpoint directly): each entry in toolCallList is really
+// { id, type: "function", function: { name, arguments } } — the name and
+// arguments are nested under `function`, not flat on the call object. The
+// original flat shape below ({ id, name, arguments }) was what an earlier
+// version of this file assumed (and what an older doc reference showed),
+// but every real tool call ever made against this endpoint has actually
+// been silently returning "Unknown tool." as a result — check_availability
+// and book_meeting included, not just the newer reschedule/cancel tools.
+// This was invisible in transcripts because Riley/Gemini would just narrate
+// around the failure rather than surface a raw error. getToolCallName/
+// getToolCallArgs below check the nested shape FIRST and fall back to the
+// flat shape, so this keeps working even if VAPI's format changes again.
+//   in:  { message: { type: "tool-calls", toolCallList: [{ id, type, function: { name, arguments } }] } }
 //   out: { results: [{ toolCallId, result: "<string the assistant speaks>" }] }
 //
 // Auth: VAPI's own secret/signature mechanism (server.secret -> a signature
@@ -77,6 +90,12 @@ module.exports = async function handler(req, res) {
   // every call, closes that blind spot for next time.
   const results = await Promise.all(
     toolCallList.map(async (call) => {
+      // See the corrected shape note above the request/response comment at
+      // the top of this file — check the real nested function.name/
+      // function.arguments first, fall back to a flat call.name/
+      // call.arguments in case VAPI's format ever reverts or varies again.
+      const name = (call.function && call.function.name) || call.name;
+
       // QA hardening (2026-08-12): VAPI's own docs show `arguments` as an
       // already-parsed object, and every real test so far has matched
       // that — but tool-calling arguments arriving as a JSON-encoded
@@ -85,17 +104,17 @@ module.exports = async function handler(req, res) {
       // (a bare string has no .start_time etc., so it would silently look
       // like a missing-field validation failure with no diagnostic trail).
       // Same defensive-parse pattern already used for req.body above.
-      let args = call.arguments;
+      let args = (call.function && call.function.arguments) || call.arguments;
       if (typeof args === 'string') {
         try {
           args = JSON.parse(args);
         } catch (err) {
-          console.warn('vapi-tools.js: tool call arguments arrived as a non-JSON string', call.name);
+          console.warn('vapi-tools.js: tool call arguments arrived as a non-JSON string', name);
           args = {};
         }
       }
-      const outcome = await executeBookingTool(call.name, args);
-      console.log('vapi-tools.js: tool call', call.name, 'ok=', outcome.ok, 'args=', JSON.stringify(call.arguments));
+      const outcome = await executeBookingTool(name, args);
+      console.log('vapi-tools.js: tool call', name, 'ok=', outcome.ok, 'args=', JSON.stringify(args));
       return { toolCallId: call.id, result: outcome.message };
     })
   );
