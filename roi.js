@@ -35,6 +35,17 @@
   var respTime  = '4hr';
   var channels  = { voice: true, chat: true, social: false }; // matches the checked defaults in results.html
 
+  // Relative per-channel traffic weights, used to split the single
+  // "monthly enquiries" number across whichever channels are checked.
+  // These are NOT percentages and don't need to sum to 100 — only their
+  // ratio to each other matters (see estimatedVolume below). Default
+  // 50/50 until the visitor says otherwise, either by picking an
+  // industry (data-channels implies an even split across that
+  // industry's typical channels) or by dragging the split sliders.
+  var channelWeights = { voice: 50, chat: 50, social: 50 };
+  var CHANNEL_LABELS = { voice: 'Phone', chat: 'Website', social: 'WhatsApp' };
+  var MODULE_SHORT   = { voice: 'Voice', chat: 'Chat', social: 'Social' };
+
   /* ── Module data ──
      Sourced from pricing-data.js (window.AXONCORE_MODULES) and
      bundle-pricing.js (window.computeBundlePrice), both loaded before
@@ -61,15 +72,22 @@
   }
 
   // The calculator only collects one aggregate "enquiries" number, not a
-  // per-channel breakdown, so each selected channel's volume is
-  // estimated FROM that same number rather than measured directly.
-  // Voice: ~2.5 min/call, the same average used in Pricing & Packages
-  // and in tier.js's band labels. Chat/Social: a real chat or WhatsApp
-  // exchange is several messages, not one — 5 messages/enquiry is a
-  // deliberately simple, documented estimate, not a measured rate.
+  // per-channel breakdown, so each selected channel's volume is a SHARE
+  // of that number, weighted by channelWeights — not the full number
+  // applied to every channel independently (that was a real bug: with
+  // 600 combined enquiries across Voice + WhatsApp, the old version
+  // estimated 600 calls AND 600 WhatsApp messages, effectively double-
+  // counting the same enquiries and over-recommending tiers). Voice:
+  // ~2.5 min/call, the same average used in Pricing & Packages and in
+  // tier.js's band labels. Chat/Social: a real chat or WhatsApp exchange
+  // is several messages, not one — 5 messages/enquiry is a deliberately
+  // simple, documented estimate, not a measured rate.
   function estimatedVolume(moduleKey) {
-    if (moduleKey === 'voice') return enquiries * 2.5;
-    return enquiries * 5;
+    var chans = selectedChannels();
+    var totalWeight = chans.reduce(function (s, k) { return s + (channelWeights[k] || 50); }, 0) || 1;
+    var share = (channelWeights[moduleKey] || 50) / totalWeight;
+    var moduleEnquiries = enquiries * share;
+    return moduleKey === 'voice' ? moduleEnquiries * 2.5 : moduleEnquiries * 5;
   }
 
   function recommendedSelections() {
@@ -115,12 +133,48 @@
       });
     });
 
+    /* Channel-split sliders — only shown when 2+ channels are checked.
+       Relative weights (not percentages), normalized inside
+       estimatedVolume(). Rebuilt from scratch whenever the checked-
+       channel set changes, so it always shows exactly the channels
+       currently in play. */
+    var splitField = document.getElementById('ax-roi-split-field');
+    var splitRows  = document.getElementById('ax-roi-split-rows');
+    function renderSplitRows() {
+      if (!splitField || !splitRows) return;
+      var chans = selectedChannels();
+      if (chans.length < 2) { splitField.style.display = 'none'; return; }
+      splitField.style.display = '';
+      splitRows.innerHTML = '';
+      chans.forEach(function (key) {
+        var row = document.createElement('div');
+        row.style.cssText = 'display:flex;align-items:center;gap:12px;margin-bottom:10px;';
+        var label = document.createElement('span');
+        label.style.cssText = 'width:84px;font-size:0.85rem;color:var(--ax-muted);flex-shrink:0;';
+        label.textContent = CHANNEL_LABELS[key] || key;
+        var input = document.createElement('input');
+        input.type = 'range';
+        input.min = 10; input.max = 100; input.step = 5;
+        input.value = channelWeights[key] || 50;
+        input.className = 'ax-roi__slider';
+        input.style.flex = '1';
+        input.addEventListener('input', function () {
+          channelWeights[key] = parseInt(this.value);
+          recalculate();
+        });
+        row.appendChild(label);
+        row.appendChild(input);
+        splitRows.appendChild(row);
+      });
+    }
+
     /* Channel-mix checkboxes — which modules the calculator recommends */
     var channelInputs = document.querySelectorAll('#ax-roi-channels input[type="checkbox"]');
     channelInputs.forEach(function (cb) {
       cb.addEventListener('change', function () {
         channels[cb.dataset.channel] = cb.checked;
         cb.closest('.ax-roi__resp-btn').classList.toggle('active', cb.checked);
+        renderSplitRows();
         recalculate();
       });
     });
@@ -131,6 +185,7 @@
        own current voice/chat defaults. Channel checkboxes stay fully
        editable afterward — this is a starting recommendation, not a
        lock. */
+    var industryTypicalEl = document.getElementById('ax-roi-industry-typical');
     function applyTypicalChannels(btn) {
       if (!btn.dataset.channels) return;
       var typical = btn.dataset.channels.split(',');
@@ -140,6 +195,20 @@
         channels[cb.dataset.channel] = isTypical;
         cb.closest('.ax-roi__resp-btn').classList.toggle('active', isTypical);
       });
+      // Reset to an even split whenever the industry (and so the typical
+      // channel set) changes — any custom split from a previous industry
+      // no longer applies to a different channel combination.
+      typical.forEach(function (k) { channelWeights[k] = 50; });
+    }
+
+    function updateIndustryTypical(btn) {
+      if (!industryTypicalEl || !btn || !btn.dataset.channels) return;
+      var labelSpan = btn.querySelector('span');
+      var industryName = labelSpan ? labelSpan.textContent : 'this industry';
+      var stack = btn.dataset.channels.split(',').map(function (k) {
+        return MODULE_SHORT[k] || k;
+      }).join(' + ');
+      industryTypicalEl.textContent = 'Typical stack for ' + industryName + ': ' + stack + ' — pre-filled below, adjust anytime.';
     }
 
     var industryBtns = document.querySelectorAll('.ax-roi__industry-btn');
@@ -160,6 +229,8 @@
         if (valAmt) valAmt.textContent = '$' + val.toLocaleString();
 
         applyTypicalChannels(this);
+        updateIndustryTypical(this);
+        renderSplitRows();
         recalculate();
       });
     });
@@ -169,7 +240,11 @@
        Medical/Dental) before the first render, so the recommendation
        box is correct from the very first paint, not just after a click. */
     var initialIndustryBtn = document.querySelector('.ax-roi__industry-btn.active');
-    if (initialIndustryBtn) applyTypicalChannels(initialIndustryBtn);
+    if (initialIndustryBtn) {
+      applyTypicalChannels(initialIndustryBtn);
+      updateIndustryTypical(initialIndustryBtn);
+    }
+    renderSplitRows();
     recalculate();
 
     /* Animate in when visible */

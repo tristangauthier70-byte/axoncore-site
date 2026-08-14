@@ -173,6 +173,11 @@
             <button class="ax-roi__industry-btn" data-industry="fitness"      data-enq="150" data-val="150"  data-channels="chat,social"><svg class="ax-roi__industry-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Fitness / Training</span></button>
             <button class="ax-roi__industry-btn" data-industry="homeservices" data-enq="150" data-val="350"  data-channels="voice,social"><svg class="ax-roi__industry-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg><span>Home Services</span></button>
           </div>
+          <!-- Updated by roi.js on industry selection — states the typical
+               module stack for that sector explicitly, so it's clear to
+               the visitor what we recommend before they even scroll to
+               the numbers-driven recommendation box below. -->
+          <p class="ax-roi__field-hint" id="ax-roi-industry-typical" style="margin-top:10px;"></p>
         </div>
         <div class="ax-roi__field">
           <label class="ax-roi__label" style="margin-bottom:12px;display:block;">How do enquiries actually reach you?</label>
@@ -182,6 +187,18 @@
             <label class="ax-roi__resp-btn"><input type="checkbox" data-channel="social" style="position:absolute;opacity:0;width:0;height:0;"><span class="ax-roi__resp-icon">&#128172;</span><span class="ax-roi__resp-label">WhatsApp</span></label>
           </div>
           <p class="ax-roi__field-hint">Select every channel that applies &mdash; this decides which modules we recommend below</p>
+        </div>
+        <!-- Channel split — only shown by roi.js when 2+ channels are
+             checked. Fixes a real accuracy bug: the calculator used to
+             apply the FULL "monthly enquiries" number to every selected
+             channel independently (so 600 combined enquiries became 600
+             voice calls AND 600 WhatsApp messages, not 600 split between
+             them), which over-recommended tiers. Sliders are relative
+             weights, not percentages — they don't need to add up to 100. -->
+        <div class="ax-roi__field" id="ax-roi-split-field" style="display:none;">
+          <label class="ax-roi__label" style="margin-bottom:12px;display:block;">Roughly how does that split across channels?</label>
+          <div id="ax-roi-split-rows"></div>
+          <p class="ax-roi__field-hint">Relative traffic per channel &mdash; adjust if one gets meaningfully more than the others</p>
         </div>
         <div class="ax-roi__field">
           <div class="ax-roi__field-header"><label class="ax-roi__label" for="ax-roi-enquiries">Monthly enquiries received</label><span class="ax-roi__field-val"><span id="ax-roi-enq-val">600</span></span></div>
