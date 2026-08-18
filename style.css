@@ -2594,6 +2594,42 @@ hr {
 
 .ax-pricing__setup span { font-size: 0.82rem; opacity: 0.7; }
 
+.ax-pricing__founding10 {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--ax-font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ax-accent);
+  background: rgba(109, 79, 209, 0.09);
+  border: 1px solid rgba(109, 79, 209, 0.22);
+  border-radius: 6px;
+  padding: 4px 10px;
+  margin: -2px 0 10px;
+}
+
+.ax-founding10-banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 780px;
+  margin: 28px auto 0;
+  padding: 16px 22px;
+  background: rgba(109, 79, 209, 0.06);
+  border: 1px solid rgba(109, 79, 209, 0.2);
+  border-radius: 12px;
+}
+
+.ax-founding10-banner__icon { font-size: 1.4rem; flex: none; }
+.ax-founding10-banner__title { font-family: var(--ax-font-serif) !important; font-size: 1.02rem; color: var(--ax-white); margin: 0 0 3px; }
+.ax-founding10-banner__text { font-size: 0.86rem; color: var(--ax-muted); margin: 0; line-height: 1.5; }
+.ax-founding10-banner__text strong { color: var(--ax-white); }
+
+@media (max-width: 640px) {
+  .ax-founding10-banner { flex-direction: column; align-items: flex-start; }
+}
+
 .ax-pricing__monthly {
   font-family: var(--ax-font-serif) !important;
   font-size: 1.8rem;

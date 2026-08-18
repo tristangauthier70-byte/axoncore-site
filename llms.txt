@@ -18,6 +18,8 @@ Axoncore sells three independent modules, not fixed bundles. A client buys any o
 
 Worked bundle example: Voice Pro ($1,600) + Engage Lite ($500) — Voice stays full price, Engage discounts 20% to $400 — SGD $2,000/month total instead of $2,100 undiscounted.
 
+**Founding 10 offer**: the first 10 clients to sign (a subset of the 50 founding-rate clients) pay $0 setup fee on any module or combination, in exchange for being featured as a named case study on the Axoncore website and marketing materials. The founding monthly rate still applies. See pricing.html and Terms §5.8 for full detail.
+
 Enterprise (custom volume) is available on every module. Full machine-readable pricing (all tiers, both fee types) is published as schema.org `Service`/`Offer` JSON-LD on the Pricing page.
 
 ## Who this is for

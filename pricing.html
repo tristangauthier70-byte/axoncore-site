@@ -161,6 +161,11 @@
         "@type": "Question",
         "name": "What's the bundle discount?",
         "acceptedAnswer": { "@type": "Answer", "text": "When you combine two or three modules, the single most expensive module stays full price and every other module gets 20% off its monthly fee. For example, Voice Pro (SGD $1,600/mo) plus Engage Lite (SGD $500/mo) becomes SGD $1,600 + $400 = $2,000/mo instead of $2,100. Setup fees are never discounted, since they reflect real one-time build work regardless of how many modules you're adding. Full detail in Terms §5.7." }
+      },
+      {
+        "@type": "Question",
+        "name": "What's the Founding 10 offer?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Our first 10 signed clients — a subset of the first 50 founding-rate clients — pay $0 setup fee on any module or combination. You still get the founding monthly rate, locked for your term. In exchange, you agree to be featured as a named case study on our website and marketing materials. Full terms in Section 5.8 of our Terms." }
       }
     ]
   }
@@ -299,6 +304,19 @@
       <div class="ax-router__bundle-bar" id="ax-router-bundle-bar"></div>
     </div>
 
+    <!-- Founding 10 offer — $0 setup fee for the first 10 signed clients (any module/combination),
+         nested inside the existing first-50 founding-rate program. In exchange, the client agrees
+         to be a named case study (see Terms §5.8 for the written consent clause). Static banner,
+         not wired into pricing-data.js/tier.js — this is a promotional offer, not a change to the
+         underlying pricing engine. -->
+    <div class="ax-founding10-banner ax-reveal">
+      <span class="ax-founding10-banner__icon" aria-hidden="true">&#127942;</span>
+      <div>
+        <p class="ax-founding10-banner__title">Founding 10: $0 setup fee</p>
+        <p class="ax-founding10-banner__text">Our <strong>first 10 clients</strong> (of the 50 founding-rate spots) pay <strong>no setup fee on any module</strong> — you still get the founding monthly rate, locked for your term. In exchange, we ask to feature your business as a named case study. <a href="/terms.html#t5" style="color:inherit;text-decoration:underline;">Full terms</a>.</p>
+      </div>
+    </div>
+
     <p class="ax-eyebrow" style="text-align:center;margin:40px 0 -8px;">Axoncore Front Desk</p>
 
     <div class="ax-pricing__grid">
@@ -324,6 +342,7 @@
             </button>
           </div>
           <div class="ax-pricing__setup" data-tier-setup>SGD $599 <span>one-time setup</span></div>
+          <div class="ax-pricing__founding10">&#127942; $0 setup for our first 10 clients</div>
           <div class="ax-pricing__monthly" data-tier-monthly>SGD $170<span class="ax-pricing__per">/month</span></div>
           <div class="ax-pricing__perday" data-tier-perday>Less than SGD $5.67 / day</div>
           <div class="ax-pricing__tco" data-tier-tco>36-month total: SGD $6,719</div>
@@ -366,6 +385,7 @@
             </button>
           </div>
           <div class="ax-pricing__setup" data-tier-setup>SGD $599 <span>one-time setup</span></div>
+          <div class="ax-pricing__founding10">&#127942; $0 setup for our first 10 clients</div>
           <div class="ax-pricing__monthly" data-tier-monthly>SGD $300<span class="ax-pricing__per">/month</span></div>
           <div class="ax-pricing__perday" data-tier-perday>Less than SGD $10.00 / day</div>
           <div class="ax-pricing__tco" data-tier-tco>36-month total: SGD $11,399</div>
@@ -451,6 +471,7 @@
             </button>
           </div>
           <div class="ax-pricing__setup" data-tier-setup>SGD $1,399 <span>one-time setup</span></div>
+          <div class="ax-pricing__founding10">&#127942; $0 setup for our first 10 clients</div>
           <div class="ax-pricing__monthly" data-tier-monthly>SGD $400<span class="ax-pricing__per">/month</span></div>
           <div class="ax-pricing__perday" data-tier-perday>Less than SGD $13.33 / day</div>
           <div class="ax-pricing__tco" data-tier-tco>36-month total: SGD $15,799</div>
@@ -502,6 +523,7 @@
       <div class="ax-faq__item"><button type="button" class="ax-faq__q" aria-expanded="false"><span class="ax-faq__q-text">What's the difference between Voice, Engage, and Connect?</span><svg class="ax-faq__icon" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></button><p class="ax-faq__a">They're three independent modules, not tiers of the same product. Voice is your AI phone receptionist, from SGD $170/month. Engage is an AI website concierge, from SGD $300/month. Connect automates WhatsApp, from SGD $400/month. Buy any one standalone, or combine any two or all three — combining gets you a 20% discount on the cheaper module(s).</p></div>
       <div class="ax-faq__item"><button type="button" class="ax-faq__q" aria-expanded="false"><span class="ax-faq__q-text">Which modules and tiers should I choose?</span><svg class="ax-faq__icon" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></button><p class="ax-faq__a">Choose modules based on where your enquiries actually come in — phone (Voice), website (Engage), WhatsApp (Connect) — any combination is fine, including just one. Tier within each module is driven by volume: for Voice, under 120 calls/month fits Starter, 120–240 fits Lite, 240–600 fits Standard, and 600+ fits Pro. For Engage and Connect, tier is driven by expected monthly message volume. We help confirm the right combination during the discovery call, or use the ROI Calculator for a starting recommendation.</p></div>
       <div class="ax-faq__item"><button type="button" class="ax-faq__q" aria-expanded="false"><span class="ax-faq__q-text">What's the bundle discount?</span><svg class="ax-faq__icon" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></button><p class="ax-faq__a">When you combine two or three modules, the single most expensive module stays full price and every other module gets 20% off its monthly fee. For example, Voice Pro (SGD $1,600/mo) plus Engage Lite (SGD $500/mo) becomes SGD $1,600 + $400 = $2,000/mo instead of $2,100. Setup fees are never discounted, since they reflect real one-time build work regardless of how many modules you're adding. Full detail in <a href="/terms.html#t5">&sect;5.7</a> of our Terms.</p></div>
+      <div class="ax-faq__item"><button type="button" class="ax-faq__q" aria-expanded="false"><span class="ax-faq__q-text">What's the Founding 10 offer?</span><svg class="ax-faq__icon" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></button><p class="ax-faq__a">Our first 10 signed clients &mdash; a subset of the first 50 founding-rate clients &mdash; pay $0 setup fee on any module or combination. You still get the founding monthly rate, locked for your term. In exchange, you agree to be featured as a named case study on our website and marketing materials. Full terms in <a href="/terms.html#t5">&sect;5.8</a> of our Terms.</p></div>
     </div>
   </div>
 </section>
