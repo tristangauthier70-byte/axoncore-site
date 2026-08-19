@@ -210,6 +210,14 @@ body.riley-page {
 
 /* ── SECTION 2: CAPABILITIES ─────────────────────────────────── */
 .rp-caps {
+  /* position:relative promotes this above #ax-particle-canvas
+     (position:fixed, always paints above unpositioned static content
+     per CSS stacking rules — see .rp-next below for the full story).
+     This section was only ever visible by accident, via a residual
+     transform GSAP leaves after its entrance animation; confirmed by
+     testing with prefers-reduced-motion, which skips that animation
+     and made this section vanish the same way .rp-next did. 2026-08-19. */
+  position: relative;
   padding: 100px 40px;
   background: var(--ax-bg-alt);
 }
@@ -858,6 +866,14 @@ body.riley-page {
 /* ── NEXT STEP — bridges straight from the live call into booking,
    instead of the page's only prior exit being "Home" in the footer ── */
 .rp-next {
+  /* position:relative — was invisible on real devices (proven by
+     screenshot diff): #ax-particle-canvas is position:fixed and paints
+     above any unpositioned static content regardless of DOM order or
+     z-index, so this section rendered correctly in the DOM but never
+     actually painted on top of the canvas. No animation touches this
+     section, so nothing was accidentally rescuing it the way it does
+     for .rp-caps/.rp-try. 2026-08-19. */
+  position: relative;
   padding: 64px 40px 76px;
   text-align: center;
   border-top: 1px solid var(--ax-border);
@@ -970,6 +986,10 @@ body.riley-page {
 
 /* ── TRY IT YOURSELF SECTION ─────────────────────────────────── */
 .rp-try {
+  /* position:relative — same #ax-particle-canvas stacking issue as
+     .rp-caps/.rp-next above; this section was only visible by accident
+     via GSAP's residual transform. 2026-08-19. */
+  position: relative;
   padding: 120px 40px;
   background: var(--ax-bg-alt);
   border-top: 1px solid var(--ax-border);
