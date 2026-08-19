@@ -2,6 +2,8 @@
 
 > Axoncore builds AI voice receptionists, website chatbots, and WhatsApp automation for service businesses in Singapore. The core product answers phone calls, WhatsApp and website chat 24/7, qualifies leads, and books appointments automatically — replacing a traditional human front desk.
 
+> This is the curated summary. For the complete reference in a single file (full FAQ, full commercial terms, all module detail), see https://axoncoreai.com/llms-full.txt
+
 Axoncore is a Singapore-based service (trading name of Victoria Janice). It is not a self-serve SaaS product — systems are built, configured and managed by the Axoncore team for each client, with a typical go-live time of 14 days from the first discovery call.
 
 ## Product

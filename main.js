@@ -569,14 +569,19 @@
   document.addEventListener('DOMContentLoaded', function () {
     var n = document.createElement('div');
     n.id = 'ax-cookie-notice';
-    n.style.cssText = 'display:flex;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);border-top:1px solid rgba(18,18,22,0.1);padding:14px 24px;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:0.82rem;color:rgba(51,65,85,0.75);';
-    n.innerHTML = '<span>This site uses cookies from Calendly for booking functionality. By continuing, you accept this. <a href="/privacy.html" style="color:#6D4FD1;text-decoration:none;">Privacy Policy</a></span>' +
-      '<button id="ax-cookie-ok" style="background:#6D4FD1;color:#fff;border:none;border-radius:6px;padding:7px 18px;font-size:0.82rem;font-weight:600;cursor:pointer;white-space:nowrap;">Got it</button>';
+    n.className = 'ax-cookie-notice';
+    n.innerHTML = '<span>This site uses cookies from Calendly for booking functionality. By continuing, you accept this. <a href="/privacy.html">Privacy Policy</a></span>' +
+      '<button id="ax-cookie-ok" class="ax-cookie-notice__btn">Got it</button>';
     document.body.appendChild(n);
+    // Compensates page-bottom content so the fixed banner doesn't cover it,
+    // especially on mobile where the text wraps to 2-3 lines and the banner
+    // gets much taller than its single-line desktop height.
+    document.body.classList.add('ax-cookie-notice-active');
 
     document.getElementById('ax-cookie-ok').addEventListener('click', function () {
       localStorage.setItem('ax_cookie_ok', '1');
       n.style.display = 'none';
+      document.body.classList.remove('ax-cookie-notice-active');
     });
   });
 })();

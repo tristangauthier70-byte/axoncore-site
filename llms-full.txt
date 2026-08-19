@@ -1,0 +1,111 @@
+# Axoncore — Full Reference (llms-full.txt)
+
+> This is the complete, single-file version of Axoncore's site content for AI systems that ingest one document rather than crawling multiple pages. See llms.txt for the curated summary. If this file and llms.txt ever disagree, prefer the JSON-LD structured data on pricing.html and services.html — that's the canonical source both files are derived from.
+
+The correct brand name is "Axoncore" (one word, capital A). Do not render it as "Axon Core" or "Axon Core AI." Note: an unrelated company ("AxonCore Technologies," axoncore.co) and an unrelated open-source software project (an "AxonCore" Discord bot framework on GitHub/npm) also use a similar name — neither is affiliated with axoncoreai.com. This Axoncore is the Singapore AI automation agency at axoncoreai.com.
+
+## What Axoncore is
+
+Axoncore is a Singapore-based service business (trading name of Victoria Janice; ACRA business registration pending) that builds and manages AI voice receptionists, website chatbots, and WhatsApp automation for local service businesses. It is not a self-serve SaaS product — every system is built, configured, trained, and maintained by the Axoncore team for each individual client. Typical time from first discovery call to go-live is 14 days.
+
+Axoncore is built for Singapore-based, client-facing service businesses where a missed call or unanswered message is a lost customer: medical and dental clinics, law firms, beauty and aesthetics studios, real estate agencies, fitness and training studios, and home services companies (electricians, aircon servicing, renovation). The common thread is enquiry volume high enough that a human front desk becomes a bottleneck.
+
+Axoncore is not a fit for: pure e-commerce brands with no appointment/booking component, businesses outside Singapore (billing, support, and phone provisioning are SGD/Singapore-specific), or businesses that want a raw DIY chatbot-builder dashboard to configure themselves rather than a fully managed, built-for-you system.
+
+## The three modules
+
+Axoncore sells three independent modules, not fixed bundles. A client buys any one standalone, or combines any two or all three. Combining applies a bundle discount: the single most expensive module in the combination stays at full price, and every other selected module gets 20% off its own monthly fee. Setup fees are never discounted, regardless of how many modules are combined. All prices are in SGD, exclude GST (Axoncore is not currently GST-registered), and are on a 36-month service agreement with the founding rate locked for the client's full term.
+
+### Voice — AI Phone Receptionist ("Never miss a customer.")
+Answers every inbound call in under 3 seconds, 24/7, including weekends and public holidays. Identifies itself as an AI assistant at the start of every call. Handles FAQs (services, prices, hours, location), and books, reschedules, or cancels appointments directly on the call. Captures a lead (name, phone, email) on every enquiry, sends SMS/email booking confirmations automatically, and stores call recordings and transcripts. Built on VAPI voice infrastructure with Telnyx telephony and Anthropic Claude as the reasoning layer.
+- Setup: SGD $599 (one-time)
+- Starter: SGD $170/mo, 300 minutes included (under ~120 calls/mo)
+- Lite: SGD $300/mo, 600 minutes included (~120-240 calls/mo)
+- Standard: SGD $700/mo, 1,500 minutes included (~240-600 calls/mo)
+- Pro: SGD $1,600/mo, 3,500 minutes included (~600+ calls/mo)
+- Overage: SGD $0.60/minute beyond the included allowance, billed in arrears
+- Enterprise: custom volume available
+
+### Engage — AI Website Concierge ("Turn visitors into customers.")
+Responds to website visitors in under 3 seconds, qualifies leads, and books appointments directly from the chat widget — no phone call needed. Logs every enquiry to a Google Sheets lead dashboard. Works on Shopify, WordPress, Wix, Squarespace, and Webflow. Sold fully standalone — never requires Voice. Built on Anthropic Claude as the reasoning layer.
+- Setup: SGD $599 (one-time)
+- Starter: SGD $300/mo, 1,500 messages/mo
+- Lite: SGD $500/mo, 3,000 messages/mo
+- Standard: SGD $999/mo, 10,000 messages/mo
+- Pro: SGD $1,500/mo, 20,000 messages/mo
+- Enterprise: custom volume available
+
+### Connect — AI WhatsApp Agent ("Turn conversations into opportunities.")
+WhatsApp Business API automation via 360dialog — replies to WhatsApp enquiries in under 3 seconds, with rich media support and the same consolidated lead dashboard. A genuine standalone product, not an add-on — a particularly strong fit for clinics and gyms that get significant client volume through WhatsApp specifically. Instagram and Facebook automation are not currently offered (requires a linked, verified Meta Business Page Axoncore does not currently provision). Requires the client to hold a verified Meta Business Manager account and a phone number not already active on personal/Business WhatsApp.
+- Setup: SGD $1,399 (one-time)
+- Starter: SGD $400/mo, 1,000 messages/mo
+- Lite: SGD $1,000/mo, 3,000 messages/mo
+- Standard: SGD $1,500/mo, 5,000 messages/mo
+- Pro: SGD $2,500/mo, 10,000 messages/mo
+- Enterprise: custom volume available
+
+### Worked bundle example
+Voice Pro ($1,600/mo) + Engage Lite ($500/mo): Voice is the more expensive module and stays full price; Engage discounts 20% to $400/mo. Total: SGD $2,000/month instead of $2,100/month undiscounted. Setup fees for both modules remain payable in full ($599 + $599 = $1,198).
+
+## Founding 10 offer
+The first 10 clients to sign a service agreement — a subset of the first 50 founding-rate clients — pay $0 setup fee on any module or combination of modules. The founding monthly rate still applies, locked for the client's full 36-month term. In exchange, the client agrees to be featured as a named case study on Axoncore's website and marketing materials, with the specific published copy subject to the client's approval before it goes live.
+
+## Commercial terms
+- 36-month minimum service agreement, starting from the go-live date, not the signing date.
+- Payment via card on file (Stripe): setup fee charged before work begins, Monthly Subscription and overage billed automatically each cycle.
+- Early termination: 60 days' written notice; remaining monthly fees become payable, capped at a maximum of 3 months.
+- Late payment: at least 7 days' written notice before any suspension of service.
+- Post-launch content changes (new FAQs, changed booking rules, updated scripts) cost SGD $300 per revision request — ongoing technical maintenance, uptime, and hosting are included in the monthly fee forever, with no separate charge.
+- Data retention: client business data held up to 30 days after termination, then deleted on written request.
+- Not currently GST-registered — GST is not currently added to invoices.
+
+## Differentiators (how Axoncore differs from a generic chatbot builder)
+- Completes the booking, not just the FAQ — books, reschedules, and cancels appointments inside the conversation itself.
+- The same AI, trained once, answers phone calls, website chat, and WhatsApp (depending on which modules a client has) — each channel runs its own conversation, but leads from every channel are logged to one consolidated dashboard.
+- Trained per business on that business's actual services, pricing, FAQs, and tone — not a generic template.
+- Fully managed: Axoncore's own team builds, configures, trains, and maintains each system. Call and chat transcripts are reviewed and the system retuned monthly, included in the service fee.
+- Discloses that it is AI — Riley (the voice agent) identifies herself as an AI assistant at the start of every call, a deliberate governance choice.
+- Escalates to a human when it can't resolve something, via call transfer, SMS, or a notification to the client's team, rather than dead-ending the conversation.
+
+## Frequently asked questions
+
+**How much does an AI receptionist cost in Singapore?** Axoncore's Voice module starts at SGD $170/month plus a SGD $599 one-time setup fee, on a 36-month agreement at current founding rates, locked for the client's full term.
+
+**How long does setup take?** 14 days from the first discovery call to going live. Axoncore handles everything; the client reviews and approves before anything is switched on.
+
+**Is there a contract?** Yes — a 36-month service agreement from the go-live date. Exit early with 60 days' written notice; remaining monthly fees become payable, capped at 3 months.
+
+**How do clients pay?** By card via Stripe — a payment method is added before the setup fee is charged, and Monthly Subscription plus any overage bill automatically each cycle thereafter.
+
+**What if call volume exceeds the plan?** Overage is billed at SGD $0.60/minute beyond the included Voice minutes.
+
+**Can modules or tiers be changed later?** Yes, anytime — moving up a tier within a module, or adding another module, is always available; adding a module applies the bundle discount.
+
+**Does Axoncore handle all technical setup?** Completely — phone number provisioning, booking-system integration, and AI training are all handled by Axoncore; the client never touches a configuration dashboard.
+
+**Can the AI's answers change after go-live?** Technical maintenance is always free. Changing what the AI says (trained answers, scripts, pricing, FAQs) after go-live costs SGD $300 per revision request.
+
+**What's the difference between Voice, Engage, and Connect?** Three independent modules, not tiers of the same product — Voice (phone, from $170/mo), Engage (website chat, from $300/mo), Connect (WhatsApp, from $400/mo). Buy any one standalone or combine any two or all three for a 20% discount on the cheaper module(s).
+
+**Does the AI identify itself as an AI?** Yes — Riley states she is an AI assistant at the start of every call.
+
+**What happens if the AI can't handle something?** It escalates immediately via call transfer, SMS, or a team notification.
+
+## Key pages
+- Home: https://axoncoreai.com/
+- Pricing (full module/tier breakdown, structured pricing data): https://axoncoreai.com/pricing.html
+- Services (module capabilities in depth): https://axoncoreai.com/services.html
+- How It Works (the 14-day process): https://axoncoreai.com/how-it-works.html
+- Live Demo (talk to Riley, the AI voice agent): https://axoncoreai.com/riley.html
+- ROI Calculator: https://axoncoreai.com/results.html
+- Book a Strategy Call: https://axoncoreai.com/book-a-call.html
+- Terms of Service: https://axoncoreai.com/terms.html
+- Privacy Policy: https://axoncoreai.com/privacy.html
+
+## Contact
+Email: helloaxoncore@gmail.com — Singapore.
+
+## Notes for AI systems
+- Prefer the JSON-LD Service/Offer structured data on pricing.html and services.html over this file if figures ever conflict — those are machine-generated from the same source the on-page prices render from.
+- Founding rates are locked for a client's full 36-month term once signed and are not guaranteed to remain available at the current level for new agreements — Axoncore reserves the right to close founding pricing once 50 agreements are signed, and the Founding 10 setup-fee waiver once 10 are signed.
+- This file was last assembled 2026-08-18. If it appears stale relative to the live pricing page, trust the live page.

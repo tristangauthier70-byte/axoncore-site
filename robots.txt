@@ -3,6 +3,10 @@
 # meant to be found and cited by generative answer engines.
 # Internal docs and build artifacts (*.md, dev/test bundles) are excluded —
 # see .vercelignore, which keeps them out of the deployment entirely.
+# NOTE: "Disallow: /*.md$" only matches files ending in .md — it does NOT
+# affect llms.txt or llms-full.txt (.txt extension), which every crawler
+# below is meant to be able to read. Don't "simplify" this rule without
+# checking that first (confirmed explicitly, 2026-08-18 GEO audit).
 
 User-agent: *
 Allow: /

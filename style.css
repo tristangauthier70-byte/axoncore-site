@@ -5099,3 +5099,50 @@ hr {
 @media (prefers-reduced-motion: reduce) {
   #ax-intro { display: none; }
 }
+
+/* Cookie notice — was inline-styled with a single fixed padding/font-size
+   for every viewport, which wraps to 2-3 lines on mobile and grows tall
+   enough to cover real content underneath (confirmed via mobile screenshot
+   audit, 2026-08-18). Desktop sizing unchanged from the old inline values. */
+.ax-cookie-notice {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background: rgba(255, 255, 255, 0.97);
+  border-top: 1px solid rgba(18, 18, 22, 0.1);
+  padding: 14px 24px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 0.82rem;
+  color: rgba(51, 65, 85, 0.75);
+}
+.ax-cookie-notice a { color: var(--ax-accent); text-decoration: none; }
+.ax-cookie-notice__btn {
+  background: var(--ax-accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 18px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .ax-cookie-notice {
+    padding: 12px 16px;
+    gap: 10px;
+    font-size: 0.76rem;
+  }
+  .ax-cookie-notice span { flex: 1 1 100%; line-height: 1.4; }
+  .ax-cookie-notice__btn { flex: none; padding: 8px 16px; }
+  /* Reserve space for the banner's real (wrapped) height so it doesn't sit
+     on top of footer/CTA content the visitor might otherwise be tapping. */
+  body.ax-cookie-notice-active { padding-bottom: 92px; }
+}

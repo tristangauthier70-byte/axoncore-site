@@ -28,6 +28,53 @@
   <meta name="twitter:description" content="AI phone systems, website chatbots, and WhatsApp automation for Singapore clinics, law firms & service businesses.">
   <meta name="twitter:image" content="https://axoncoreai.com/og-image.png">
   <link rel="canonical" href="https://axoncoreai.com/services.html">
+
+  <!-- Same Service entities as pricing.html, same @id values on purpose —
+       this page explains what each module does, pricing.html has the
+       rates; sharing @ids lets an AI engine/crawler tie the two together
+       as one entity instead of two unrelated pages. Keep in sync with
+       pricing.html's JSON-LD if pricing or descriptions change.
+       Added 2026-08-18 — this page previously had zero structured data. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": "https://axoncoreai.com/pricing.html#module-voice",
+        "name": "Voice — AI Phone Receptionist",
+        "description": "Your 24/7 AI voice receptionist. Answers calls in under 3 seconds, handles FAQs, and books, reschedules or cancels appointments — with after-hours call capture and lead recording on every enquiry.",
+        "provider": { "@type": "ProfessionalService", "name": "Axoncore", "url": "https://axoncoreai.com/" },
+        "areaServed": { "@type": "Country", "name": "Singapore" },
+        "offers": { "@type": "AggregateOffer", "priceCurrency": "SGD", "lowPrice": "170", "highPrice": "1600", "offerCount": "4" }
+      },
+      {
+        "@type": "Service",
+        "@id": "https://axoncoreai.com/pricing.html#module-chat",
+        "name": "Engage — AI Website Concierge",
+        "description": "An AI website concierge that responds to visitors in under 3 seconds, qualifies leads, and books appointments directly from the chat widget — with a consolidated lead dashboard. Sold standalone or bundled with Voice and/or Connect.",
+        "provider": { "@type": "ProfessionalService", "name": "Axoncore", "url": "https://axoncoreai.com/" },
+        "areaServed": { "@type": "Country", "name": "Singapore" },
+        "offers": { "@type": "AggregateOffer", "priceCurrency": "SGD", "lowPrice": "300", "highPrice": "1500", "offerCount": "4" }
+      },
+      {
+        "@type": "Service",
+        "@id": "https://axoncoreai.com/pricing.html#module-social",
+        "name": "Connect — AI WhatsApp Agent",
+        "description": "WhatsApp Business API automation — an AI agent that replies to your WhatsApp enquiries in under 3 seconds, with a consolidated lead dashboard. A genuine standalone product, not an add-on — especially strong for businesses like clinics and gyms that get significant client volume through WhatsApp. Sold standalone or bundled with Voice and/or Engage.",
+        "provider": { "@type": "ProfessionalService", "name": "Axoncore", "url": "https://axoncoreai.com/" },
+        "areaServed": { "@type": "Country", "name": "Singapore" },
+        "offers": { "@type": "AggregateOffer", "priceCurrency": "SGD", "lowPrice": "400", "highPrice": "2500", "offerCount": "4" }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://axoncoreai.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://axoncoreai.com/services.html" }
+  ] }
+  </script>
 </head>
 <body>
 <canvas id="ax-particle-canvas" aria-hidden="true"></canvas>
