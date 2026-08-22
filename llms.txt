@@ -4,7 +4,7 @@
 
 > This is the curated summary. For the complete reference in a single file (full FAQ, full commercial terms, all module detail), see https://axoncoreai.com/llms-full.txt
 
-Axoncore is a Singapore-based service (trading name of Victoria Janice). It is not a self-serve SaaS product — systems are built, configured and managed by the Axoncore team for each client, with a typical go-live time of 14 days from the first discovery call.
+Axoncore is a Singapore-based service (trading name of Tristan Gauthier). It is not a self-serve SaaS product — systems are built, configured and managed by the Axoncore team for each client, with a typical go-live time of 14 days from the first discovery call.
 
 ## Product
 

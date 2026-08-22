@@ -6,7 +6,7 @@ The correct brand name is "Axoncore" (one word, capital A). Do not render it as 
 
 ## What Axoncore is
 
-Axoncore is a Singapore-based service business (trading name of Victoria Janice; ACRA business registration pending) that builds and manages AI voice receptionists, website chatbots, and WhatsApp automation for local service businesses. It is not a self-serve SaaS product — every system is built, configured, trained, and maintained by the Axoncore team for each individual client. Typical time from first discovery call to go-live is 14 days.
+Axoncore is a Singapore-based service business (trading name of Tristan Gauthier; ACRA business registration pending) that builds and manages AI voice receptionists, website chatbots, and WhatsApp automation for local service businesses. It is not a self-serve SaaS product — every system is built, configured, trained, and maintained by the Axoncore team for each individual client. Typical time from first discovery call to go-live is 14 days.
 
 Axoncore is built for Singapore-based, client-facing service businesses where a missed call or unanswered message is a lost customer: medical and dental clinics, law firms, beauty and aesthetics studios, real estate agencies, fitness and training studios, and home services companies (electricians, aircon servicing, renovation). The common thread is enquiry volume high enough that a human front desk becomes a bottleneck.
 
